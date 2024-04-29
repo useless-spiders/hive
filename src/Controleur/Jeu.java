@@ -3,6 +3,7 @@ package Controleur;
 import Modele.Coup;
 import Modele.Grille;
 import Modele.Historique;
+import Modele.IA;
 import Vue.Affichage;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class Jeu extends MouseAdapter {
         this.affichage = affichage;
         this.historique = new Historique();
         ////////commenter pour jouer sans IA ////////////
-        //this.ia = IA.nouvelle(this, "Aleatoire");
+        this.ia = IA.nouvelle(this, "Aleatoire");
     }
 
     void tourIA(int x, int y) {
@@ -39,7 +40,7 @@ public class Jeu extends MouseAdapter {
         }
     }
 
-    Grille getGrille() {
+    public Grille getGrille() {
         return this.grille;
     }
 

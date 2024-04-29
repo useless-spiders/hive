@@ -1,12 +1,12 @@
-package Controleur;
+package Modele;
 
-import Modele.Grille;
+import Controleur.Jeu;
 
 public abstract class IA
 {
     Grille grille;
 
-    public static IA nouvelle(Jeu j, String ia) 
+    public static IA nouvelle(Jeu j, String ia)
 	{
 		IA resultat = null;
 		switch (ia) {
@@ -22,12 +22,12 @@ public abstract class IA
 		return resultat;
 	}
 
-	void joue() 
+	void joue()
 	{
 
 	}
 
-	void joue(int precedentX, int precedentY)
+	public void joue(int precedentX, int precedentY)
 	{
 		joue();
 	}

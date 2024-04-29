@@ -1,9 +1,8 @@
-package Controleur;
+package Modele;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Modele.Case;
-import Modele.Grille;
+import Controleur.Jeu;
 import Structure.Arbre;
 import Structure.Noeud;
 
@@ -201,7 +200,7 @@ public class IADifficile extends IA
     }
 
     @Override
-	void joue(int precedentX, int precedentY) //on joue après le tour de l'autre joueur
+    public void joue(int precedentX, int precedentY) //on joue après le tour de l'autre joueur
     {
         if(trouveCourant(precedentX, precedentY))
         {
