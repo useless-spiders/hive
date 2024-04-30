@@ -47,6 +47,7 @@ public class HexGrid {
                 break;
             default:
                 x = y = 0;
+                break;
         }
         return getCell(HexCoordinate(x,y));
     }
