@@ -2,7 +2,6 @@ package Test;
 
 
 import Modele.HexCell;
-import Modele.HexCoordinate;
 import Modele.HexGrid;
 
 import org.junit.Before;
@@ -11,26 +10,24 @@ import static org.junit.Assert.*;
 
 public class HexTest {
     private HexGrid grid;
-    private HexCoordinate coord;
     private HexCell cell;
 
     @Before
     public void setUp() {
         grid = new HexGrid();
-        coord = new HexCoordinate(0, 0);
         cell = new HexCell(HexCell.TYPE_SPIDER);
     }
 
     @Test
     public void testSetCell() {
-        grid.setCell(coord, cell);
-        assertEquals(cell, grid.getCell(coord));
+        grid.setCell(0, 0, cell);
+        assertEquals(cell, grid.getCell(0, 0));
     }
 
     @Test
     public void testGetCell() {
-        grid.setCell(coord, cell);
-        HexCell retrievedCell = grid.getCell(coord);
+        grid.setCell(0, 0, cell);
+        HexCell retrievedCell = grid.getCell(0, 0);
         assertEquals(cell, retrievedCell);
     }
 
@@ -41,8 +38,7 @@ public class HexTest {
 
     @Test
     public void testGetEmpty(){
-        coord = new HexCoordinate(1, 1);
-        HexCell retrievedCell = grid.getCell(coord);
+        HexCell retrievedCell = grid.getCell(0, 0);
         assertNull(retrievedCell);
     }
 }
