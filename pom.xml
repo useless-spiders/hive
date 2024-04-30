@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>prog6</groupId>
-    <artifactId>pre_projet</artifactId>
+    <artifactId>hive</artifactId>
     <version>1</version>
 
     <name>jeu</name>
@@ -38,7 +38,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>JeuPrincipal</mainClass>
+                            <mainClass>Hive</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
