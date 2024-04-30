@@ -1,7 +1,5 @@
 package Modele;
 
-import Structures.HexCoordinate;
-
 public class HexCell {
     private int type;
 

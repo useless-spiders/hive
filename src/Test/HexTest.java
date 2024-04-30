@@ -3,7 +3,6 @@ package Test;
 
 import Modele.HexCell;
 import Modele.HexGrid;
-import Structures.HexCoordinate;
 
 import org.junit.Test;
 
