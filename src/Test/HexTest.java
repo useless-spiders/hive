@@ -19,16 +19,21 @@ public class HexTest {
     }
 
     @Test
-    public void testSetCell() {
-        grid.setCell(0, 0, cell);
-        assertEquals(cell, grid.getCell(0, 0));
+    public void testGridEmpty() {
+        assertNull(grid);
     }
 
     @Test
-    public void testGetCell() {
+    public void testGrid(){
         grid.setCell(0, 0, cell);
-        HexCell retrievedCell = grid.getCell(0, 0);
-        assertEquals(cell, retrievedCell);
+        assertNotNull(grid);
+    }
+
+    @Test
+    public void testCell() {
+        grid.setCell(0, 0, cell);
+        System.out.println(grid.getCell(0, 0));
+        assertEquals(cell, grid.getCell(0, 0));
     }
 
     @Test
