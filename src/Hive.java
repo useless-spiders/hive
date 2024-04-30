@@ -2,9 +2,9 @@ import javax.swing.*;
 
 import Controleur.Game;
 
-public class JeuPrincipal implements Runnable {
+public class Hive implements Runnable {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new JeuPrincipal());
+        SwingUtilities.invokeLater(new Hive());
     }
 
     @Override
