@@ -19,8 +19,8 @@ public class HexGrid {
         return this.grid.get(new HexCoordinate(x, y));
     }
 
-    public void setCell(int x, int y, int type) {
-        this.grid.put(new HexCoordinate(x, y), new HexCell(type));
+    public void setCell(int x, int y, HexCell cell) {
+        this.grid.put(new HexCoordinate(x, y), cell);
     }
 
     public HexCell getAdj(int x, int y, String dir) {
