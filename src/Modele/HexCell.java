@@ -17,14 +17,4 @@ public class HexCell {
         return type;
     }
 
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if (!(other instanceof HexCell)) {
-            return false;
-        }
-        HexCell Cell = (HexCell) other;
-        return Integer.compare(this.type, Cell.type) == 0;
-    }
 }

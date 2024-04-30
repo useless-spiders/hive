@@ -25,24 +25,24 @@ public class HexGrid {
 
     public HexCell getAdj(int x, int y, String dir) {
         switch (dir) {
-            case "NE":
+            case "NO":
                 y -= 1;
                 break;
-            case "NO":
+            case "NE":
                 x += 1;
                 y -= 1;
                 break;
-            case "O":
-                y -= 1;
-                break;
-            case "SO":
+            case "E":
                 x += 1;
                 break;
             case "SE":
+                y += 1;
+                break;
+            case "SO":
                 x -= 1;
                 y += 1;
                 break;
-            case "E":
+            case "O":
                 x -= 1;
                 break;
             default:
