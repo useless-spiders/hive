@@ -3,15 +3,14 @@ package Test;
 
 import Modele.HexCell;
 import Modele.HexGrid;
+import Structures.HexCoordinate;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class HexTest {
     private HexGrid grid = new HexGrid();
-    private HexCell cell = new HexCell(HexCell.TYPE_SPIDER);
 
     @Test
     public void testGridEmpty() {
@@ -20,18 +19,20 @@ public class HexTest {
 
     @Test
     public void testSetCell() {
-        grid.setCell(0, 0, cell);
+        grid.setCell(0, 0, HexCell.TYPE_SPIDER);
         assert !grid.getGrid().isEmpty();
     }
 
     @Test
     public void testCell() {
-        grid.setCell(0, 0, cell);
+        HexCell cell = new HexCell(HexCell.TYPE_SPIDER);
+        grid.setCell(0, 0, HexCell.TYPE_SPIDER);
         assertEquals(cell, grid.getCell(0, 0));
     }
 
     @Test
     public void testGetType() {
+        HexCell cell = new HexCell(HexCell.TYPE_SPIDER);
         assertEquals(HexCell.TYPE_SPIDER, cell.getType());
     }
 
@@ -49,12 +50,12 @@ public class HexTest {
         HexCell cell4 = new HexCell(HexCell.TYPE_GRASSHOPPER);
         HexCell cell5 = new HexCell(HexCell.TYPE_SPIDER);
         HexCell cell6 = new HexCell(HexCell.TYPE_ANT);
-        grid.setCell(0, -1, cell1);
-        grid.setCell(1, -1, cell2);
-        grid.setCell(1, 0, cell3);
-        grid.setCell(0, 1, cell4);
-        grid.setCell(-1, 1, cell5);
-        grid.setCell(-1, 0, cell6);
+        grid.setCell(0, -1, HexCell.TYPE_ANT);
+        grid.setCell(1, -1, HexCell.TYPE_BEETLE);
+        grid.setCell(1, 0, HexCell.TYPE_BEE);
+        grid.setCell(0, 1, HexCell.TYPE_GRASSHOPPER);
+        grid.setCell(-1, 1, HexCell.TYPE_SPIDER);
+        grid.setCell(-1, 0, HexCell.TYPE_ANT);
         assertEquals(cell1, grid.getAdj(0, 0, "NO"));
         assertEquals(cell2, grid.getAdj(0, 0, "NE"));
         assertEquals(cell3, grid.getAdj(0, 0, "E"));

@@ -1,5 +1,7 @@
 package Modele;
 
+import Structures.HexCoordinate;
+
 public class HexCell {
     private int type;
 
@@ -15,6 +17,18 @@ public class HexCell {
 
     public int getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        HexCell other = (HexCell) obj;
+        return type == other.type;
     }
 
 }

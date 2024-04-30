@@ -2,7 +2,7 @@ package Modele;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import Structures.HexCoordinate;
 
 public class HexGrid {
     private Map<HexCoordinate, HexCell> grid;
@@ -19,7 +19,8 @@ public class HexGrid {
         return this.grid.get(new HexCoordinate(x, y));
     }
 
-    public void setCell(int x, int y, HexCell cell) {
+    public void setCell(int x, int y, int type) {
+        HexCell cell = new HexCell(type);
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
@@ -51,42 +52,5 @@ public class HexGrid {
         }
         return getCell(x, y);
     }
-
-    public class HexCoordinate {
-        private int x;
-        private int y;
-
-        public HexCoordinate(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null || getClass() != obj.getClass()) {
-                return false;
-            }
-            HexCoordinate other = (HexCoordinate) obj;
-            return x == other.x && y == other.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-
-    }
-
 
 }
