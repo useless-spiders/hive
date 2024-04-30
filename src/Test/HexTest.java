@@ -6,27 +6,22 @@ import Modele.HexGrid;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class HexTest {
-    private HexGrid grid;
-    private HexCell cell;
-
-    @Before
-    public void setUp() {
-        grid = new HexGrid();
-        cell = new HexCell(HexCell.TYPE_SPIDER);
-    }
+    private HexGrid grid = new HexGrid();
+    private HexCell cell = new HexCell(HexCell.TYPE_SPIDER);
 
     @Test
     public void testGridEmpty() {
-        assertNull(grid);
+        assert grid.getGrid().isEmpty();
     }
 
     @Test
-    public void testGrid(){
+    public void testSetCell() {
         grid.setCell(0, 0, cell);
-        assertNotNull(grid);
+        assert !grid.getGrid().isEmpty();
     }
 
     @Test
@@ -37,12 +32,12 @@ public class HexTest {
     }
 
     @Test
-    public void testGetType(){
+    public void testGetType() {
         assertEquals(HexCell.TYPE_SPIDER, cell.getType());
     }
 
     @Test
-    public void testGetEmpty(){
+    public void testGetEmpty() {
         HexCell retrievedCell = grid.getCell(0, 0);
         assertNull(retrievedCell);
     }

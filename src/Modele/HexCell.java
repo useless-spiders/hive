@@ -1,6 +1,6 @@
 package Modele;
 
-public class HexCell{
+public class HexCell {
     private int type;
 
     public static final int TYPE_BEE = 0;
@@ -16,15 +16,15 @@ public class HexCell{
     public int getType() {
         return type;
     }
- 
-    public boolean equals(Object other){
-        if(other == this){
+
+    public boolean equals(Object other) {
+        if (other == this) {
             return true;
         }
         if (!(other instanceof HexCell)) {
-            return false; 
-        } 
-        HexCell Cell = (HexCell)other;
-        return Integer.compare(this.type, Cell.type)== 0;
+            return false;
+        }
+        HexCell Cell = (HexCell) other;
+        return Integer.compare(this.type, Cell.type) == 0;
     }
 }
