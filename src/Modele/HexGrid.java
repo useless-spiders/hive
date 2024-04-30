@@ -44,7 +44,7 @@ public class HexGrid {
                 x = y = 0; //cas pas possible en theorie
                 break;
         }
-        return getCell(new HexCoordinate(x, y));
+        return getCell(x, y);
     }
 
     public class HexCoordinate {
