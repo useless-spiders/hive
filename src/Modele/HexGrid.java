@@ -18,7 +18,7 @@ public class HexGrid {
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
-    public HexCell getAdj(int x, int y, String dir) {
+    public HexCell getAdj(int x,int y, String dir) {
         switch (dir) {
             case "NE":
                 y -= 1;
@@ -50,20 +50,20 @@ public class HexGrid {
     public class HexCoordinate {
         private int x;
         private int y;
-
+    
         public HexCoordinate(int x, int y) {
             this.x = x;
             this.y = y;
         }
-
-        public int getX() {
+    
+        public int getX(){
             return x;
         }
-
-        public int getY() {
+    
+        public int getY(){
             return y;
         }
-
+    
     }
 
 
