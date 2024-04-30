@@ -55,7 +55,8 @@ public class HexGrid {
             this.x = x;
             this.y = y;
         }
-    
+        
+        //pas sur de l'utilité
         public int getX(){
             return x;
         }
