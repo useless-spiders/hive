@@ -33,4 +33,16 @@ public class HexTest {
         HexCell retrievedCell = grid.getCell(coord);
         assertEquals(cell, retrievedCell);
     }
+
+    @Test
+    public void testGetType(){
+        assertEquals(HexCell.TYPE_SPIDER, cell.getType());
+    }
+
+    @Test
+    public void testGetEmpty(){
+        coord = new HexCoordinate(1, 1);
+        HexCell retrievedCell = grid.getCell(coord);
+        assertNull(retrievedCell);
+    }
 }
