@@ -18,7 +18,7 @@ public class HexTest {
     public void setUp() {
         grid = new HexGrid();
         coord = new HexCoordinate(0, 0);
-        cell = new HexCell();
+        cell = new HexCell(HexCell.TYPE_SPIDER);
     }
 
     @Test
