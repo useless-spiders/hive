@@ -45,6 +45,8 @@ public class HexGrid {
                 x = coord.getX() - 1;
                 y = coord.getY();
                 break;
+            default:
+                x = y = 0;
         }
         return getCell(HexCoordinate(x,y));
     }
