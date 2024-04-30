@@ -2,6 +2,7 @@ package Modele;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class HexGrid {
     private Map<HexCoordinate, HexCell> grid;
@@ -66,6 +67,23 @@ public class HexGrid {
 
         public int getY() {
             return y;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            HexCoordinate other = (HexCoordinate) obj;
+            return x == other.x && y == other.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
         }
 
     }
