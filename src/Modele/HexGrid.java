@@ -10,46 +10,60 @@ public class HexGrid {
         this.grid = new HashMap<>();
     }
 
-    public HexCell getCell(HexCoordinate coord) {
-        return this.grid.get(coord);
+    public HexCell getCell(int x, int y) {
+        return this.grid.get(new HexCoordinate(x, y));
     }
 
-    public void setCell(HexCoordinate coord, HexCell cell) {
-        this.grid.put(coord, cell);
+    public void setCell(int x, int y, HexCell cell) {
+        this.grid.put(new HexCoordinate(x, y), cell);
     }
 
-    public HexCell getAdj(HexCoordinate coord, String dir) {
-        int x, y;
+    public HexCell getAdj(int x,int y, String dir) {
         switch (dir) {
             case "NE":
-                x = coord.getX();
-                y = coord.getY() - 1;
+                y -= 1;
                 break;
             case "NO":
-                x = coord.getX() + 1;
-                y = coord.getY() - 1;
+                x += 1;
+                y -= 1;
                 break;
             case "O":
-                x = coord.getX();
-                y = coord.getY() - 1;
+                y -= 1;
                 break;
             case "SO":
-                x = coord.getX() + 1;
-                y = coord.getY();
+                x += 1;
                 break;
             case "SE":
-                x = coord.getX() - 1;
-                y = coord.getY() + 1;
+                x -= 1;
+                y += 1;
                 break;
             case "E":
-                x = coord.getX() - 1;
-                y = coord.getY();
+                x -= 1;
                 break;
             default:
-                x = y = 0;
+                x = y = 0; //cas pas possible en theorie
                 break;
         }
         return getCell(new HexCoordinate(x, y));
+    }
+
+    public class HexCoordinate {
+        private int x;
+        private int y;
+    
+        public HexCoordinate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    
+        public int getX(){
+            return x;
+        }
+    
+        public int getY(){
+            return y;
+        }
+    
     }
 
 
