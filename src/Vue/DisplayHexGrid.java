@@ -6,41 +6,45 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayHexGrid extends JComponent {
-    Image imageAraignerBlanche = Display.charge("res/Images/Araigner_blanche.png");
+    Image imageAraigneeBlanche;
     private HexGrid hexGrid;
+    private int hexWidth = 100; // Définir la largeur de l'hexagone
+    private int hexHeight = (int) (Math.sqrt(3) / 2 * hexWidth); // Hauteur calculée pour maintenir la proportion
+
 
     public DisplayHexGrid(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
+        this.imageAraigneeBlanche = Display.charge("res/Images/Araignee_blanche.png");
     }
 
-    public void paintHexGrid(Graphics g) {
-        //g.drawImage(imageAraignerBlanche, 250, 250, 50, 50, null);
+    protected void paintHexGrid(Graphics g) {
+        // PROBLEME REPERE : L'AFFICHAGE SE FAIT 2 FOIS, test avec l'affichage de "OK"
+        //System.out.println("OK");
         super.paintComponent(g);
 
-        // Coordonnées de la cellule centrale
-        int centerX = 300;
-        int centerY = 300;
-
-        // Tracer chaque cellule hexagonale avec l'image
-        for (int y = -5; y <= 5; y++) {
-            for (int x = -5; x <= 5; x++) {
-                // Calculer les coordonnées de la cellule actuelle
-                int[] coords = getHexCellCoordinates(centerX, centerY, x, y, 100);
-
-                // Dessiner l'image dans la cellule
-                g.drawImage(imageAraignerBlanche, coords[0], coords[1], null);
-            }
-        }
+        // Parcourir le contenu de la grille hexagonale
+        hexGrid.getGrid().forEach((coord, cell) -> {
+            Point center = calculateHexCenter(coord.getX(), coord.getY());
+            g.drawImage(imageAraigneeBlanche, center.x - hexWidth / 2, center.y - hexHeight / 2, hexWidth, hexHeight, this);
+        });
     }
 
-    // Calculer les coordonnées d'une cellule hexagonale
-    private int[] getHexCellCoordinates(int centerX, int centerY, int x, int y, int cellSize) {
-        double hexHeight = Math.sqrt(3) * cellSize;
-        double hexWidth = 2 * cellSize;
+    private Point calculateHexCenter(int x, int y) {
+        // Point de départ ou origine de la grille
+        int originX = 300;
+        int originY = 300;
 
-        int coordX = centerX + (int) (x * hexWidth * 0.75);
-        int coordY = centerY + (int) (y * hexHeight - x * hexHeight * 0.5);
+        int coordX;
+        int coordY;
 
-        return new int[] {coordX, coordY};
+        if (y % 2 == 0) {
+            coordX = originX + x * hexWidth;
+        } else {
+            coordX = originX + x * hexWidth + hexWidth/2;
+        }
+
+        coordY = originY + y * 3*hexHeight/4;
+
+        return new Point(coordX, coordY);
     }
 }

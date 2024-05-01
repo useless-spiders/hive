@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 
 
 public class Display extends JComponent {
-    private JFrame frame;
     private DisplayHexGrid displayHexGrid;
 
     public static Image charge(String nom) {
@@ -22,8 +21,7 @@ public class Display extends JComponent {
         }
     }
 
-    public Display(HexGrid grid, JFrame frame) {
-        this.frame = frame;
+    public Display(HexGrid grid) {
         this.displayHexGrid = new DisplayHexGrid(grid);
     }
 

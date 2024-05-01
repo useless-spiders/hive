@@ -7,6 +7,8 @@ import Modele.HexGrid;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 public class HexTest {
@@ -32,7 +34,7 @@ public class HexTest {
 
     @Test
     public void testGetType() {
-        assertEquals(HexCell.TYPE_SPIDER, cell.getType());
+        assertEquals(Optional.of(HexCell.TYPE_SPIDER), Optional.ofNullable(cell.getType()));
     }
 
     @Test

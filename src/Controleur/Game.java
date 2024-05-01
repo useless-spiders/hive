@@ -13,7 +13,7 @@ public class Game extends MouseAdapter {
 
     public static void start(JFrame frame) {
         HexGrid grid = new HexGrid();
-        Display display = new Display(grid, frame);
+        Display display = new Display(grid);
         Game j = new Game(grid, display);
         frame.add(display);
         display.addMouseListener(j);
