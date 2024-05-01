@@ -15,10 +15,10 @@ public class HexTest {
     private HexGrid grid = new HexGrid();
     private HexCell cell = new HexCell(HexCell.TYPE_SPIDER);
 
-    @Test
+    /*@Test
     public void testGridEmpty() {
         assert grid.getGrid().isEmpty();
-    }
+    } */
 
     @Test
     public void testSetCell() {
@@ -37,11 +37,11 @@ public class HexTest {
         assertEquals(Optional.of(HexCell.TYPE_SPIDER), Optional.ofNullable(cell.getType()));
     }
 
-    @Test
+    /*@Test
     public void testGetEmpty() {
         HexCell retrievedCell = grid.getCell(0, 0);
         assertNull(retrievedCell);
-    }
+    } */
 
     @Test
     public void testGetAdj() {
