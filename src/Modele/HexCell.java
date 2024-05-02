@@ -8,8 +8,6 @@ public class HexCell {
     public static final int TYPE_BEETLE = 2;
     public static final int TYPE_ANT = 3;
     public static final int TYPE_SPIDER = 4;
-    public static final int TYPE_EMPTY = 5;
-
 
     public HexCell(int t) {
         this.type = t;

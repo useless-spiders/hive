@@ -9,16 +9,6 @@ public class HexGrid {
 
     public HexGrid() {
         this.grid = new HashMap<>();
-        initializeGrid();
-    }
-
-    private void initializeGrid() {
-        // Ajouter des données initiales à la grille
-        for (int i = -5; i <= 5; i++) {
-            for (int j = -5; j <= 5; j++) {
-                setCell(i, j, new HexCell(HexCell.TYPE_EMPTY));
-            }
-        }
     }
 
     public Map<HexCoordinate, HexCell> getGrid() {
