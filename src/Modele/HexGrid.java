@@ -21,12 +21,13 @@ public class HexGrid {
         return this.grid.get(new HexCoordinate(x, y));
     }
 
-    public void setCell(int x, int y, Insect insect) {
-        HexCell cell = new HexCell(insect);
+    public void addCell(int x, int y, Insect insect) {
+        HexCell cell = new HexCell();
+        cell.addInsect(insect);
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
-    public void clearCell(int x, int y){
+    public void removeCell(int x, int y){
         this.grid.remove(new HexCoordinate(x, y));
     }
 

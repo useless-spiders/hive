@@ -2,15 +2,25 @@ package Modele;
 
 import Modele.Insect.Insect;
 
-public class HexCell {
-    private Insect insect;
+import java.util.ArrayList;
 
-    public HexCell(Insect insect) {
-        this.insect = insect;
+public class HexCell {
+    private ArrayList<Insect> insects;
+
+    public HexCell() {
+        this.insects = new ArrayList<>();
     }
 
-    public Insect getType() {
-        return this.insect;
+    public void addInsect(Insect insect) {
+        this.insects.add(insect);
+    }
+
+    public void removeInsect(Insect insect) {
+        this.insects.remove(insect);
+    }
+
+    public ArrayList<Insect> getInsects() {
+        return this.insects;
     }
 
     @Override
@@ -22,7 +32,15 @@ public class HexCell {
             return false;
         }
         HexCell other = (HexCell) obj;
-        return this.insect == other.insect;
+        if (this.insects.size() != other.insects.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.insects.size(); i++) {
+            if (!this.insects.get(i).equals(other.insects.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
