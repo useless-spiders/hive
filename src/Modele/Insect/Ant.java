@@ -7,8 +7,15 @@ import Modele.HexGrid;
 
 public class Ant extends Insect{
 
+    private static final int MAX = 6;
+
     public Ant(){
 
+    }
+
+    @Override
+    public int getMax(){
+        return MAX;
     }
 
     @Override

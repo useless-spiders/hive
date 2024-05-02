@@ -6,8 +6,15 @@ import Modele.HexGrid;
 
 public class Grasshopper extends Insect{
 
+    private static final int MAX = 6;
+
     public Grasshopper(){
 
+    }
+
+    @Override
+    public int getMax(){
+        return MAX;
     }
 
     @Override

@@ -6,8 +6,15 @@ import Modele.HexGrid;
 
 public class Bee extends Insect{
 
+    private static final int MAX = 2;
+
     public Bee(){
 
+    }
+
+    @Override
+    public int getMax(){
+        return MAX;
     }
 
     @Override

@@ -7,8 +7,15 @@ import java.util.ArrayList;
 
 public class Spider extends Insect{
 
+    private static final int MAX = 4;
+
     public Spider(){
 
+    }
+
+    @Override
+    public int getMax(){
+        return MAX;
     }
 
     @Override
