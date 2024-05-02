@@ -1,20 +1,59 @@
 package Modele;
 
+import Modele.Insect.Insect;
+
+import java.util.ArrayList;
+
 public class HexCell {
-    private int type;
+    private ArrayList<Insect> insects;
 
-    public static final int TYPE_BEE = 0;
-    public static final int TYPE_GRASSHOPPER = 1;
-    public static final int TYPE_BEETLE = 2;
-    public static final int TYPE_ANT = 3;
-    public static final int TYPE_SPIDER = 4;
-
-    public HexCell(int t) {
-        this.type = t;
+    public HexCell() {
+        this.insects = new ArrayList<>();
     }
 
-    public int getType() {
-        return type;
+    public void addInsect(Insect insect) {
+        if(countInsectsOfType(insect.getClass()) >= insect.getMax()) {
+            throw new IllegalArgumentException("Cannot add more than " + insect.getMax() + " insects of type " + insect.getClass().getSimpleName());
+        }
+        this.insects.add(insect);
+    }
+
+    public void removeInsect(Insect insect) {
+        this.insects.remove(insect);
+    }
+
+    public ArrayList<Insect> getInsects() {
+        return this.insects;
+    }
+
+    private int countInsectsOfType(Class<? extends Insect> insectType) {
+        int count = 0;
+        for (Insect insect : this.insects) {
+            if (insectType.isInstance(insect)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        HexCell other = (HexCell) obj;
+        if (this.insects.size() != other.insects.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.insects.size(); i++) {
+            if (!this.insects.get(i).equals(other.insects.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
