@@ -1,7 +1,7 @@
 package Controleur;
 
-import Modele.HexCell;
 import Modele.HexGrid;
+import Modele.Insect.Spider;
 import Vue.Display;
 import Vue.HexMetrics;
 
@@ -50,7 +50,7 @@ public class Game extends MouseAdapter {
         System.out.println("L'hexagone cliqué est: col=" + closestCol + ", row=" + closestRow);
 
         //remplissage de la grille
-        hexGrid.setCell(closestCol, closestRow, new HexCell(HexCell.TYPE_SPIDER));
+        hexGrid.addCell(closestCol, closestRow, new Spider());
         display.repaint();
 
     }
