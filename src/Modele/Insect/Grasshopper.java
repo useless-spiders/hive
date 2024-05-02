@@ -1,16 +1,17 @@
-package Modele.Insecte;
+package Modele.Insect;
 
 import Structures.HexCoordinate;
 import java.util.ArrayList;
 import Modele.HexGrid;
 
-public class Grasshopper implements Move{
+public class Grasshopper extends Insect{
 
     public Grasshopper(){
 
     }
-    
-    public ArrayList<HexCoordinate> jouable(int x, int y, HexGrid g){ //Fait
+
+    @Override
+    public ArrayList<HexCoordinate> playableCells(int x, int y, HexGrid g){ //Fait
         ArrayList<HexCoordinate> jouable = new ArrayList<>();
         int nx = x,ny = y;
 

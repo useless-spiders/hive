@@ -1,16 +1,18 @@
-package Modele.Insecte;
+package Modele.Insect;
 
-import Structures.HexCoordinate;
-import java.util.ArrayList;
 import Modele.HexGrid;
+import Structures.HexCoordinate;
 
-public class Bee implements Move{
+import java.util.ArrayList;
 
-    public Bee(){
+public class Spider extends Insect{
+
+    public Spider(){
 
     }
 
-    public ArrayList<HexCoordinate> jouable(int x, int y, HexGrid g){ //Fait
+    @Override
+    public ArrayList<HexCoordinate> playableCells(int x, int y, HexGrid g){//A faire
         ArrayList<HexCoordinate> jouable = new ArrayList<>();
         if(g.getAdj(x, y, "NO") == null)jouable.add(new HexCoordinate(x, y-1));
         if(g.getAdj(x, y, "NE") == null)jouable.add(new HexCoordinate(x+1, y-1));
