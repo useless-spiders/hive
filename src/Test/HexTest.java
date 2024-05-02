@@ -42,6 +42,12 @@ public class HexTest {
     }
 
     @Test
+    public void testClearCell(){
+        grid.clearCell(0,0);
+        assert grid.getGrid().isEmpty();
+    }
+
+    @Test
     public void testGetAdj() {
         HexCell cell1 = new HexCell(HexCell.TYPE_ANT);
         HexCell cell2 = new HexCell(HexCell.TYPE_BEETLE);

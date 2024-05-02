@@ -24,6 +24,10 @@ public class HexGrid {
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
+    public void clearCell(int x, int y){
+        this.grid.remove(new HexCoordinate(x, y));
+    }
+
     public HexCell getAdj(int x, int y, String dir) {
         switch (dir) {
             case "NO":
