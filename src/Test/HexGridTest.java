@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class HexTest {
+public class HexGridTest {
     private HexGrid grid = new HexGrid();
     private Ant ant = new Ant();
     private Spider spider = new Spider();
