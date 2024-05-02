@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 
 
 public class Display extends JComponent {
-    private JFrame frame;
+    private DisplayHexGrid displayHexGrid;
 
     public static Image charge(String nom) {
         try {
@@ -21,13 +21,13 @@ public class Display extends JComponent {
         }
     }
 
-    public Display(HexGrid grid, JFrame frame) {
-        this.frame = frame;
+    public Display(HexGrid grid) {
+        this.displayHexGrid = new DisplayHexGrid(grid);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-
+        this.displayHexGrid.paintHexGrid(g);
     }
 
 }

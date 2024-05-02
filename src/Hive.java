@@ -9,7 +9,7 @@ public class Hive implements Runnable {
 
     @Override
     public void run() {
-        JFrame frame = new JFrame("Gaufre empoisonee");
+        JFrame frame = new JFrame("Hive game");
         Game.start(frame);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
