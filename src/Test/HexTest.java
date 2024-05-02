@@ -34,7 +34,7 @@ public class HexTest {
 
     @Test
     public void testGetType() {
-        assertEquals(Optional.of(HexCell.TYPE_SPIDER), Optional.ofNullable(cell.getType()));
+        assertEquals(HexCell.TYPE_SPIDER, cell.getType());
     }
 
     /*@Test
