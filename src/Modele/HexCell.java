@@ -1,20 +1,16 @@
 package Modele;
 
+import Modele.Insect.Insect;
+
 public class HexCell {
-    private int type;
+    private Insect insect;
 
-    public static final int TYPE_BEE = 0;
-    public static final int TYPE_GRASSHOPPER = 1;
-    public static final int TYPE_BEETLE = 2;
-    public static final int TYPE_ANT = 3;
-    public static final int TYPE_SPIDER = 4;
-
-    public HexCell(int t) {
-        this.type = t;
+    public HexCell(Insect insect) {
+        this.insect = insect;
     }
 
-    public int getType() {
-        return type;
+    public Insect getType() {
+        return this.insect;
     }
 
     @Override
@@ -26,7 +22,7 @@ public class HexCell {
             return false;
         }
         HexCell other = (HexCell) obj;
-        return type == other.type;
+        return this.insect == other.insect;
     }
 
 }

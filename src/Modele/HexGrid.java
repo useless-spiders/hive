@@ -2,6 +2,8 @@ package Modele;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 
 public class HexGrid {
@@ -19,8 +21,8 @@ public class HexGrid {
         return this.grid.get(new HexCoordinate(x, y));
     }
 
-    public void setCell(int x, int y, int type) {
-        HexCell cell = new HexCell(type);
+    public void setCell(int x, int y, Insect insect) {
+        HexCell cell = new HexCell(insect);
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
