@@ -1,12 +1,21 @@
 package Vue;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 
 public class DisplayBankBug {
+
     public DisplayBankBug(JFrame frame){
+        //TODO:cahnger le nom des images et gerer la couleur en fonction de qui commence
+        ImageIcon iconAnt = new ImageIcon("res/Images/Araignee_blanche.png");
+        ImageIcon iconBee = new ImageIcon("res/Images/Araignee_blanche.png");
+        ImageIcon iconBeetle = new ImageIcon("res/Images/Araignee_blanche.png");
+        ImageIcon iconGrasshopper = new ImageIcon("res/Images/Araignee_blanche.png");
+        ImageIcon iconSpider = new ImageIcon("res/Images/Araignee_blanche.png");
 
         // Créer les panneaux de boutons pour J1 et J2
         JPanel panelButtonBankJ1 = new JPanel();
@@ -17,11 +26,11 @@ public class DisplayBankBug {
         panelButtonBankJ2.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         // Créer et ajouter les boutons à panelButtonBankJ1
-        JButton buttonJ1BankAnt = new JButton("Ant");
-        JButton buttonJ1BankBee = new JButton("Bee");
-        JButton buttonJ1BankBeetle = new JButton("Beetle");
-        JButton buttonJ1BankGrasshopper = new JButton("Grasshopper");
-        JButton buttonJ1BankSpider = new JButton("Spider");
+        JButton buttonJ1BankAnt = new JButton(iconAnt);
+        JButton buttonJ1BankBee = new JButton(iconBee);
+        JButton buttonJ1BankBeetle = new JButton(iconBeetle);
+        JButton buttonJ1BankGrasshopper = new JButton(iconGrasshopper);
+        JButton buttonJ1BankSpider = new JButton(iconSpider);
 
         // Ajoutez chaque bouton à `panelButtonBankJ1`
         panelButtonBankJ1.add(buttonJ1BankAnt);
@@ -31,11 +40,11 @@ public class DisplayBankBug {
         panelButtonBankJ1.add(buttonJ1BankSpider);
 
         // Créer et ajouter les boutons à panelButtonBankJ2
-        JButton buttonJ2BankAnt = new JButton("Ant");
-        JButton buttonJ2BankBee = new JButton("Bee");
-        JButton buttonJ2BankBeetle = new JButton("Beetle");
-        JButton buttonJ2BankGrasshopper = new JButton("Grasshopper");
-        JButton buttonJ2BankSpider = new JButton("Spider");
+        JButton buttonJ2BankAnt = new JButton(iconAnt);
+        JButton buttonJ2BankBee = new JButton(iconBee);
+        JButton buttonJ2BankBeetle = new JButton(iconBeetle);
+        JButton buttonJ2BankGrasshopper = new JButton(iconGrasshopper);
+        JButton buttonJ2BankSpider = new JButton(iconSpider);
 
         // Ajoutez chaque bouton à `panelButtonBankJ2`
         panelButtonBankJ2.add(buttonJ2BankAnt);
