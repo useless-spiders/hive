@@ -1,17 +1,18 @@
 package Vue;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.FileInputStream;
+
+import Controleur.Game;
 
 public class DisplayBankBug {
+    Game game;
 
-    public DisplayBankBug(JFrame frame){
+    public DisplayBankBug(JFrame frame, Game game){
+        this.game = game;
+
         //TODO:cahnger le nom des images et gerer la couleur en fonction de qui commence
         ImageIcon iconAnt = new ImageIcon("res/Images/Araignee_blanche.png");
         ImageIcon iconBee = new ImageIcon("res/Images/Araignee_blanche.png");
@@ -59,6 +60,7 @@ public class DisplayBankBug {
         buttonJ1BankAnt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                game.clicBugButton();
             }
         });
         buttonJ1BankBee.addActionListener(new ActionListener() {
