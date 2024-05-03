@@ -3,6 +3,7 @@ package Controleur;
 import Modele.HexGrid;
 import Modele.Insect.Spider;
 import Vue.Display;
+import Vue.DisplayBankBug;
 import Vue.DisplayConfigParty;
 import Vue.HexMetrics;
 
@@ -22,6 +23,7 @@ public class Game extends MouseAdapter {
         Display display = new Display(hexGrid);
         Game j = new Game(hexGrid, display);
         //pour l'instant il faut commenter la ligne suivant pour afficher les configs
+        DisplayBankBug displayBankBug = new DisplayBankBug(frame);
         frame.add(display);
         display.addMouseListener(j);
     }
