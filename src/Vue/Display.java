@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 public class Display extends JComponent {
     private DisplayHexGrid displayHexGrid;
     private DisplayConfigParty displayConfigParty;
-    private DisplayBankBug displayBankBug;
+    private DisplayBankInsects displayBankInsects;
     private JFrame frame;
 
     public static Image charge(String nom) {

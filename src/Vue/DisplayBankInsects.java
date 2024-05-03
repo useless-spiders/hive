@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 
 import Controleur.Game;
 
-public class DisplayBankBug {
+public class DisplayBankInsects {
     Game game;
 
-    public DisplayBankBug(JFrame frame, Game game){
+    public DisplayBankInsects(JFrame frame, Game game){
         this.game = game;
 
         //TODO:cahnger le nom des images et gerer la couleur en fonction de qui commence
@@ -60,7 +60,7 @@ public class DisplayBankBug {
         buttonJ1BankAnt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                game.clicBugButton();
+                game.clicInsectButton();
             }
         });
         buttonJ1BankBee.addActionListener(new ActionListener() {

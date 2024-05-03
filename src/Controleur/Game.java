@@ -4,8 +4,7 @@ import Modele.HexGrid;
 import Modele.Insect.Spider;
 import Structures.HexCoordinate;
 import Vue.Display;
-import Vue.DisplayBankBug;
-import Vue.DisplayConfigParty;
+import Vue.DisplayBankInsects;
 import Vue.HexMetrics;
 
 import javax.swing.*;
@@ -16,8 +15,8 @@ import java.awt.event.MouseEvent;
 public class Game extends MouseAdapter {
     private HexGrid hexGrid;
     private Display display;
-    private boolean isBugButtonClicked;
-    private boolean isBugCellClicked;
+    private boolean isInsectButtonClicked;
+    private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
 
     public static void start(JFrame frame) {
@@ -26,7 +25,7 @@ public class Game extends MouseAdapter {
         Game j = new Game(hexGrid, display);
 
         //On devra mettre ca dans Display, mais Display ne peut pas prendre Game en argument donc ici pour le moment
-        DisplayBankBug displayBankBug = new DisplayBankBug(frame, j);
+        DisplayBankInsects displayBankInsects = new DisplayBankInsects(frame, j);
 
         frame.add(display);
         display.addMouseListener(j);
@@ -35,8 +34,8 @@ public class Game extends MouseAdapter {
     public Game(HexGrid hexGrid, Display display) {
         this.hexGrid = hexGrid;
         this.display = display;
-        this.isBugButtonClicked = false;
-        this.isBugCellClicked = false;
+        this.isInsectButtonClicked = false;
+        this.isInsectCellClicked = false;
         this.hexClicked = null;
     }
 
@@ -50,22 +49,22 @@ public class Game extends MouseAdapter {
 
         // Si on sélectionne un hexagone sur la grille
         if (hexGrid.getCell(hexagon.getX(), hexagon.getY()) != null) {
-            clicBugCell();
+            clicInsectCell();
             hexClicked = hexagon;
             //illuminer cet hexagone sélectionné
 
             // si on veut DEPLACER un pion à l'emplacement cliqué
-        } else if (isBugCellClicked == true) {
+        } else if (isInsectCellClicked == true) {
             //Désilluminer l'hexagone
             //Illuminer les cases possibles
             hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.addCell(hexagon.getX(), hexagon.getY(), new Spider()); //MODIFIER SPIDER
-            isBugCellClicked = false;
+            isInsectCellClicked = false;
 
             // si on veut DEPOSER un nouveau pion à l'emplacement cliqué
-        } else if (isBugButtonClicked == true) {
+        } else if (isInsectButtonClicked == true) {
             hexGrid.addCell(hexagon.getX(), hexagon.getY(), new Spider()); //MODIFIER SPIDER
-            isBugButtonClicked = false;
+            isInsectButtonClicked = false;
             //Désilluminer les cases possibles
         }
 
@@ -73,12 +72,12 @@ public class Game extends MouseAdapter {
         display.repaint();
     }
 
-    public void clicBugButton() {
-        isBugButtonClicked = true;
+    public void clicInsectButton() {
+        isInsectButtonClicked = true;
     }
 
-    public void clicBugCell() {
-        isBugCellClicked = true;
+    public void clicInsectCell() {
+        isInsectCellClicked = true;
     }
 
     public HexCoordinate findHex(int mouseX, int mouseY) {
