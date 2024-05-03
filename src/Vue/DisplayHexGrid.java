@@ -12,7 +12,7 @@ public class DisplayHexGrid extends JComponent {
 
     public DisplayHexGrid(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
-        this.imageAraigneeBlanche = Display.charge("res/Images/Araignee_blanche.png");
+        this.imageAraigneeBlanche = Display.loadImage("res/Images/Araignee_blanche.png");
     }
 
     protected void paintHexGrid(Graphics g) {
