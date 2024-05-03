@@ -3,6 +3,7 @@ package Controleur;
 import Modele.HexGrid;
 import Modele.Insect.Spider;
 import Vue.Display;
+import Vue.DisplayConfigParty;
 import Vue.HexMetrics;
 
 import javax.swing.*;
@@ -15,9 +16,12 @@ public class Game extends MouseAdapter {
     private Display display;
 
     public static void start(JFrame frame) {
+        //TODO:afficher la config de la partie
+        //DisplayConfigParty displayConfigParty = new DisplayConfigParty(frame);
         HexGrid hexGrid = new HexGrid();
         Display display = new Display(hexGrid);
         Game j = new Game(hexGrid, display);
+        //pour l'instant il faut commenter la ligne suivant pour afficher les configs
         frame.add(display);
         display.addMouseListener(j);
     }
