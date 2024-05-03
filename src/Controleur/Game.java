@@ -22,8 +22,8 @@ public class Game extends MouseAdapter {
         HexGrid hexGrid = new HexGrid();
         Display display = new Display(hexGrid);
         Game j = new Game(hexGrid, display);
-        //pour l'instant il faut commenter la ligne suivant pour afficher les configs
         DisplayBankBug displayBankBug = new DisplayBankBug(frame);
+        //pour l'instant il faut commenter la ligne suivant pour afficher les configs
         frame.add(display);
         display.addMouseListener(j);
     }

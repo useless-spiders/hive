@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileInputStream;
 
 public class DisplayBankBug {
@@ -31,6 +33,7 @@ public class DisplayBankBug {
         JButton buttonJ1BankBeetle = new JButton(iconBeetle);
         JButton buttonJ1BankGrasshopper = new JButton(iconGrasshopper);
         JButton buttonJ1BankSpider = new JButton(iconSpider);
+
 
         // Ajoutez chaque bouton à `panelButtonBankJ1`
         panelButtonBankJ1.add(buttonJ1BankAnt);
@@ -109,5 +112,57 @@ public class DisplayBankBug {
         frame.getContentPane().add(panelButtonBankJ1, BorderLayout.SOUTH);
         frame.getContentPane().add(panelButtonBankJ2, BorderLayout.NORTH);
 
+        /*
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Obtenir la nouvelle taille de la fenêtre
+                Dimension frameSize = frame.getSize();
+
+                // Calculer la nouvelle taille des boutons en fonction de la taille de la fenêtre
+                // Exemple : Utilisez un facteur de redimensionnement (e.g., 20% de la largeur et de la hauteur de la fenêtre)
+                int newButtonWidth = (int) (frameSize.width * 0.1);
+                int newButtonHeight = (int) (frameSize.height * 0.1);
+
+                // Redimensionner le bouton
+                buttonJ1BankAnt.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ1BankBee.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ1BankBeetle.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ1BankGrasshopper.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ1BankSpider.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ2BankAnt.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ2BankBee.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ2BankBeetle.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ2BankGrasshopper.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+                buttonJ2BankSpider.setPreferredSize(new Dimension(newButtonWidth, newButtonHeight));
+
+
+                // Redimensionner l'image et mettre à jour l'icône
+                Image imgAnt = iconAnt.getImage().getScaledInstance(newButtonWidth, newButtonHeight, Image.SCALE_SMOOTH);
+                Image imgBee = iconBee.getImage().getScaledInstance(newButtonWidth, newButtonHeight, Image.SCALE_SMOOTH);
+                Image imgBeetle = iconBeetle.getImage().getScaledInstance(newButtonWidth, newButtonHeight, Image.SCALE_SMOOTH);
+                Image imgGrasshopper = iconGrasshopper.getImage().getScaledInstance(newButtonWidth, newButtonHeight, Image.SCALE_SMOOTH);
+                Image imgSpider = iconSpider.getImage().getScaledInstance(newButtonWidth, newButtonHeight, Image.SCALE_SMOOTH);
+
+                iconAnt.setImage(imgAnt);
+                iconBee.setImage(imgBee);
+                iconBeetle.setImage(imgBeetle);
+                iconGrasshopper.setImage(imgGrasshopper);
+                iconSpider.setImage(imgSpider);
+
+                buttonJ1BankAnt.setIcon(iconAnt);
+                buttonJ1BankBee.setIcon(iconBee);
+                buttonJ1BankBeetle.setIcon(iconBeetle);
+                buttonJ1BankGrasshopper.setIcon(iconGrasshopper);
+                buttonJ1BankSpider.setIcon(iconSpider);
+
+
+                // Redessiner le cadre pour appliquer les changements
+                frame.revalidate();
+            }
+        });
+        */
+
     }
+
 }
