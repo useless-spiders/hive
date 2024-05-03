@@ -54,6 +54,8 @@ public class HistoryTest {
         action1 = new Action();
         action2 = new Action();
 
+        assertFalse(history.canRedo());
+
         history.addAction(action1);
         history.addAction(action2);
 
