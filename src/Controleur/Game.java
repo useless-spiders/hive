@@ -86,10 +86,14 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     }
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
-        if (this.insect.getPlayer().equals(currentPlayer)) {
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
-            isInsectButtonClicked = false;
-            switchPlayer();
+        if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
+            if(currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
+                hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                isInsectButtonClicked = false;
+                switchPlayer();
+            } else {
+                System.out.println("Vous avez atteint le nombre maximum de pions de ce type");
+            }
         } else {
             System.out.println("Ce n'est pas votre tour");
         }

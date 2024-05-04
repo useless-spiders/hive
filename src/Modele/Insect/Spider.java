@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Spider extends Insect{
 
-    private static final int MAX = 4;
+    private static final int MAX = 2;
 
     public Spider(Player player){
         super(player);
