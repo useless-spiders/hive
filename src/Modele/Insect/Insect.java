@@ -6,5 +6,6 @@ import java.util.ArrayList;
 
 public abstract class Insect {
     public abstract int getMax();
+    public abstract String getImageName();
     public abstract ArrayList<HexCoordinate> playableCells(int x, int y, HexGrid g);
 }

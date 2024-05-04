@@ -7,14 +7,20 @@ import Modele.HexGrid;
 public class Grasshopper extends Insect{
 
     private static final int MAX = 6;
+    private String color;
 
-    public Grasshopper(){
-
+    public Grasshopper(String color){
+        this.color = color;
     }
 
     @Override
     public int getMax(){
         return MAX;
+    }
+
+    @Override
+    public String getImageName(){
+        return this.getClass().getSimpleName() + "_" + this.color + ".png";
     }
 
     @Override

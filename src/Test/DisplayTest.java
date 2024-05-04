@@ -1,5 +1,6 @@
 package Test;
 
+import Modele.Insect.Spider;
 import Vue.Display;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 public class DisplayTest {
     @Test
     public void testLoadImage() {
-        Image image = Display.loadImage("res/Images/Araignee_blanche.png");
+        Image image = Display.loadImage(new Spider("black").getImageName());
         assertNotNull(image);
     }
 }

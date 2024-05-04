@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
-    private Ant ant = new Ant();
-    private Spider spider = new Spider();
+    private Ant ant = new Ant("white");
+    private Spider spider = new Spider("white");
 
     @Test
     public void testGridEmpty() {

@@ -7,14 +7,20 @@ import Modele.HexGrid;
 public class Bee extends Insect{
 
     private static final int MAX = 2;
+    private String color;
 
-    public Bee(){
-
+    public Bee(String color){
+        this.color = color;
     }
 
     @Override
     public int getMax(){
         return MAX;
+    }
+
+    @Override
+    public String getImageName(){
+        return this.getClass().getSimpleName() + "_" + this.color + ".png";
     }
 
     @Override

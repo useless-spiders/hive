@@ -8,14 +8,20 @@ import java.util.ArrayList;
 public class Spider extends Insect{
 
     private static final int MAX = 4;
+    private String color;
 
-    public Spider(){
-
+    public Spider(String color){
+        this.color = color;
     }
 
     @Override
     public int getMax(){
         return MAX;
+    }
+
+    @Override
+    public String getImageName(){
+        return this.getClass().getSimpleName() + "_" + this.color + ".png";
     }
 
     @Override

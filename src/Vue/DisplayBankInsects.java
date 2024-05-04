@@ -1,5 +1,6 @@
 package Vue;
 
+import Modele.Insect.*;
 import Pattern.InsectButtonListener;
 
 import javax.swing.*;
@@ -8,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DisplayBankInsects {
-    private static final String IMAGE_PATH = "res/Images/";
     private InsectButtonListener listener;
 
     public DisplayBankInsects(JFrame frame, InsectButtonListener listener) {
@@ -23,29 +23,26 @@ public class DisplayBankInsects {
 
     private JPanel createButtonPanel(int player) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        String color;
         if (player == 1) {
-            panel.add(createButton("Araignee_blanche.png"));
-            panel.add(createButton("Fourmi_blanche.png"));
-            panel.add(createButton("Reine_abeille_blanche.png"));
-            panel.add(createButton("Sauterelle_blanche.png"));
-            panel.add(createButton("Scarabee_blanc.png"));
+            color = "white";
         } else {
-            panel.add(createButton("Araignee_noir.png"));
-            panel.add(createButton("Fourmi_noir.png"));
-            panel.add(createButton("Reine_abeille_noir.png"));
-            panel.add(createButton("Sauterelle_noir.png"));
-            panel.add(createButton("Scarabee_noir.png"));
+            color = "black";
         }
+        panel.add(createButton(new Spider(color)));
+        panel.add(createButton(new Ant(color)));
+        panel.add(createButton(new Bee(color)));
+        panel.add(createButton(new Grasshopper(color)));
+        panel.add(createButton(new Beetle(color)));
         return panel;
     }
 
-    private JButton createButton(String imageName) {
-        ImageIcon icon = new ImageIcon(IMAGE_PATH + imageName);
-        JButton button = new JButton(icon);
+    private JButton createButton(Insect insect) {
+        JButton button = new JButton(Display.loadIcon(insect.getImageName()));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listener.clicInsectButton();
+                listener.clicInsectButton(insect);
             }
         });
         return button;

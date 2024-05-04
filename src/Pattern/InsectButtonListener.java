@@ -1,5 +1,7 @@
 package Pattern;
 
+import Modele.Insect.Insect;
+
 public interface InsectButtonListener {
-    void clicInsectButton();
+    void clicInsectButton(Insect insect);
 }

@@ -1,7 +1,8 @@
 package Controleur;
 
+import Modele.HexCell;
 import Modele.HexGrid;
-import Modele.Insect.Spider;
+import Modele.Insect.Insect;
 import Modele.Player;
 import Structures.HexCoordinate;
 import Vue.Display;
@@ -23,6 +24,7 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     private boolean isInsectButtonClicked;
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
+    private Insect insect;
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
@@ -68,6 +70,7 @@ public class Game extends MouseAdapter implements InsectButtonListener {
 
         HexCoordinate hexagon = findHex(mouseX, mouseY);
 
+        System.out.println(this.insect);
 
         // Si on sélectionne un hexagone sur la grille
         if (hexGrid.getCell(hexagon.getX(), hexagon.getY()) != null) {
@@ -76,16 +79,17 @@ public class Game extends MouseAdapter implements InsectButtonListener {
             //illuminer cet hexagone sélectionné
 
             // si on veut DEPLACER un pion à l'emplacement cliqué
-        } else if (isInsectCellClicked == true) {
+        } else if (isInsectCellClicked) {
             //Désilluminer l'hexagone
             //Illuminer les cases possibles
+            HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), new Spider()); //MODIFIER SPIDER
+            hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
             isInsectCellClicked = false;
 
             // si on veut DEPOSER un nouveau pion à l'emplacement cliqué
-        } else if (isInsectButtonClicked == true) {
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), new Spider()); //MODIFIER SPIDER
+        } else if (isInsectButtonClicked) {
+            hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
             isInsectButtonClicked = false;
             //Désilluminer les cases possibles
         }
@@ -120,7 +124,8 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     }
 
     @Override
-    public void clicInsectButton() {
+    public void clicInsectButton(Insect insect) {
         this.isInsectButtonClicked = true;
+        this.insect = insect;
     }
 }

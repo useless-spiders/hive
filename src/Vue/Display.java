@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 
 
 public class Display extends JComponent {
+    private static final String IMAGE_PATH = "res/Images/";
+
     private DisplayHexGrid displayHexGrid;
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
@@ -18,7 +20,17 @@ public class Display extends JComponent {
 
     public static Image loadImage(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
+        } catch (Exception e) {
+            System.err.println("Impossible de charger l'image " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static ImageIcon loadIcon(String nom) {
+        try {
+            return new ImageIcon(IMAGE_PATH + nom);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image " + nom);
             System.exit(1);
