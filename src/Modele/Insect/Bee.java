@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.Player;
 import Structures.HexCoordinate;
 import java.util.ArrayList;
 import Modele.HexGrid;
@@ -8,8 +9,8 @@ public class Bee extends Insect{
 
     private static final int MAX = 2;
 
-    public Bee(){
-
+    public Bee(Player player) {
+        super(player);
     }
 
     @Override

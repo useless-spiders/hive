@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.Player;
 import Structures.HexCoordinate;
 import java.util.ArrayList;
 
@@ -9,8 +10,8 @@ public class Ant extends Insect{
 
     private static final int MAX = 6;
 
-    public Ant(){
-
+    public Ant(Player player) {
+        super(player);
     }
 
     @Override

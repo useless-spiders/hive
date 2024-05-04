@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.Player;
 import Structures.HexCoordinate;
 import java.util.ArrayList;
 import Modele.HexGrid;
@@ -8,8 +9,8 @@ public class Grasshopper extends Insect{
 
     private static final int MAX = 6;
 
-    public Grasshopper(){
-
+    public Grasshopper(Player player){
+        super(player);
     }
 
     @Override

@@ -26,6 +26,10 @@ public class HexCell {
         return this.insects;
     }
 
+    public Insect getTopInsect() {
+        return this.insects.get(this.insects.size() - 1);
+    }
+
     private int countInsectsOfType(Class<? extends Insect> insectType) {
         int count = 0;
         for (Insect insect : this.insects) {

@@ -1,120 +1,51 @@
 package Vue;
 
+import Modele.Insect.*;
+import Modele.Player;
+import Pattern.InsectButtonListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Controleur.Game;
-
 public class DisplayBankInsects {
-    Game game;
+    private InsectButtonListener listener;
 
-    public DisplayBankInsects(JFrame frame, Game game){
-        this.game = game;
+    public DisplayBankInsects(JFrame frame, InsectButtonListener listener) {
+        this.listener = listener;
 
-        //TODO:cahnger le nom des images et gerer la couleur en fonction de qui commence
-        ImageIcon iconAnt = new ImageIcon("res/Images/Araignee_blanche.png");
-        ImageIcon iconBee = new ImageIcon("res/Images/Araignee_blanche.png");
-        ImageIcon iconBeetle = new ImageIcon("res/Images/Araignee_blanche.png");
-        ImageIcon iconGrasshopper = new ImageIcon("res/Images/Araignee_blanche.png");
-        ImageIcon iconSpider = new ImageIcon("res/Images/Araignee_blanche.png");
-
-        // Créer les panneaux de boutons pour J1 et J2
-        JPanel panelButtonBankJ1 = new JPanel();
-        JPanel panelButtonBankJ2 = new JPanel();
-
-        // Configurer les FlowLayouts pour centrer les boutons horizontalement
-        panelButtonBankJ1.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panelButtonBankJ2.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        // Créer et ajouter les boutons à panelButtonBankJ1
-        JButton buttonJ1BankAnt = new JButton(iconAnt);
-        JButton buttonJ1BankBee = new JButton(iconBee);
-        JButton buttonJ1BankBeetle = new JButton(iconBeetle);
-        JButton buttonJ1BankGrasshopper = new JButton(iconGrasshopper);
-        JButton buttonJ1BankSpider = new JButton(iconSpider);
-
-
-        // Ajoutez chaque bouton à `panelButtonBankJ1`
-        panelButtonBankJ1.add(buttonJ1BankAnt);
-        panelButtonBankJ1.add(buttonJ1BankBee);
-        panelButtonBankJ1.add(buttonJ1BankBeetle);
-        panelButtonBankJ1.add(buttonJ1BankGrasshopper);
-        panelButtonBankJ1.add(buttonJ1BankSpider);
-
-        // Créer et ajouter les boutons à panelButtonBankJ2
-        JButton buttonJ2BankAnt = new JButton(iconAnt);
-        JButton buttonJ2BankBee = new JButton(iconBee);
-        JButton buttonJ2BankBeetle = new JButton(iconBeetle);
-        JButton buttonJ2BankGrasshopper = new JButton(iconGrasshopper);
-        JButton buttonJ2BankSpider = new JButton(iconSpider);
-
-        // Ajoutez chaque bouton à `panelButtonBankJ2`
-        panelButtonBankJ2.add(buttonJ2BankAnt);
-        panelButtonBankJ2.add(buttonJ2BankBee);
-        panelButtonBankJ2.add(buttonJ2BankBeetle);
-        panelButtonBankJ2.add(buttonJ2BankGrasshopper);
-        panelButtonBankJ2.add(buttonJ2BankSpider);
-
-        buttonJ1BankAnt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.clicInsectButton();
-            }
-        });
-        buttonJ1BankBee.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ1BankBeetle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ1BankGrasshopper.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ1BankSpider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
-
-        buttonJ2BankAnt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ2BankBee.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ2BankBeetle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ2BankGrasshopper.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        buttonJ2BankSpider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
+        JPanel panelButtonBankJ1 = createButtonPanel(new Player("white"));
+        JPanel panelButtonBankJ2 = createButtonPanel(new Player("black"));
 
         frame.getContentPane().add(panelButtonBankJ1, BorderLayout.SOUTH);
         frame.getContentPane().add(panelButtonBankJ2, BorderLayout.NORTH);
+    }
 
-        /*
+    private JPanel createButtonPanel(Player player) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panel.add(createButton(new Spider(player)));
+        panel.add(createButton(new Ant(player)));
+        panel.add(createButton(new Bee(player)));
+        panel.add(createButton(new Grasshopper(player)));
+        panel.add(createButton(new Beetle(player)));
+        return panel;
+    }
+
+    private JButton createButton(Insect insect) {
+        JButton button = new JButton(Display.loadIcon(insect.getImageName()));
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listener.clicInsectButton(insect);
+            }
+        });
+        return button;
+    }
+
+
+    /*
+    J'ai laissé ça ici, cétait commenté dans la version originale dans le constructeur de DisplayBankInsects
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -164,7 +95,4 @@ public class DisplayBankInsects {
             }
         });
         */
-
-    }
-
 }

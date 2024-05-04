@@ -7,34 +7,36 @@ import Modele.HexGrid;
 import Modele.Insect.Ant;
 import Modele.Insect.Insect;
 import Modele.Insect.Spider;
+import Modele.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class InsectTest {
     private HexGrid grid = new HexGrid();
+    private Player player = new Player("white");
 
     @Test
     public void testAntMaxCount() {
         HexCell cell = new HexCell();
-        Insect insect = new Ant();
+        Insect insect = new Ant(player);
         for (int i = 0; i < insect.getMax(); i++) {
-            cell.addInsect(new Ant());
+            cell.addInsect(new Ant(player));
         }
         assertThrows(IllegalArgumentException.class, () -> {
-            cell.addInsect(new Ant());
+            cell.addInsect(new Ant(player));
         });
     }
 
     @Test
     public void testSpiderMaxCount() {
         HexCell cell = new HexCell();
-        Insect insect = new Spider();
+        Insect insect = new Spider(player);
         for (int i = 0; i < insect.getMax(); i++) {
-            cell.addInsect(new Spider());
+            cell.addInsect(new Spider(player));
         }
         assertThrows(IllegalArgumentException.class, () -> {
-            cell.addInsect(new Spider());
+            cell.addInsect(new Spider(player));
         });
     }
 

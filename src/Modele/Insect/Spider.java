@@ -1,6 +1,7 @@
 package Modele.Insect;
 
 import Modele.HexGrid;
+import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
@@ -9,8 +10,8 @@ public class Spider extends Insect{
 
     private static final int MAX = 4;
 
-    public Spider(){
-
+    public Spider(Player player){
+        super(player);
     }
 
     @Override
