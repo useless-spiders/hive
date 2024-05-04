@@ -11,6 +11,9 @@ import java.nio.file.Paths;
 
 public class Display extends JComponent {
     private DisplayHexGrid displayHexGrid;
+    private DisplayConfigParty displayConfigParty;
+    private DisplayBankInsects displayBankInsects;
+    private JFrame frame;
 
     public static Image loadImage(String nom) {
         try {
@@ -22,8 +25,12 @@ public class Display extends JComponent {
         }
     }
 
-    public Display(HexGrid grid) {
+    public Display(HexGrid grid, JFrame frame) {
         this.displayHexGrid = new DisplayHexGrid(grid);
+        this.frame = frame;
+
+        //TODO:afficher la config de la partie
+        //DisplayConfigParty displayConfigParty = new DisplayConfigParty(frame);
     }
 
     @Override
