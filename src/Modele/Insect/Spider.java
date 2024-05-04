@@ -1,6 +1,7 @@
 package Modele.Insect;
 
 import Modele.HexGrid;
+import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
@@ -8,20 +9,14 @@ import java.util.ArrayList;
 public class Spider extends Insect{
 
     private static final int MAX = 4;
-    private String color;
 
-    public Spider(String color){
-        this.color = color;
+    public Spider(Player player){
+        super(player);
     }
 
     @Override
     public int getMax(){
         return MAX;
-    }
-
-    @Override
-    public String getImageName(){
-        return this.getClass().getSimpleName() + "_" + this.color + ".png";
     }
 
     @Override

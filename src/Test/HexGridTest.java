@@ -5,15 +5,18 @@ import Modele.HexCell;
 import Modele.HexGrid;
 
 import Modele.Insect.Ant;
+import Modele.Insect.Insect;
 import Modele.Insect.Spider;
+import Modele.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
-    private Ant ant = new Ant("white");
-    private Spider spider = new Spider("white");
+    private Player player = new Player("white");
+    private Insect ant = new Ant(player);
+    private Insect spider = new Spider(player);
 
     @Test
     public void testGridEmpty() {

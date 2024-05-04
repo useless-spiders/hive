@@ -1,6 +1,7 @@
 package Vue;
 
 import Modele.Insect.*;
+import Modele.Player;
 import Pattern.InsectButtonListener;
 
 import javax.swing.*;
@@ -14,26 +15,20 @@ public class DisplayBankInsects {
     public DisplayBankInsects(JFrame frame, InsectButtonListener listener) {
         this.listener = listener;
 
-        JPanel panelButtonBankJ1 = createButtonPanel(1);
-        JPanel panelButtonBankJ2 = createButtonPanel(2);
+        JPanel panelButtonBankJ1 = createButtonPanel(new Player("white"));
+        JPanel panelButtonBankJ2 = createButtonPanel(new Player("black"));
 
         frame.getContentPane().add(panelButtonBankJ1, BorderLayout.SOUTH);
         frame.getContentPane().add(panelButtonBankJ2, BorderLayout.NORTH);
     }
 
-    private JPanel createButtonPanel(int player) {
+    private JPanel createButtonPanel(Player player) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        String color;
-        if (player == 1) {
-            color = "white";
-        } else {
-            color = "black";
-        }
-        panel.add(createButton(new Spider(color)));
-        panel.add(createButton(new Ant(color)));
-        panel.add(createButton(new Bee(color)));
-        panel.add(createButton(new Grasshopper(color)));
-        panel.add(createButton(new Beetle(color)));
+        panel.add(createButton(new Spider(player)));
+        panel.add(createButton(new Ant(player)));
+        panel.add(createButton(new Bee(player)));
+        panel.add(createButton(new Grasshopper(player)));
+        panel.add(createButton(new Beetle(player)));
         return panel;
     }
 

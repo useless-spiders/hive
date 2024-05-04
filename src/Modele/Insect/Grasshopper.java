@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.Player;
 import Structures.HexCoordinate;
 import java.util.ArrayList;
 import Modele.HexGrid;
@@ -7,20 +8,14 @@ import Modele.HexGrid;
 public class Grasshopper extends Insect{
 
     private static final int MAX = 6;
-    private String color;
 
-    public Grasshopper(String color){
-        this.color = color;
+    public Grasshopper(Player player){
+        super(player);
     }
 
     @Override
     public int getMax(){
         return MAX;
-    }
-
-    @Override
-    public String getImageName(){
-        return this.getClass().getSimpleName() + "_" + this.color + ".png";
     }
 
     @Override
