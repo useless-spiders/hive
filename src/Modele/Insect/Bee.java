@@ -7,7 +7,7 @@ import Modele.HexGrid;
 
 public class Bee extends Insect{
 
-    private static final int MAX = 2;
+    private static final int MAX = 1;
 
     public Bee(Player player) {
         super(player);

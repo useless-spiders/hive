@@ -8,7 +8,7 @@ import Modele.HexGrid;
 
 public class Ant extends Insect{
 
-    private static final int MAX = 6;
+    private static final int MAX = 3;
 
     public Ant(Player player) {
         super(player);

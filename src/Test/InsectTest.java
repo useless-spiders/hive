@@ -1,70 +1,49 @@
 package Test;
 
-
-import Modele.HexCell;
-import Modele.HexGrid;
-
-import Modele.Insect.Ant;
-import Modele.Insect.Insect;
-import Modele.Insect.Spider;
+import Modele.Insect.*;
 import Modele.Player;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class InsectTest {
-    private HexGrid grid = new HexGrid();
+
     private Player player = new Player("white");
 
     @Test
-    public void testAntMaxCount() {
-        HexCell cell = new HexCell();
-        Insect insect = new Ant(player);
-        for (int i = 0; i < insect.getMax(); i++) {
-            cell.addInsect(new Ant(player));
-        }
-        assertThrows(IllegalArgumentException.class, () -> {
-            cell.addInsect(new Ant(player));
-        });
-    }
-
-    @Test
-    public void testSpiderMaxCount() {
-        HexCell cell = new HexCell();
-        Insect insect = new Spider(player);
-        for (int i = 0; i < insect.getMax(); i++) {
-            cell.addInsect(new Spider(player));
-        }
-        assertThrows(IllegalArgumentException.class, () -> {
-            cell.addInsect(new Spider(player));
-        });
-    }
-
-    @Test
     public void testBee() {
-        
+        Insect bee = new Bee(player);
+        assertEquals(1, bee.getMax());
+        assertEquals("Bee_white.png", bee.getImageName());
     }
 
     @Test
     public void testBeetle() {
-        
+        Insect beetle = new Beetle(player);
+        assertEquals(2, beetle.getMax());
+        assertEquals("Beetle_white.png", beetle.getImageName());
     }
 
     @Test
     public void testGrasshopper() {
-        
+        Insect grasshopper = new Grasshopper(player);
+        assertEquals(3, grasshopper.getMax());
+        assertEquals("Grasshopper_white.png", grasshopper.getImageName());
     }
 
     @Test
     public void testSpider() {
-        
+        Insect spider = new Spider(player);
+        assertEquals(2, spider.getMax());
+        assertEquals("Spider_white.png", spider.getImageName());
     }
 
     @Test
     public void testAnt() {
-        
+        Insect ant = new Ant(player);
+        assertEquals(3, ant.getMax());
+        assertEquals("Ant_white.png", ant.getImageName());
     }
 
-    
-    
+
 }
