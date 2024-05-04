@@ -2,11 +2,8 @@ package Controleur;
 
 import Modele.HexGrid;
 import Modele.Insect.Spider;
-<<<<<<< HEAD
 import Modele.Player;
-=======
 import Structures.HexCoordinate;
->>>>>>> dev-ihm
 import Vue.Display;
 import Vue.DisplayBankInsects;
 import Vue.HexMetrics;
