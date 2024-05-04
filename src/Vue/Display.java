@@ -1,6 +1,7 @@
 package Vue;
 
 import Modele.HexGrid;
+import Pattern.InsectButtonListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,12 +26,13 @@ public class Display extends JComponent {
         }
     }
 
-    public Display(HexGrid grid, JFrame frame) {
-        this.displayHexGrid = new DisplayHexGrid(grid);
+    public Display(HexGrid grid, JFrame frame, InsectButtonListener listener) {
         this.frame = frame;
+        this.displayHexGrid = new DisplayHexGrid(grid);
+        this.displayBankInsects = new DisplayBankInsects(frame, listener);
 
         //TODO:afficher la config de la partie
-        //DisplayConfigParty displayConfigParty = new DisplayConfigParty(frame);
+        //this.displayConfigParty = new DisplayConfigParty(frame);
     }
 
     @Override

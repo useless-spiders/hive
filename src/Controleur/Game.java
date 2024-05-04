@@ -5,8 +5,8 @@ import Modele.Insect.Spider;
 import Modele.Player;
 import Structures.HexCoordinate;
 import Vue.Display;
-import Vue.DisplayBankInsects;
 import Vue.HexMetrics;
+import Pattern.InsectButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-public class Game extends MouseAdapter {
+public class Game extends MouseAdapter implements InsectButtonListener {
     private HexGrid hexGrid;
     private Display display;
     private Player player1;
@@ -26,14 +26,12 @@ public class Game extends MouseAdapter {
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
-        Display display = new Display(hexGrid, frame);
-        Game j = new Game(hexGrid, display);
+        Game g = new Game(hexGrid, null);
+        Display display = new Display(hexGrid, frame, g);
 
-        //On devra mettre ca dans Display, mais Display ne peut pas prendre Game en argument donc ici pour le moment
-        DisplayBankInsects displayBankInsects = new DisplayBankInsects(frame, j);
-
+        g.setDisplay(display);
         frame.add(display);
-        display.addMouseListener(j);
+        display.addMouseListener(g);
     }
 
     public Game(HexGrid hexGrid, Display display) {
@@ -49,6 +47,10 @@ public class Game extends MouseAdapter {
         // Randomly select the starting player
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
+    }
+
+    public void setDisplay(Display display) {
+        this.display = display;
     }
 
     public void switchPlayer() {
@@ -92,10 +94,6 @@ public class Game extends MouseAdapter {
         display.repaint();
     }
 
-    public void clicInsectButton() {
-        isInsectButtonClicked = true;
-    }
-
     public void clicInsectCell() {
         isInsectCellClicked = true;
     }
@@ -119,5 +117,10 @@ public class Game extends MouseAdapter {
 
         //System.out.println("L'hexagone cliqué est: row=" + closestRow + ", col=" + closestCol);
         return new HexCoordinate(closestRow, closestCol);
+    }
+
+    @Override
+    public void clicInsectButton() {
+        this.isInsectButtonClicked = true;
     }
 }
