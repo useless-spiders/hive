@@ -28,6 +28,11 @@ public abstract class Insect {
         return this.player;
     }
 
+    /* public boolean isStillConnected(int x, int y, HexGrid h)
+    {
+        //TODO verifie si le deplacement de l insecte ne casse pas la ruche
+    } */
+
     // can't move any insect if the Bee is not in the grid
     protected boolean canMoveInsect(HexGrid g, Player player){
         for(HexCell cell : g.getGrid().values()){
