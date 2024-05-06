@@ -18,6 +18,7 @@ public class Display extends JComponent {
     private DisplayPlayableHex displayPlayableHex;
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
+    private DisplayMenuInParty displayMenuInParty;
     private JFrame frame;
     private GameActionHandler controller;
 
@@ -47,6 +48,7 @@ public class Display extends JComponent {
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
         this.displayPlayableHex = new DisplayPlayableHex();
+        this.displayMenuInParty = new DisplayMenuInParty(frame);
 
         //TODO:afficher la config de la partie
         //this.displayConfigParty = new DisplayConfigParty(frame);
