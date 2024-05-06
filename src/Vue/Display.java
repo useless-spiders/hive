@@ -1,7 +1,8 @@
 package Vue;
 
 import Modele.HexGrid;
-import Pattern.InsectButtonListener;
+import Pattern.GameActionHandler;
+import Structures.HexCoordinate;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class Display extends JComponent {
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
     private JFrame frame;
+    private GameActionHandler controller;
 
     public static Image loadImage(String nom) {
         try {
@@ -38,10 +40,11 @@ public class Display extends JComponent {
         }
     }
 
-    public Display(HexGrid grid, JFrame frame, InsectButtonListener listener) {
+    public Display(HexGrid grid, JFrame frame, GameActionHandler controller){
         this.frame = frame;
         this.displayHexGrid = new DisplayHexGrid(grid);
-        this.displayBankInsects = new DisplayBankInsects(frame, listener);
+        this.displayBankInsects = new DisplayBankInsects(frame, controller);
+        this.controller = controller;
 
         //TODO:afficher la config de la partie
         //this.displayConfigParty = new DisplayConfigParty(frame);
@@ -50,6 +53,13 @@ public class Display extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         this.displayHexGrid.paintHexGrid(g);
+        g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
+
+        // Affiche les cases jouables
+        for (HexCoordinate cell : controller.getPlayableCells()) {
+            Point center = HexMetrics.calculateHexCenter(cell.getX(), cell.getY());
+            g.drawImage(loadImage("Location.png"), center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
+        }
     }
 
 }
