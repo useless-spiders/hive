@@ -15,6 +15,7 @@ public class Display extends JComponent {
     private static final String IMAGE_PATH = "res/Images/";
 
     private DisplayHexGrid displayHexGrid;
+    private DisplayPlayableHex displayPlayableHex;
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
     private JFrame frame;
@@ -45,6 +46,7 @@ public class Display extends JComponent {
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
+        this.displayPlayableHex = new DisplayPlayableHex();
 
         //TODO:afficher la config de la partie
         //this.displayConfigParty = new DisplayConfigParty(frame);
@@ -57,13 +59,8 @@ public class Display extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         this.displayHexGrid.paintHexGrid(g);
+        this.displayPlayableHex.paintPlayableHex(g, controller);
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
-
-        // Affiche les cases jouables
-        for (HexCoordinate cell : controller.getPlayableCells()) {
-            Point center = HexMetrics.calculateHexCenter(cell.getX(), cell.getY());
-            g.drawImage(loadImage("Location.png"), center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
-        }
     }
 
 }
