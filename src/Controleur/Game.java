@@ -75,7 +75,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
             if (isInsectCellClicked == false) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
