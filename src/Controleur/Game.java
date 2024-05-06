@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.HexCell;
 import Modele.HexGrid;
+import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
@@ -53,6 +54,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
     }
 
     private void switchPlayer() {
+        this.currentPlayer.incrementTurn();
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -89,7 +91,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        if(playableCells.contains(hexagon)) {
+        if (playableCells.contains(hexagon)) {
             HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
@@ -103,10 +105,17 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-            if(currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
-                hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
-                isInsectButtonClicked = false;
-                switchPlayer();
+            if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
+                if(this.insect instanceof Bee) {
+                    currentPlayer.setBeePlaced(true);
+                }
+                if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
+                    hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                    isInsectButtonClicked = false;
+                    switchPlayer();
+                } else {
+                    System.out.println("Vous devez placer l'abeille avant de placer d'autres insectes");
+                }
             } else {
                 System.out.println("Vous avez atteint le nombre maximum de pions de ce type");
             }
