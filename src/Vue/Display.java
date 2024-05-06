@@ -50,6 +50,10 @@ public class Display extends JComponent {
         //this.displayConfigParty = new DisplayConfigParty(frame);
     }
 
+    public DisplayHexGrid getDisplayHexGrid() {
+        return displayHexGrid;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         this.displayHexGrid.paintHexGrid(g);

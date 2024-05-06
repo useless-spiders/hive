@@ -30,7 +30,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid, null);
+        Game g = new Game(hexGrid);
         Display display = new Display(hexGrid, frame, g);
 
         g.setDisplay(display);
@@ -38,9 +38,8 @@ public class Game extends MouseAdapter implements GameActionHandler {
         display.addMouseListener(g);
     }
 
-    public Game(HexGrid hexGrid, Display display) {
+    public Game(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
-        this.display = display;
         this.initPlayers();
 
         this.isInsectButtonClicked = false;
@@ -76,6 +75,8 @@ public class Game extends MouseAdapter implements GameActionHandler {
             isInsectCellClicked = true;
             hexClicked = hexagon;
             playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+            // rendre transparente la case
+            display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
         } else {
             System.out.println("Ce pion ne vous appartient pas");
         }
@@ -137,11 +138,11 @@ public class Game extends MouseAdapter implements GameActionHandler {
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
 
-        if (cell != null) {
+        if (cell != null) { //on clique sur une case existante
             handleCellClicked(cell, hexagon);
-        } else if (isInsectCellClicked) {
+        } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);
-        } else if (isInsectButtonClicked) {
+        } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
             handleInsectPlaced(hexagon);
         }
 
