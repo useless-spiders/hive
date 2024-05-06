@@ -165,6 +165,9 @@ public class Game extends MouseAdapter implements GameActionHandler {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.insect = insect;
+        this.playableCells.clear();
+        display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+        display.repaint();
     }
 
     @Override
