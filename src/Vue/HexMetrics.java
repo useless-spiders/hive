@@ -12,12 +12,7 @@ public class HexMetrics {
         int coordX;
         int coordY;
 
-        if (y % 2 == 0) {
-            coordX = ORIGIN_X + x * HEX_WIDTH;
-        } else {
-            coordX = ORIGIN_X + x * HEX_WIDTH + HEX_WIDTH/2;
-        }
-
+        coordX = ORIGIN_X + y * HEX_WIDTH/2 + x * HEX_WIDTH;
         coordY = ORIGIN_Y + y * 3*HEX_HEIGHT/4;
 
         return new Point(coordX, coordY);
