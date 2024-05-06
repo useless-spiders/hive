@@ -58,9 +58,8 @@ public class Display extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
+        g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
         this.displayHexGrid.paintHexGrid(g);
         this.displayPlayableHex.paintPlayableHex(g, controller);
-        g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
     }
-
 }
