@@ -5,6 +5,8 @@ import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Spider extends Insect {
 
@@ -20,17 +22,31 @@ public class Spider extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) { //A faire
+    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            if (g.getAdj(x, y, "NO") == null) coordinates.add(new HexCoordinate(x, y - 1));
-            if (g.getAdj(x, y, "NE") == null) coordinates.add(new HexCoordinate(x + 1, y - 1));
-            if (g.getAdj(x, y, "E") == null) coordinates.add(new HexCoordinate(x + 1, y));
-            if (g.getAdj(x, y, "SE") == null) coordinates.add(new HexCoordinate(x, y + 1));
-            if (g.getAdj(x, y, "SO") == null) coordinates.add(new HexCoordinate(x - 1, y + 1));
-            if (g.getAdj(x, y, "O") == null) coordinates.add(new HexCoordinate(x - 1, y));
+            getPossibleMovesCellsHelper(x, y, g, 3, coordinates);
         }
         return coordinates;
+    }
+
+    private void getPossibleMovesCellsHelper(int x, int y, HexGrid g, int steps, ArrayList<HexCoordinate> coordinates) {
+        if (steps == 0) {
+            return;
+        }
+
+        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+        int[] dx = {0, 1, 1, 0, -1, -1};
+        int[] dy = {-1, -1, 0, 1, 1, 0};
+
+        for (int i = 0; i < directions.length; i++) {
+            if (g.getAdj(x, y, directions[i]) == null) {
+                if (steps == 1) {
+                    coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                }
+                getPossibleMovesCellsHelper(x + dx[i], y + dy[i], g, steps - 1, coordinates);
+            }
+        }
     }
 
     @Override

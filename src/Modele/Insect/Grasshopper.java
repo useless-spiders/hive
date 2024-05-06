@@ -21,42 +21,25 @@ public class Grasshopper extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) { //Fait
+    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            int nx = x, ny = y;
+            String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+            int[] dx = {0, 1, 1, 0, -1, -1};
+            int[] dy = {-1, -1, 0, 1, 1, 0};
 
-            while (g.getAdj(x, y, "NO") != null) {
-                ny += 1;
+            for (int i = 0; i < directions.length; i++) {
+                int nx = x, ny = y;
+                while (g.getAdj(nx, ny, directions[i]) != null) {
+                    nx += dx[i];
+                    ny += dy[i];
+                }
+                if (nx != x || ny != y) {
+                    nx += dx[i];
+                    ny += dy[i];
+                    coordinates.add(new HexCoordinate(nx, ny));
+                }
             }
-            coordinates.add(new HexCoordinate(x, y - ny));
-
-            while (g.getAdj(x, y, "NE") != null) {
-                ny += 1;
-                nx += 1;
-            }
-            coordinates.add(new HexCoordinate(x + nx, y - ny));
-
-            while (g.getAdj(x, y, "E") != null) {
-                nx += 1;
-            }
-            coordinates.add(new HexCoordinate(x + nx, y));
-
-            while (g.getAdj(x, y, "SE") != null) {
-                ny += 1;
-            }
-            coordinates.add(new HexCoordinate(x, y + ny));
-
-            while (g.getAdj(x, y, "SO") != null) {
-                ny += 1;
-                nx += 1;
-            }
-            coordinates.add(new HexCoordinate(x - nx, y + ny));
-
-            while (g.getAdj(x, y, "O") != null) {
-                nx += 1;
-            }
-            coordinates.add(new HexCoordinate(x - nx, y));
 
         }
         return coordinates;

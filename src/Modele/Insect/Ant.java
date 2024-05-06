@@ -21,15 +21,18 @@ public class Ant extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) { //A faire
+    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) { // A faire
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            if (g.getAdj(x, y, "NO") == null) coordinates.add(new HexCoordinate(x, y - 1));
-            if (g.getAdj(x, y, "NE") == null) coordinates.add(new HexCoordinate(x + 1, y - 1));
-            if (g.getAdj(x, y, "E") == null) coordinates.add(new HexCoordinate(x + 1, y));
-            if (g.getAdj(x, y, "SE") == null) coordinates.add(new HexCoordinate(x, y + 1));
-            if (g.getAdj(x, y, "SO") == null) coordinates.add(new HexCoordinate(x - 1, y + 1));
-            if (g.getAdj(x, y, "O") == null) coordinates.add(new HexCoordinate(x - 1, y));
+            String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+            int[] dx = {0, 1, 1, 0, -1, -1};
+            int[] dy = {-1, -1, 0, 1, 1, 0};
+
+            for (int i = 0; i < directions.length; i++) {
+                if (g.getAdj(x, y, directions[i]) == null) {
+                    coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                }
+            }
         }
         return coordinates;
     }
