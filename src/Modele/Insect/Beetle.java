@@ -19,7 +19,7 @@ public class Beetle extends Insect{
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) { // A faire
+    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
@@ -27,9 +27,7 @@ public class Beetle extends Insect{
             int[] dy = {-1, -1, 0, 1, 1, 0};
 
             for (int i = 0; i < directions.length; i++) {
-                if (g.getAdj(x, y, directions[i]) == null) {
-                    coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
-                }
+                coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
             }
         }
         return coordinates;
