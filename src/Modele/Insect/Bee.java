@@ -29,7 +29,7 @@ public class Bee extends Insect {
             int[] dy = {-1, -1, 0, 1, 1, 0};
 
             for (int i = 0; i < directions.length; i++) {
-                if (g.getAdj(x, y, directions[i]) == null) {
+                if (g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(x + dx[i], y + dy[i]))) {
                     coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                 }
             }

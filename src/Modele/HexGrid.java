@@ -2,6 +2,7 @@ package Modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import Modele.Insect.Insect;
@@ -73,45 +74,54 @@ public class HexGrid  implements Cloneable {
         return getCell(x, y);
     }
 
-    public int neighboursCount(int x, int y)
-    {
-        int counter=0;
-        HexCell tmp = this.getAdj(x, y, "NO");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        tmp = this.getAdj(x, y, "NE");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        tmp = this.getAdj(x, y, "E");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        tmp = this.getAdj(x, y, "SE");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        tmp = this.getAdj(x, y, "SO");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        tmp = this.getAdj(x, y, "O");
-        if (tmp != null && tmp.getInsects().size()>0) counter++;
-        return counter;
-    }
-
-    public ArrayList<HexCoordinate> getNeighbours(int x, int y)
-    {
-        ArrayList<HexCoordinate> neighbours = new ArrayList<>();
-        HexCell tmp = this.getAdj(x, y, "NO");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x, y-1));
-        tmp = this.getAdj(x, y, "NE");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x+1, y-1));
-        tmp = this.getAdj(x, y, "E");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x+1, y));
-        tmp = this.getAdj(x, y, "SE");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x, y+1));
-        tmp = this.getAdj(x, y, "SO");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x-1, y+1));
-        tmp = this.getAdj(x, y, "O");
-        if (tmp != null && tmp.getInsects().size()>0) neighbours.add(new HexCoordinate(x-1, y));
-        return neighbours;
-    }
-
     public HexGrid clone()
     {
         return new HexGrid(this);
+    }
+
+    public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
+        // Make the move
+        Insect insect = getCell(from.getX(), from.getY()).getTopInsect();
+        this.removeCell(from.getX(), from.getY());
+        this.addCell(to.getX(), to.getY(), insect);
+
+        // Check connectivity
+        boolean isConnected = isHiveConnected();
+
+        // Undo the move
+        this.removeCell(to.getX(), to.getY());
+        this.addCell(from.getX(), from.getY(), insect);
+
+        return isConnected;
+    }
+
+    public boolean isHiveConnected() {
+        HexCoordinate start = this.getGrid().keySet().iterator().next();
+        HashSet<HexCoordinate> visited = new HashSet<>();
+
+        if (this.getGrid().isEmpty()) {
+            return true;
+        }
+
+        dfs(start, visited);
+
+        // If all insects were visited, the hive is connected
+        return visited.size() == this.getGrid().size();
+    }
+
+    private void dfs(HexCoordinate current, HashSet<HexCoordinate> visited) {
+        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+        int[] dx = {0, 1, 1, 0, -1, -1};
+        int[] dy = {-1, -1, 0, 1, 1, 0};
+
+        visited.add(current);
+
+        for (int i = 0; i < directions.length; i++) {
+            HexCoordinate next = new HexCoordinate(current.getX() + dx[i], current.getY() + dy[i]);
+            if (!visited.contains(next) && this.getAdj(current.getX(), current.getY(), directions[i]) != null) {
+                dfs(next, visited);
+            }
+        }
     }
 
 }

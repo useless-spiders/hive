@@ -34,7 +34,7 @@ public class Grasshopper extends Insect {
                     nx += dx[i];
                     ny += dy[i];
                 }
-                if (nx != x || ny != y) {
+                if ((nx != x || ny != y) && g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(nx + dx[i], ny + dy[i]))) {
                     nx += dx[i];
                     ny += dy[i];
                     coordinates.add(new HexCoordinate(nx, ny));
