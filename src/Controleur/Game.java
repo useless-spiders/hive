@@ -4,18 +4,19 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.Insect.Insect;
 import Modele.Player;
+import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
 import Vue.Display;
 import Vue.HexMetrics;
-import Pattern.InsectButtonListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends MouseAdapter implements InsectButtonListener {
+public class Game extends MouseAdapter implements GameActionHandler {
     private HexGrid hexGrid;
     private Display display;
     private Player player1;
@@ -25,10 +26,11 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
     private Insect insect;
+    private ArrayList<HexCoordinate> playableCells = new ArrayList<>();
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid, null);
+        Game g = new Game(hexGrid);
         Display display = new Display(hexGrid, frame, g);
 
         g.setDisplay(display);
@@ -36,9 +38,8 @@ public class Game extends MouseAdapter implements InsectButtonListener {
         display.addMouseListener(g);
     }
 
-    public Game(HexGrid hexGrid, Display display) {
+    public Game(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
-        this.display = display;
         this.initPlayers();
 
         this.isInsectButtonClicked = false;
@@ -51,7 +52,7 @@ public class Game extends MouseAdapter implements InsectButtonListener {
         this.display = display;
     }
 
-    public void switchPlayer() {
+    private void switchPlayer() {
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -69,20 +70,35 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     }
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
-        if (cell.getTopInsect().getPlayer().equals(currentPlayer)) {
-            isInsectCellClicked = true;
-            hexClicked = hexagon;
+        Insect insect = cell.getTopInsect();
+        if (insect.getPlayer().equals(currentPlayer)) {
+            if (isInsectCellClicked == false) {
+                isInsectCellClicked = true;
+                hexClicked = hexagon;
+                playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                // rendre transparente la case
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+            } else {
+                isInsectCellClicked = false;
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                this.playableCells.clear();
+            }
         } else {
             System.out.println("Ce pion ne vous appartient pas");
         }
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-        hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
-        hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
-        isInsectCellClicked = false;
-        switchPlayer();
+        if(playableCells.contains(hexagon)) {
+            HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
+            hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
+            isInsectCellClicked = false;
+            playableCells.clear();
+            switchPlayer();
+        } else {
+            System.out.println("Déplacement impossible");
+        }
     }
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
@@ -99,7 +115,7 @@ public class Game extends MouseAdapter implements InsectButtonListener {
         }
     }
 
-    public HexCoordinate findHex(int mouseX, int mouseY) {
+    private HexCoordinate findHex(int mouseX, int mouseY) {
         double minDistance = Double.MAX_VALUE;
         int closestRow = 0;
         int closestCol = 0;
@@ -128,11 +144,11 @@ public class Game extends MouseAdapter implements InsectButtonListener {
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
 
-        if (cell != null) {
+        if (cell != null) { //on clique sur une case existante
             handleCellClicked(cell, hexagon);
-        } else if (isInsectCellClicked) {
+        } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);
-        } else if (isInsectButtonClicked) {
+        } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
             handleInsectPlaced(hexagon);
         }
 
@@ -140,9 +156,19 @@ public class Game extends MouseAdapter implements InsectButtonListener {
     }
 
     @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
     public void clicInsectButton(Insect insect) {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.insect = insect;
+    }
+
+    @Override
+    public ArrayList<HexCoordinate> getPlayableCells() {
+        return playableCells;
     }
 }

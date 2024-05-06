@@ -2,7 +2,7 @@ package Vue;
 
 import Modele.Insect.*;
 import Modele.Player;
-import Pattern.InsectButtonListener;
+import Pattern.GameActionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DisplayBankInsects {
-    private InsectButtonListener listener;
+    private GameActionHandler controller;
 
-    public DisplayBankInsects(JFrame frame, InsectButtonListener listener) {
-        this.listener = listener;
+    public DisplayBankInsects(JFrame frame, GameActionHandler controller) {
+        this.controller = controller;
 
         JPanel panelButtonBankJ1 = createButtonPanel(new Player("white"));
         JPanel panelButtonBankJ2 = createButtonPanel(new Player("black"));
@@ -37,7 +37,7 @@ public class DisplayBankInsects {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listener.clicInsectButton(insect);
+                controller.clicInsectButton(insect);
             }
         });
         return button;
