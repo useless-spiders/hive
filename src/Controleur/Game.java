@@ -72,11 +72,17 @@ public class Game extends MouseAdapter implements GameActionHandler {
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
         Insect insect = cell.getTopInsect();
         if (insect.getPlayer().equals(currentPlayer)) {
-            isInsectCellClicked = true;
-            hexClicked = hexagon;
-            playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
-            // rendre transparente la case
-            display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+            if (isInsectCellClicked == false) {
+                isInsectCellClicked = true;
+                hexClicked = hexagon;
+                playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                // rendre transparente la case
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+            } else {
+                isInsectCellClicked = false;
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                this.playableCells.clear();
+            }
         } else {
             System.out.println("Ce pion ne vous appartient pas");
         }
@@ -156,12 +162,9 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     @Override
     public void clicInsectButton(Insect insect) {
-        this.playableCells.clear();
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.insect = insect;
-        display.getDisplayHexGrid().resetOpacity();
-        display.repaint();
     }
 
     @Override
