@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,6 +29,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private HexCoordinate hoverCell;
     private Insect insect;
     private ArrayList<HexCoordinate> playableCells = new ArrayList<>();
+    private int lastX, lastY;
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
@@ -138,14 +138,17 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
+        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
+
         ArrayList<HexCoordinate> playableCells = getPlayableCells();
 
-        HexCoordinate newHoverCell = findHex(e.getX(), e.getY());
+        HexCoordinate newHoverCell = findHex(mouseX, mouseY);
         if (!newHoverCell.equals(hoverCell) && playableCells.contains(newHoverCell)) {
             hoverCell = newHoverCell;
             display.getDisplayPlayableHex().updateHoverCell(hoverCell);
 
-            /*System.out.println("Mouse moved to: " + e.getX() + ", " + e.getY());*/
+            /*System.out.println("Mouse moved to: " + mouseX + ", " + mouseY);*/
 
             display.repaint();
         }
@@ -153,8 +156,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+        lastX = e.getX();
+        lastY = e.getY();
+        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
+        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
@@ -166,6 +171,17 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
             handleInsectPlaced(hexagon);
         }
+
+        display.repaint();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int dx = e.getX() - lastX;
+        int dy = e.getY() - lastY;
+        HexMetrics.updateViewPosition(dx, dy);
+        lastX = e.getX();
+        lastY = e.getY();
 
         display.repaint();
     }
