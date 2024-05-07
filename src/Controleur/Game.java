@@ -56,6 +56,11 @@ public class Game extends MouseAdapter implements GameActionHandler {
     public Player getPlayer2() {
         return player2;
     }
+    
+    public HexGrid getGrid()
+    {
+        return this.hexGrid;
+    }
 
     public void setDisplay(Display display) {
         this.display = display;
