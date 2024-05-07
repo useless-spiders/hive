@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.HexCell;
 import Modele.Player;
 import Structures.HexCoordinate;
 
@@ -46,9 +47,20 @@ public class Ant extends Insect {
             HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
             if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) 
             {
-                //on teste les trous
-                if(((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) != null)) || ((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) != null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null)))
-                {
+                String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
+                HexCell adj = g.getAdj(x, y, dir);
+                HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
+
+                if(original.getX() == x + dx[i] && original.getY() == y + dy[i]){
+                    if(adj != null){
+                        adj = null;
+                    }
+                    if(adj2 != null){
+                        adj2 = null;
+                    }
+                }
+
+                if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
                     visited.add(next);
                     getPossibleMovesCellsHelper(next.getX(), next.getY(), g, coordinates, original, visited);
                 }

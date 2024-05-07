@@ -1,5 +1,6 @@
 package Modele.Insect;
 
+import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.Player;
 import Structures.HexCoordinate;
@@ -48,13 +49,21 @@ public class Spider extends Insect {
                 HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
                 if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
                     //il faut qu il y ait un cote non vide pour glisser et un cote non vide sinon on va dans un trou
-                    if(((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) != null)) || ((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) != null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null)))
-                    {
-                        if(((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) != null) || (g.getAdj(x, y, directions[((i+1)%directions.length)]) != null)))
-                        {
-                            visited.add(next);
-                            getPossibleMovesCellsHelper(next.getX(), next.getY(), g, steps - 1, coordinates, original, visited);
+                    String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
+                    HexCell adj = g.getAdj(x, y, dir);
+                    HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
+
+                    if(original.getX() == x + dx[i] && original.getY() == y + dy[i]){
+                        if(adj != null){
+                            adj = null;
                         }
+                        if(adj2 != null){
+                            adj2 = null;
+                        }
+                    }
+                    if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
+                        visited.add(next);
+                        getPossibleMovesCellsHelper(next.getX(), next.getY(), g, steps - 1, coordinates, original, visited);
                     }
                 }
             }

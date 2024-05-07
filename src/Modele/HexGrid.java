@@ -79,6 +79,22 @@ public class HexGrid  implements Cloneable {
         return new HexGrid(this);
     }
 
+    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate cell) {
+        HashMap<HexCoordinate, String> neighbors = new HashMap<>();
+        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+        int[] dx = {0, 1, 1, 0, -1, -1};
+        int[] dy = {-1, -1, 0, 1, 1, 0};
+
+        for (int i = 0; i < directions.length; i++) {
+            HexCoordinate next = new HexCoordinate(cell.getX() + dx[i], cell.getY() + dy[i]);
+            if (this.getAdj(cell.getX(), cell.getY(), directions[i]) != null) {
+                neighbors.put(next, directions[i]);
+            }
+        }
+
+        return neighbors;
+    }
+
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
         // Create a copy of the current HexGrid
         HexGrid tempGrid = this.clone();
