@@ -26,6 +26,7 @@ public class Ant extends Insect {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
         if (canMoveInsect(g, this.getPlayer())) {
+            visited.add(new HexCoordinate(x, y));
             getPossibleMovesCellsHelper(x, y, g, coordinates, new HexCoordinate(x, y), visited);
         }
         return coordinates;

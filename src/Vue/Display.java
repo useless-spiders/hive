@@ -3,6 +3,7 @@ package Vue;
 import Modele.HexGrid;
 import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
+import Structures.Log;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class Display extends JComponent {
         try {
             return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
         } catch (Exception e) {
-            System.err.println("Impossible de charger l'image " + nom);
+            Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
             return null;
         }
@@ -36,7 +37,7 @@ public class Display extends JComponent {
         try {
             return new ImageIcon(IMAGE_PATH + nom);
         } catch (Exception e) {
-            System.err.println("Impossible de charger l'image " + nom);
+            Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
             return null;
         }

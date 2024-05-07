@@ -7,6 +7,7 @@ import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
+import Structures.Log;
 import Vue.Display;
 import Vue.HexMetrics;
 
@@ -68,7 +69,6 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
-        System.out.println(currentPlayer.getColor() + " player's turn");
     }
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
@@ -86,7 +86,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
                 this.playableCells.clear();
             }
         } else {
-            System.out.println("Ce pion ne vous appartient pas");
+            Log.addMessage("Ce pion ne vous appartient pas");
         }
     }
 
@@ -99,7 +99,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
             playableCells.clear();
             switchPlayer();
         } else {
-            System.out.println("Déplacement impossible");
+            Log.addMessage("Déplacement impossible");
         }
     }
 
@@ -114,13 +114,13 @@ public class Game extends MouseAdapter implements GameActionHandler {
                     isInsectButtonClicked = false;
                     switchPlayer();
                 } else {
-                    System.out.println("Vous devez placer l'abeille avant de placer d'autres insectes");
+                    Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                 }
             } else {
-                System.out.println("Vous avez atteint le nombre maximum de pions de ce type");
+                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
             }
         } else {
-            System.out.println("Ce n'est pas votre tour");
+            Log.addMessage("Ce n'est pas votre tour");
         }
     }
 

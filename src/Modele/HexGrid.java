@@ -80,19 +80,20 @@ public class HexGrid  implements Cloneable {
     }
 
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
-        // Make the move
-        Insect insect = getCell(from.getX(), from.getY()).getTopInsect();
-        this.removeCell(from.getX(), from.getY());
-        this.addCell(to.getX(), to.getY(), insect);
+        // Create a copy of the current HexGrid
+        HexGrid tempGrid = this.clone();
 
-        // Check connectivity
-        boolean isConnected = isHiveConnected();
+        // Make the move on the temporary grid
+        Insect insect = tempGrid.getCell(from.getX(), from.getY()).getTopInsect();
+        tempGrid.removeCell(from.getX(), from.getY());
 
-        // Undo the move
-        this.removeCell(to.getX(), to.getY());
-        this.addCell(from.getX(), from.getY(), insect);
+        boolean isConnected1 = tempGrid.isHiveConnected();
 
-        return isConnected;
+        tempGrid.addCell(to.getX(), to.getY(), insect);
+
+        boolean isConnected2 = tempGrid.isHiveConnected();
+
+        return isConnected1 && isConnected2;
     }
 
     public boolean isHiveConnected() {
