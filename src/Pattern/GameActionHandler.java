@@ -10,4 +10,6 @@ public interface GameActionHandler {
     void clicInsectButton(Insect insect);
     Player getCurrentPlayer();
     ArrayList<HexCoordinate> getPlayableCells();
+    Player getPlayer1();
+    Player getPlayer2();
 }

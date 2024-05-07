@@ -49,6 +49,13 @@ public class Game extends MouseAdapter implements GameActionHandler {
         this.hexClicked = null;
     }
 
+    public Player getPlayer1(){
+        return player1;
+    }
+
+    public Player getPlayer2(){
+        return player2;
+    }
 
     public void setDisplay(Display display) {
         this.display = display;

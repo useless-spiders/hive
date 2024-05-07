@@ -15,8 +15,8 @@ public class DisplayBankInsects {
     public DisplayBankInsects(JFrame frame, GameActionHandler controller) {
         this.controller = controller;
 
-        JPanel panelButtonBankJ1 = createButtonPanel(new Player("white"));
-        JPanel panelButtonBankJ2 = createButtonPanel(new Player("black"));
+        JPanel panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
+        JPanel panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
 
         frame.getContentPane().add(panelButtonBankJ1, BorderLayout.SOUTH);
         frame.getContentPane().add(panelButtonBankJ2, BorderLayout.NORTH);
