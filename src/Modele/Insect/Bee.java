@@ -30,7 +30,11 @@ public class Bee extends Insect {
 
             for (int i = 0; i < directions.length; i++) {
                 if (g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(x + dx[i], y + dy[i]))) {
-                    coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                    //on teste les trous
+                    if((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null))
+                    {
+                        coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                    }
                 }
             }
         }

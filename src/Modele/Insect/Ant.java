@@ -26,7 +26,7 @@ public class Ant extends Insect {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            visited.add(new HexCoordinate(x, y));
+            //visited.add(new HexCoordinate(x, y));
             getPossibleMovesCellsHelper(x, y, g, coordinates, new HexCoordinate(x, y), visited);
         }
         return coordinates;
@@ -44,9 +44,14 @@ public class Ant extends Insect {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-            if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
-                visited.add(next);
-                getPossibleMovesCellsHelper(next.getX(), next.getY(), g, coordinates, original, visited);
+            if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) 
+            {
+                //on teste les trous
+                if((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) || (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null))
+                {
+                    visited.add(next);
+                    getPossibleMovesCellsHelper(next.getX(), next.getY(), g, coordinates, original, visited);
+                }
             }
         }
     }

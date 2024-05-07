@@ -47,8 +47,12 @@ public class Spider extends Insect {
             for (int i = 0; i < directions.length; i++) {
                 HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
                 if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
-                    visited.add(next);
-                    getPossibleMovesCellsHelper(next.getX(), next.getY(), g, steps - 1, coordinates, original, visited);
+                    //on teste les trous
+                    if((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) || (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null))
+                    {
+                        visited.add(next);
+                        getPossibleMovesCellsHelper(next.getX(), next.getY(), g, steps - 1, coordinates, original, visited);
+                    }
                 }
             }
         }
