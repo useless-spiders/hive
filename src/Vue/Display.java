@@ -44,16 +44,23 @@ public class Display extends JComponent {
 
     public Display(HexGrid grid, JFrame frame, GameActionHandler controller){
         this.frame = frame;
+        displayGame(controller, grid);
+    }
+
+    public void cleanFrame(){
+        frame.getContentPane().removeAll();
+    }
+
+    public void diplayMenuSelectLvl(){
+        this.displayConfigParty = new DisplayConfigParty(frame);
+    }
+
+    public void displayGame(GameActionHandler controller, HexGrid grid){
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(frame);
-
-        //TODO:afficher la config de la partie
-        //frame.getContentPane().removeAll();
-        //this.displayConfigParty = new DisplayConfigParty(frame);
-
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
