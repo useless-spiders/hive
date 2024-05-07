@@ -63,6 +63,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     private void switchPlayer() {
         this.currentPlayer.incrementTurn();
+        Log.addMessage("tour " + this.currentPlayer.getTurn());
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -112,19 +113,27 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-            if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
-                if(this.insect instanceof Bee) {
-                    currentPlayer.setBeePlaced(true);
-                }
-                if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
-                    hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
-                    isInsectButtonClicked = false;
-                    switchPlayer();
+
+            if(this.insect.isPlacable(hexagon, hexGrid))
+            {
+                if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
+                    if(this.insect instanceof Bee) {
+                        currentPlayer.setBeePlaced(true);
+                    }
+                    if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
+                        hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                        isInsectButtonClicked = false;
+                        switchPlayer();
+                    } else {
+                        Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
+                    }
                 } else {
-                    Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
+                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
                 }
-            } else {
-                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+            }
+            else
+            {
+                Log.addMessage("placement impossible !");
             }
         } else {
             Log.addMessage("Ce n'est pas votre tour");
