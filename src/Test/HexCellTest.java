@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class HexCellTest {
 
-    private Player player = new Player("white");
+    private Player player = new Player("white", "Inspecteur blanco");
 
     @Test
     public void testAddAndRemoveInsect() {

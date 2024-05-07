@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class InsectTest {
 
-    private Player player = new Player("white");
+    private Player player = new Player("white", "Inspecteur blanco");
 
     @Test
     public void testBee() {
