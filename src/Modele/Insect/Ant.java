@@ -47,7 +47,7 @@ public class Ant extends Insect {
             if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) 
             {
                 //on teste les trous
-                if((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) || (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null))
+                if(((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) == null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) != null)) || ((g.getAdj(x, y, directions[((((i-1)%directions.length)+directions.length)%directions.length)]) != null) && (g.getAdj(x, y, directions[((i+1)%directions.length)]) == null)))
                 {
                     visited.add(next);
                     getPossibleMovesCellsHelper(next.getX(), next.getY(), g, coordinates, original, visited);
