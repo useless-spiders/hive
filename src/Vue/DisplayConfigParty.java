@@ -1,6 +1,7 @@
 package Vue;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class DisplayConfigParty {
@@ -9,19 +10,29 @@ public class DisplayConfigParty {
     private static final String IA_HARD = "ia difficile";
 
     public DisplayConfigParty(JFrame frame){
+        //TODO : à modifier pour afficher proprement les boutons au centre. Il faudra supprimer les setBorder à therme mais c'est utile pour voie les contenaires.
+        JPanel positionnementPanel = new JPanel();
+        positionnementPanel.setLayout(new GridLayout(4, 4));
+        positionnementPanel.setBorder(new LineBorder(Color.BLUE, 2));
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
-        JPanel column1 = createColumn("J1");
-        JPanel column2 = createColumn("J2");
-
+        JPanel column1 = createColumn("j1");
+        JPanel column2 = createColumn("j2");
         mainPanel.add(Box.createHorizontalGlue());
         mainPanel.add(column1);
         mainPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         mainPanel.add(column2);
         mainPanel.add(Box.createHorizontalGlue());
 
-        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        positionnementPanel.add(createLabel(""));
+        positionnementPanel.add(createLabel(""));
+        positionnementPanel.add(createLabel(""));
+        positionnementPanel.add(createLabel(""));
+        positionnementPanel.add(mainPanel);
+
+        frame.getContentPane().add(positionnementPanel, BorderLayout.NORTH);
     }
 
     private JPanel createColumn(String label) {
