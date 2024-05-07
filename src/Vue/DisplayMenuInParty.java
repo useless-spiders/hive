@@ -22,9 +22,6 @@ public class DisplayMenuInParty {
         mainPanel.add(Box.createHorizontalGlue());
 
         frame.getContentPane().add(mainPanel, BorderLayout.EAST);
-
-
-
     }
 
     private JPanel createColumn() {

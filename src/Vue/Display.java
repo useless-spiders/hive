@@ -51,7 +51,9 @@ public class Display extends JComponent {
         this.displayMenuInParty = new DisplayMenuInParty(frame);
 
         //TODO:afficher la config de la partie
+        //frame.getContentPane().removeAll();
         //this.displayConfigParty = new DisplayConfigParty(frame);
+
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
