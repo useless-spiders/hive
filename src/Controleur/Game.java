@@ -13,10 +13,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends MouseAdapter implements GameActionHandler {
+public class Game extends MouseAdapter implements GameActionHandler, MouseMotionListener {
     private HexGrid hexGrid;
     private Display display;
     private Player player1;
@@ -25,6 +27,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
     private boolean isInsectButtonClicked;
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
+    private HexCoordinate hoverCell;
     private Insect insect;
     private ArrayList<HexCoordinate> playableCells = new ArrayList<>();
 
@@ -36,6 +39,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
         g.setDisplay(display);
         frame.add(display);
         display.addMouseListener(g);
+        display.addMouseMotionListener(g);
     }
 
     public Game(HexGrid hexGrid) {
@@ -117,23 +121,34 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
     private HexCoordinate findHex(int mouseX, int mouseY) {
         double minDistance = Double.MAX_VALUE;
-        int closestRow = 0;
-        int closestCol = 0;
+        HexCoordinate closestHex = null;
 
-        for (int x = -22; x <= 22; x++) {  // Ajustez ces valeurs en fonction de la taille de votre grille
+        for (int x = -22; x <= 22; x++) {
             for (int y = -22; y <= 22; y++) {
                 Point center = HexMetrics.calculateHexCenter(x, y);
                 double distance = Point.distance(mouseX, mouseY, center.x, center.y);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    closestRow = x;
-                    closestCol = y;
+                    closestHex = new HexCoordinate(x, y);
                 }
             }
         }
+        return closestHex;
+    }
 
-        //System.out.println("L'hexagone cliqué est: row=" + closestRow + ", col=" + closestCol);
-        return new HexCoordinate(closestRow, closestCol);
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        ArrayList<HexCoordinate> playableCells = getPlayableCells();
+
+        HexCoordinate newHoverCell = findHex(e.getX(), e.getY());
+        if (!newHoverCell.equals(hoverCell) && playableCells.contains(newHoverCell)) {
+            hoverCell = newHoverCell;
+            display.getDisplayPlayableHex().updateHoverCell(hoverCell);
+
+            /*System.out.println("Mouse moved to: " + e.getX() + ", " + e.getY());*/
+
+            display.repaint();
+        }
     }
 
     @Override

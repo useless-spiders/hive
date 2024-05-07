@@ -57,6 +57,9 @@ public class Display extends JComponent {
     public DisplayHexGrid getDisplayHexGrid() {
         return displayHexGrid;
     }
+    public DisplayPlayableHex getDisplayPlayableHex() {
+        return displayPlayableHex;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
