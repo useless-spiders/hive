@@ -30,6 +30,10 @@ public class HexGrid  implements Cloneable {
         return this.grid.get(new HexCoordinate(x, y));
     }
 
+    public HexCell getCell(HexCoordinate h) {
+        return this.grid.get(h);
+    }
+
     public int getInsectsCount()
     {
         return this.insectsCount;
