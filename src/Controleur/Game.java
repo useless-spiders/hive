@@ -2,10 +2,12 @@ package Controleur;
 
 import Modele.HexCell;
 import Modele.HexGrid;
+import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
+import Structures.Log;
 import Vue.Display;
 import Vue.HexMetrics;
 
@@ -47,12 +49,21 @@ public class Game extends MouseAdapter implements GameActionHandler {
         this.hexClicked = null;
     }
 
+    public Player getPlayer1(){
+        return player1;
+    }
+
+    public Player getPlayer2(){
+        return player2;
+    }
 
     public void setDisplay(Display display) {
         this.display = display;
     }
 
     private void switchPlayer() {
+        this.currentPlayer.incrementTurn();
+        Log.addMessage("tour " + this.currentPlayer.getTurn());
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -66,7 +77,6 @@ public class Game extends MouseAdapter implements GameActionHandler {
 
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
-        System.out.println(currentPlayer.getColor() + " player's turn");
     }
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
@@ -75,7 +85,7 @@ public class Game extends MouseAdapter implements GameActionHandler {
             if (isInsectCellClicked == false) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.playableCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
@@ -84,12 +94,12 @@ public class Game extends MouseAdapter implements GameActionHandler {
                 this.playableCells.clear();
             }
         } else {
-            System.out.println("Ce pion ne vous appartient pas");
+            Log.addMessage("Ce pion ne vous appartient pas");
         }
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        if(playableCells.contains(hexagon)) {
+        if (playableCells.contains(hexagon)) {
             HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
             hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
@@ -97,21 +107,36 @@ public class Game extends MouseAdapter implements GameActionHandler {
             playableCells.clear();
             switchPlayer();
         } else {
-            System.out.println("Déplacement impossible");
+            Log.addMessage("Déplacement impossible");
         }
     }
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-            if(currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
-                hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
-                isInsectButtonClicked = false;
-                switchPlayer();
-            } else {
-                System.out.println("Vous avez atteint le nombre maximum de pions de ce type");
+
+            if(this.insect.isPlacable(hexagon, hexGrid))
+            {
+                if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
+                    if(this.insect instanceof Bee) {
+                        currentPlayer.setBeePlaced(true);
+                    }
+                    if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
+                        hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                        isInsectButtonClicked = false;
+                        switchPlayer();
+                    } else {
+                        Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
+                    }
+                } else {
+                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                }
+            }
+            else
+            {
+                Log.addMessage("placement impossible !");
             }
         } else {
-            System.out.println("Ce n'est pas votre tour");
+            Log.addMessage("Ce n'est pas votre tour");
         }
     }
 

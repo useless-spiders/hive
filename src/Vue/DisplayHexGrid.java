@@ -23,12 +23,6 @@ public class DisplayHexGrid extends JComponent {
         this.repaint();
     }
 
-    public void resetOpacity() {
-        isInsectCellClicked = false;
-        hexClicked = null;
-        this.repaint();
-    }
-
 
     public void paintHexGrid(Graphics g) {
         // PROBLEME REPERE : L'AFFICHAGE SE FAIT 2 FOIS, test avec l'affichage de "OK"
