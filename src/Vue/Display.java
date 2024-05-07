@@ -47,7 +47,7 @@ public class Display extends JComponent {
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
-        this.displayPlayableHex = new DisplayPlayableHex();
+        this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(frame);
 
         //TODO:afficher la config de la partie
@@ -64,6 +64,6 @@ public class Display extends JComponent {
     protected void paintComponent(Graphics g) {
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
         this.displayHexGrid.paintHexGrid(g);
-        this.displayPlayableHex.paintPlayableHex(g, controller);
+        this.displayPlayableHex.paintPlayableHex(g);
     }
 }
