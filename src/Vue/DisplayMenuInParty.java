@@ -40,7 +40,22 @@ public class DisplayMenuInParty {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
+        switch (text){
+            case ANNULER:
+                break;
+            case REFAIRE:
+                break;
+            case REPLAY:
+                break;
+            case SELECTLVL:
+                break;
+            case RULES:
+                break;
+            case QUIT:
+                break;
+            default:
+                System.out.println("Erreur dans les boutons du menu en haut à droite du jeu");
+        }
         // il faudra ajouter un listener
         return button;
     }
