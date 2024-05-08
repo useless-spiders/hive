@@ -45,24 +45,41 @@ public class Display extends JComponent {
 
     public Display(HexGrid grid, JFrame frame, GameActionHandler controller){
         this.frame = frame;
+        displayGame(controller, grid);
+    }
+
+    public void cleanFrame(){
+        frame.getContentPane().removeAll();
+    }
+
+    public void diplayMenuSelectLvl(){
+        this.displayConfigParty = new DisplayConfigParty(frame);
+    }
+
+    public void displayGame(GameActionHandler controller, HexGrid grid){
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
-        this.displayPlayableHex = new DisplayPlayableHex();
+        this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(frame);
-
-        //TODO:afficher la config de la partie
-        //this.displayConfigParty = new DisplayConfigParty(frame);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
         return displayHexGrid;
     }
+    public DisplayPlayableHex getDisplayPlayableHex() {
+        return displayPlayableHex;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
-        this.displayHexGrid.paintHexGrid(g);
-        this.displayPlayableHex.paintPlayableHex(g, controller);
+
+        //Pour le "dragging"
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.translate(HexMetrics.getViewOffsetX(), HexMetrics.getViewOffsetY());
+
+        this.displayHexGrid.paintHexGrid(g2d);
+        this.displayPlayableHex.paintPlayableHex(g2d);
     }
 }
