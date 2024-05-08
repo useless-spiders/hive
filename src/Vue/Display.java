@@ -61,7 +61,7 @@ public class Display extends JComponent {
         this.displayBankInsects = new DisplayBankInsects(frame, controller);
         this.controller = controller;
         this.displayPlayableHex = new DisplayPlayableHex(controller);
-        this.displayMenuInParty = new DisplayMenuInParty(frame);
+        this.displayMenuInParty = new DisplayMenuInParty(frame, controller);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {

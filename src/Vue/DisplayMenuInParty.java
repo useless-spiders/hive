@@ -1,5 +1,6 @@
 package Vue;
 
+import Pattern.GameActionHandler;
 import Structures.Log;
 
 import javax.swing.*;
@@ -12,9 +13,11 @@ public class DisplayMenuInParty {
     private static final String SELECTLVL = "choix du niveau";
     private static final String RULES = "regle";
     private static final String QUIT = "quitter";
+    private GameActionHandler controller;
 
-    public DisplayMenuInParty(JFrame frame) {
+    public DisplayMenuInParty(JFrame frame, GameActionHandler controller) {
         JPanel mainPanel = new JPanel();
+        this.controller = controller;
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         JPanel column1 = createColumn();
@@ -44,8 +47,10 @@ public class DisplayMenuInParty {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text){
             case ANNULER:
+                button.addActionListener(e -> controller.cancelAction());
                 break;
             case REFAIRE:
+                button.addActionListener(e -> controller.redoAction());
                 break;
             case REPLAY:
                 break;

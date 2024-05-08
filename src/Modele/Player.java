@@ -1,6 +1,7 @@
 package Modele;
 
 import Modele.Insect.Insect;
+import Structures.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,10 @@ public class Player {
         this.turn++;
     }
 
+    public void decrementTurn() {
+        this.turn--;
+    }
+
     public boolean isBeePlaced() {
         return beePlaced;
     }
@@ -52,6 +57,14 @@ public class Player {
         }
         insectsCount.put(insectClass, count + 1);
         return true;
+    }
+
+    public void removeInsect(Insect insect) {
+        Class<? extends Insect> insectClass = insect.getClass();
+        if(insectsCount.containsKey(insectClass)){
+            int count = insectsCount.get(insectClass);
+            insectsCount.put(insectClass, count - 1);
+        }
     }
 
     @Override

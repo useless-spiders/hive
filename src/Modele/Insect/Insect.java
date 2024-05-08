@@ -45,7 +45,7 @@ public abstract class Insect {
     }
 
     public boolean isPlacable(HexCoordinate placement, HexGrid g) {
-        Log.addMessage("tour insect :" + this.getPlayer().getTurn());
+        Log.addMessage("tour insect :" + this.getPlayer().getTurn() + " " + this.getPlayer().getName());
         if (this.getPlayer().getTurn() > 1) {
             if (g.getCell(placement.getX(), placement.getY()) != null) {
                 return false;

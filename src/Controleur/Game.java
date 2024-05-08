@@ -1,7 +1,9 @@
 package Controleur;
 
+import Modele.Action;
 import Modele.HexCell;
 import Modele.HexGrid;
+import Modele.History;
 import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Modele.Player;
@@ -30,8 +32,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private HexCoordinate hexClicked;
     private HexCoordinate hoverCell;
     private Insect insect;
-    private ArrayList<HexCoordinate> playableCells = new ArrayList<>();
+    private ArrayList<HexCoordinate> playableCells;
     private int lastX, lastY;
+    private History history;
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
@@ -51,6 +54,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
         this.hexClicked = null;
+        this.playableCells = new ArrayList<>();
+        this.history = new History();
     }
 
     public Player getPlayer1() {
@@ -124,11 +129,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleInsectMoved(HexCoordinate hexagon) {
         if (playableCells.contains(hexagon)) {
             HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            Insect movedInsect = cell.getTopInsect();
             hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), cell.getTopInsect());
+            hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
             isInsectCellClicked = false;
             playableCells.clear();
             switchPlayer();
+
+            // Add the move to the history
+            Modele.Action action = new Action(movedInsect, hexClicked, hexagon);
+            history.addAction(action);
         } else {
             Log.addMessage("Déplacement impossible");
         }
@@ -146,6 +156,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                         hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
                         isInsectButtonClicked = false;
                         switchPlayer();
+
+                        // Add the placement to the history
+                        Action action = new Action(this.insect, null, hexagon);
+                        history.addAction(action);
                     } else {
                         Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                     }
@@ -243,5 +257,52 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     @Override
     public ArrayList<HexCoordinate> getPlayableCells() {
         return playableCells;
+    }
+
+    @Override
+    public void cancelAction(){
+        Action action = history.cancelAction();
+        if(action != null){
+            this.currentPlayer.decrementTurn();
+            switchPlayer();
+            this.currentPlayer.decrementTurn();
+
+            HexCoordinate from = action.getPreviousCoor();
+            HexCoordinate to = action.getNewCoor();
+            Insect insect = action.getInsect();
+            if(from == null){
+                currentPlayer.removeInsect(insect);
+                if(insect instanceof Bee){
+                    currentPlayer.setBeePlaced(false);
+                }
+                hexGrid.removeCell(to.getX(), to.getY());
+            } else {
+                hexGrid.removeCell(to.getX(), to.getY());
+                hexGrid.addCell(from.getX(), from.getY(), insect);
+            }
+            display.repaint();
+        }
+    }
+
+    @Override
+    public void redoAction() {
+        Action action = history.redoAction();
+        if (action != null) {
+            switchPlayer();
+            HexCoordinate from = action.getPreviousCoor();
+            HexCoordinate to = action.getNewCoor();
+            Insect insect = action.getInsect();
+            if (from == null) {
+                currentPlayer.canAddInsect(insect);
+                if (insect instanceof Bee) {
+                    currentPlayer.setBeePlaced(true);
+                }
+                hexGrid.addCell(to.getX(), to.getY(), insect);
+            } else {
+                hexGrid.removeCell(from.getX(), from.getY());
+                hexGrid.addCell(to.getX(), to.getY(), insect);
+            }
+            display.repaint();
+        }
     }
 }

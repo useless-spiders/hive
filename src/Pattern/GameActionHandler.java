@@ -1,5 +1,6 @@
 package Pattern;
 
+import Modele.History;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Structures.HexCoordinate;
@@ -16,4 +17,8 @@ public interface GameActionHandler {
     Player getPlayer1();
 
     Player getPlayer2();
+
+    void cancelAction();
+
+    void redoAction();
 }
