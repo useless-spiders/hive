@@ -53,11 +53,11 @@ public class Spider extends Insect {
                     HexCell adj = g.getAdj(x, y, dir);
                     HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
 
-                    if(original.getX() == x + dx[i] && original.getY() == y + dy[i]){
-                        if(adj != null){
+                    if (original.getX() == x + dx[i] && original.getY() == y + dy[i]) {
+                        if (adj != null) {
                             adj = null;
                         }
-                        if(adj2 != null){
+                        if (adj2 != null) {
                             adj2 = null;
                         }
                     }

@@ -9,18 +9,18 @@ import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 
-public class HexGrid  implements Cloneable {
+public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
     private int insectsCount;
 
     public HexGrid() {
         this.grid = new HashMap<>();
-        this.insectsCount=0;
+        this.insectsCount = 0;
     }
 
     public HexGrid(HexGrid h) {
         this.grid = new HashMap<>(h.grid);
-        this.insectsCount=h.insectsCount;
+        this.insectsCount = h.insectsCount;
     }
 
     public Map<HexCoordinate, HexCell> getGrid() {
@@ -35,8 +35,7 @@ public class HexGrid  implements Cloneable {
         return this.grid.get(h);
     }
 
-    public int getInsectsCount()
-    {
+    public int getInsectsCount() {
         return this.insectsCount;
     }
 
@@ -46,7 +45,7 @@ public class HexGrid  implements Cloneable {
         this.grid.put(new HexCoordinate(x, y), cell);
     }
 
-    public void removeCell(int x, int y){
+    public void removeCell(int x, int y) {
         this.grid.remove(new HexCoordinate(x, y));
     }
 
@@ -79,8 +78,7 @@ public class HexGrid  implements Cloneable {
         return getCell(x, y);
     }
 
-    public HexGrid clone()
-    {
+    public HexGrid clone() {
         return new HexGrid(this);
     }
 
