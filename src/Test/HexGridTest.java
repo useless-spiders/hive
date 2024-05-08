@@ -4,9 +4,7 @@ package Test;
 import Modele.HexCell;
 import Modele.HexGrid;
 
-import Modele.Insect.Ant;
-import Modele.Insect.Insect;
-import Modele.Insect.Spider;
+import Modele.Insect.*;
 import Modele.Player;
 import org.junit.Test;
 
@@ -17,6 +15,8 @@ public class HexGridTest {
     private Player player = new Player("white");
     private Insect ant = new Ant(player);
     private Insect spider = new Spider(player);
+    private Insect bee = new Bee(player);
+    private Insect beetle = new Beetle(player);
 
     @Test
     public void testGridEmpty() {
@@ -57,19 +57,19 @@ public class HexGridTest {
         HexCell cell2 = new HexCell();
         cell2.addInsect(ant);
         HexCell cell3 = new HexCell();
-        cell3.addInsect(ant);
+        cell3.addInsect(bee);
         HexCell cell4 = new HexCell();
-        cell4.addInsect(ant);
+        cell4.addInsect(beetle);
         HexCell cell5 = new HexCell();
-        cell5.addInsect(ant);
+        cell5.addInsect(beetle);
         HexCell cell6 = new HexCell();
-        cell6.addInsect(ant);
+        cell6.addInsect(spider);
         grid.addCell(0, -1, ant);
         grid.addCell(1, -1, ant);
-        grid.addCell(1, 0, ant);
-        grid.addCell(0, 1, ant);
-        grid.addCell(-1, 1, ant);
-        grid.addCell(-1, 0, ant);
+        grid.addCell(1, 0, bee);
+        grid.addCell(0, 1, beetle);
+        grid.addCell(-1, 1, beetle);
+        grid.addCell(-1, 0, spider);
         assertEquals(cell1, grid.getAdj(0, 0, "NO"));
         assertEquals(cell2, grid.getAdj(0, 0, "NE"));
         assertEquals(cell3, grid.getAdj(0, 0, "E"));

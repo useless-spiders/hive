@@ -19,15 +19,30 @@ public class Beetle extends Insect{
     }
 
     @Override
-    public ArrayList<HexCoordinate> playableCells(int x, int y, HexGrid g){//A faire
-        ArrayList<HexCoordinate> jouable = new ArrayList<>();
-        if(g.getAdj(x, y, "NO") == null)jouable.add(new HexCoordinate(x, y-1));
-        if(g.getAdj(x, y, "NE") == null)jouable.add(new HexCoordinate(x+1, y-1));
-        if(g.getAdj(x, y, "E") == null)jouable.add(new HexCoordinate(x+1, y));
-        if(g.getAdj(x, y, "SE") == null)jouable.add(new HexCoordinate(x, y+1));
-        if(g.getAdj(x, y, "SO") == null)jouable.add(new HexCoordinate(x-1, y+1));
-        if(g.getAdj(x, y, "O") == null)jouable.add(new HexCoordinate(x-1, y));
+    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
+        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
+        if (canMoveInsect(g, this.getPlayer())) {
+            String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+            int[] dx = {0, 1, 1, 0, -1, -1};
+            int[] dy = {-1, -1, 0, 1, 1, 0};
 
-        return jouable;
+            for (int i = 0; i < directions.length; i++) {
+                if(g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(x + dx[i], y + dy[i]))){
+                    String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
+                    if(((g.getAdj(x, y, dir) != null) || (g.getAdj(x, y, directions[((i+1)%directions.length)]) != null)))
+                    {
+                        coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                    }
+                }
+            }
+        }
+        return coordinates;
+    }
+
+    @Override
+    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
+        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
+
+        return coordinates;
     }
 }

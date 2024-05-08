@@ -9,10 +9,30 @@ import java.util.Objects;
 public class Player {
     private String color;
     private Map<Class<? extends Insect>, Integer> insectsCount;
+    private String name;
+    private int turn;
+    private boolean beePlaced = false;
 
     public Player(String color) {
         this.color = color;
         this.insectsCount = new HashMap<>();
+        this.turn = 1;
+    }
+
+    public int getTurn() {
+        return this.turn;
+    }
+
+    public void incrementTurn() {
+        this.turn++;
+    }
+
+    public boolean isBeePlaced() {
+        return beePlaced;
+    }
+
+    public void setBeePlaced(boolean beePlaced) {
+        this.beePlaced = beePlaced;
     }
 
     public String getColor() {
@@ -20,7 +40,6 @@ public class Player {
     }
 
     public boolean canAddInsect(Insect insect) {
-        System.out.println(insectsCount);
         Class<? extends Insect> insectClass = insect.getClass();
         int count = insectsCount.getOrDefault(insectClass, 0);
         if (count >= insect.getMax()) {
