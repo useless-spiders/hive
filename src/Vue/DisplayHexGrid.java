@@ -20,13 +20,10 @@ public class DisplayHexGrid extends JComponent {
     public void updateInsectClickState(boolean isInsectCellClicked, HexCoordinate hexClicked) {
         this.isInsectCellClicked = isInsectCellClicked;
         this.hexClicked = hexClicked;
-        this.repaint();
     }
-
 
     public void paintHexGrid(Graphics g) {
         // PROBLEME REPERE : L'AFFICHAGE SE FAIT 2 FOIS, test avec l'affichage de "OK"
-        //System.out.println("OK");
 
         Graphics2D g2d = (Graphics2D) g;
 
