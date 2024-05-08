@@ -173,8 +173,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             hoverCell = newHoverCell;
             display.getDisplayPlayableHex().updateHoverCell(hoverCell);
 
-            /*System.out.println("Mouse moved to: " + mouseX + ", " + mouseY);*/
-
             display.repaint();
         }
     }

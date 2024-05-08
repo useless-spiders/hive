@@ -10,14 +10,11 @@ public class HexMetrics {
     public static int viewOffsetY;
 
     public static void updateViewPosition(int dx, int dy) {
-        /*System.out.println("Décalage avant: X=" + viewOffsetX + ", Y=" + viewOffsetY);*/
         viewOffsetX += dx;
         viewOffsetY += dy;
-        /*System.out.println("Décalage après: X=" + viewOffsetX + ", Y=" + viewOffsetY);*/
     }
 
     public static Point calculateHexCenter(int x, int y) {
-        //System.out.println("test viewOffset dans calculateHexCenter : X=" + viewOffsetX + ", Y=" + viewOffsetY);
         int coordX = y * HEX_WIDTH/2 + x * HEX_WIDTH;
         int coordY = y * 3*HEX_HEIGHT/4;
         return new Point(coordX, coordY);

@@ -1,5 +1,7 @@
 package Vue;
 
+import Structures.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -54,7 +56,7 @@ public class DisplayMenuInParty {
             case QUIT:
                 break;
             default:
-                System.out.println("Erreur dans les boutons du menu en haut à droite du jeu");
+                Log.addMessage("Erreur dans les boutons du menu en haut à droite du jeu");
         }
         // il faudra ajouter un listener
         return button;
