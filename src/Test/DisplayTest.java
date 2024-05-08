@@ -10,7 +10,8 @@ import java.awt.*;
 import static org.junit.Assert.assertNotNull;
 
 public class DisplayTest {
-    private Player player = new Player("white");
+    private Player player = new Player("white", "Inspecteur blanco");
+
     @Test
     public void testLoadImage() {
         Image image = Display.loadImage(new Spider(player).getImageName());

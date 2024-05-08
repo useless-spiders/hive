@@ -66,6 +66,21 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void switchPlayer() {
+        boolean lPlayer1 = this.hexGrid.checkLoser(player1);
+        boolean lPlayer2 = this.hexGrid.checkLoser(player2);
+        if (lPlayer1 && lPlayer2) {
+            Log.addMessage("Egalité !");
+            return;
+        } else {
+            if (lPlayer1) {
+                Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                return;
+            } else if (lPlayer2) {
+                Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                return;
+            }
+        }
+
         this.currentPlayer.incrementTurn();
         Log.addMessage("tour " + this.currentPlayer.getTurn());
         if (this.currentPlayer == this.player1) {
@@ -76,8 +91,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void initPlayers() {
-        this.player1 = new Player("white");
-        this.player2 = new Player("black");
+        this.player1 = new Player("white", "Inspecteur blanco");
+        this.player2 = new Player("black", "Barbe noir");
 
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;

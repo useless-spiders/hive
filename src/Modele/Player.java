@@ -13,10 +13,19 @@ public class Player {
     private int turn;
     private boolean beePlaced = false;
 
-    public Player(String color) {
+    public Player(String color, String name) {
         this.color = color;
         this.insectsCount = new HashMap<>();
         this.turn = 1;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getTurn() {

@@ -73,7 +73,7 @@ public class Display extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawString("Tour de : " + this.controller.getCurrentPlayer().getColor(), 10, 10);
+        g.drawString("Tour de : " + this.controller.getCurrentPlayer().getName(), 10, 10);
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
