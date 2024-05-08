@@ -53,12 +53,17 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.hexClicked = null;
     }
 
-    public Player getPlayer1(){
+    public Player getPlayer1() {
         return player1;
     }
 
-    public Player getPlayer2(){
+    public Player getPlayer2() {
         return player2;
+    }
+    
+    public HexGrid getGrid()
+    {
+        return this.hexGrid;
     }
 
     public void setDisplay(Display display) {
@@ -66,8 +71,22 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void switchPlayer() {
+        boolean lPlayer1 = this.hexGrid.checkLoser(player1);
+        boolean lPlayer2 = this.hexGrid.checkLoser(player2);
+        if (lPlayer1 && lPlayer2) {
+            Log.addMessage("Egalité !");
+            return;
+        } else {
+            if (lPlayer1) {
+                Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                return;
+            } else if (lPlayer2) {
+                Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                return;
+            }
+        }
+
         this.currentPlayer.incrementTurn();
-        Log.addMessage("tour " + this.currentPlayer.getTurn());
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -76,8 +95,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void initPlayers() {
-        this.player1 = new Player("white");
-        this.player2 = new Player("black");
+        this.player1 = new Player("white", "Inspecteur blanco");
+        this.player2 = new Player("black", "Barbe noir");
 
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
@@ -118,10 +137,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
 
-            if(this.insect.isPlacable(hexagon, hexGrid))
-            {
+            if (this.insect.isPlacable(hexagon, hexGrid)) {
                 if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
-                    if(this.insect instanceof Bee) {
+                    if (this.insect instanceof Bee) {
                         currentPlayer.setBeePlaced(true);
                     }
                     if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
@@ -134,9 +152,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 } else {
                     Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
                 }
-            }
-            else
-            {
+            } else {
                 Log.addMessage("placement impossible !");
             }
         } else {

@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
-    private Player player = new Player("white");
+    private Player player = new Player("white", "Inspecteur blanco");
     private Insect ant = new Ant(player);
     private Insect spider = new Spider(player);
     private Insect bee = new Bee(player);
@@ -33,7 +33,7 @@ public class HexGridTest {
     public void testGetType() {
         HexCell cell = new HexCell();
         cell.addInsect(spider);
-        for(int i = 0; i < cell.getInsects().size(); i++) {
+        for (int i = 0; i < cell.getInsects().size(); i++) {
             assertEquals(spider, cell.getInsects().get(i));
         }
     }

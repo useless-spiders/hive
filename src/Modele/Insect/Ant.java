@@ -27,7 +27,6 @@ public class Ant extends Insect {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            //visited.add(new HexCoordinate(x, y));
             getPossibleMovesCellsHelper(x, y, g, coordinates, new HexCoordinate(x, y), visited);
         }
         return coordinates;
@@ -45,17 +44,16 @@ public class Ant extends Insect {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-            if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) 
-            {
+            if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
                 String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
                 HexCell adj = g.getAdj(x, y, dir);
                 HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
 
-                if(original.getX() == x + dx[i] && original.getY() == y + dy[i]){
-                    if(adj != null){
+                if (original.getX() == x + dx[i] && original.getY() == y + dy[i]) {
+                    if (adj != null) {
                         adj = null;
                     }
-                    if(adj2 != null){
+                    if (adj2 != null) {
                         adj2 = null;
                     }
                 }
