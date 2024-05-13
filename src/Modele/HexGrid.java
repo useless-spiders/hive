@@ -78,7 +78,22 @@ public class HexGrid implements Cloneable {
     }
 
     public HexGrid clone() {
-        return new HexGrid(this);
+        HexGrid newGrid = new HexGrid();
+        newGrid.insectsCount = this.insectsCount;
+
+        for (Map.Entry<HexCoordinate, HexCell> entry : this.grid.entrySet()) {
+            HexCoordinate coordinate = entry.getKey();
+            HexCell cell = entry.getValue();
+
+            HexCell newCell = new HexCell();
+            for (Insect insect : cell.getInsects()) {
+                newCell.addInsect(insect.clone()); // Assumes Insect class has a clone method
+            }
+
+            newGrid.grid.put(coordinate, newCell);
+        }
+
+        return newGrid;
     }
 
     public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate cell) {
@@ -103,11 +118,20 @@ public class HexGrid implements Cloneable {
 
         // Make the move on the temporary grid
         Insect insect = tempGrid.getCell(from.getX(), from.getY()).getTopInsect();
-        tempGrid.removeCell(from.getX(), from.getY());
+
+        if (tempGrid.getCell(from.getX(), from.getY()).getInsects().size() <= 1) {
+            tempGrid.removeCell(from.getX(), from.getY());
+        } else {
+            tempGrid.getCell(from.getX(), from.getY()).removeTopInsect();
+        }
 
         boolean isConnected1 = tempGrid.isHiveConnected();
 
-        tempGrid.addCell(to.getX(), to.getY(), insect);
+        if(tempGrid.getCell(to.getX(), to.getY()) == null){
+            tempGrid.addCell(to.getX(), to.getY(), insect);
+        } else {
+            tempGrid.getCell(to.getX(), to.getY()).addInsect(insect);
+        }
 
         boolean isConnected2 = tempGrid.isHiveConnected();
 
