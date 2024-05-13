@@ -20,7 +20,7 @@ public class HexCellTest {
      * Teste l'ajout et la suppression d'insectes dans une cellule
      */
     @Test
-    public void testAddAndRemoveInsect() {
+    public void testAddAndRemoveTopInsect() {
         HexCell cell = new HexCell();
         Insect ant = new Ant(player);
         Insect bee = new Bee(player);
@@ -32,8 +32,8 @@ public class HexCellTest {
         assertTrue(cell.getInsects().contains(bee));
 
         // Teste la suppression d'un insecte
-        cell.removeInsect(ant);
-        assertFalse(cell.getInsects().contains(ant));
+        cell.removeTopInsect();
+        assertFalse(cell.getInsects().contains(bee));
 
         // Vérifie que la cellule n'est pas vide
         assertFalse(cell.getInsects().isEmpty());
@@ -60,7 +60,7 @@ public class HexCellTest {
         assertNotEquals(cell1, cell2);
 
         // Teste l'égalité entre deux cellules après suppression d'un insecte
-        cell2.removeInsect(ant);
+        cell2.removeTopInsect();
         assertNotEquals(cell1, cell2);
     }
 }

@@ -15,8 +15,8 @@ public class HexCell {
         this.insects.add(insect);
     }
 
-    public void removeInsect(Insect insect) {
-        this.insects.remove(insect);
+    public void removeTopInsect() {
+        this.insects.remove(this.insects.size() - 1);
     }
 
     public ArrayList<Insect> getInsects() {
