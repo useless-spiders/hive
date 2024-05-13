@@ -14,12 +14,15 @@ import java.nio.file.Paths;
 
 public class Display extends JComponent {
     private static final String IMAGE_PATH = "res/Images/";
+    private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
+    private DisplayOpening displayOpening;
+
     private JFrame frame;
     private GameActionHandler controller;
 
@@ -38,6 +41,16 @@ public class Display extends JComponent {
             return new ImageIcon(IMAGE_PATH + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static Image loadBackground(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(BACKGROUND_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger le fond " + nom);
             System.exit(1);
             return null;
         }
@@ -62,6 +75,7 @@ public class Display extends JComponent {
         this.controller = controller;
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(frame, controller);
+        this.displayOpening = new DisplayOpening(frame);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
@@ -73,6 +87,15 @@ public class Display extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
+        //Afficher l'opening
+        /*this.displayOpening.paintOpening(g);
+        Font font = new Font("Times New Roman", Font.BOLD, 20); // Définir la police, le style et la taille
+        g.setFont(font); // Appliquer la police définie
+        String text = "Tour de : " + this.controller.getCurrentPlayer().getName();
+        int x = 30; // Position x
+        int y = 15; // Position y
+        g.drawString(text, x, y);*/
+
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getName(), 10, 10);
 
         //Pour le "dragging"
