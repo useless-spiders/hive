@@ -100,4 +100,20 @@ public class HexGridTest {
         assertEquals(cell6, grid.getAdj(0, 0, "O"));
     }
 
+    /**
+     * Teste la vérification de la victoire
+     */
+    @Test
+    public void testLoser(){
+        assertFalse(grid.checkLoser(player));
+        grid.addCell(0, -1, ant); // NO
+        grid.addCell(1, -1, ant); // NE
+        grid.addCell(0, 0, bee); // Center
+        grid.addCell(1, 0, beetle); // E
+        grid.addCell(0, 1, beetle); // SE
+        grid.addCell(-1, 1, spider); // SO
+        grid.addCell(-1, 0, spider); // O
+        assertTrue(grid.checkLoser(player));
+    }
+
 }
