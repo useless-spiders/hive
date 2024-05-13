@@ -11,7 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Classe de test pour l'historique des actions
+ * Classe de test pour l'historique des moves
  */
 public class HistoryTest {
     private History history;
@@ -23,41 +23,41 @@ public class HistoryTest {
      * Teste l'ajout d'une action dans l'historique
      */
     @Test
-    public void testAddAction() {
+    public void testAddMove() {
         history = new History();
-        // Création des actions
+        // Création des moves
         move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
         move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
 
-        // Ajout des actions
-        history.addAction(move1);
-        history.addAction(move2);
+        // Ajout des moves
+        history.addMove(move1);
+        history.addMove(move2);
 
-        // Vérification de l'ajout des actions
+        // Vérification de l'ajout des moves
         assertFalse(history.getHistory().isEmpty());
         assertEquals(move2, history.getHistory().peek());
     }
 
     /**
-     * Teste l'annulation d'une action
+     * Teste l'annulation d'une move
      */
     @Test
-    public void testCancelAction() {
+    public void testCancelMove() {
         history = new History();
-        // Création des actions
+        // Création des moves
         move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
         move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
 
-        // Ajout des actions
-        history.addAction(move1);
-        history.addAction(move2);
+        // Ajout des moves
+        history.addMove(move1);
+        history.addMove(move2);
 
-        // Vérification de l'annulation des actions
-        Move cancelledMove2 = history.cancelAction();
+        // Vérification de l'annulation des moves
+        Move cancelledMove2 = history.cancelMove();
 
         assertFalse(history.getHistory().isEmpty());
 
-        Move cancelledMove1 = history.cancelAction();
+        Move cancelledMove1 = history.cancelMove();
 
         assertTrue(history.getHistory().isEmpty());
 
@@ -69,28 +69,28 @@ public class HistoryTest {
     }
 
     /**
-     * Teste la possibilité de refaire une action
+     * Teste la possibilité de refaire une move
      */
     @Test
-    public void testRedoAction() {
+    public void testRedoMove() {
         history = new History();
-        // Création des actions
+        // Création des moves
         move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
         move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
 
-        // Vérification de la possibilité de refaire une action
+        // Vérification de la possibilité de refaire une move
         assertFalse(history.canRedo());
 
-        // Ajout des actions
-        history.addAction(move1);
-        history.addAction(move2);
+        // Ajout des moves
+        history.addMove(move1);
+        history.addMove(move2);
 
-        // Annulation d'une action
-        history.cancelAction();
+        // Annulation d'une move
+        history.cancelMove();
         assertTrue(history.canRedo());
 
-        // Vérification pour refaire une action
-        Move redoMove2 = history.redoAction();
+        // Vérification pour refaire une move
+        Move redoMove2 = history.redoMove();
 
         assertFalse(history.getHistory().isEmpty());
         assertEquals(move2, redoMove2);

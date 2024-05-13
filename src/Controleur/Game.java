@@ -137,7 +137,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
             // Add the move to the history
             Move move = new Move(movedInsect, hexClicked, hexagon);
-            history.addAction(move);
+            history.addMove(move);
         } else {
             Log.addMessage("Déplacement impossible");
         }
@@ -160,7 +160,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
                         // Add the placement to the history
                         Move move = new Move(this.insect, null, hexagon);
-                        history.addAction(move);
+                        history.addMove(move);
                     } else {
                         Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                     }
@@ -277,8 +277,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public void cancelAction() {
-        Move move = history.cancelAction();
+    public void cancelMove() {
+        Move move = history.cancelMove();
         if (move != null) {
             this.currentPlayer.decrementTurn();
             switchPlayer();
@@ -302,8 +302,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public void redoAction() {
-        Move move = history.redoAction();
+    public void redoMove() {
+        Move move = history.redoMove();
         if (move != null) {
             HexCoordinate from = move.getPreviousCoor();
             HexCoordinate to = move.getNewCoor();

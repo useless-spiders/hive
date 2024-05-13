@@ -13,12 +13,12 @@ public class History {
         this.redo = new Stack<>();
     }
 
-    public void addAction(Move move) {
+    public void addMove(Move move) {
         history.push(move);
         redo.clear();
     }
 
-    public Move cancelAction() {
+    public Move cancelMove() {
         if (canCancel()) {
             Move move = history.pop();
             redo.push(move);
@@ -39,7 +39,7 @@ public class History {
         return !redo.isEmpty();
     }
 
-    public Move redoAction() {
+    public Move redoMove() {
         if (canRedo()) {
             Move move = redo.pop();
             history.push(move);
