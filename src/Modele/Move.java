@@ -3,12 +3,12 @@ package Modele;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 
-public class Action {
+public class Move {
     private Insect insect;
     private HexCoordinate previousCoor;
     private HexCoordinate newCoor;
 
-    public Action(Insect insect, HexCoordinate previousCoor, HexCoordinate newCoor) {
+    public Move(Insect insect, HexCoordinate previousCoor, HexCoordinate newCoor) {
         this.insect = insect;
         this.previousCoor = previousCoor;
         this.newCoor = newCoor;

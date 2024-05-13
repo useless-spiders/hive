@@ -17,7 +17,7 @@ public interface GameActionHandler {
 
     Player getPlayer2();
 
-    void cancelAction();
+    void cancelMove();
 
-    void redoAction();
+    void redoMove();
 }

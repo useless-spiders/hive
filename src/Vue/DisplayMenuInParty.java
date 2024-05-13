@@ -47,10 +47,10 @@ public class DisplayMenuInParty {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text){
             case ANNULER:
-                button.addActionListener(e -> controller.cancelAction());
+                button.addActionListener(e -> controller.cancelMove());
                 break;
             case REFAIRE:
-                button.addActionListener(e -> controller.redoAction());
+                button.addActionListener(e -> controller.redoMove());
                 break;
             case REPLAY:
                 break;

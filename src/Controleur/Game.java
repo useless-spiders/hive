@@ -1,6 +1,6 @@
 package Controleur;
 
-import Modele.Action;
+import Modele.Move;
 import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.History;
@@ -136,8 +136,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             switchPlayer();
 
             // Add the move to the history
-            Modele.Action action = new Action(movedInsect, hexClicked, hexagon);
-            history.addAction(action);
+            Move move = new Move(movedInsect, hexClicked, hexagon);
+            history.addMove(move);
         } else {
             Log.addMessage("Déplacement impossible");
         }
@@ -159,8 +159,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                         switchPlayer();
 
                         // Add the placement to the history
-                        Action action = new Action(this.insect, null, hexagon);
-                        history.addAction(action);
+                        Move move = new Move(this.insect, null, hexagon);
+                        history.addMove(move);
                     } else {
                         Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                     }
@@ -251,7 +251,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectCellClicked = false;
         this.insect = insect;
         this.playableCells.clear();
-        if(insect.getPlayer().equals(currentPlayer)){
+        if(insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)){
             if(this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty())
             {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
@@ -277,16 +277,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public void cancelAction() {
-        Action action = history.cancelAction();
-        if (action != null) {
+    public void cancelMove() {
+        Move move = history.cancelMove();
+        if (move != null) {
             this.currentPlayer.decrementTurn();
             switchPlayer();
             this.currentPlayer.decrementTurn();
 
-            HexCoordinate from = action.getPreviousCoor();
-            HexCoordinate to = action.getNewCoor();
-            Insect insect = action.getInsect();
+            HexCoordinate from = move.getPreviousCoor();
+            HexCoordinate to = move.getNewCoor();
+            Insect insect = move.getInsect();
 
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(false);
@@ -302,12 +302,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public void redoAction() {
-        Action action = history.redoAction();
-        if (action != null) {
-            HexCoordinate from = action.getPreviousCoor();
-            HexCoordinate to = action.getNewCoor();
-            Insect insect = action.getInsect();
+    public void redoMove() {
+        Move move = history.redoMove();
+        if (move != null) {
+            HexCoordinate from = move.getPreviousCoor();
+            HexCoordinate to = move.getNewCoor();
+            Insect insect = move.getInsect();
 
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(true);
