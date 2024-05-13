@@ -67,10 +67,4 @@ public class Ant extends Insect {
         }
     }
 
-    @Override
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
-        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-
-        return coordinates;
-    }
 }

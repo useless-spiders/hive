@@ -40,10 +40,4 @@ public class Bee extends Insect {
         }
         return coordinates;
     }
-
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) { //A faire
-        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-
-        return coordinates;
-    }
 }

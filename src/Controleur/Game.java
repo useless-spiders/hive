@@ -155,6 +155,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                     if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
                         hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
                         isInsectButtonClicked = false;
+                        playableCells.clear();
                         switchPlayer();
 
                         // Add the placement to the history
@@ -250,6 +251,17 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectCellClicked = false;
         this.insect = insect;
         this.playableCells.clear();
+        if(this.currentPlayer.getTurn() <= 1)
+        {
+            Log.addMessage(" debut :tour " + this.currentPlayer.getTurn());
+            this.playableCells.clear();
+        }
+        else
+        {
+            Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
+            //MODIF
+            this.playableCells = insect.getPossibleInsertionCells(hexGrid);
+        }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
         display.repaint();
     }
