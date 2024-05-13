@@ -61,6 +61,24 @@ public abstract class Insect {
         return possibleInsertionCells;
     }
 
+    public ArrayList<HexCoordinate> getPossibleInsertionCellT1(HexGrid g){
+        ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
+        Set<HexCoordinate> coordinates = g.getGrid().keySet();
+        int x,y;
+        for(HexCoordinate h : coordinates)
+        {
+            x = h.getX();
+            y = h.getY();
+            possibleInsertionCells.add(new HexCoordinate(x,y-1));
+            possibleInsertionCells.add(new HexCoordinate(x+1,y-1));
+            possibleInsertionCells.add(new HexCoordinate(x+1,y));
+            possibleInsertionCells.add(new HexCoordinate(x,y+1));
+            possibleInsertionCells.add(new HexCoordinate(x-1,y+1));
+            possibleInsertionCells.add(new HexCoordinate(x-1,y));
+        }
+        return possibleInsertionCells;
+    }
+
     public String getImageName() {
         return this.getClass().getSimpleName() + "_" + this.player.getColor() + ".png";
     }
