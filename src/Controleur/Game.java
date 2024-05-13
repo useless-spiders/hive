@@ -5,6 +5,7 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.History;
 import Modele.Insect.Bee;
+import Modele.Insect.Beetle;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
@@ -116,16 +117,21 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
         Insect insect = cell.getTopInsect();
         if (insect.getPlayer().equals(currentPlayer)) {
-            if (isInsectCellClicked == false) {
+            if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
-                // rendre transparente la case
-                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                playableCells = insect.getPossibleMovesCells(hexagon.getX(), hexagon.getY(), hexGrid);
+                // rendre transparente la case (ajouter condition de s'il y a un ou plusieurs insectes dans la cellule cliquée)
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexagon);
             } else {
-                isInsectCellClicked = false;
-                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-                this.playableCells.clear();
+                HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+                if (cellClicked.getTopInsect().getClass() == Beetle.class) { //On clique sur la case d'arrivée d'un scarabée
+                    handleInsectMoved(hexagon);
+                } else { //On clique sur un insecte déjà sélectionné
+                    isInsectCellClicked = false;
+                    display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                    this.playableCells.clear();
+                }
             }
         } else {
             Log.addMessage("Ce pion ne vous appartient pas");
@@ -134,10 +140,23 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void handleInsectMoved(HexCoordinate hexagon) {
         if (playableCells.contains(hexagon)) {
-            HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-            Insect movedInsect = cell.getTopInsect();
-            hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
+            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            Insect movedInsect = cellClicked.getTopInsect();
+
+            /*hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());*/
+
+            cellClicked.removeTopInsect();
+            if (cellClicked.getInsects().isEmpty()) {
+                hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
+            }
+
+            if (hexGrid.getCell(hexagon) != null) {
+                hexGrid.getCell(hexagon).addInsect(movedInsect);
+            } else {
+                hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
+            }
+
+            /*hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);*/
             isInsectCellClicked = false;
             playableCells.clear();
             switchPlayer();
@@ -226,7 +245,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
 
-        if (cell != null) { //on clique sur une case existante
+        if (cell != null) { //on clique sur une case existante pour la déplacer
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);
