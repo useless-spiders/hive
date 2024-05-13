@@ -34,6 +34,9 @@ public class Beetle extends Insect {
                     if (((g.getAdj(x, y, dir) != null) || (g.getAdj(x, y, directions[((i + 1) % directions.length)]) != null))) {
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
+                    if((g.getAdj(x, y, directions[i]) != null)){
+                        coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                    }
                 }
             }
         }
