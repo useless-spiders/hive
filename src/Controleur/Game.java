@@ -125,7 +125,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexagon);
             } else {
                 HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-                if (cellClicked.getTopInsect().getClass() == Beetle.class) { //On clique sur la case d'arrivée d'un scarabée
+                if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur la case d'arrivée d'un scarabée
                     handleInsectMoved(hexagon);
                 } else { //On clique sur un insecte déjà sélectionné
                     isInsectCellClicked = false;
@@ -246,7 +246,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
-
         if (cell != null) { //on clique sur une case existante pour la déplacer
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
