@@ -1,5 +1,6 @@
 package Vue;
 
+import Pattern.GameActionHandler;
 import Structures.Log;
 
 import javax.swing.*;
@@ -13,17 +14,25 @@ public class DisplayMenuInParty {
     private static final String RULES = "regle";
     private static final String QUIT = "quitter";
 
-    public DisplayMenuInParty(JFrame frame) {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    public GameActionHandler controller;
+    private JPanel panelGame;
+
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
+        this.panelGame = panelGame;
+        this.controller = controller;
+        JPanel column1 = createColumn();
+
+        gbc.gridx = GridBagConstraints.RELATIVE; // Pour placer la colonne à droite du composant précédent
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHEAST; // Pour placer la colonne dans le coin en haut à droite
+        gbc.insets = new Insets(10, 10, 10, 10); // Ajouter des marges pour un meilleur espacement
+        panelGame.add(column1, gbc);
+        /*this.panelGame = panelGame;
+        this.controller = controller;
+        this.frame = frame;
 
         JPanel column1 = createColumn();
-        mainPanel.add(Box.createHorizontalGlue());
-        mainPanel.add(column1);
-        //mainPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        mainPanel.add(Box.createHorizontalGlue());
-
-        frame.getContentPane().add(mainPanel, BorderLayout.EAST);
+        panelGame.add(column1);*/
     }
 
     private JPanel createColumn() {

@@ -2,7 +2,6 @@ package Vue;
 
 import Modele.HexGrid;
 import Pattern.GameActionHandler;
-import Structures.HexCoordinate;
 import Structures.Log;
 
 import javax.imageio.ImageIO;
@@ -11,8 +10,7 @@ import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
-public class Display extends JComponent {
+public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     private static final String IMAGE_PATH = "res/Images/";
 
     private DisplayHexGrid displayHexGrid;
@@ -20,7 +18,6 @@ public class Display extends JComponent {
     private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
-    private JFrame frame;
     private GameActionHandler controller;
 
     public static Image loadImage(String nom) {
@@ -44,42 +41,53 @@ public class Display extends JComponent {
     }
 
     public Display(HexGrid grid, JFrame frame, GameActionHandler controller){
-        this.frame = frame;
-        displayGame(controller, grid);
+        this.controller = controller;
+        displayGame(grid);
     }
 
     public void cleanFrame(){
-        frame.getContentPane().removeAll();
+        removeAll(); // Utiliser removeAll() pour supprimer tous les composants du JPanel
     }
 
     public void diplayMenuSelectLvl(){
-        this.displayConfigParty = new DisplayConfigParty(frame);
+        this.displayConfigParty = new DisplayConfigParty((JFrame) SwingUtilities.getWindowAncestor(this));
     }
 
-    public void displayGame(GameActionHandler controller, HexGrid grid){
+    public void displayGame(HexGrid grid){
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
         this.displayHexGrid = new DisplayHexGrid(grid);
-        this.displayBankInsects = new DisplayBankInsects(frame, controller);
-        this.controller = controller;
+        this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
-        this.displayMenuInParty = new DisplayMenuInParty(frame);
+        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller);
+
+        setOpaque(false);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
         return displayHexGrid;
     }
+
     public DisplayPlayableHex getDisplayPlayableHex() {
         return displayPlayableHex;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getName(), 10, 10);
 
-        //Pour le "dragging"
+        // Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.translate(HexMetrics.getViewOffsetX(), HexMetrics.getViewOffsetY());
 
         this.displayHexGrid.paintHexGrid(g2d);
         this.displayPlayableHex.paintPlayableHex(g2d);
+
+        // Centrer le composant au milieu du GridBagConstraints
+        int x = (getWidth() - displayHexGrid.getPreferredSize().width) / 2;
+        int y = (getHeight() - displayHexGrid.getPreferredSize().height) / 2;
+        g2d.translate(x, y);
     }
 }

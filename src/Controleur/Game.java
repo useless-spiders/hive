@@ -39,9 +39,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         Display display = new Display(hexGrid, frame, g);
 
         g.setDisplay(display);
-        frame.add(display);
+
+        JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
+        container.add(display, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
+
+        frame.add(container); // Ajouter le conteneur au JFrame
+        frame.pack(); // Pack le JFrame
+
         display.addMouseListener(g);
         display.addMouseMotionListener(g);
+
     }
 
     public Game(HexGrid hexGrid) {
@@ -195,6 +202,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void mousePressed(MouseEvent e) {
+
         lastX = e.getX();
         lastY = e.getY();
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
@@ -232,6 +240,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void clicInsectButton(Insect insect) {
+        System.out.println("click bouton");
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.insect = insect;
@@ -245,3 +254,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         return playableCells;
     }
 }
+
+
+//TODO : faire un bouton pour recentrer sur le jeu
+//TODO : separer des trucs dans game, et verifier que si on enleve tout le graphique ça fonctionne toujours
