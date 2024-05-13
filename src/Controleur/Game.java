@@ -251,7 +251,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectCellClicked = false;
         this.insect = insect;
         this.playableCells.clear();
-        if(insect.getPlayer().equals(currentPlayer)){
+        if(insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)){
             if(this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty())
             {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
