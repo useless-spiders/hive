@@ -19,6 +19,7 @@ public class PlayerTest {
             this.player.addInsect(ant);
         }
         assertFalse(this.player.canAddInsect(ant));
+        assertEquals(this.player.getInsectCount(ant.getClass()), ant.getMax());
     }
 
     @Test
