@@ -9,6 +9,7 @@ import Modele.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Insect {
     private Player player;
@@ -21,7 +22,62 @@ public abstract class Insect {
 
     public abstract ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g);
 
-    public abstract ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g);
+    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g)
+    {
+        ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
+        Set<HexCoordinate> coordinates = g.getGrid().keySet();
+        for(HexCoordinate h : coordinates)
+        {
+            String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+            int[] dx = {0, 1, 1, 0, -1, -1};
+            int[] dy = {-1, -1, 0, 1, 1, 0};
+            for (int i = 0; i < dx.length; i++) 
+            {
+                if(g.getAdj(h.getX(), h.getY(), directions[i]) == null)
+                {
+                    //voisin d'une case de la grille
+                    HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
+
+                    HashMap<HexCoordinate, String> neighbors =  g.getNeighbors(current);
+                    boolean sameColor = true;
+                    Set<HexCoordinate> keys =  neighbors.keySet();
+                    if(!keys.isEmpty())
+                    {
+                        for(HexCoordinate k : keys)
+                        {
+                            if(g.getCell(k).getTopInsect().getPlayer().getColor() != this.getPlayer().getColor())
+                            {
+                                sameColor = false;
+                            }
+                        }
+                        if(sameColor)
+                        {
+                            possibleInsertionCells.add(current);
+                        }
+                    }
+                }
+            }
+        }
+        return possibleInsertionCells;
+    }
+
+    public ArrayList<HexCoordinate> getPossibleInsertionCellT1(HexGrid g){
+        ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
+        Set<HexCoordinate> coordinates = g.getGrid().keySet();
+        int x,y;
+        for(HexCoordinate h : coordinates)
+        {
+            x = h.getX();
+            y = h.getY();
+            possibleInsertionCells.add(new HexCoordinate(x,y-1));
+            possibleInsertionCells.add(new HexCoordinate(x+1,y-1));
+            possibleInsertionCells.add(new HexCoordinate(x+1,y));
+            possibleInsertionCells.add(new HexCoordinate(x,y+1));
+            possibleInsertionCells.add(new HexCoordinate(x-1,y+1));
+            possibleInsertionCells.add(new HexCoordinate(x-1,y));
+        }
+        return possibleInsertionCells;
+    }
 
     public String getImageName() {
         return this.getClass().getSimpleName() + "_" + this.player.getColor() + ".png";
@@ -45,7 +101,7 @@ public abstract class Insect {
     }
 
     public boolean isPlacable(HexCoordinate placement, HexGrid g) {
-        Log.addMessage("tour insect :" + this.getPlayer().getTurn());
+        Log.addMessage("tour insect :" + this.getPlayer().getTurn() + " " + this.getPlayer().getName());
         if (this.getPlayer().getTurn() > 1) {
             if (g.getCell(placement.getX(), placement.getY()) != null) {
                 return false;
