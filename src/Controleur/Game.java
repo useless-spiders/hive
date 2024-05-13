@@ -139,6 +139,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
+        boolean overInsect = false;
         if (playableCells.contains(hexagon)) {
             HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             Insect movedInsect = cellClicked.getTopInsect();
@@ -152,6 +153,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
             if (hexGrid.getCell(hexagon) != null) {
                 hexGrid.getCell(hexagon).addInsect(movedInsect);
+                overInsect = true;
             } else {
                 hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
             }
@@ -279,17 +281,13 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectCellClicked = false;
         this.insect = insect;
         this.playableCells.clear();
-        if(insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)){
-            if(this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty())
-            {
+        if (insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)) {
+            if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
-            }
-            else if(this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()){
+            } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
                 this.playableCells = insect.getPossibleInsertionCellT1(hexGrid);
-            }
-            else
-            {
+            } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
                 //MODIF
                 this.playableCells = insect.getPossibleInsertionCells(hexGrid);
@@ -319,10 +317,24 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(false);
             }
-            hexGrid.removeCell(to.getX(), to.getY());
+
+            if(hexGrid.getCell(to.getX(), to.getY()) != null){
+                hexGrid.getCell(to.getX(), to.getY()).removeTopInsect();
+            }
+            if(hexGrid.getCell(to.getX(), to.getY()) == null || hexGrid.getCell(to.getX(), to.getY()).getInsects().isEmpty()){
+                hexGrid.removeCell(to.getX(), to.getY());
+            }
+
+            if (from != null) {
+                if (hexGrid.getCell(from.getX(), from.getY()) != null) {
+                    hexGrid.getCell(from.getX(), from.getY()).addInsect(insect);
+                } else {
+                    hexGrid.addCell(from.getX(), from.getY(), insect);
+                }
+            }
+
             this.currentPlayer.removeInsect(insect);
             if (from != null) {
-                hexGrid.addCell(from.getX(), from.getY(), insect);
                 this.currentPlayer.addInsect(insect);
             }
             display.repaint();
@@ -340,11 +352,25 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(true);
             }
-            hexGrid.addCell(to.getX(), to.getY(), insect);
-            this.currentPlayer.addInsect(insect);
+
             if (from != null) {
-                hexGrid.removeCell(from.getX(), from.getY());
-                this.currentPlayer.removeInsect(insect);
+                if(hexGrid.getCell(from.getX(), from.getY()) != null){
+                    hexGrid.getCell(from.getX(), from.getY()).removeTopInsect();
+                }
+                if(hexGrid.getCell(from.getX(), from.getY()) == null || hexGrid.getCell(from.getX(), from.getY()).getInsects().isEmpty()){
+                    hexGrid.removeCell(from.getX(), from.getY());
+                }
+            }
+
+            if (hexGrid.getCell(to.getX(), to.getY()) != null) {
+                hexGrid.getCell(to.getX(), to.getY()).addInsect(insect);
+            } else {
+                hexGrid.addCell(to.getX(), to.getY(), insect);
+            }
+
+            this.currentPlayer.removeInsect(insect);
+            if (from != null) {
+                this.currentPlayer.addInsect(insect);
             }
             switchPlayer();
             display.repaint();
