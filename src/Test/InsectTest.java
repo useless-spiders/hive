@@ -6,10 +6,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Classe de test pour les insectes
+ */
 public class InsectTest {
 
     private Player player = new Player("white", "Inspecteur blanco");
 
+    /**
+     * Teste la création d'une abeille
+     */
     @Test
     public void testBee() {
         Insect bee = new Bee(player);
@@ -17,6 +23,9 @@ public class InsectTest {
         assertEquals("Bee_white.png", bee.getImageName());
     }
 
+    /**
+     * Teste la création d'un scarabée
+     */
     @Test
     public void testBeetle() {
         Insect beetle = new Beetle(player);
@@ -24,6 +33,9 @@ public class InsectTest {
         assertEquals("Beetle_white.png", beetle.getImageName());
     }
 
+    /**
+     * Teste la création d'une sauterelle
+     */
     @Test
     public void testGrasshopper() {
         Insect grasshopper = new Grasshopper(player);
@@ -31,6 +43,9 @@ public class InsectTest {
         assertEquals("Grasshopper_white.png", grasshopper.getImageName());
     }
 
+    /**
+     * Teste la création d'une araignée
+     */
     @Test
     public void testSpider() {
         Insect spider = new Spider(player);
@@ -38,6 +53,9 @@ public class InsectTest {
         assertEquals("Spider_white.png", spider.getImageName());
     }
 
+    /**
+     * Teste la création d'une fourmi
+     */
     @Test
     public void testAnt() {
         Insect ant = new Ant(player);
