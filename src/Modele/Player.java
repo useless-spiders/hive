@@ -49,21 +49,31 @@ public class Player {
         return color;
     }
 
+    public int getInsectCount(Class<? extends Insect> insectClass) {
+        return insectsCount.getOrDefault(insectClass, 0);
+    }
+
     public boolean canAddInsect(Insect insect) {
         Class<? extends Insect> insectClass = insect.getClass();
         int count = insectsCount.getOrDefault(insectClass, 0);
-        if (count >= insect.getMax()) {
-            return false;
-        }
+        return count < insect.getMax();
+    }
+
+    public void addInsect(Insect insect) {
+        Class<? extends Insect> insectClass = insect.getClass();
+        int count = insectsCount.getOrDefault(insectClass, 0);
         insectsCount.put(insectClass, count + 1);
-        return true;
     }
 
     public void removeInsect(Insect insect) {
         Class<? extends Insect> insectClass = insect.getClass();
         if(insectsCount.containsKey(insectClass)){
             int count = insectsCount.get(insectClass);
-            insectsCount.put(insectClass, count - 1);
+            if(count > 1){
+                insectsCount.put(insectClass, count - 1);
+            } else {
+                insectsCount.remove(insectClass);
+            }
         }
     }
 

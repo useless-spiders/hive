@@ -14,8 +14,9 @@ public class PlayerTest {
     public void testMaxInsects() {
         this.player = new Player("white", "Inspecteur blanco");
         Insect ant = new Ant(this.player);
+        assertTrue(this.player.canAddInsect(ant));
         for (int i = 0; i < ant.getMax(); i++) {
-            assertTrue(this.player.canAddInsect(ant));
+            this.player.addInsect(ant);
         }
         assertFalse(this.player.canAddInsect(ant));
     }
