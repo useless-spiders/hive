@@ -59,14 +59,21 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         this.frame = frame;
         this.controller = controller;
         displayGame(grid);
+        //displayMenuSelectLvl();
     }
 
     public void cleanFrame(){
         frame.getContentPane().removeAll();
     }
 
-    public void diplayMenuSelectLvl(){
-        this.displayConfigParty = new DisplayConfigParty(frame);
+    public void displayMenuSelectLvl(){
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.displayConfigParty = new DisplayConfigParty(this, gbc);
+    }
+
+    public void DisplayOpening(){
+        this.displayOpening = new DisplayOpening(frame);
     }
 
     public void displayGame(HexGrid grid){
@@ -76,9 +83,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller);
-
         setOpaque(false);
-        //this.displayOpening = new DisplayOpening(frame);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
