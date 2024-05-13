@@ -44,11 +44,4 @@ public class Grasshopper extends Insect {
         }
         return coordinates;
     }
-
-    @Override
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) { // A faire
-        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-        return coordinates;
-    }
-
 }

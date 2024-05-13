@@ -4,11 +4,10 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.Player;
 import Structures.HexCoordinate;
+import Structures.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Spider extends Insect {
 
@@ -44,6 +43,7 @@ public class Spider extends Insect {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
+            
 
             for (int i = 0; i < directions.length; i++) {
                 HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
@@ -53,14 +53,13 @@ public class Spider extends Insect {
                     HexCell adj = g.getAdj(x, y, dir);
                     HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
 
-                    if (original.getX() == x + dx[i] && original.getY() == y + dy[i]) {
-                        if (adj != null) {
-                            adj = null;
-                        }
-                        if (adj2 != null) {
-                            adj2 = null;
-                        }
+                    if(original.getX() == x + dx[((i-1)+dx.length)%dx.length] & original.getY() == y + dy[((i-1)+dy.length)%dy.length]){
+                        adj = null;
                     }
+                    if(original.getX() == x + dx[(i+1)%dx.length] & original.getY() == y + dy[(i+1)%dy.length]){
+                        adj2 = null;
+                    }
+
                     if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
                         visited.add(next);
                         getPossibleMovesCellsHelper(next.getX(), next.getY(), g, steps - 1, coordinates, original, visited);
@@ -70,10 +69,4 @@ public class Spider extends Insect {
         }
     }
 
-    @Override
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
-        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-
-        return coordinates;
-    }
 }
