@@ -5,29 +5,29 @@ import java.util.Stack;
 
 public class History {
 
-    private Stack<Action> history;
-    private Stack<Action> redo;
+    private Stack<Move> history;
+    private Stack<Move> redo;
 
     public History() {
         this.history = new Stack<>();
         this.redo = new Stack<>();
     }
 
-    public void addAction(Action action) {
-        history.push(action);
+    public void addMove(Move move) {
+        history.push(move);
         redo.clear();
     }
 
-    public Action cancelAction() {
+    public Move cancelMove() {
         if (canCancel()) {
-            Action action = history.pop();
-            redo.push(action);
-            return action;
+            Move move = history.pop();
+            redo.push(move);
+            return move;
         }
         return null;
     }
 
-    public Stack<Action> getHistory() {
+    public Stack<Move> getHistory() {
         return history;
     }
 
@@ -39,11 +39,11 @@ public class History {
         return !redo.isEmpty();
     }
 
-    public Action redoAction() {
+    public Move redoMove() {
         if (canRedo()) {
-            Action action = redo.pop();
-            history.push(action);
-            return action;
+            Move move = redo.pop();
+            history.push(move);
+            return move;
         }
         return null;
     }
