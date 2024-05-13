@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Classe de test pour la grille hexagonale
+ */
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
     private Player player = new Player("white", "Inspecteur blanco");
@@ -18,38 +21,57 @@ public class HexGridTest {
     private Insect bee = new Bee(player);
     private Insect beetle = new Beetle(player);
 
+    /**
+     * Teste la création d'une grille vide
+     */
     @Test
     public void testGridEmpty() {
         assert grid.getGrid().isEmpty();
     }
 
+    /**
+     * Teste l'ajout d'une cellule dans la grille
+     */
     @Test
     public void testAddCell() {
         grid.addCell(0, 0, ant);
         assert !grid.getGrid().isEmpty();
     }
 
+    /**
+     * Teste la récupération d'une cellule dans la grille
+     */
     @Test
     public void testGetType() {
         HexCell cell = new HexCell();
         cell.addInsect(spider);
-        for (int i = 0; i < cell.getInsects().size(); i++) {
-            assertEquals(spider, cell.getInsects().get(i));
-        }
+        cell.addInsect(ant);
+        assertEquals(spider, cell.getInsects().get(0));
+        assertEquals(ant, cell.getInsects().get(1));
     }
 
+    /**
+     * Teste la récupération d'une cellule dans la grille
+     */
     @Test
     public void testGetEmpty() {
         HexCell retrievedCell = grid.getCell(0, 0);
         assertNull(retrievedCell);
     }
 
+    /**
+     * Teste la récupération d'une cellule dans la grille
+     */
     @Test
     public void testClearCell() {
+        grid.addCell(0, 0, ant);
         grid.removeCell(0, 0);
         assert grid.getGrid().isEmpty();
     }
 
+    /**
+     * Teste la récupération d'une cellule adjacente
+     */
     @Test
     public void testGetAdj() {
         HexCell cell1 = new HexCell();
@@ -76,6 +98,22 @@ public class HexGridTest {
         assertEquals(cell4, grid.getAdj(0, 0, "SE"));
         assertEquals(cell5, grid.getAdj(0, 0, "SO"));
         assertEquals(cell6, grid.getAdj(0, 0, "O"));
+    }
+
+    /**
+     * Teste la vérification de la victoire
+     */
+    @Test
+    public void testLoser(){
+        assertFalse(grid.checkLoser(player));
+        grid.addCell(0, -1, ant); // NO
+        grid.addCell(1, -1, ant); // NE
+        grid.addCell(0, 0, bee); // Center
+        grid.addCell(1, 0, beetle); // E
+        grid.addCell(0, 1, beetle); // SE
+        grid.addCell(-1, 1, spider); // SO
+        grid.addCell(-1, 0, spider); // O
+        assertTrue(grid.checkLoser(player));
     }
 
 }
