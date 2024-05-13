@@ -1,7 +1,6 @@
 package Modele;
 
 import Modele.Insect.Insect;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +31,10 @@ public class Player {
         this.turn++;
     }
 
+    public void decrementTurn() {
+        this.turn--;
+    }
+
     public boolean isBeePlaced() {
         return beePlaced;
     }
@@ -44,14 +47,32 @@ public class Player {
         return color;
     }
 
+    public int getInsectCount(Class<? extends Insect> insectClass) {
+        return insectsCount.getOrDefault(insectClass, 0);
+    }
+
     public boolean canAddInsect(Insect insect) {
         Class<? extends Insect> insectClass = insect.getClass();
         int count = insectsCount.getOrDefault(insectClass, 0);
-        if (count >= insect.getMax()) {
-            return false;
-        }
+        return count < insect.getMax();
+    }
+
+    public void addInsect(Insect insect) {
+        Class<? extends Insect> insectClass = insect.getClass();
+        int count = insectsCount.getOrDefault(insectClass, 0);
         insectsCount.put(insectClass, count + 1);
-        return true;
+    }
+
+    public void removeInsect(Insect insect) {
+        Class<? extends Insect> insectClass = insect.getClass();
+        if(insectsCount.containsKey(insectClass)){
+            int count = insectsCount.get(insectClass);
+            if(count > 1){
+                insectsCount.put(insectClass, count - 1);
+            } else {
+                insectsCount.remove(insectClass);
+            }
+        }
     }
 
     @Override

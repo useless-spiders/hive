@@ -14,7 +14,7 @@ public class DisplayMenuInParty {
     private static final String RULES = "regle";
     private static final String QUIT = "quitter";
 
-    public GameActionHandler controller;
+    private GameActionHandler controller;
     private JPanel panelGame;
 
     public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
@@ -27,12 +27,6 @@ public class DisplayMenuInParty {
         gbc.anchor = GridBagConstraints.NORTHEAST; // Pour placer la colonne dans le coin en haut à droite
         gbc.insets = new Insets(10, 10, 10, 10); // Ajouter des marges pour un meilleur espacement
         panelGame.add(column1, gbc);
-        /*this.panelGame = panelGame;
-        this.controller = controller;
-        this.frame = frame;
-
-        JPanel column1 = createColumn();
-        panelGame.add(column1);*/
     }
 
     private JPanel createColumn() {
@@ -53,8 +47,10 @@ public class DisplayMenuInParty {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text){
             case ANNULER:
+                button.addActionListener(e -> controller.cancelMove());
                 break;
             case REFAIRE:
+                button.addActionListener(e -> controller.redoMove());
                 break;
             case REPLAY:
                 break;

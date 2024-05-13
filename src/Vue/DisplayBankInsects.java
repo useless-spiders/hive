@@ -14,7 +14,6 @@ public class DisplayBankInsects {
 
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
         this.controller = controller;
-        System.out.println("cocuou");
         JPanel panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
         JPanel panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
 
