@@ -1,8 +1,6 @@
 package Modele;
 
 import Modele.Insect.Insect;
-import Structures.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

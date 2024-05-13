@@ -1,6 +1,5 @@
 package Pattern;
 
-import Modele.History;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Structures.HexCoordinate;
