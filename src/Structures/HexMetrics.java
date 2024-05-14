@@ -14,9 +14,9 @@ public class HexMetrics {
         viewOffsetY += dy;
     }
 
-    public static Point hexToPixel(int x, int y) {
-        int coordX = y * HEX_WIDTH / 2 + x * HEX_WIDTH;
-        int coordY = y * 3 * HEX_HEIGHT / 4;
+    public static Point hexToPixel(HexCoordinate hex) {
+        int coordX = hex.getY() * HEX_WIDTH / 2 + hex.getX() * HEX_WIDTH;
+        int coordY = hex.getY() * 3 * HEX_HEIGHT / 4;
         return new Point(coordX, coordY);
     }
 

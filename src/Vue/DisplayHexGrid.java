@@ -33,7 +33,7 @@ public class DisplayHexGrid extends JComponent {
             HexCell cell = hexGrid.getGrid().get(coord);
             for (Insect insect : cell.getInsects()) {
                 Image insectImage = Display.loadImage(insect.getImageName());
-                Point center = HexMetrics.hexToPixel(coord.getX(), coord.getY());
+                Point center = HexMetrics.hexToPixel(coord);
 
                 if (isInsectCellClicked && hexClicked.equals(coord)) {
                     float opacity = 0.5f;

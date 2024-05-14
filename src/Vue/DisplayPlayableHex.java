@@ -11,7 +11,7 @@ public class DisplayPlayableHex extends JComponent {
     private GameActionHandler controller;
     private Image locationImage;
     private Image otherLocationImage;
-    private HexCoordinate hoverCell;
+    private HexCoordinate hoverCoord;
 
     public DisplayPlayableHex(GameActionHandler controller) {
         this.controller = controller;
@@ -19,16 +19,16 @@ public class DisplayPlayableHex extends JComponent {
         this.otherLocationImage = Display.loadImage("Other_location.png");
     }
 
-    public void updateHoverCell(HexCoordinate hoverCell) {
-        this.hoverCell = hoverCell;
+    public void updateHoverCell(HexCoordinate hoverCoord) {
+        this.hoverCoord = hoverCoord;
     }
 
     public void paintPlayableHex(Graphics g) {
         // Affiche les cases jouables
-        for (HexCoordinate cell : controller.getPlayableCells()) {
-            Point center = HexMetrics.hexToPixel(cell.getX(), cell.getY());
+        for (HexCoordinate coord : controller.getPlayableCells()) {
+            Point center = HexMetrics.hexToPixel(coord);
 
-            if (cell.equals(hoverCell)) {
+            if (coord.equals(hoverCoord)) {
                 g.drawImage(locationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
             } else {
                 g.drawImage(otherLocationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
