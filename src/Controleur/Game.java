@@ -14,6 +14,7 @@ import Structures.Log;
 import Vue.Display;
 import Structures.HexMetrics;
 import Vue.DisplayOpening;
+import Vue.MainDisplay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,38 +39,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private int lastX, lastY;
     private History history;
 
-    public static void start(JFrame frameOpening) {
-
-        /*affichage de l'opening*/
-        DisplayOpening displayOpening = new DisplayOpening(frameOpening);
-        frameOpening.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameOpening.setSize(1280, 720);
-        frameOpening.setVisible(false);
-
-        /*affichage du jeu*/
-        JFrame frameGame = new JFrame();
-
-        frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setSize(1280, 720);
-        frameGame.setVisible(true);
-
-        HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid);
-        Display display = new Display(hexGrid, frameGame, g);
-
-
-        g.setDisplay(display);
-
-        display.addMouseListener(g);
-        display.addMouseMotionListener(g);
-
-
-    }
-
-    public void menuToGame(JFrame frameOpening,JFrame frameGame){
-        frameOpening.setVisible(false);
-        frameGame.setVisible(true);
-    }
 
     public Game(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
@@ -373,6 +342,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             display.repaint();
         }
     }
+
+
+
 }
 
 

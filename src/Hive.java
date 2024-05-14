@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import Controleur.Game;
+import Controleur.PageManager;
 
 public class Hive implements Runnable {
     public static void main(String[] args) {
@@ -9,8 +10,9 @@ public class Hive implements Runnable {
 
     @Override
     public void run() {
-        JFrame frame = new JFrame("Hive game");
-        Game.start(frame);
-
+        //JFrame frame = new JFrame("Hive game");
+        //Game.start(frame);
+        PageManager pageManager = new PageManager();
+        pageManager.start();
     }
 }

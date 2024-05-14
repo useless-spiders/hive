@@ -1,6 +1,9 @@
 package Vue;
 
+import Pattern.GameActionHandler;
+import Pattern.PageActionHandler;
 import Structures.HexCoordinate;
+import Structures.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,13 +11,23 @@ import java.awt.*;
 public class DisplayOpening extends JPanel{
     JFrame frame;
     private Image opening;
+    private GameActionHandler controller;
+    private PageActionHandler controllerPage;
 
     public DisplayOpening(JFrame frame) {
         this.frame = frame;
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new BorderLayout()); // Définir le layout du JPanel
+        this.add(createButton("jouer"));
         frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
         frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
+    }
+
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        button.addActionListener(e -> controllerPage.openingToGame());
+        return button;
     }
 
     @Override
