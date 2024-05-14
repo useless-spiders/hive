@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -169,9 +170,11 @@ public class HexGrid implements Cloneable {
 
     public boolean checkLoser(Player player) {
         for (HexCoordinate h : this.getGrid().keySet()) {
-            Insect insect = this.getCell(h).getTopInsect();
-            if (insect instanceof Bee && insect.getPlayer() == player) {
-                return this.getNeighbors(h).size() == 6;
+            ArrayList<Insect> insects = this.getCell(h).getInsects();
+            for (Insect i : insects){
+                if (i instanceof Bee && i.getPlayer() == player) {
+                    return this.getNeighbors(h).size() == 6;
+                }
             }
         }
         return false;
