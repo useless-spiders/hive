@@ -13,20 +13,20 @@ public class DisplayMenuInParty {
     private static final String SELECTLVL = "choix du niveau";
     private static final String RULES = "regle";
     private static final String QUIT = "quitter";
+
     private GameActionHandler controller;
+    private JPanel panelGame;
 
-    public DisplayMenuInParty(JFrame frame, GameActionHandler controller) {
-        JPanel mainPanel = new JPanel();
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
+        this.panelGame = panelGame;
         this.controller = controller;
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
         JPanel column1 = createColumn();
-        mainPanel.add(Box.createHorizontalGlue());
-        mainPanel.add(column1);
-        //mainPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        mainPanel.add(Box.createHorizontalGlue());
 
-        frame.getContentPane().add(mainPanel, BorderLayout.EAST);
+        gbc.gridx = GridBagConstraints.RELATIVE; // Pour placer la colonne à droite du composant précédent
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHEAST; // Pour placer la colonne dans le coin en haut à droite
+        gbc.insets = new Insets(10, 10, 10, 10); // Ajouter des marges pour un meilleur espacement
+        panelGame.add(column1, gbc);
     }
 
     private JPanel createColumn() {

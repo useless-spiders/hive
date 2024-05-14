@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Cloneable {
     private String color;
     private Map<Class<? extends Insect>, Integer> insectsCount;
     private String name;
@@ -87,4 +87,14 @@ public class Player {
         return Objects.equals(color, player.color);
     }
 
+    @Override
+    public Player clone() {
+        try {
+            Player clone = (Player) super.clone();
+            clone.insectsCount = new HashMap<>(this.insectsCount);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

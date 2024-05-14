@@ -5,6 +5,7 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.History;
 import Modele.Insect.Bee;
+import Modele.Insect.Beetle;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
@@ -42,9 +43,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         Display display = new Display(hexGrid, frame, g);
 
         g.setDisplay(display);
-        frame.add(display);
+
+        JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
+        container.add(display, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
+
+        frame.add(container); // Ajouter le conteneur au JFrame
+        frame.pack(); // Pack le JFrame
+
         display.addMouseListener(g);
         display.addMouseMotionListener(g);
+
     }
 
     public Game(HexGrid hexGrid) {
@@ -108,30 +116,51 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
         Insect insect = cell.getTopInsect();
-        if (insect.getPlayer().equals(currentPlayer)) {
-            if (isInsectCellClicked == false) {
+
+        if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
+            if (insect.getPlayer().equals(currentPlayer)) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
                 playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
+                Log.addMessage("Ce pion ne vous appartient pas");
+            }
+
+        } else {
+            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
+                handleInsectMoved(hexagon);
+
+            } else { //On clique sur un insecte déjà sélectionné
                 isInsectCellClicked = false;
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
                 this.playableCells.clear();
             }
-        } else {
-            Log.addMessage("Ce pion ne vous appartient pas");
         }
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
+        boolean overInsect = false;
         if (playableCells.contains(hexagon)) {
-            HexCell cell = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-            Insect movedInsect = cell.getTopInsect();
-            hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
-            hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
+            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            Insect movedInsect = cellClicked.getTopInsect();
+
+            cellClicked.removeTopInsect();
+            if (cellClicked.getInsects().isEmpty()) {
+                hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
+            }
+
+            if (hexGrid.getCell(hexagon) != null) {
+                hexGrid.getCell(hexagon).addInsect(movedInsect);
+                overInsect = true;
+            } else {
+                hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
+            }
+
             isInsectCellClicked = false;
+            display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             playableCells.clear();
             switchPlayer();
 
@@ -210,6 +239,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void mousePressed(MouseEvent e) {
+
         lastX = e.getX();
         lastY = e.getY();
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
@@ -217,8 +247,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
-
-        if (cell != null) { //on clique sur une case existante
+        if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);
@@ -247,21 +276,18 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void clicInsectButton(Insect insect) {
+        System.out.println("click bouton");
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.insect = insect;
         this.playableCells.clear();
-        if(insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)){
-            if(this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty())
-            {
+        if (insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)) {
+            if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
-            }
-            else if(this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()){
+            } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
                 this.playableCells = insect.getPossibleInsertionCellT1(hexGrid);
-            }
-            else
-            {
+            } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
                 //MODIF
                 this.playableCells = insect.getPossibleInsertionCells(hexGrid);
@@ -291,10 +317,24 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(false);
             }
-            hexGrid.removeCell(to.getX(), to.getY());
+
+            if(hexGrid.getCell(to.getX(), to.getY()) != null){
+                hexGrid.getCell(to.getX(), to.getY()).removeTopInsect();
+            }
+            if(hexGrid.getCell(to.getX(), to.getY()) == null || hexGrid.getCell(to.getX(), to.getY()).getInsects().isEmpty()){
+                hexGrid.removeCell(to.getX(), to.getY());
+            }
+
+            if (from != null) {
+                if (hexGrid.getCell(from.getX(), from.getY()) != null) {
+                    hexGrid.getCell(from.getX(), from.getY()).addInsect(insect);
+                } else {
+                    hexGrid.addCell(from.getX(), from.getY(), insect);
+                }
+            }
+
             this.currentPlayer.removeInsect(insect);
             if (from != null) {
-                hexGrid.addCell(from.getX(), from.getY(), insect);
                 this.currentPlayer.addInsect(insect);
             }
             display.repaint();
@@ -312,14 +352,32 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (insect instanceof Bee) {
                 currentPlayer.setBeePlaced(true);
             }
-            hexGrid.addCell(to.getX(), to.getY(), insect);
-            this.currentPlayer.addInsect(insect);
+
             if (from != null) {
-                hexGrid.removeCell(from.getX(), from.getY());
-                this.currentPlayer.removeInsect(insect);
+                if(hexGrid.getCell(from.getX(), from.getY()) != null){
+                    hexGrid.getCell(from.getX(), from.getY()).removeTopInsect();
+                }
+                if(hexGrid.getCell(from.getX(), from.getY()) == null || hexGrid.getCell(from.getX(), from.getY()).getInsects().isEmpty()){
+                    hexGrid.removeCell(from.getX(), from.getY());
+                }
+            }
+
+            if (hexGrid.getCell(to.getX(), to.getY()) != null) {
+                hexGrid.getCell(to.getX(), to.getY()).addInsect(insect);
+            } else {
+                hexGrid.addCell(to.getX(), to.getY(), insect);
+            }
+
+            this.currentPlayer.removeInsect(insect);
+            if (from != null) {
+                this.currentPlayer.addInsect(insect);
             }
             switchPlayer();
             display.repaint();
         }
     }
 }
+
+
+//TODO : faire un bouton pour recentrer sur le jeu
+//TODO : separer des trucs dans game, et verifier que si on enleve tout le graphique ça fonctionne toujours
