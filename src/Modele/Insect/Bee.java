@@ -9,15 +9,8 @@ import Modele.HexGrid;
 
 public class Bee extends Insect {
 
-    private static final int MAX = 1;
-
     public Bee(Player player) {
         super(player);
-    }
-
-    @Override
-    public int getMax() {
-        return MAX;
     }
 
     @Override

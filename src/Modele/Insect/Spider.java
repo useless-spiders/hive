@@ -4,22 +4,14 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.Player;
 import Structures.HexCoordinate;
-import Structures.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Spider extends Insect {
 
-    private static final int MAX = 2;
-
     public Spider(Player player) {
         super(player);
-    }
-
-    @Override
-    public int getMax() {
-        return MAX;
     }
 
     @Override

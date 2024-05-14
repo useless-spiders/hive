@@ -32,10 +32,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
     private HexCoordinate hoverCell;
-    private Insect insect;
     private ArrayList<HexCoordinate> playableCells;
     private int lastX, lastY;
     private History history;
+    private Insect insect;
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
@@ -174,12 +174,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
 
             if (this.insect.isPlacable(hexagon, hexGrid)) {
-                if (currentPlayer.canAddInsect(this.insect)) { // Vérifie si le joueur actuel peut ajouter un insecte
+                if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
                     if (this.insect instanceof Bee) {
                         currentPlayer.setBeePlaced(true);
                     }
                     if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
-                        currentPlayer.addInsect(this.insect);
+                        currentPlayer.PlayInsect(this.insect.getClass());
                         hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
                         isInsectButtonClicked = false;
                         playableCells.clear();
@@ -256,22 +256,27 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public void clicInsectButton(Insect insect) {
-        System.out.println("click bouton");
+    public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
+        
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
-        this.insect = insect;
         this.playableCells.clear();
-        if (insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)) {
+        if(player == this.currentPlayer){
+            this.insect = this.currentPlayer.GetInsect(insectClass);
+        }
+        else{
+            Log.addMessage("Pas le bon joueur !");
+        }
+
+        if (player.equals(currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
             if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
-                this.playableCells = insect.getPossibleInsertionCellT1(hexGrid);
+                this.playableCells = this.currentPlayer.GetInsect(insectClass).getPossibleInsertionCellT1(hexGrid);
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                //MODIF
-                this.playableCells = insect.getPossibleInsertionCells(hexGrid);
+                this.playableCells = this.currentPlayer.GetInsect(insectClass).getPossibleInsertionCells(hexGrid);
             }
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
@@ -314,9 +319,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 }
             }
 
-            this.currentPlayer.removeInsect(insect);
-            if (from != null) {
-                this.currentPlayer.addInsect(insect);
+            if (from == null) {
+                this.currentPlayer.UnplayInsect(insect);
             }
             display.repaint();
         }
@@ -349,9 +353,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 hexGrid.addCell(to.getX(), to.getY(), insect);
             }
 
-            this.currentPlayer.removeInsect(insect);
-            if (from != null) {
-                this.currentPlayer.addInsect(insect);
+            if (from == null) {
+                this.currentPlayer.PlayInsect(insect.getClass());
             }
             switchPlayer();
             display.repaint();

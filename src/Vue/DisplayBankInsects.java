@@ -33,22 +33,26 @@ public class DisplayBankInsects {
 
     private JPanel createButtonPanel(Player player) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panel.add(createButton(new Spider(player)));
-        panel.add(createButton(new Ant(player)));
-        panel.add(createButton(new Bee(player)));
-        panel.add(createButton(new Grasshopper(player)));
-        panel.add(createButton(new Beetle(player)));
+        panel.add(createButton(Spider.class, player));
+        panel.add(createButton(Ant.class, player));
+        panel.add(createButton(Bee.class, player));
+        panel.add(createButton(Grasshopper.class, player));
+        panel.add(createButton(Beetle.class, player));
         return panel;
     }
 
-    private JButton createButton(Insect insect) {
-        JButton button = new JButton(Display.loadIcon(insect.getImageName()));
+    private JButton createButton(Class<? extends Insect> insectClass, Player player) {
+        JButton button = new JButton(Display.loadIcon(getImageName(insectClass, player)));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.clicInsectButton(insect);
+                controller.clicInsectButton(insectClass, player);
             }
         });
         return button;
+    }
+
+    public static String getImageName(Class<? extends Insect> insectClass, Player player) {
+        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 }

@@ -7,7 +7,7 @@ import Structures.HexCoordinate;
 import java.util.ArrayList;
 
 public interface GameActionHandler {
-    void clicInsectButton(Insect insect);
+    void clicInsectButton(Class<? extends Insect> insectClass, Player player);
 
     Player getCurrentPlayer();
 
