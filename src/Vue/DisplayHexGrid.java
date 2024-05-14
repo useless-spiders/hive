@@ -2,6 +2,7 @@ package Vue;
 
 import Modele.HexCell;
 import Modele.HexGrid;
+import Modele.Player;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 import Structures.HexMetrics;
@@ -32,7 +33,7 @@ public class DisplayHexGrid extends JComponent {
         for (HexCoordinate coord : hexGrid.getGrid().keySet()) {
             HexCell cell = hexGrid.getGrid().get(coord);
             for (Insect insect : cell.getInsects()) {
-                Image insectImage = Display.loadImage(insect.getImageName());
+                Image insectImage = Display.loadImage(Display.getImageName(insect.getClass(), insect.getPlayer()));
                 Point center = HexMetrics.hexToPixel(coord);
 
                 if (isInsectCellClicked && hexClicked.equals(coord)) {

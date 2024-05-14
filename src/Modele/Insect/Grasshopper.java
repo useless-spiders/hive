@@ -9,19 +9,14 @@ import Modele.HexGrid;
 
 public class Grasshopper extends Insect {
 
-    private static final int MAX = 3;
-
     public Grasshopper(Player player) {
         super(player);
     }
 
     @Override
-    public int getMax() {
-        return MAX;
-    }
-
-    @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+        int x = current.getX();
+        int y = current.getY();
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
@@ -30,11 +25,11 @@ public class Grasshopper extends Insect {
 
             for (int i = 0; i < directions.length; i++) {
                 int nx = x, ny = y;
-                while (g.getAdj(nx, ny, directions[i]) != null) {
+                while (g.getNeighbor(new HexCoordinate(nx, ny), directions[i]) != null) {
                     nx += dx[i];
                     ny += dy[i];
                 }
-                if ((nx != x || ny != y) && g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(nx + dx[i], ny + dy[i]))) {
+                if ((nx != x || ny != y) && g.isHiveConnectedAfterMove(current, new HexCoordinate(nx + dx[i], ny + dy[i]))) {
                     nx += dx[i];
                     ny += dy[i];
                     coordinates.add(new HexCoordinate(nx, ny));

@@ -29,13 +29,9 @@ public class HexMetrics {
     }
 
     public static HexCoordinate pixelToHex(int mouseX, int mouseY) {
-        // Ajuster les coordonnées de la souris avec les offsets de vue
-        double adjustedMouseX = mouseX;
-        double adjustedMouseY = mouseY;
-
         // Conversion des coordonnées pixels aux coordonnées hexagonales
-        int y = (int) Math.round((adjustedMouseY * 4.0) / (3 * HEX_HEIGHT));
-        int x = (int) Math.round((adjustedMouseX - y * HEX_WIDTH / 2.0) / HEX_WIDTH);
+        int y = (int) Math.round((mouseY * 4.0) / (3 * HEX_HEIGHT));
+        int x = (int) Math.round((mouseX - y * HEX_WIDTH / 2.0) / HEX_WIDTH);
 
         return new HexCoordinate(x, y);
     }

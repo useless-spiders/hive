@@ -4,10 +4,11 @@ import Modele.Insect.Insect;
 import Modele.Player;
 import Structures.HexCoordinate;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public interface GameActionHandler {
-    void clicInsectButton(Insect insect);
+    void clicInsectButton(Class<? extends Insect> insectClass, Player player);
 
     Player getCurrentPlayer();
 
@@ -20,4 +21,6 @@ public interface GameActionHandler {
     void cancelMove();
 
     void redoMove();
+
+
 }

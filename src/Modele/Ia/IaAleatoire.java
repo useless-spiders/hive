@@ -74,7 +74,7 @@ public class IaAleatoire extends Ia
                 Insect ins = this.Grid.getCell(source).getTopInsect();
                 if(ins.getPlayer()==this.us)
                 {
-                    possibleCells = ins.getPossibleMovesCells(source.getX(), source.getY(), this.Grid);
+                    possibleCells = ins.getPossibleMovesCells(source, this.Grid);
                     for(HexCoordinate dest : possibleCells)
                     {
                         possibleMoves.add(new Move(ins, source, dest));
@@ -88,35 +88,35 @@ public class IaAleatoire extends Ia
 
             HexCoordinate source = null;
             Insect insect;
-            if (this.us.canAddInsect(insect = new Ant(this.us))) 
+            if (this.us.canAddInsect(Ant.class))
             {
                 for(HexCoordinate dest : possibleCells)
                 {
                     possibleMoves.add(new Move(insect, source, dest));
                 }
             }
-            if (this.us.canAddInsect(insect = new Bee(this.us))) 
+            if (this.us.canAddInsect(Bee.class))
             {
                 for(HexCoordinate dest : possibleCells)
                 {
                     possibleMoves.add(new Move(insect, source, dest));
                 }
             }
-            if (this.us.canAddInsect(insect = new Beetle(this.us))) 
+            if (this.us.canAddInsect(Beetle.class))
             {
                 for(HexCoordinate dest : possibleCells)
                 {
                     possibleMoves.add(new Move(insect, source, dest));
                 }
             }
-            if (this.us.canAddInsect(insect = new Grasshopper(this.us))) 
+            if (this.us.canAddInsect(Grasshopper.class))
             {
                 for(HexCoordinate dest : possibleCells)
                 {
                     possibleMoves.add(new Move(insect, source, dest));
                 }
             }
-            if (this.us.canAddInsect(insect = new Spider(this.us))) 
+            if (this.us.canAddInsect(Spider.class))
             {
                 for(HexCoordinate dest : possibleCells)
                 {
@@ -136,20 +136,20 @@ public class IaAleatoire extends Ia
         HexCoordinate to = moveToPlay.getNewCoor();
         if (from != null) 
         {
-            if(this.Grid.getCell(from.getX(), from.getY()) != null){
-                this.Grid.getCell(from.getX(), from.getY()).removeTopInsect();
+            if(this.Grid.getCell(from) != null){
+                this.Grid.getCell(from).removeTopInsect();
             }
-            if(this.Grid.getCell(from.getX(), from.getY()) == null || this.Grid.getCell(from.getX(), from.getY()).getInsects().isEmpty()){
-                this.Grid.removeCell(from.getX(), from.getY());
+            if(this.Grid.getCell(from) == null || this.Grid.getCell(from).getInsects().isEmpty()){
+                this.Grid.removeCell(from);
             }
         }
 
-        if (this.Grid.getCell(to.getX(), to.getY()) != null) 
+        if (this.Grid.getCell(to) != null)
         {
-            this.Grid.getCell(to.getX(), to.getY()).addInsect(moveToPlay.getInsect());
+            this.Grid.getCell(to).addInsect(moveToPlay.getInsect());
         } else 
         {
-            this.Grid.addCell(to.getX(), to.getY(), moveToPlay.getInsect());
+            this.Grid.addCell(to, moveToPlay.getInsect());
         }
     }
 }
