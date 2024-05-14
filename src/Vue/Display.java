@@ -98,6 +98,9 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     public DisplayPlayableHex getDisplayPlayableHex() {
         return displayPlayableHex;
     }
+    public DisplayBankInsects getDisplayBankInsects() {
+        return displayBankInsects;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
