@@ -78,6 +78,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         return this.hexGrid;
     }
 
+    @Override
+    public ArrayList<HexCoordinate> getPlayableCells() {
+        return playableCells;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public void setDisplay(Display display) {
         this.display = display;
     }
@@ -114,7 +124,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
     }
 
-    private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
+    private void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
         Insect insect = cell.getTopInsect();
 
         if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
@@ -122,7 +132,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
                 playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
-                // rendre transparente la case
+                // Rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
@@ -171,34 +181,37 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
-        if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
+        if(this.insect != null){ //Clic sur une case vide sans insect selectionné
+            if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
 
-            if (this.insect.isPlacable(hexagon, hexGrid)) {
-                if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
-                    if (this.insect instanceof Bee) {
-                        currentPlayer.setBeePlaced(true);
-                    }
-                    if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
-                        currentPlayer.PlayInsect(this.insect.getClass());
-                        hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
-                        isInsectButtonClicked = false;
-                        playableCells.clear();
-                        switchPlayer();
+                if (this.insect.isPlacable(hexagon, hexGrid)) {
+                    if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
+                        if (this.insect instanceof Bee) {
+                            currentPlayer.setBeePlaced(true);
+                        }
+                        if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
+                            currentPlayer.PlayInsect(this.insect.getClass());
+                            hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                            //this.currentPlayer.PlayInsect(this.insect.getClass());
+                            isInsectButtonClicked = false;
+                            playableCells.clear();
+                            switchPlayer();
 
-                        // Add the placement to the history
-                        Move move = new Move(this.insect, null, hexagon);
-                        history.addMove(move);
+                            // Add the placement to the history
+                            Move move = new Move(this.insect, null, hexagon);
+                            history.addMove(move);
+                        } else {
+                            Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
+                        }
                     } else {
-                        Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
+                        Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
                     }
                 } else {
-                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                    Log.addMessage("placement impossible !");
                 }
             } else {
-                Log.addMessage("placement impossible !");
+                Log.addMessage("Ce n'est pas votre tour");
             }
-        } else {
-            Log.addMessage("Ce n'est pas votre tour");
         }
     }
 
@@ -228,7 +241,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
-        if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
+        if (cell != null) { //on clique sur une case existante pour la déplacer ou pour un deplacement du scarabée
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);
@@ -251,11 +264,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    @Override
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
         
         this.isInsectButtonClicked = true;
@@ -263,6 +271,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.playableCells.clear();
         if(player == this.currentPlayer){
             this.insect = this.currentPlayer.GetInsect(insectClass);
+            if(this.insect == null){
+                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+            }
         }
         else{
             Log.addMessage("Pas le bon joueur !");
@@ -281,11 +292,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
         display.repaint();
-    }
-
-    @Override
-    public ArrayList<HexCoordinate> getPlayableCells() {
-        return playableCells;
     }
 
     @Override
