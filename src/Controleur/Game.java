@@ -120,13 +120,14 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.getPossibleMovesCells(hexagon.getX(), hexagon.getY(), hexGrid);
-                // rendre transparente la case (ajouter condition de s'il y a un ou plusieurs insectes dans la cellule cliquée)
-                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexagon);
+                playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                // rendre transparente la case
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
                 HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-                if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur la case d'arrivée d'un scarabée
+                if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
                     handleInsectMoved(hexagon);
+
                 } else { //On clique sur un insecte déjà sélectionné
                     isInsectCellClicked = false;
                     display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
@@ -144,8 +145,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             Insect movedInsect = cellClicked.getTopInsect();
 
-            /*hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());*/
-
             cellClicked.removeTopInsect();
             if (cellClicked.getInsects().isEmpty()) {
                 hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
@@ -158,8 +157,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
             }
 
-            /*hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);*/
             isInsectCellClicked = false;
+            display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             playableCells.clear();
             switchPlayer();
 
@@ -246,7 +245,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         HexCoordinate hexagon = findHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
-        if (cell != null) { //on clique sur une case existante pour la déplacer
+        if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
             handleInsectMoved(hexagon);

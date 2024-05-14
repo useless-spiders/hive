@@ -19,6 +19,7 @@ public class DisplayHexGrid extends JComponent {
 
     public void updateInsectClickState(boolean isInsectCellClicked, HexCoordinate hexClicked) {
         this.isInsectCellClicked = isInsectCellClicked;
+        System.out.println(isInsectCellClicked);
         this.hexClicked = hexClicked;
     }
 
