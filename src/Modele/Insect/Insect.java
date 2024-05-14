@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class Insect {
+public abstract class Insect implements Cloneable {
     private Player player;
 
     public Insect(Player player) {
@@ -22,36 +22,28 @@ public abstract class Insect {
 
     public abstract ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g);
 
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g)
-    {
+    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
         ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
-        for(HexCoordinate h : coordinates)
-        {
+        for (HexCoordinate h : coordinates) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
-            for (int i = 0; i < dx.length; i++) 
-            {
-                if(g.getAdj(h.getX(), h.getY(), directions[i]) == null)
-                {
+            for (int i = 0; i < dx.length; i++) {
+                if (g.getAdj(h.getX(), h.getY(), directions[i]) == null) {
                     //voisin d'une case de la grille
                     HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 
-                    HashMap<HexCoordinate, String> neighbors =  g.getNeighbors(current);
+                    HashMap<HexCoordinate, String> neighbors = g.getNeighbors(current);
                     boolean sameColor = true;
-                    Set<HexCoordinate> keys =  neighbors.keySet();
-                    if(!keys.isEmpty())
-                    {
-                        for(HexCoordinate k : keys)
-                        {
-                            if(g.getCell(k).getTopInsect().getPlayer().getColor() != this.getPlayer().getColor())
-                            {
+                    Set<HexCoordinate> keys = neighbors.keySet();
+                    if (!keys.isEmpty()) {
+                        for (HexCoordinate k : keys) {
+                            if (g.getCell(k).getTopInsect().getPlayer().getColor() != this.getPlayer().getColor()) {
                                 sameColor = false;
                             }
                         }
-                        if(sameColor)
-                        {
+                        if (sameColor) {
                             possibleInsertionCells.add(current);
                         }
                     }
@@ -61,20 +53,19 @@ public abstract class Insect {
         return possibleInsertionCells;
     }
 
-    public ArrayList<HexCoordinate> getPossibleInsertionCellT1(HexGrid g){
+    public ArrayList<HexCoordinate> getPossibleInsertionCellT1(HexGrid g) {
         ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
-        int x,y;
-        for(HexCoordinate h : coordinates)
-        {
+        int x, y;
+        for (HexCoordinate h : coordinates) {
             x = h.getX();
             y = h.getY();
-            possibleInsertionCells.add(new HexCoordinate(x,y-1));
-            possibleInsertionCells.add(new HexCoordinate(x+1,y-1));
-            possibleInsertionCells.add(new HexCoordinate(x+1,y));
-            possibleInsertionCells.add(new HexCoordinate(x,y+1));
-            possibleInsertionCells.add(new HexCoordinate(x-1,y+1));
-            possibleInsertionCells.add(new HexCoordinate(x-1,y));
+            possibleInsertionCells.add(new HexCoordinate(x, y - 1));
+            possibleInsertionCells.add(new HexCoordinate(x + 1, y - 1));
+            possibleInsertionCells.add(new HexCoordinate(x + 1, y));
+            possibleInsertionCells.add(new HexCoordinate(x, y + 1));
+            possibleInsertionCells.add(new HexCoordinate(x - 1, y + 1));
+            possibleInsertionCells.add(new HexCoordinate(x - 1, y));
         }
         return possibleInsertionCells;
     }
@@ -131,6 +122,17 @@ public abstract class Insect {
                     return true;
                 }
             }
+        }
+    }
+
+    @Override
+    public Insect clone() {
+        try {
+            Insect newInsect = (Insect) super.clone();
+            newInsect.player = this.player.clone();
+            return newInsect;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
