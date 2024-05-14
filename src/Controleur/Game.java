@@ -13,6 +13,7 @@ import Structures.HexCoordinate;
 import Structures.Log;
 import Vue.Display;
 import Structures.HexMetrics;
+import Vue.DisplayOpening;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,15 +45,19 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         g.setDisplay(display);
 
-        JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
-        container.add(display, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
-
-        frame.add(container); // Ajouter le conteneur au JFrame
-        frame.pack(); // Pack le JFrame
-
         display.addMouseListener(g);
         display.addMouseMotionListener(g);
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1280, 720);
+        frame.setVisible(true);
+
+        JFrame frame2 = new JFrame();
+
+        DisplayOpening displayOpening = new DisplayOpening(frame2);
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame2.setSize(1280, 720);
+        frame2.setVisible(false);
     }
 
     public Game(HexGrid hexGrid) {
