@@ -181,6 +181,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                     if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
                         currentPlayer.addInsect(this.insect);
                         hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+
+                        //Modifier le compteur des boutons
+                        JLabel label = display.getDisplayBankInsects().getLabel();
+                        //System.out.println(this.currentPlayer.getInsectCount(insect.getClass()));
+                        label.setText(String.valueOf(insect.getMax() - this.currentPlayer.getInsectCount(insect.getClass())));
+
                         isInsectButtonClicked = false;
                         playableCells.clear();
                         switchPlayer();
@@ -188,6 +194,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                         // Add the placement to the history
                         Move move = new Move(this.insect, null, hexagon);
                         history.addMove(move);
+
                     } else {
                         Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                     }
