@@ -15,7 +15,6 @@ import Vue.Display;
 import Structures.HexMetrics;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -37,23 +36,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private History history;
     private Insect insect;
 
-    public static void start(JFrame frame) {
-        HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid);
-        Display display = new Display(hexGrid, frame, g);
-
-        g.setDisplay(display);
-
-        JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
-        container.add(display, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
-
-        frame.add(container); // Ajouter le conteneur au JFrame
-        frame.pack(); // Pack le JFrame
-
-        display.addMouseListener(g);
-        display.addMouseMotionListener(g);
-
-    }
 
     public Game(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
@@ -192,7 +174,11 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                         if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
                             currentPlayer.playInsect(this.insect.getClass());
                             hexGrid.addCell(hexagon, this.insect);
-                            //this.currentPlayer.PlayInsect(this.insect.getClass());
+
+                            //Modifier le compteur des boutons
+                            JLabel label = display.getDisplayBankInsects().getLabel();
+                            label.setText(String.valueOf(this.currentPlayer.getInsectCount(insect.getClass())));
+
                             isInsectButtonClicked = false;
                             playableCells.clear();
                             switchPlayer();
