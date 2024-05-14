@@ -190,7 +190,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                             currentPlayer.setBeePlaced(true);
                         }
                         if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
-                            currentPlayer.PlayInsect(this.insect.getClass());
+                            currentPlayer.playInsect(this.insect.getClass());
                             hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
                             //this.currentPlayer.PlayInsect(this.insect.getClass());
                             isInsectButtonClicked = false;
@@ -270,7 +270,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectCellClicked = false;
         this.playableCells.clear();
         if(player == this.currentPlayer){
-            this.insect = this.currentPlayer.GetInsect(insectClass);
+            this.insect = this.currentPlayer.getInsect(insectClass);
             if(this.insect == null){
                 Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
             }
@@ -284,10 +284,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
-                this.playableCells = this.currentPlayer.GetInsect(insectClass).getPossibleInsertionCellT1(hexGrid);
+                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCellT1(hexGrid);
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                this.playableCells = this.currentPlayer.GetInsect(insectClass).getPossibleInsertionCells(hexGrid);
+                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCells(hexGrid);
             }
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
@@ -326,7 +326,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             }
 
             if (from == null) {
-                this.currentPlayer.UnplayInsect(insect);
+                this.currentPlayer.unplayInsect(insect);
             }
             display.repaint();
         }
@@ -360,7 +360,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             }
 
             if (from == null) {
-                this.currentPlayer.PlayInsect(insect.getClass());
+                this.currentPlayer.playInsect(insect.getClass());
             }
             switchPlayer();
             display.repaint();

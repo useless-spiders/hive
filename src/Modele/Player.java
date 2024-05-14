@@ -88,7 +88,7 @@ public class Player implements Cloneable {
         return false;
     }
 
-    public Insect GetInsect(Class<? extends Insect> insectClass){
+    public Insect getInsect(Class<? extends Insect> insectClass){
         for(int i=0;i<stock.size();i++) {
             Insect insect = stock.get(i);
             if (insectClass.isInstance(insect)) {
@@ -99,7 +99,7 @@ public class Player implements Cloneable {
         return null;
     }
 
-    public void PlayInsect(Class<? extends Insect> insectClass) {
+    public void playInsect(Class<? extends Insect> insectClass) {
         for(int i=0;i<stock.size();i++) {
             Insect insect = stock.get(i);
             if (insectClass.isInstance(insect)) {
@@ -109,7 +109,7 @@ public class Player implements Cloneable {
         }
     }
 
-    public void UnplayInsect(Insect insect) {
+    public void unplayInsect(Insect insect) {
         stock.add(insect);
     }
 
