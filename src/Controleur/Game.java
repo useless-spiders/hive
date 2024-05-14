@@ -116,26 +116,28 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
         Insect insect = cell.getTopInsect();
-        if (insect.getPlayer().equals(currentPlayer)) {
-            if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
+
+        if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
+            if (insect.getPlayer().equals(currentPlayer)) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
                 playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
-                HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
-                if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
-                    handleInsectMoved(hexagon);
-
-                } else { //On clique sur un insecte déjà sélectionné
-                    isInsectCellClicked = false;
-                    display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-                    this.playableCells.clear();
-                }
+                Log.addMessage("Ce pion ne vous appartient pas");
             }
+
         } else {
-            Log.addMessage("Ce pion ne vous appartient pas");
+            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
+                handleInsectMoved(hexagon);
+
+            } else { //On clique sur un insecte déjà sélectionné
+                isInsectCellClicked = false;
+                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                this.playableCells.clear();
+            }
         }
     }
 
