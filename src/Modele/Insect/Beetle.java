@@ -33,10 +33,10 @@ public class Beetle extends Insect {
             for (int i = 0; i < directions.length; i++) {
                 if (g.isHiveConnectedAfterMove(current, new HexCoordinate(x + dx[i], y + dy[i]))) {
                     String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                    if (((g.getAdj(current, dir) != null) || (g.getAdj(current, directions[((i + 1) % directions.length)]) != null))) {
+                    if (((g.getNeighbor(current, dir) != null) || (g.getNeighbor(current, directions[((i + 1) % directions.length)]) != null))) {
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
-                    if((g.getAdj(current, directions[i]) != null)){
+                    if((g.getNeighbor(current, directions[i]) != null)){
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
                 }

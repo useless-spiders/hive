@@ -46,10 +46,10 @@ public class Ant extends Insect {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-            if (!visited.contains(next) && g.getAdj(current, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
+            if (!visited.contains(next) && g.getNeighbor(current, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
                 String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                HexCell adj = g.getAdj(current, dir);
-                HexCell adj2 = g.getAdj(current, directions[((i + 1) % directions.length)]);
+                HexCell adj = g.getNeighbor(current, dir);
+                HexCell adj2 = g.getNeighbor(current, directions[((i + 1) % directions.length)]);
 
                 if(original.getX() == x + dx[((i-1)+dx.length)%dx.length] & original.getY() == y + dy[((i-1)+dy.length)%dy.length]){
                     adj = null;

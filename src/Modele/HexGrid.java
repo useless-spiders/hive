@@ -36,7 +36,7 @@ public class HexGrid implements Cloneable {
         this.grid.remove(coord);
     }
 
-    public HexCell getAdj(HexCoordinate coord, String dir) {
+    public HexCell getNeighbor(HexCoordinate coord, String dir) {
         int x = coord.getX();
         int y = coord.getY();
         switch (dir) {
@@ -77,7 +77,7 @@ public class HexGrid implements Cloneable {
 
             HexCell newCell = new HexCell();
             for (Insect insect : cell.getInsects()) {
-                newCell.addInsect(insect.clone()); // Assumes Insect class has a clone method
+                newCell.addInsect(insect.clone());
             }
 
             newGrid.grid.put(coordinate, newCell);
@@ -86,15 +86,15 @@ public class HexGrid implements Cloneable {
         return newGrid;
     }
 
-    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate cell) {
+    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord) {
         HashMap<HexCoordinate, String> neighbors = new HashMap<>();
         String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
         int[] dx = {0, 1, 1, 0, -1, -1};
         int[] dy = {-1, -1, 0, 1, 1, 0};
 
         for (int i = 0; i < directions.length; i++) {
-            HexCoordinate next = new HexCoordinate(cell.getX() + dx[i], cell.getY() + dy[i]);
-            if (this.getAdj(cell, directions[i]) != null) {
+            HexCoordinate next = new HexCoordinate(coord.getX() + dx[i], coord.getY() + dy[i]);
+            if (this.getNeighbor(coord, directions[i]) != null) {
                 neighbors.put(next, directions[i]);
             }
         }
@@ -143,15 +143,10 @@ public class HexGrid implements Cloneable {
     }
 
     private void dfs(HexCoordinate current, HashSet<HexCoordinate> visited) {
-        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
-        int[] dx = {0, 1, 1, 0, -1, -1};
-        int[] dy = {-1, -1, 0, 1, 1, 0};
-
         visited.add(current);
 
-        for (int i = 0; i < directions.length; i++) {
-            HexCoordinate next = new HexCoordinate(current.getX() + dx[i], current.getY() + dy[i]);
-            if (!visited.contains(next) && this.getAdj(current, directions[i]) != null) {
+        for (HexCoordinate next : getNeighbors(current).keySet()) {
+            if (!visited.contains(next)) {
                 dfs(next, visited);
             }
         }

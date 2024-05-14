@@ -6,10 +6,7 @@ import Structures.HexCoordinate;
 import Structures.Log;
 import Modele.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Insect implements Cloneable {
     private Player player;
@@ -30,7 +27,7 @@ public abstract class Insect implements Cloneable {
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
             for (int i = 0; i < dx.length; i++) {
-                if (g.getAdj(h, directions[i]) == null) {
+                if (g.getNeighbor(h, directions[i]) == null) {
                     //voisin d'une case de la grille
                     HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 

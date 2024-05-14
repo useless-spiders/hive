@@ -75,7 +75,7 @@ public class HexGridTest {
      * Teste la récupération d'une cellule adjacente
      */
     @Test
-    public void testGetAdj() {
+    public void testGetNeighbor() {
         HexCoordinate coord = new HexCoordinate(0, 0);
 
         HexCell cell1 = new HexCell();
@@ -96,12 +96,12 @@ public class HexGridTest {
         grid.addCell(new HexCoordinate(0, 1), beetle);
         grid.addCell(new HexCoordinate(-1, 1), beetle);
         grid.addCell(new HexCoordinate(-1, 0), spider);
-        assertEquals(cell1, grid.getAdj(coord, "NO"));
-        assertEquals(cell2, grid.getAdj(coord, "NE"));
-        assertEquals(cell3, grid.getAdj(coord, "E"));
-        assertEquals(cell4, grid.getAdj(coord, "SE"));
-        assertEquals(cell5, grid.getAdj(coord, "SO"));
-        assertEquals(cell6, grid.getAdj(coord, "O"));
+        assertEquals(cell1, grid.getNeighbor(coord, "NO"));
+        assertEquals(cell2, grid.getNeighbor(coord, "NE"));
+        assertEquals(cell3, grid.getNeighbor(coord, "E"));
+        assertEquals(cell4, grid.getNeighbor(coord, "SE"));
+        assertEquals(cell5, grid.getNeighbor(coord, "SO"));
+        assertEquals(cell6, grid.getNeighbor(coord, "O"));
     }
 
     /**

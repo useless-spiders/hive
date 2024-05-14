@@ -32,7 +32,7 @@ public class Grasshopper extends Insect {
 
             for (int i = 0; i < directions.length; i++) {
                 int nx = x, ny = y;
-                while (g.getAdj(new HexCoordinate(nx, ny), directions[i]) != null) {
+                while (g.getNeighbor(new HexCoordinate(nx, ny), directions[i]) != null) {
                     nx += dx[i];
                     ny += dy[i];
                 }
