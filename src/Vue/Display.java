@@ -1,6 +1,8 @@
 package Vue;
 
 import Modele.HexGrid;
+import Modele.Insect.Insect;
+import Modele.Player;
 import Pattern.GameActionHandler;
 import Structures.HexMetrics;
 import Structures.Log;
@@ -91,6 +93,10 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     }
     public DisplayPlayableHex getDisplayPlayableHex() {
         return displayPlayableHex;
+    }
+
+    public static String getImageName(Class<? extends Insect> insectClass, Player player) {
+        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
     @Override

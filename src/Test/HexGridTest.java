@@ -6,6 +6,7 @@ import Modele.HexGrid;
 
 import Modele.Insect.*;
 import Modele.Player;
+import Structures.HexCoordinate;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -34,7 +35,7 @@ public class HexGridTest {
      */
     @Test
     public void testAddCell() {
-        grid.addCell(0, 0, ant);
+        grid.addCell(new HexCoordinate(0, 0), ant);
         assert !grid.getGrid().isEmpty();
     }
 
@@ -55,7 +56,7 @@ public class HexGridTest {
      */
     @Test
     public void testGetEmpty() {
-        HexCell retrievedCell = grid.getCell(0, 0);
+        HexCell retrievedCell = grid.getCell(new HexCoordinate(0, 0));
         assertNull(retrievedCell);
     }
 
@@ -64,8 +65,9 @@ public class HexGridTest {
      */
     @Test
     public void testClearCell() {
-        grid.addCell(0, 0, ant);
-        grid.removeCell(0, 0);
+        HexCoordinate coord = new HexCoordinate(0, 0);
+        grid.addCell(coord, ant);
+        grid.removeCell(coord);
         assert grid.getGrid().isEmpty();
     }
 
@@ -73,7 +75,9 @@ public class HexGridTest {
      * Teste la récupération d'une cellule adjacente
      */
     @Test
-    public void testGetAdj() {
+    public void testGetNeighbor() {
+        HexCoordinate coord = new HexCoordinate(0, 0);
+
         HexCell cell1 = new HexCell();
         cell1.addInsect(ant);
         HexCell cell2 = new HexCell();
@@ -86,18 +90,18 @@ public class HexGridTest {
         cell5.addInsect(beetle);
         HexCell cell6 = new HexCell();
         cell6.addInsect(spider);
-        grid.addCell(0, -1, ant);
-        grid.addCell(1, -1, ant);
-        grid.addCell(1, 0, bee);
-        grid.addCell(0, 1, beetle);
-        grid.addCell(-1, 1, beetle);
-        grid.addCell(-1, 0, spider);
-        assertEquals(cell1, grid.getAdj(0, 0, "NO"));
-        assertEquals(cell2, grid.getAdj(0, 0, "NE"));
-        assertEquals(cell3, grid.getAdj(0, 0, "E"));
-        assertEquals(cell4, grid.getAdj(0, 0, "SE"));
-        assertEquals(cell5, grid.getAdj(0, 0, "SO"));
-        assertEquals(cell6, grid.getAdj(0, 0, "O"));
+        grid.addCell(new HexCoordinate(0, -1), ant);
+        grid.addCell(new HexCoordinate(1, -1), ant);
+        grid.addCell(new HexCoordinate(1, 0), bee);
+        grid.addCell(new HexCoordinate(0, 1), beetle);
+        grid.addCell(new HexCoordinate(-1, 1), beetle);
+        grid.addCell(new HexCoordinate(-1, 0), spider);
+        assertEquals(cell1, grid.getNeighbor(coord, "NO"));
+        assertEquals(cell2, grid.getNeighbor(coord, "NE"));
+        assertEquals(cell3, grid.getNeighbor(coord, "E"));
+        assertEquals(cell4, grid.getNeighbor(coord, "SE"));
+        assertEquals(cell5, grid.getNeighbor(coord, "SO"));
+        assertEquals(cell6, grid.getNeighbor(coord, "O"));
     }
 
     /**
@@ -106,13 +110,13 @@ public class HexGridTest {
     @Test
     public void testLoser(){
         assertFalse(grid.checkLoser(player));
-        grid.addCell(0, -1, ant); // NO
-        grid.addCell(1, -1, ant); // NE
-        grid.addCell(0, 0, bee); // Center
-        grid.addCell(1, 0, beetle); // E
-        grid.addCell(0, 1, beetle); // SE
-        grid.addCell(-1, 1, spider); // SO
-        grid.addCell(-1, 0, spider); // O
+        grid.addCell(new HexCoordinate(0, -1), ant); // NO
+        grid.addCell(new HexCoordinate(1, -1), ant); // NE
+        grid.addCell(new HexCoordinate(0, 0), bee); // Center
+        grid.addCell(new HexCoordinate(1, 0), beetle); // E
+        grid.addCell(new HexCoordinate(0, 1), beetle); // SE
+        grid.addCell(new HexCoordinate(-1, 1), spider); // SO
+        grid.addCell(new HexCoordinate(-1, 0), spider); // O
         assertTrue(grid.checkLoser(player));
     }
 
