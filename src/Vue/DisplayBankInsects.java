@@ -13,12 +13,6 @@ public class DisplayBankInsects {
     private GameActionHandler controller;
     private JLabel label;
 
-    private Spider spider;
-    private Ant ant;
-    private Bee bee;
-    private Grasshopper grasshopper;
-    private Beetle beetle;
-
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
         this.controller = controller;
 
@@ -42,22 +36,15 @@ public class DisplayBankInsects {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         // Ajouter le bouton et le label pour chaque insecte
-        this.spider = new Spider(player);
-        this.ant = new Ant(player);
-        this.bee = new Bee(player);
-        this.grasshopper = new Grasshopper(player);
-        this.beetle = new Beetle(player);
-
-        panel.add(createButtonWithLabel(spider, String.valueOf(spider.getMax())));
-        panel.add(createButtonWithLabel(ant, String.valueOf(ant.getMax())));
-        panel.add(createButtonWithLabel(bee, String.valueOf(bee.getMax())));
-        panel.add(createButtonWithLabel(grasshopper, String.valueOf(grasshopper.getMax())));
-        panel.add(createButtonWithLabel(beetle, String.valueOf(beetle.getMax())));
-
+        panel.add(createButtonWithLabel(Spider.class, player, String.valueOf(player.getInsectCount(Spider.class))));
+        panel.add(createButtonWithLabel(Ant.class, player, String.valueOf(player.getInsectCount(Ant.class))));
+        panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class))));
+        panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class))));
+        panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class))));
         return panel;
     }
 
-    private JPanel createButtonWithLabel(Insect insect, String labelText) {
+    private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
@@ -66,19 +53,19 @@ public class DisplayBankInsects {
         buttonPanel.add(label);
 
         // Ajouter le bouton au-dessous du label
-        buttonPanel.add(createButton(insect, label));
+        buttonPanel.add(createButton(insectClass, player, label));
 
         return buttonPanel;
     }
 
-    private JButton createButton(Insect insect, JLabel label) {
-        JButton button = new JButton(Display.loadIcon(insect.getImageName()));
+    private JButton createButton(Class<? extends Insect> insectClass, Player player, JLabel label) {
+        JButton button = new JButton(Display.loadIcon(Display.getImageName(insectClass, player)));
         button.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.clicInsectButton(insect);
                 DisplayBankInsects.this.label = label;
+                controller.clicInsectButton(insectClass, player);
             }
         });
         return button;

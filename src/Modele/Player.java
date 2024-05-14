@@ -1,22 +1,42 @@
 package Modele;
 
+import Modele.Insect.Ant;
+import Modele.Insect.Bee;
+import Modele.Insect.Beetle;
+import Modele.Insect.Grasshopper;
 import Modele.Insect.Insect;
-import java.util.HashMap;
-import java.util.Map;
+import Modele.Insect.Spider;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player implements Cloneable {
     private String color;
-    private Map<Class<? extends Insect>, Integer> insectsCount;
+    private ArrayList<Insect> stock;
     private String name;
     private int turn;
     private boolean beePlaced = false;
 
     public Player(String color, String name) {
         this.color = color;
-        this.insectsCount = new HashMap<>();
+        this.stock = init_stock();
         this.turn = 1;
         this.name = name;
+    }
+
+    private ArrayList<Insect> init_stock(){
+        ArrayList<Insect> s = new ArrayList<>();
+
+        for(int i=0;i<3;i++){
+            s.add(new Ant(this));
+            s.add(new Grasshopper(this));
+        }
+        for(int i=0;i<2;i++){
+            s.add(new Beetle(this));
+            s.add(new Spider(this));
+        }
+        s.add(new Bee(this));
+        return s;
     }
 
     public String getName() {
@@ -48,31 +68,49 @@ public class Player implements Cloneable {
     }
 
     public int getInsectCount(Class<? extends Insect> insectClass) {
-        return insectsCount.getOrDefault(insectClass, 0);
-    }
-
-    public boolean canAddInsect(Insect insect) {
-        Class<? extends Insect> insectClass = insect.getClass();
-        int count = insectsCount.getOrDefault(insectClass, 0);
-        return count < insect.getMax();
-    }
-
-    public void addInsect(Insect insect) {
-        Class<? extends Insect> insectClass = insect.getClass();
-        int count = insectsCount.getOrDefault(insectClass, 0);
-        insectsCount.put(insectClass, count + 1);
-    }
-
-    public void removeInsect(Insect insect) {
-        Class<? extends Insect> insectClass = insect.getClass();
-        if(insectsCount.containsKey(insectClass)){
-            int count = insectsCount.get(insectClass);
-            if(count > 1){
-                insectsCount.put(insectClass, count - 1);
-            } else {
-                insectsCount.remove(insectClass);
+        int count = 0;
+        for(int i=0;i<stock.size();i++) {
+            Insect insect = stock.get(i);
+            if (insectClass.isInstance(insect)) {
+                count += 1;
             }
         }
+        return count;
+    }
+
+    public boolean canAddInsect(Class<? extends Insect> insectClass) {
+        for(int i=0;i<stock.size();i++) {
+            Insect insect = stock.get(i);
+            if (insectClass.isInstance(insect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Insect getInsect(Class<? extends Insect> insectClass){
+        for(int i=0;i<stock.size();i++) {
+            Insect insect = stock.get(i);
+            if (insectClass.isInstance(insect)) {
+                Insect result = stock.get(i);
+                return result;
+            }
+        }
+        return null;
+    }
+
+    public void playInsect(Class<? extends Insect> insectClass) {
+        for(int i=0;i<stock.size();i++) {
+            Insect insect = stock.get(i);
+            if (insectClass.isInstance(insect)) {
+                stock.remove(i);
+                return;
+            }
+        }
+    }
+
+    public void unplayInsect(Insect insect) {
+        stock.add(insect);
     }
 
     @Override
@@ -91,7 +129,7 @@ public class Player implements Cloneable {
     public Player clone() {
         try {
             Player clone = (Player) super.clone();
-            clone.insectsCount = new HashMap<>(this.insectsCount);
+            clone.stock = new ArrayList<>(this.stock);
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();

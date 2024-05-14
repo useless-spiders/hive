@@ -21,7 +21,7 @@ public class DisplayTest {
      */
     @Test
     public void testLoadImage() {
-        Image image = Display.loadImage(new Spider(player).getImageName());
+        Image image = Display.loadImage(Display.getImageName(Spider.class, player));
         assertNotNull(image);
     }
 }

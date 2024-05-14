@@ -21,16 +21,15 @@ public class PlayerTest {
         this.player = new Player("white", "Inspecteur blanco");
 
         // Teste l'ajout d'une fourmi
-        Insect ant = new Ant(this.player);
-        assertTrue(this.player.canAddInsect(ant));
+        assertTrue(this.player.canAddInsect(Ant.class));
 
         // Teste l'ajout d'une fourmi alors que le nombre maximum est atteint
-        for (int i = 0; i < ant.getMax(); i++) {
-            this.player.addInsect(ant);
+        for (int i = 0; i < 3; i++) {
+            this.player.playInsect(Ant.class);
         }
 
-        assertFalse(this.player.canAddInsect(ant));
-        assertEquals(this.player.getInsectCount(ant.getClass()), ant.getMax());
+        assertFalse(this.player.canAddInsect(Ant.class));
+        assertEquals(this.player.getInsectCount(Ant.class), 0);
     }
 
     /**

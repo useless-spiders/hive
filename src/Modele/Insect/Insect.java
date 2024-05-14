@@ -6,10 +6,7 @@ import Structures.HexCoordinate;
 import Structures.Log;
 import Modele.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Insect implements Cloneable {
     private Player player;
@@ -18,19 +15,17 @@ public abstract class Insect implements Cloneable {
         this.player = player;
     }
 
-    public abstract int getMax();
-
-    public abstract ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g);
+    public abstract ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g);
 
     public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
         ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
+        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
+        int[] dx = {0, 1, 1, 0, -1, -1};
+        int[] dy = {-1, -1, 0, 1, 1, 0};
         for (HexCoordinate h : coordinates) {
-            String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
-            int[] dx = {0, 1, 1, 0, -1, -1};
-            int[] dy = {-1, -1, 0, 1, 1, 0};
             for (int i = 0; i < dx.length; i++) {
-                if (g.getAdj(h.getX(), h.getY(), directions[i]) == null) {
+                if (g.getNeighbor(h, directions[i]) == null) {
                     //voisin d'une case de la grille
                     HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 
@@ -70,10 +65,6 @@ public abstract class Insect implements Cloneable {
         return possibleInsertionCells;
     }
 
-    public String getImageName() {
-        return this.getClass().getSimpleName() + "_" + this.player.getColor() + ".png";
-    }
-
     public Player getPlayer() {
         return this.player;
     }
@@ -94,7 +85,7 @@ public abstract class Insect implements Cloneable {
     public boolean isPlacable(HexCoordinate placement, HexGrid g) {
         Log.addMessage("tour insect :" + this.getPlayer().getTurn() + " " + this.getPlayer().getName());
         if (this.getPlayer().getTurn() > 1) {
-            if (g.getCell(placement.getX(), placement.getY()) != null) {
+            if (g.getCell(placement) != null) {
                 return false;
             }
             HashMap<HexCoordinate, String> neighbors = g.getNeighbors(placement);
