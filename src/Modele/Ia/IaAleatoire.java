@@ -33,6 +33,7 @@ public class IaAleatoire extends Ia
             HexCoordinate source = null;
             switch(r.nextInt(5))
             {
+                //TODO ca marche pas verifier les compteurs des insectes
                 case 0:
                     insect = new Ant(this.us);
                     break;
