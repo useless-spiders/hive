@@ -12,7 +12,7 @@ import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
 import Structures.Log;
 import Vue.Display;
-import Vue.HexMetrics;
+import Structures.HexMetrics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -142,7 +142,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        boolean overInsect = false;
         if (playableCells.contains(hexagon)) {
             HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
             Insect movedInsect = cellClicked.getTopInsect();
@@ -154,7 +153,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
             if (hexGrid.getCell(hexagon) != null) {
                 hexGrid.getCell(hexagon).addInsect(movedInsect);
-                overInsect = true;
             } else {
                 hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
             }
@@ -204,23 +202,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         }
     }
 
-    private HexCoordinate findHex(int mouseX, int mouseY) {
-        double minDistance = Double.MAX_VALUE;
-        HexCoordinate closestHex = null;
-
-        for (int x = -22; x <= 22; x++) {
-            for (int y = -22; y <= 22; y++) {
-                Point center = HexMetrics.calculateHexCenter(x, y);
-                double distance = Point.distance(mouseX, mouseY, center.x, center.y);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestHex = new HexCoordinate(x, y);
-                }
-            }
-        }
-        return closestHex;
-    }
-
     @Override
     public void mouseMoved(MouseEvent e) {
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
@@ -228,7 +209,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         ArrayList<HexCoordinate> playableCells = getPlayableCells();
 
-        HexCoordinate newHoverCell = findHex(mouseX, mouseY);
+        HexCoordinate newHoverCell = HexMetrics.pixelToHex(mouseX, mouseY);
         if (!newHoverCell.equals(hoverCell) && playableCells.contains(newHoverCell)) {
             hoverCell = newHoverCell;
             display.getDisplayPlayableHex().updateHoverCell(hoverCell);
@@ -245,7 +226,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
         int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
-        HexCoordinate hexagon = findHex(mouseX, mouseY);
+        HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
         if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
             handleCellClicked(cell, hexagon);
