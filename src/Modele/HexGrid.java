@@ -18,38 +18,27 @@ public class HexGrid implements Cloneable {
         this.insectsCount = 0;
     }
 
-    public HexGrid(HexGrid h) {
-        this.grid = new HashMap<>(h.grid);
-        this.insectsCount = h.insectsCount;
-    }
-
     public Map<HexCoordinate, HexCell> getGrid() {
         return grid;
     }
 
-    public HexCell getCell(int x, int y) {
-        return this.grid.get(new HexCoordinate(x, y));
+    public HexCell getCell(HexCoordinate coord) {
+        return this.grid.get(coord);
     }
 
-    public HexCell getCell(HexCoordinate h) {
-        return this.grid.get(h);
-    }
-
-    public int getInsectsCount() {
-        return this.insectsCount;
-    }
-
-    public void addCell(int x, int y, Insect insect) {
+    public void addCell(HexCoordinate coord, Insect insect) {
         HexCell cell = new HexCell();
         cell.addInsect(insect);
-        this.grid.put(new HexCoordinate(x, y), cell);
+        this.grid.put(coord, cell);
     }
 
-    public void removeCell(int x, int y) {
-        this.grid.remove(new HexCoordinate(x, y));
+    public void removeCell(HexCoordinate coord) {
+        this.grid.remove(coord);
     }
 
-    public HexCell getAdj(int x, int y, String dir) {
+    public HexCell getAdj(HexCoordinate coord, String dir) {
+        int x = coord.getX();
+        int y = coord.getY();
         switch (dir) {
             case "NO":
                 y -= 1;
@@ -75,7 +64,7 @@ public class HexGrid implements Cloneable {
                 x = y = 0; //cas pas possible en theorie
                 break;
         }
-        return getCell(x, y);
+        return this.grid.get(new HexCoordinate(x, y));
     }
 
     public HexGrid clone() {
@@ -105,7 +94,7 @@ public class HexGrid implements Cloneable {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(cell.getX() + dx[i], cell.getY() + dy[i]);
-            if (this.getAdj(cell.getX(), cell.getY(), directions[i]) != null) {
+            if (this.getAdj(cell, directions[i]) != null) {
                 neighbors.put(next, directions[i]);
             }
         }
@@ -118,20 +107,20 @@ public class HexGrid implements Cloneable {
         HexGrid tempGrid = this.clone();
 
         // Make the move on the temporary grid
-        Insect insect = tempGrid.getCell(from.getX(), from.getY()).getTopInsect();
+        Insect insect = tempGrid.getCell(from).getTopInsect();
 
-        if (tempGrid.getCell(from.getX(), from.getY()).getInsects().size() <= 1) {
-            tempGrid.removeCell(from.getX(), from.getY());
+        if (tempGrid.getCell(from).getInsects().size() <= 1) {
+            tempGrid.removeCell(from);
         } else {
-            tempGrid.getCell(from.getX(), from.getY()).removeTopInsect();
+            tempGrid.getCell(from).removeTopInsect();
         }
 
         boolean isConnected1 = tempGrid.isHiveConnected();
 
-        if(tempGrid.getCell(to.getX(), to.getY()) == null){
-            tempGrid.addCell(to.getX(), to.getY(), insect);
+        if(tempGrid.getCell(to) == null){
+            tempGrid.addCell(to, insect);
         } else {
-            tempGrid.getCell(to.getX(), to.getY()).addInsect(insect);
+            tempGrid.getCell(to).addInsect(insect);
         }
 
         boolean isConnected2 = tempGrid.isHiveConnected();
@@ -162,7 +151,7 @@ public class HexGrid implements Cloneable {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(current.getX() + dx[i], current.getY() + dy[i]);
-            if (!visited.contains(next) && this.getAdj(current.getX(), current.getY(), directions[i]) != null) {
+            if (!visited.contains(next) && this.getAdj(current, directions[i]) != null) {
                 dfs(next, visited);
             }
         }

@@ -24,17 +24,18 @@ public class Ant extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
         if (canMoveInsect(g, this.getPlayer())) {
-            getPossibleMovesCellsHelper(x, y, g, coordinates, new HexCoordinate(x, y), visited);
+            getPossibleMovesCellsHelper(current, g, coordinates, current, visited);
         }
         return coordinates;
     }
 
-    private void getPossibleMovesCellsHelper(int x, int y, HexGrid g, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
-        HexCoordinate current = new HexCoordinate(x, y);
+    private void getPossibleMovesCellsHelper(HexCoordinate current, HexGrid g, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
+        int x = current.getX();
+        int y = current.getY();
         if (!current.equals(original)) {
             coordinates.add(current);
         }
@@ -45,10 +46,10 @@ public class Ant extends Insect {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-            if (!visited.contains(next) && g.getAdj(x, y, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
+            if (!visited.contains(next) && g.getAdj(current, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
                 String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                HexCell adj = g.getAdj(x, y, dir);
-                HexCell adj2 = g.getAdj(x, y, directions[((i + 1) % directions.length)]);
+                HexCell adj = g.getAdj(current, dir);
+                HexCell adj2 = g.getAdj(current, directions[((i + 1) % directions.length)]);
 
                 if(original.getX() == x + dx[((i-1)+dx.length)%dx.length] & original.getY() == y + dy[((i-1)+dy.length)%dy.length]){
                     adj = null;
@@ -61,7 +62,7 @@ public class Ant extends Insect {
 
                 if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
                     visited.add(next);
-                    getPossibleMovesCellsHelper(next.getX(), next.getY(), g, coordinates, original, visited);
+                    getPossibleMovesCellsHelper(next, g, coordinates, original, visited);
                 }
             }
         }

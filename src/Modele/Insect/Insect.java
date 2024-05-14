@@ -20,7 +20,7 @@ public abstract class Insect implements Cloneable {
 
     public abstract int getMax();
 
-    public abstract ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g);
+    public abstract ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g);
 
     public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
         ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
@@ -30,7 +30,7 @@ public abstract class Insect implements Cloneable {
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
             for (int i = 0; i < dx.length; i++) {
-                if (g.getAdj(h.getX(), h.getY(), directions[i]) == null) {
+                if (g.getAdj(h, directions[i]) == null) {
                     //voisin d'une case de la grille
                     HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 
@@ -94,7 +94,7 @@ public abstract class Insect implements Cloneable {
     public boolean isPlacable(HexCoordinate placement, HexGrid g) {
         Log.addMessage("tour insect :" + this.getPlayer().getTurn() + " " + this.getPlayer().getName());
         if (this.getPlayer().getTurn() > 1) {
-            if (g.getCell(placement.getX(), placement.getY()) != null) {
+            if (g.getCell(placement) != null) {
                 return false;
             }
             HashMap<HexCoordinate, String> neighbors = g.getNeighbors(placement);

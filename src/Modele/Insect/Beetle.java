@@ -21,7 +21,9 @@ public class Beetle extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(int x, int y, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+        int x = current.getX();
+        int y = current.getY();
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (canMoveInsect(g, this.getPlayer())) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
@@ -29,12 +31,12 @@ public class Beetle extends Insect {
             int[] dy = {-1, -1, 0, 1, 1, 0};
 
             for (int i = 0; i < directions.length; i++) {
-                if (g.isHiveConnectedAfterMove(new HexCoordinate(x, y), new HexCoordinate(x + dx[i], y + dy[i]))) {
+                if (g.isHiveConnectedAfterMove(current, new HexCoordinate(x + dx[i], y + dy[i]))) {
                     String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                    if (((g.getAdj(x, y, dir) != null) || (g.getAdj(x, y, directions[((i + 1) % directions.length)]) != null))) {
+                    if (((g.getAdj(current, dir) != null) || (g.getAdj(current, directions[((i + 1) % directions.length)]) != null))) {
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
-                    if((g.getAdj(x, y, directions[i]) != null)){
+                    if((g.getAdj(current, directions[i]) != null)){
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
                 }

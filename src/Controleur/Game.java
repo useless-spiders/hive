@@ -117,11 +117,11 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) {
         Insect insect = cell.getTopInsect();
 
-        if (isInsectCellClicked == false) { //On clique sur un insecte à déplacer
+        if (!isInsectCellClicked) { //On clique sur un insecte à déplacer
             if (insect.getPlayer().equals(currentPlayer)) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.getPossibleMovesCells(hexClicked.getX(), hexClicked.getY(), hexGrid);
+                playableCells = insect.getPossibleMovesCells(hexClicked, hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
@@ -129,7 +129,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             }
 
         } else {
-            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            HexCell cellClicked = hexGrid.getCell(hexClicked);
             if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
                 handleInsectMoved(hexagon);
 
@@ -143,18 +143,18 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void handleInsectMoved(HexCoordinate hexagon) {
         if (playableCells.contains(hexagon)) {
-            HexCell cellClicked = hexGrid.getCell(hexClicked.getX(), hexClicked.getY());
+            HexCell cellClicked = hexGrid.getCell(hexClicked);
             Insect movedInsect = cellClicked.getTopInsect();
 
             cellClicked.removeTopInsect();
             if (cellClicked.getInsects().isEmpty()) {
-                hexGrid.removeCell(hexClicked.getX(), hexClicked.getY());
+                hexGrid.removeCell(hexClicked);
             }
 
             if (hexGrid.getCell(hexagon) != null) {
                 hexGrid.getCell(hexagon).addInsect(movedInsect);
             } else {
-                hexGrid.addCell(hexagon.getX(), hexagon.getY(), movedInsect);
+                hexGrid.addCell(hexagon, movedInsect);
             }
 
             isInsectCellClicked = false;
@@ -180,7 +180,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                     }
                     if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
                         currentPlayer.addInsect(this.insect);
-                        hexGrid.addCell(hexagon.getX(), hexagon.getY(), this.insect);
+                        hexGrid.addCell(hexagon, this.insect);
                         isInsectButtonClicked = false;
                         playableCells.clear();
                         switchPlayer();
@@ -227,7 +227,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
         HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
-        HexCell cell = hexGrid.getCell(hexagon.getX(), hexagon.getY());
+        HexCell cell = hexGrid.getCell(hexagon);
         if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
             handleCellClicked(cell, hexagon);
         } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
@@ -299,18 +299,18 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 currentPlayer.setBeePlaced(false);
             }
 
-            if(hexGrid.getCell(to.getX(), to.getY()) != null){
-                hexGrid.getCell(to.getX(), to.getY()).removeTopInsect();
+            if(hexGrid.getCell(to) != null){
+                hexGrid.getCell(to).removeTopInsect();
             }
-            if(hexGrid.getCell(to.getX(), to.getY()) == null || hexGrid.getCell(to.getX(), to.getY()).getInsects().isEmpty()){
-                hexGrid.removeCell(to.getX(), to.getY());
+            if(hexGrid.getCell(to) == null || hexGrid.getCell(to).getInsects().isEmpty()){
+                hexGrid.removeCell(to);
             }
 
             if (from != null) {
-                if (hexGrid.getCell(from.getX(), from.getY()) != null) {
-                    hexGrid.getCell(from.getX(), from.getY()).addInsect(insect);
+                if (hexGrid.getCell(from) != null) {
+                    hexGrid.getCell(from).addInsect(insect);
                 } else {
-                    hexGrid.addCell(from.getX(), from.getY(), insect);
+                    hexGrid.addCell(from, insect);
                 }
             }
 
@@ -335,18 +335,18 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             }
 
             if (from != null) {
-                if(hexGrid.getCell(from.getX(), from.getY()) != null){
-                    hexGrid.getCell(from.getX(), from.getY()).removeTopInsect();
+                if(hexGrid.getCell(from) != null){
+                    hexGrid.getCell(from).removeTopInsect();
                 }
-                if(hexGrid.getCell(from.getX(), from.getY()) == null || hexGrid.getCell(from.getX(), from.getY()).getInsects().isEmpty()){
-                    hexGrid.removeCell(from.getX(), from.getY());
+                if(hexGrid.getCell(from) == null || hexGrid.getCell(from).getInsects().isEmpty()){
+                    hexGrid.removeCell(from);
                 }
             }
 
-            if (hexGrid.getCell(to.getX(), to.getY()) != null) {
-                hexGrid.getCell(to.getX(), to.getY()).addInsect(insect);
+            if (hexGrid.getCell(to) != null) {
+                hexGrid.getCell(to).addInsect(insect);
             } else {
-                hexGrid.addCell(to.getX(), to.getY(), insect);
+                hexGrid.addCell(to, insect);
             }
 
             this.currentPlayer.removeInsect(insect);
