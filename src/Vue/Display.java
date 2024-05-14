@@ -2,7 +2,7 @@ package Vue;
 
 import Modele.HexGrid;
 import Pattern.GameActionHandler;
-import Structures.HexCoordinate;
+import Structures.HexMetrics;
 import Structures.Log;
 
 import javax.imageio.ImageIO;

@@ -4,6 +4,7 @@ import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
+import Structures.HexMetrics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class DisplayHexGrid extends JComponent {
             HexCell cell = hexGrid.getGrid().get(coord);
             for (Insect insect : cell.getInsects()) {
                 Image insectImage = Display.loadImage(insect.getImageName());
-                Point center = HexMetrics.calculateHexCenter(coord.getX(), coord.getY());
+                Point center = HexMetrics.hexToPixel(coord);
 
                 if (isInsectCellClicked && hexClicked.equals(coord)) {
                     float opacity = 0.5f;
