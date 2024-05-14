@@ -12,6 +12,8 @@ import Modele.HexGrid;
 
 public class Ant extends Insect {
 
+    public static int MAX = 3;
+
     public Ant(Player player) {
         super(player);
     }

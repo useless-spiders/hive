@@ -9,6 +9,8 @@ import Modele.HexGrid;
 
 public class Grasshopper extends Insect {
 
+    public static int MAX = 3;
+
     public Grasshopper(Player player) {
         super(player);
     }

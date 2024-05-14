@@ -33,7 +33,7 @@ public class DisplayHexGrid extends JComponent {
         for (HexCoordinate coord : hexGrid.getGrid().keySet()) {
             HexCell cell = hexGrid.getGrid().get(coord);
             for (Insect insect : cell.getInsects()) {
-                Image insectImage = Display.loadImage(getImageName(insect.getClass(), insect.getPlayer()));
+                Image insectImage = Display.loadImage(Display.getImageName(insect.getClass(), insect.getPlayer()));
                 Point center = HexMetrics.hexToPixel(coord);
 
                 if (isInsectCellClicked && hexClicked.equals(coord)) {
@@ -46,10 +46,6 @@ public class DisplayHexGrid extends JComponent {
                 g2d.drawImage(insectImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
             }
         }
-    }
-
-    public static String getImageName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
 }

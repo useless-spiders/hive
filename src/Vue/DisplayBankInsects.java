@@ -42,7 +42,7 @@ public class DisplayBankInsects {
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player) {
-        JButton button = new JButton(Display.loadIcon(getImageName(insectClass, player)));
+        JButton button = new JButton(Display.loadIcon(Display.getImageName(insectClass, player)));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,9 +50,5 @@ public class DisplayBankInsects {
             }
         });
         return button;
-    }
-
-    public static String getImageName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 }

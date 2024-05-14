@@ -10,6 +10,8 @@ import java.util.HashSet;
 
 public class Spider extends Insect {
 
+    public static int MAX = 2;
+
     public Spider(Player player) {
         super(player);
     }
