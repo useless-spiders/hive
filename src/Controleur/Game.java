@@ -8,6 +8,7 @@ import Modele.Insect.Bee;
 import Modele.Insect.Beetle;
 import Modele.Insect.Insect;
 import Modele.Player;
+import Modele.Ia.Ia;
 import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
 import Structures.Log;
@@ -36,6 +37,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private ArrayList<HexCoordinate> playableCells;
     private int lastX, lastY;
     private History history;
+    private Ia ia;
 
     public static void start(JFrame frame) {
         HexGrid hexGrid = new HexGrid();
@@ -64,6 +66,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.hexClicked = null;
         this.playableCells = new ArrayList<>();
         this.history = new History();
+        /////////A COMMENTER POUR PVP//////////////
+        this.ia = Ia.nouvelle(this, "Aleatoire", player2);
+        //////////////////////////////////////////
     }
 
     public Player getPlayer1() {
@@ -97,13 +102,22 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void switchPlayer() {
+        display.repaint();
         checkLoser();
         this.currentPlayer.incrementTurn();
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
+            tourIa();
         } else {
             this.currentPlayer = this.player1;
         }
+        display.repaint();
+    }
+
+    private void tourIa()
+    {
+        this.ia.playMove();
+        switchPlayer();
     }
 
     private void initPlayers() {
@@ -264,13 +278,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.playableCells.clear();
         if (insect.getPlayer().equals(currentPlayer) && this.currentPlayer.canAddInsect(insect)) {
             if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
-                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
                 this.playableCells = insect.getPossibleInsertionCellT1(hexGrid);
             } else {
-                Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                //MODIF
                 this.playableCells = insect.getPossibleInsertionCells(hexGrid);
             }
         }

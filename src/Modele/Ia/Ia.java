@@ -13,7 +13,6 @@ public abstract class Ia
 {
     Player us;
     HexGrid Grid;
-	ArrayList<HexCoordinate> pieces;
 
     public static Ia nouvelle(Game g, String ia, Player p) 
 	{
@@ -28,33 +27,13 @@ public abstract class Ia
 		return resultat;
 	}
 
-	void initPieces()
+	Move chooseMove() 
 	{
-		Move init = new Move(null, null, null);
-		if(this.us.getColor() == "WHITE")
-		{
-			pieces = init.getWhitePieces();
-		}
-		else 
-		{
-			if(this.us.getColor() == "BLACK")
-			{
-				pieces = init.getBlackPieces();
-			}
-			else
-			{
-				Log.addMessage("couleur non blache ni noir");
-			}
-		}
+		return null;
 	}
 
-	void joue() 
+	 public void playMove()
 	{
-
-	}
-
-	void joue(HexCoordinate from, HexCoordinate to)
-	{
-		joue();
+		chooseMove();
 	}
 }
