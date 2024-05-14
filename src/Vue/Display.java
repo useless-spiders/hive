@@ -60,6 +60,12 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         this.controller = controller;
         displayGame(grid);
         //displayMenuSelectLvl();
+
+        JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
+        container.add(this, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
+
+        frame.add(container); // Ajouter le conteneur au JFrame
+        frame.pack(); // Pack le JFrame
     }
 
     public void cleanFrame(){

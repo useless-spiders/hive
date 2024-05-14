@@ -11,8 +11,6 @@ public class Hive implements Runnable {
     public void run() {
         JFrame frame = new JFrame("Hive game");
         Game.start(frame);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1280, 720);
-        frame.setVisible(true);
+
     }
 }

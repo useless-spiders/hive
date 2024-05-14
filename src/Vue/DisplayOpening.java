@@ -10,11 +10,15 @@ public class DisplayOpening extends JPanel{
     private Image opening;
 
     public DisplayOpening(JFrame frame) {
-        this.frame =frame;
+        this.frame = frame;
+        setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
+        setLayout(new BorderLayout()); // Définir le layout du JPanel
+        frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
+        frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
-
-    public void paintOpening(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
         //Affichage du background
         this.opening = Display.loadBackground("Opening.png");
         Dimension frameSize = getFrameSize();
