@@ -35,7 +35,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private ArrayList<HexCoordinate> playableCells;
     private int lastX, lastY;
     private History history;
-    private Ia ia;
+    private Ia iaPlayer1;
+    private Ia iaPlayer2;
     private Insect insect;
 
     public Game(HexGrid hexGrid) {
@@ -48,7 +49,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.playableCells = new ArrayList<>();
         this.history = new History();
         /////////A COMMENTER POUR PVP//////////////
-        this.ia = Ia.nouvelle(this, "Aleatoire", player2);
+        setPlayer(2, "IAFacile");
         //////////////////////////////////////////
     }
 
@@ -58,6 +59,31 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public void setPlayer(int player, String name)
+    {
+        switch(name)
+        {
+            case "IAFacile":
+                if(player==1)
+                {
+                    this.iaPlayer1 = Ia.nouvelle(this, "Aleatoire", player1);
+                }
+                else
+                {
+                    this.iaPlayer2 = Ia.nouvelle(this, "Aleatoire", player2);
+                }
+                break;
+    
+    
+            case "IADificile":
+            //pas encore implementee//
+                break;
+    
+            default:
+                break;
+        }
     }
 
     public HexGrid getGrid() {
@@ -107,7 +133,14 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void tourIa()
     {
-        this.ia.playMove();
+        if(this.player1==this.currentPlayer)
+        {
+            this.iaPlayer1.playMove();
+        }
+        else
+        {
+            this.iaPlayer2.playMove();
+        }
         switchPlayer();
     }
 
@@ -234,29 +267,37 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     public void mousePressed(MouseEvent e) {
 
         ////////////BESOIN D UN CLIC POUR DEMARER PARTIESI L IA EST PREMIERE A JOUER//////////////////////////////////////
-        if(this.currentPlayer == this.ia.getPlayer())
+        if(this.iaPlayer1!= null && this.currentPlayer == this.player1)
         {
+
             tourIa();
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         else
         {
-            lastX = e.getX();
-            lastY = e.getY();
-            int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-            int mouseY = e.getY() - HexMetrics.getViewOffsetY();
-    
-            HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
-            HexCell cell = hexGrid.getCell(hexagon);
-            if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
-                handleCellClicked(cell, hexagon);
-            } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
-                handleInsectMoved(hexagon);
-            } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
-                handleInsectPlaced(hexagon);
+            if(this.iaPlayer2!= null && this.currentPlayer == this.player2)
+            {
+                tourIa();
             }
-    
-            display.repaint();
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            else
+            {
+                lastX = e.getX();
+                lastY = e.getY();
+                int mouseX = e.getX() - HexMetrics.getViewOffsetX();
+                int mouseY = e.getY() - HexMetrics.getViewOffsetY();
+        
+                HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
+                HexCell cell = hexGrid.getCell(hexagon);
+                if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
+                    handleCellClicked(cell, hexagon);
+                } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
+                    handleInsectMoved(hexagon);
+                } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
+                    handleInsectPlaced(hexagon);
+                }
+        
+                display.repaint();
+            }
         }
     }
 
