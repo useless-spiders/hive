@@ -14,14 +14,14 @@ public class History {
     }
 
     public void addMove(Move move) {
-        history.push(move);
-        redo.clear();
+        this.history.push(move);
+        this.redo.clear();
     }
 
     public Move cancelMove() {
-        if (canCancel()) {
-            Move move = history.pop();
-            redo.push(move);
+        if (this.canCancel()) {
+            Move move = this.history.pop();
+            this.redo.push(move);
             return move;
         }
         return null;
@@ -40,9 +40,9 @@ public class History {
     }
 
     public Move redoMove() {
-        if (canRedo()) {
-            Move move = redo.pop();
-            history.push(move);
+        if (this.canRedo()) {
+            Move move = this.redo.pop();
+            this.history.push(move);
             return move;
         }
         return null;
