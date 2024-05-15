@@ -47,6 +47,11 @@ public class Player implements Cloneable {
         return this.turn;
     }
 
+    public ArrayList<Insect> getStock()
+    {
+        return this.stock;
+    }
+
     public void incrementTurn() {
         this.turn++;
     }

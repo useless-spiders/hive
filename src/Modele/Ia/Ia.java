@@ -6,6 +6,7 @@ import Controleur.Game;
 import Modele.HexGrid;
 import Modele.Move;
 import Modele.Player;
+import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 import Structures.Log;
 
@@ -26,6 +27,16 @@ public abstract class Ia
 		}
 		return resultat;
 	}
+
+	public void playInsect(Insect insect) {
+        for(int i=0;i<this.us.getStock().size();i++) {
+            Insect insectInStock = this.us.getStock().get(i);
+            if (insectInStock == insect) {
+                this.us.getStock().remove(i);
+                return;
+            }
+        }
+    }
 
 	Move chooseMove() 
 	{

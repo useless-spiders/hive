@@ -10,6 +10,7 @@ import Modele.Insect.*;
 
 import Modele.Move;
 import Structures.HexCoordinate;
+import Structures.Log;
 
 public class IaAleatoire extends Ia
 {
@@ -25,107 +26,121 @@ public class IaAleatoire extends Ia
     @Override
     Move chooseMove() 
 	{
-        ArrayList<Move> possibleMoves = new ArrayList<>();
-        ArrayList<HexCoordinate> possibleCells = new ArrayList<>();
-        if(this.us.getTurn() <= 1)
+        if(this.us.getTurn()==4 && this.us.getInsectCount(Bee.class)>0)
         {
-            Insect insect;
-            HexCoordinate source = null;
-            switch(r.nextInt(5))
-            {
-                //TODO ca marche pas verifier les compteurs des insectes
-                case 0:
-                    insect = new Ant(this.us);
-                    break;
-                case 1:
-                    insect = new Bee(this.us);
-                    break;
-                case 2:
-                    insect = new Beetle(this.us);
-                    break;
-                case 3:
-                    insect = new Grasshopper(this.us);
-                    break;
-                default:
-                    insect = new Spider(this.us);
-                    break;
-            }
-            if(this.Grid.getGrid().isEmpty())
-            {
-                return new Move(insect, source, new HexCoordinate(0, 0));
-            }
-            else
-            {
-                //////////////solution temporaire ///////////
-                Spider zed = new Spider(this.us);
+            ArrayList<HexCoordinate> possibleCells = new ArrayList<>();
+            Insect insect = this.us.getInsect(Bee.class);
+            possibleCells = insect.getPossibleInsertionCells(this.Grid);
+            HexCoordinate dest = possibleCells.get(r.nextInt(possibleCells.size()));
+            return new Move(insect, null, dest);
 
-                possibleCells = zed.getPossibleInsertionCellT1(this.Grid);
-                /////////////////////////////////////////////
-                HexCoordinate dest = possibleCells.get(r.nextInt(possibleCells.size()));
-                return new Move(insect, source, dest);
-            }
         }
         else
         {
-
-            Set<HexCoordinate> coordinates = this.Grid.getGrid().keySet();
-            for(HexCoordinate source : coordinates)
+            ArrayList<Move> possibleMoves = new ArrayList<>();
+            ArrayList<HexCoordinate> possibleCells = new ArrayList<>();
+            if(this.us.getTurn() <= 1)
             {
-                Insect ins = this.Grid.getCell(source).getTopInsect();
-                if(ins.getPlayer()==this.us)
+                Insect insect;
+                HexCoordinate source = null;
+                switch(r.nextInt(5))
                 {
-                    possibleCells = ins.getPossibleMovesCells(source, this.Grid);
-                    for(HexCoordinate dest : possibleCells)
+                    //TODO ca marche pas verifier les compteurs des insectes
+                    case 0:
+                        insect = this.us.getInsect(Ant.class);
+                        break;
+                    case 1:
+                        insect = this.us.getInsect(Bee.class);
+                        break;
+                    case 2:
+                        insect = this.us.getInsect(Beetle.class);
+                        break;
+                    case 3:
+                        insect = this.us.getInsect(Grasshopper.class);
+                        break;
+                    default:
+                        insect = this.us.getInsect(Spider.class);
+                        break;
+                }
+                if(this.Grid.getGrid().isEmpty())
+                {
+                    return new Move(insect, source, new HexCoordinate(0, 0));
+                }
+                else
+                {
+                    possibleCells = insect.getPossibleInsertionCellT1(this.Grid);
+                    HexCoordinate dest = possibleCells.get(r.nextInt(possibleCells.size()));
+                    return new Move(insect, source, dest);
+                }
+            }
+            else
+            {
+    
+                Set<HexCoordinate> coordinates = this.Grid.getGrid().keySet();
+                for(HexCoordinate source : coordinates)
+                {
+                    Insect ins = this.Grid.getCell(source).getTopInsect();
+                    if(ins.getPlayer()==this.us)
                     {
-                        possibleMoves.add(new Move(ins, source, dest));
+                        possibleCells = ins.getPossibleMovesCells(source, this.Grid);
+                        for(HexCoordinate dest : possibleCells)
+                        {
+                            possibleMoves.add(new Move(ins, source, dest));
+                        }
                     }
                 }
-            }
-            //////////////solution temporaire ///////////
-            Spider zed = new Spider(this.us);
-            possibleCells = zed.getPossibleInsertionCells(this.Grid);
-            /////////////////////////////////////////////
-
-            HexCoordinate source = null;
-            Insect insect;
-            if (this.us.canAddInsect(Ant.class))
-            {
-                for(HexCoordinate dest : possibleCells)
+                //////////////solution temporaire ///////////
+                Spider zed = new Spider(this.us);
+                possibleCells = zed.getPossibleInsertionCells(this.Grid);
+                /////////////////////////////////////////////
+    
+                HexCoordinate source = null;
+                Insect insect;
+                if (this.us.canAddInsect(Ant.class))
                 {
-                    possibleMoves.add(new Move(insect, source, dest));
+                    insect = this.us.getInsect(Ant.class);
+                    for(HexCoordinate dest : possibleCells)
+                    {
+                        possibleMoves.add(new Move(insect, source, dest));
+                    }
                 }
-            }
-            if (this.us.canAddInsect(Bee.class))
-            {
-                for(HexCoordinate dest : possibleCells)
+                if (this.us.canAddInsect(Bee.class))
                 {
-                    possibleMoves.add(new Move(insect, source, dest));
+                    insect = new Bee(this.us);
+                    for(HexCoordinate dest : possibleCells)
+                    {
+                        possibleMoves.add(new Move(insect, source, dest));
+                    }
                 }
-            }
-            if (this.us.canAddInsect(Beetle.class))
-            {
-                for(HexCoordinate dest : possibleCells)
+                if (this.us.canAddInsect(Beetle.class))
                 {
-                    possibleMoves.add(new Move(insect, source, dest));
+                    insect = new Beetle(this.us);
+                    for(HexCoordinate dest : possibleCells)
+                    {
+                        possibleMoves.add(new Move(insect, source, dest));
+                    }
                 }
-            }
-            if (this.us.canAddInsect(Grasshopper.class))
-            {
-                for(HexCoordinate dest : possibleCells)
+                if (this.us.canAddInsect(Grasshopper.class))
                 {
-                    possibleMoves.add(new Move(insect, source, dest));
+                    insect = new Grasshopper(this.us);
+                    for(HexCoordinate dest : possibleCells)
+                    {
+                        possibleMoves.add(new Move(insect, source, dest));
+                    }
                 }
-            }
-            if (this.us.canAddInsect(Spider.class))
-            {
-                for(HexCoordinate dest : possibleCells)
+                if (this.us.canAddInsect(Spider.class))
                 {
-                    possibleMoves.add(new Move(insect, source, dest));
+                    insect = new Spider(this.us);
+                    for(HexCoordinate dest : possibleCells)
+                    {
+                        possibleMoves.add(new Move(insect, source, dest));
+                    }
                 }
+    
+                return possibleMoves.get(r.nextInt(possibleMoves.size()));
             }
-
-            return possibleMoves.get(r.nextInt(possibleMoves.size()));
         }
+        
 	}
 
     @Override
@@ -134,7 +149,7 @@ public class IaAleatoire extends Ia
         Move moveToPlay = chooseMove();
         HexCoordinate from = moveToPlay.getPreviousCoor();
         HexCoordinate to = moveToPlay.getNewCoor();
-        if (from != null) 
+        if (from != null) //cas deplacement insecte
         {
             if(this.Grid.getCell(from) != null){
                 this.Grid.getCell(from).removeTopInsect();
@@ -142,14 +157,25 @@ public class IaAleatoire extends Ia
             if(this.Grid.getCell(from) == null || this.Grid.getCell(from).getInsects().isEmpty()){
                 this.Grid.removeCell(from);
             }
+            if (this.Grid.getCell(to) != null)
+            {
+                this.Grid.getCell(to).addInsect(moveToPlay.getInsect());
+            } else 
+            {
+                this.Grid.addCell(to, moveToPlay.getInsect());
+            }
         }
-
-        if (this.Grid.getCell(to) != null)
+        else//cas placement insecte
         {
-            this.Grid.getCell(to).addInsect(moveToPlay.getInsect());
-        } else 
-        {
-            this.Grid.addCell(to, moveToPlay.getInsect());
+            if (this.Grid.getCell(to) == null)
+            {
+                playInsect(moveToPlay.getInsect());
+                this.Grid.addCell(to, moveToPlay.getInsect());
+            }
+            else
+            {
+                Log.addMessage("cas impossible on ne peux pas placer sur une case deja remplie");
+            }
         }
     }
 }
