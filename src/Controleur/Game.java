@@ -176,8 +176,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                             hexGrid.addCell(hexagon, this.insect);
 
                             //Modifier le compteur des boutons
-                            JLabel label = display.getDisplayBankInsects().getLabel();
-                            label.setText(String.valueOf(this.currentPlayer.getInsectCount(insect.getClass())));
+                            display.getDisplayBankInsects().updateAllLabels();
 
                             isInsectButtonClicked = false;
                             playableCells.clear();
@@ -314,6 +313,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (from == null) {
                 this.currentPlayer.unplayInsect(insect);
             }
+
+            display.getDisplayBankInsects().updateAllLabels();
             display.repaint();
         }
     }
@@ -349,6 +350,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 this.currentPlayer.playInsect(insect.getClass());
             }
             switchPlayer();
+
+            display.getDisplayBankInsects().updateAllLabels();
             display.repaint();
         }
     }
