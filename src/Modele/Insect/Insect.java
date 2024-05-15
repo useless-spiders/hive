@@ -25,7 +25,7 @@ public abstract class Insect implements Cloneable {
         int[] dy = {-1, -1, 0, 1, 1, 0};
         for (HexCoordinate h : coordinates) {
             for (int i = 0; i < dx.length; i++) {
-                if (g.getNeighbor(h, directions[i]) == null) {
+                if (g.getCell(g.getNeighbor(h, directions[i])) == null) {
                     //voisin d'une case de la grille
                     HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 
@@ -97,7 +97,7 @@ public abstract class Insect implements Cloneable {
                 String colorNeighbor = g.getCell(hC).getTopInsect().getPlayer().getColor();
                 Log.addMessage(colorNeighbor);
                 Log.addMessage(this.getPlayer().getColor());
-                if (colorNeighbor != this.getPlayer().getColor()) {
+                if (!Objects.equals(colorNeighbor, this.getPlayer().getColor())) {
                     return false;
                 }
             }
@@ -107,11 +107,7 @@ public abstract class Insect implements Cloneable {
                 return true;
             } else {
                 HashMap<HexCoordinate, String> neighbors = g.getNeighbors(placement);
-                if (neighbors.isEmpty()) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !neighbors.isEmpty();
             }
         }
     }

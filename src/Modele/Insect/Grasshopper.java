@@ -18,14 +18,14 @@ public class Grasshopper extends Insect {
         int x = current.getX();
         int y = current.getY();
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-        if (canMoveInsect(g, this.getPlayer())) {
+        if (this.canMoveInsect(g, this.getPlayer())) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
 
             for (int i = 0; i < directions.length; i++) {
                 int nx = x, ny = y;
-                while (g.getNeighbor(new HexCoordinate(nx, ny), directions[i]) != null) {
+                while (g.getCell(g.getNeighbor(new HexCoordinate(nx, ny), directions[i])) != null) {
                     nx += dx[i];
                     ny += dy[i];
                 }

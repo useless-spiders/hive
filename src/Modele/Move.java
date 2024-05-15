@@ -15,15 +15,15 @@ public class Move {
     }
 
     public Insect getInsect() {
-        return insect;
+        return this.insect;
     }
 
     // if null, then the insect is being placed
     public HexCoordinate getPreviousCoor() {
-        return previousCoor;
+        return this.previousCoor;
     }
 
     public HexCoordinate getNewCoor() {
-        return newCoor;
+        return this.newCoor;
     }
 }

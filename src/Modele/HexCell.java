@@ -46,5 +46,4 @@ public class HexCell {
         }
         return true;
     }
-
 }

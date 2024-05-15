@@ -19,8 +19,8 @@ public class Spider extends Insect {
     public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
-        if (canMoveInsect(g, this.getPlayer())) {
-            getPossibleMovesCellsHelper(current, g, 3, coordinates, current, visited);
+        if (this.canMoveInsect(g, this.getPlayer())) {
+            this.getPossibleMovesCellsHelper(current, g, 3, coordinates, current, visited);
         }
         return coordinates;
     }
@@ -41,11 +41,11 @@ public class Spider extends Insect {
 
             for (int i = 0; i < directions.length; i++) {
                 HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-                if (!visited.contains(next) && g.getNeighbor(current, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
+                if (!visited.contains(next) && g.getCell(g.getNeighbor(current, directions[i])) == null && g.isHiveConnectedAfterMove(original, next)) {
                     //il faut qu il y ait un cote non vide pour glisser et un cote non vide sinon on va dans un trou
                     String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                    HexCell adj = g.getNeighbor(current, dir);
-                    HexCell adj2 = g.getNeighbor(current, directions[((i + 1) % directions.length)]);
+                    HexCell adj = g.getCell(g.getNeighbor(current, dir));
+                    HexCell adj2 = g.getCell(g.getNeighbor(current, directions[((i + 1) % directions.length)]));
 
                     if(original.getX() == x + dx[((i-1)+dx.length)%dx.length] & original.getY() == y + dy[((i-1)+dy.length)%dy.length]){
                         adj = null;
@@ -56,7 +56,7 @@ public class Spider extends Insect {
 
                     if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
                         visited.add(next);
-                        getPossibleMovesCellsHelper(next, g, steps - 1, coordinates, original, visited);
+                        this.getPossibleMovesCellsHelper(next, g, steps - 1, coordinates, original, visited);
                     }
                 }
             }

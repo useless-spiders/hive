@@ -1,9 +1,11 @@
 package Modele.Insect;
 
+import Modele.HexCell;
 import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import Modele.HexGrid;
 
@@ -18,16 +20,16 @@ public class Bee extends Insect {
         int x = current.getX();
         int y = current.getY();
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
-        if (canMoveInsect(g, this.getPlayer())) {
+        if (this.canMoveInsect(g, this.getPlayer())) {
             String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
             int[] dx = {0, 1, 1, 0, -1, -1};
             int[] dy = {-1, -1, 0, 1, 1, 0};
 
             for (int i = 0; i < directions.length; i++) {
-                if (g.getNeighbor(current, directions[i]) == null && g.isHiveConnectedAfterMove(current, new HexCoordinate(x + dx[i], y + dy[i]))) {
+                if (g.getCell(g.getNeighbor(current, directions[i])) == null && g.isHiveConnectedAfterMove(current, new HexCoordinate(x + dx[i], y + dy[i]))) {
                     //on teste les trous
                     String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                    if (((g.getNeighbor(current, dir) == null) && (g.getNeighbor(current, directions[((i + 1) % directions.length)]) != null)) || ((g.getNeighbor(current, dir) != null) && (g.getNeighbor(current, directions[((i + 1) % directions.length)]) == null))) {
+                    if (((g.getCell(g.getNeighbor(current, dir)) == null) && (g.getCell(g.getNeighbor(current, directions[((i + 1) % directions.length)])) != null)) || ((g.getCell(g.getNeighbor(current, dir)) != null) && (g.getCell(g.getNeighbor(current, directions[((i + 1) % directions.length)])) == null))) {
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
                     }
                 }
