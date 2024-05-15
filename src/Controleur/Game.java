@@ -4,7 +4,6 @@ import Modele.Move;
 import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.History;
-import Modele.Insect.Bee;
 import Modele.Insect.Beetle;
 import Modele.Insect.Insect;
 import Modele.Player;
@@ -14,7 +13,6 @@ import Structures.Log;
 import Vue.Display;
 import Structures.HexMetrics;
 
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -31,7 +29,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
     private HexCoordinate hoverCell;
-    private ArrayList<HexCoordinate> playableCells;
+    private ArrayList<HexCoordinate> playableCoordinates;
     private int lastX, lastY;
     private History history;
     private Insect insect;
@@ -44,7 +42,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
         this.hexClicked = null;
-        this.playableCells = new ArrayList<>();
+        this.playableCoordinates = new ArrayList<>();
         this.history = new History();
     }
 
@@ -61,8 +59,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPlayableCells() {
-        return playableCells;
+    public ArrayList<HexCoordinate> getPlayableCoordinates() {
+        return playableCoordinates;
     }
 
     @Override
@@ -113,7 +111,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (insect.getPlayer().equals(currentPlayer)) {
                 isInsectCellClicked = true;
                 hexClicked = hexagon;
-                playableCells = insect.getPossibleMovesCells(hexClicked, hexGrid);
+                playableCoordinates = insect.getPossibleMovesCoordinates(hexClicked, hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             } else {
@@ -128,13 +126,13 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             } else { //On clique sur un insecte déjà sélectionné
                 isInsectCellClicked = false;
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-                this.playableCells.clear();
+                this.playableCoordinates.clear();
             }
         }
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        if (playableCells.contains(hexagon)) {
+        if (playableCoordinates.contains(hexagon)) {
             HexCell cellClicked = hexGrid.getCell(hexClicked);
             Insect movedInsect = cellClicked.getTopInsect();
             Move move = new Move(movedInsect,hexClicked,hexagon);
@@ -142,7 +140,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             hexGrid.applyMove(move, currentPlayer);
             isInsectCellClicked = false;
             display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-            playableCells.clear();
+            playableCoordinates.clear();
             switchPlayer();
             history.addMove(move);
         } else {
@@ -163,7 +161,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                             display.getDisplayBankInsects().updateAllLabels();
 
                             isInsectButtonClicked = false;
-                            playableCells.clear();
+                            playableCoordinates.clear();
                             switchPlayer();
                             history.addMove(move);
                         }
@@ -190,10 +188,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
         int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
-        ArrayList<HexCoordinate> playableCells = getPlayableCells();
+        ArrayList<HexCoordinate> playableCoordinates = getPlayableCoordinates();
 
         HexCoordinate newHoverCell = HexMetrics.pixelToHex(mouseX, mouseY);
-        if (!newHoverCell.equals(hoverCell) && playableCells.contains(newHoverCell)) {
+        if (!newHoverCell.equals(hoverCell) && playableCoordinates.contains(newHoverCell)) {
             hoverCell = newHoverCell;
             display.getDisplayPlayableHex().updateHoverCell(hoverCell);
 
@@ -238,7 +236,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
-        this.playableCells.clear();
+        this.playableCoordinates.clear();
         if(player == this.currentPlayer){
             this.insect = this.currentPlayer.getInsect(insectClass);
             if(this.insect == null){
@@ -252,12 +250,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         if (player.equals(currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
             if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
-                this.playableCells.clear();
+                this.playableCoordinates.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
-                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(hexGrid);
+                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(hexGrid);
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(hexGrid);
+                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(hexGrid);
             }
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
