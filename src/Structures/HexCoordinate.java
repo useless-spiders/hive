@@ -24,7 +24,7 @@ public class HexCoordinate {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
         HexCoordinate other = (HexCoordinate) obj;
