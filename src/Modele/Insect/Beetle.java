@@ -4,6 +4,7 @@ import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import Modele.HexGrid;
 
@@ -13,7 +14,7 @@ public class Beetle extends Insect {
         super(player);
     }
 
-    @Override
+    /*@Override
     public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
         int x = current.getX();
         int y = current.getY();
@@ -31,6 +32,29 @@ public class Beetle extends Insect {
                     }
                     if((g.getCell(g.getNeighbor(current, directions[i])) != null)){
                         coordinates.add(new HexCoordinate(x + dx[i], y + dy[i]));
+                    }
+                }
+            }
+        }
+        return coordinates;
+    }*/
+
+    @Override
+    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
+        if (this.canMoveInsect(g, this.getPlayer())) {
+            Map<HexCoordinate, String> neighbors = g.getNeighbors(current, false);
+            for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
+                HexCoordinate neighbor = entry.getKey();
+                String direction = entry.getValue();
+                if (g.isHiveConnectedAfterMove(current, neighbor)) {
+                    HexCoordinate rightNeighbor = g.getNeighbor(current, g.getClockwiseDirection(direction));
+                    HexCoordinate leftNeighbor = g.getNeighbor(current, g.getCounterClockwiseDirection(direction));
+                    if (g.getCell(leftNeighbor) != null || g.getCell(rightNeighbor) != null) {
+                        coordinates.add(neighbor);
+                    }
+                    if (g.getCell(neighbor) != null) {
+                        coordinates.add(neighbor);
                     }
                 }
             }

@@ -65,7 +65,6 @@ public abstract class Insect implements Cloneable {
     }
 
     public boolean isPlacable(HexCoordinate placement, HexGrid g) {
-        Log.addMessage("tour insect :" + this.getPlayer().getTurn() + " " + this.getPlayer().getName());
         if (this.getPlayer().getTurn() > 1) {
             if (g.getCell(placement) != null) {
                 return false;

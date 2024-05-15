@@ -1,9 +1,6 @@
 package Modele;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import Modele.Insect.Bee;
 import Modele.Insect.Insect;
@@ -12,6 +9,10 @@ import Structures.HexCoordinate;
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
     private int insectsCount;
+
+    public static final String[] DIRECTIONS = {"NO", "NE", "E", "SE", "SO", "O"};
+    public static final int[] DX = {0, 1, 1, 0, -1, -1};
+    public static final int[] DY = {-1, -1, 0, 1, 1, 0};
 
     public HexGrid() {
         this.grid = new HashMap<>();
@@ -39,30 +40,12 @@ public class HexGrid implements Cloneable {
     public HexCoordinate getNeighbor(HexCoordinate coord, String dir) {
         int x = coord.getX();
         int y = coord.getY();
-        switch (dir) {
-            case "NO":
-                y -= 1;
-                break;
-            case "NE":
-                x += 1;
-                y -= 1;
-                break;
-            case "E":
-                x += 1;
-                break;
-            case "SE":
-                y += 1;
-                break;
-            case "SO":
-                x -= 1;
-                y += 1;
-                break;
-            case "O":
-                x -= 1;
-                break;
-            default:
-                x = y = 0; //cas pas possible en theorie
-                break;
+        int index = Arrays.asList(DIRECTIONS).indexOf(dir);
+        if (index != -1) {
+            x += DX[index];
+            y += DY[index];
+        } else {
+            x = y = 0; // cas impossible en théorie
         }
         return new HexCoordinate(x, y);
     }
@@ -73,14 +56,11 @@ public class HexGrid implements Cloneable {
 
     public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord, boolean verifyNull) {
         HashMap<HexCoordinate, String> neighbors = new HashMap<>();
-        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
-        int[] dx = {0, 1, 1, 0, -1, -1};
-        int[] dy = {-1, -1, 0, 1, 1, 0};
 
-        for (int i = 0; i < directions.length; i++) {
-            HexCoordinate next = new HexCoordinate(coord.getX() + dx[i], coord.getY() + dy[i]);
-            if (!verifyNull || this.getCell(this.getNeighbor(coord, directions[i])) != null) {
-                neighbors.put(next, directions[i]);
+        for (int i = 0; i < DIRECTIONS.length; i++) {
+            HexCoordinate next = new HexCoordinate(coord.getX() + DX[i], coord.getY() + DY[i]);
+            if (!verifyNull || this.getCell(this.getNeighbor(coord, DIRECTIONS[i])) != null) {
+                neighbors.put(next, DIRECTIONS[i]);
             }
         }
 
@@ -146,6 +126,18 @@ public class HexGrid implements Cloneable {
             }
         }
         return false;
+    }
+
+    public String getClockwiseDirection(String direction) {
+        int index = Arrays.asList(DIRECTIONS).indexOf(direction);
+        int clockwiseIndex = (index + 1) % DIRECTIONS.length;
+        return DIRECTIONS[clockwiseIndex];
+    }
+
+    public String getCounterClockwiseDirection(String direction) {
+        int index = Arrays.asList(DIRECTIONS).indexOf(direction);
+        int counterClockwiseIndex = (index - 1 + DIRECTIONS.length) % DIRECTIONS.length;
+        return DIRECTIONS[counterClockwiseIndex];
     }
 
     @Override

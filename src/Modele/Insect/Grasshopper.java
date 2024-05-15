@@ -4,6 +4,7 @@ import Modele.Player;
 import Structures.HexCoordinate;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import Modele.HexGrid;
 
@@ -13,7 +14,7 @@ public class Grasshopper extends Insect {
         super(player);
     }
 
-    @Override
+    /*@Override
     public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
         int x = current.getX();
         int y = current.getY();
@@ -36,6 +37,26 @@ public class Grasshopper extends Insect {
                 }
             }
 
+        }
+        return coordinates;
+    }*/
+
+    @Override
+    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+        ArrayList<HexCoordinate> coordinates = new ArrayList<>();
+        if (this.canMoveInsect(g, this.getPlayer())) {
+            Map<HexCoordinate, String> neighbors = g.getNeighbors(current, false);
+            for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
+                HexCoordinate neighbor = entry.getKey();
+                String direction = entry.getValue();
+                HexCoordinate next = neighbor;
+                while (g.getCell(next) != null) {
+                    next = g.getNeighbor(next, direction);
+                }
+                if(next != neighbor && g.isHiveConnectedAfterMove(current, next)){
+                    coordinates.add(next);
+                }
+            }
         }
         return coordinates;
     }
