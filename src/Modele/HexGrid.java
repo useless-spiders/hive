@@ -95,6 +95,34 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    public void unapplyMove(Move move,Player player){
+        HexCoordinate from = move.getPreviousCoor();
+        HexCoordinate to = move.getNewCoor();
+        Insect insect = move.getInsect();
+        if (insect instanceof Bee) {
+            player.setBeePlaced(false);
+        }
+
+        if(this.getCell(to) != null){
+            this.getCell(to).removeTopInsect();
+        }
+        if(this.getCell(to) == null || this.getCell(to).getInsects().isEmpty()){
+            this.removeCell(to);
+        }
+
+        if (from != null) {
+            if (this.getCell(from) != null) {
+                this.getCell(from).addInsect(insect);
+            } else {
+                this.addCell(from, insect);
+            }
+        }
+
+        if (from == null) {
+            player.unplayInsect(insect);
+        }
+    }
+
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
         // Create a copy of the current HexGrid
         HexGrid tempGrid = this.clone();

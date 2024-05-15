@@ -267,74 +267,29 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void cancelMove() {
-        Move move = history.cancelMove();
-        if (move != null) {
+        if (history.canCancel()) {
+            Move move = history.cancelMove();
             this.currentPlayer.decrementTurn();
             switchPlayer();
             this.currentPlayer.decrementTurn();
-
-            HexCoordinate from = move.getPreviousCoor();
-            HexCoordinate to = move.getNewCoor();
-            Insect insect = move.getInsect();
-
-            if (insect instanceof Bee) {
-                currentPlayer.setBeePlaced(false);
-            }
-
-            if(hexGrid.getCell(to) != null){
-                hexGrid.getCell(to).removeTopInsect();
-            }
-            if(hexGrid.getCell(to) == null || hexGrid.getCell(to).getInsects().isEmpty()){
-                hexGrid.removeCell(to);
-            }
-
-            if (from != null) {
-                if (hexGrid.getCell(from) != null) {
-                    hexGrid.getCell(from).addInsect(insect);
-                } else {
-                    hexGrid.addCell(from, insect);
-                }
-            }
-
-            if (from == null) {
-                this.currentPlayer.unplayInsect(insect);
-            }
+            hexGrid.unapplyMove(move, currentPlayer);
             display.repaint();
         }
+        else{
+            Log.addMessage("no move to cancel");
+        }   
     }
 
     @Override
     public void redoMove() {
-        Move move = history.redoMove();
-        if (move != null) {
-            HexCoordinate from = move.getPreviousCoor();
-            HexCoordinate to = move.getNewCoor();
-            Insect insect = move.getInsect();
-
-            if (insect instanceof Bee) {
-                currentPlayer.setBeePlaced(true);
-            }
-
-            if (from != null) {
-                if(hexGrid.getCell(from) != null){
-                    hexGrid.getCell(from).removeTopInsect();
-                }
-                if(hexGrid.getCell(from) == null || hexGrid.getCell(from).getInsects().isEmpty()){
-                    hexGrid.removeCell(from);
-                }
-            }
-
-            if (hexGrid.getCell(to) != null) {
-                hexGrid.getCell(to).addInsect(insect);
-            } else {
-                hexGrid.addCell(to, insect);
-            }
-
-            if (from == null) {
-                this.currentPlayer.playInsect(insect.getClass());
-            }
+        if(history.canRedo()){
+            Move move = history.redoMove();
+            hexGrid.applyMove(move, currentPlayer);
             switchPlayer();
             display.repaint();
+        }
+        else{
+            Log.addMessage("no move to redo");
         }
     }
 }
