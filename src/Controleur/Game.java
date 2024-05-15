@@ -270,10 +270,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCells.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
-                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCellT1(hexGrid);
+                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(hexGrid);
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCells(hexGrid);
+                this.playableCells = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(hexGrid);
             }
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);

@@ -17,52 +17,34 @@ public abstract class Insect implements Cloneable {
 
     public abstract ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g);
 
-    public ArrayList<HexCoordinate> getPossibleInsertionCells(HexGrid g) {
-        ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
+    public ArrayList<HexCoordinate> getPossibleInsertionCoordinates(HexGrid g) {
+        ArrayList<HexCoordinate> coords = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
-        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
-        int[] dx = {0, 1, 1, 0, -1, -1};
-        int[] dy = {-1, -1, 0, 1, 1, 0};
-        for (HexCoordinate h : coordinates) {
-            for (int i = 0; i < dx.length; i++) {
-                if (g.getCell(g.getNeighbor(h, directions[i])) == null) {
-                    //voisin d'une case de la grille
-                    HexCoordinate current = new HexCoordinate(h.getX() + dx[i], h.getY() + dy[i]);
 
-                    HashMap<HexCoordinate, String> neighbors = g.getNeighbors(current);
+        for (HexCoordinate h : coordinates) {
+            HashMap<HexCoordinate, String> neighbors = g.getNeighbors(h, false);
+            for (HexCoordinate neighbor : neighbors.keySet()) {
+                if (g.getCell(neighbor) == null) {
                     boolean sameColor = true;
-                    Set<HexCoordinate> keys = neighbors.keySet();
-                    if (!keys.isEmpty()) {
-                        for (HexCoordinate k : keys) {
-                            if (g.getCell(k).getTopInsect().getPlayer().getColor() != this.getPlayer().getColor()) {
-                                sameColor = false;
-                            }
+                    HashMap<HexCoordinate, String> neighborOfNeighbor = g.getNeighbors(neighbor);
+                    for (HexCoordinate k : neighborOfNeighbor.keySet()) {
+                        if (g.getCell(k) != null && !Objects.equals(g.getCell(k).getTopInsect().getPlayer().getColor(), this.getPlayer().getColor())) {
+                            sameColor = false;
+                            break;
                         }
-                        if (sameColor) {
-                            possibleInsertionCells.add(current);
-                        }
+                    }
+                    if (sameColor) {
+                        coords.add(neighbor);
                     }
                 }
             }
         }
-        return possibleInsertionCells;
+        return coords;
     }
 
-    public ArrayList<HexCoordinate> getPossibleInsertionCellT1(HexGrid g) {
-        ArrayList<HexCoordinate> possibleInsertionCells = new ArrayList<>();
-        Set<HexCoordinate> coordinates = g.getGrid().keySet();
-        int x, y;
-        for (HexCoordinate h : coordinates) {
-            x = h.getX();
-            y = h.getY();
-            possibleInsertionCells.add(new HexCoordinate(x, y - 1));
-            possibleInsertionCells.add(new HexCoordinate(x + 1, y - 1));
-            possibleInsertionCells.add(new HexCoordinate(x + 1, y));
-            possibleInsertionCells.add(new HexCoordinate(x, y + 1));
-            possibleInsertionCells.add(new HexCoordinate(x - 1, y + 1));
-            possibleInsertionCells.add(new HexCoordinate(x - 1, y));
-        }
-        return possibleInsertionCells;
+    public ArrayList<HexCoordinate> getPossibleInsertionCoordinatesT1(HexGrid g) {
+        Iterator<HexCoordinate> it = g.getGrid().keySet().iterator();
+        return new ArrayList<>(g.getNeighbors(it.next(), false).keySet());
     }
 
     public Player getPlayer() {

@@ -68,6 +68,10 @@ public class HexGrid implements Cloneable {
     }
 
     public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord) {
+        return getNeighbors(coord, true);
+    }
+
+    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord, boolean verifyNull) {
         HashMap<HexCoordinate, String> neighbors = new HashMap<>();
         String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
         int[] dx = {0, 1, 1, 0, -1, -1};
@@ -75,7 +79,7 @@ public class HexGrid implements Cloneable {
 
         for (int i = 0; i < directions.length; i++) {
             HexCoordinate next = new HexCoordinate(coord.getX() + dx[i], coord.getY() + dy[i]);
-            if (this.getCell(this.getNeighbor(coord, directions[i])) != null) {
+            if (!verifyNull || this.getCell(this.getNeighbor(coord, directions[i])) != null) {
                 neighbors.put(next, directions[i]);
             }
         }
