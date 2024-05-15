@@ -60,7 +60,6 @@ public abstract class Insect implements Cloneable {
                 }
             }
         }
-        Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
         return false;
     }
 

@@ -114,11 +114,7 @@ public class Player implements Cloneable {
     }
 
     public boolean checkBeePlacement(Insect insect) {
-        if (this.getTurn() == 4 && !this.isBeePlaced() && !(insect instanceof Bee)) {
-            Log.addMessage("Vous devez placer l'abeille au 4e tour");
-            return false;
-        }
-        return true;
+        return this.getTurn() != 4 || this.isBeePlaced() || insect instanceof Bee;
     }
 
     @Override

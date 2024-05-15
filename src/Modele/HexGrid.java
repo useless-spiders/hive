@@ -5,7 +5,6 @@ import java.util.*;
 import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
-import Structures.Log;
 
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
@@ -14,6 +13,15 @@ public class HexGrid implements Cloneable {
     public static final String[] DIRECTIONS = {"NO", "NE", "E", "SE", "SO", "O"};
     public static final int[] DX = {0, 1, 1, 0, -1, -1};
     public static final int[] DY = {-1, -1, 0, 1, 1, 0};
+
+    // utilisation d'une hashmap pour être en temps constant entre la direction et l'index
+    private static final Map<String, Integer> DIRECTIONS_MAP = new HashMap<>();
+
+    static {
+        for (int i = 0; i < DIRECTIONS.length; i++) {
+            DIRECTIONS_MAP.put(DIRECTIONS[i], i);
+        }
+    }
 
     public HexGrid() {
         this.grid = new HashMap<>();
@@ -41,14 +49,14 @@ public class HexGrid implements Cloneable {
     public HexCoordinate getNeighborCoordinates(HexCoordinate coord, String dir) {
         int x = coord.getX();
         int y = coord.getY();
-        int index = Arrays.asList(DIRECTIONS).indexOf(dir);
-        if (index != -1) {
+        Integer index = DIRECTIONS_MAP.get(dir);
+        if (index != null) {
             x += DX[index];
             y += DY[index];
+            return new HexCoordinate(x, y);
         } else {
-            Log.addMessage("Direction not found");
+            return null;
         }
-        return new HexCoordinate(x, y);
     }
 
     public HashMap<HexCoordinate, String> getNeighborsCoordinates(HexCoordinate coord) {
@@ -68,34 +76,31 @@ public class HexGrid implements Cloneable {
         return neighbors;
     }
 
-    public void applyMove(Move move,Player player){ //Appelé uniquement si le move est valide
+    public void applyMove(Move move, Player player) { //Appelé uniquement si le move est valide
         HexCell newCell = this.getCell(move.getNewCoor());
         Insect insect = move.getInsect();
 
-        if(insect instanceof Bee){
+        if (insect instanceof Bee) {
             player.setBeePlaced(true);
         }
-        if(newCell == null){ //cellule d'arrivé vide
+        if (newCell == null) { //cellule d'arrivé vide
             this.addCell(move.getNewCoor(), insect);
-        }
-        else{ //cellule d'arrivée deja remplis (scarabée)
+        } else { //cellule d'arrivée deja remplis (scarabée)
             newCell.addInsect(insect);
         }
 
-        if(move.getPreviousCoor() != null){ //cas deplacement insecte
-            if(this.getCell(move.getPreviousCoor()).getInsects().size() == 1){ //cellule de depart a suppr
+        if (move.getPreviousCoor() != null) { //cas deplacement insecte
+            if (this.getCell(move.getPreviousCoor()).getInsects().size() == 1) { //cellule de depart a suppr
                 this.removeCell(move.getPreviousCoor());
-            }
-            else{ //cellule de depart a garder
+            } else { //cellule de depart a garder
                 this.getCell(move.getPreviousCoor()).removeTopInsect();
             }
-        }
-        else{ //cas placement insecte
+        } else { //cas placement insecte
             player.playInsect(insect.getClass());
         }
     }
 
-    public void unapplyMove(Move move,Player player){
+    public void unapplyMove(Move move, Player player) {
         HexCoordinate from = move.getPreviousCoor();
         HexCoordinate to = move.getNewCoor();
         Insect insect = move.getInsect();
@@ -103,10 +108,10 @@ public class HexGrid implements Cloneable {
             player.setBeePlaced(false);
         }
 
-        if(this.getCell(to) != null){
+        if (this.getCell(to) != null) {
             this.getCell(to).removeTopInsect();
         }
-        if(this.getCell(to) == null || this.getCell(to).getInsects().isEmpty()){
+        if (this.getCell(to) == null || this.getCell(to).getInsects().isEmpty()) {
             this.removeCell(to);
         }
 

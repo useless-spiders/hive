@@ -112,6 +112,9 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 this.isInsectCellClicked = true;
                 this.hexClicked = hexagon;
                 this.playableCoordinates = insect.getPossibleMovesCoordinates(this.hexClicked, this.hexGrid);
+                if(this.playableCoordinates.isEmpty() && !this.currentPlayer.isBeePlaced()){
+                    Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
+                }
                 // rendre transparente la case
                 this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
             } else {
@@ -163,6 +166,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                             this.playableCoordinates.clear();
                             this.switchPlayer();
                             this.history.addMove(move);
+                        } else {
+                            Log.addMessage("Vous devez placer l'abeille au 4e tour");
                         }
                     } else {
                         Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
