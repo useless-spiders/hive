@@ -1,6 +1,5 @@
 package Controleur;
 
-import Modele.Insect.Bee;
 import Modele.Move;
 import Modele.HexCell;
 import Modele.HexGrid;
@@ -48,11 +47,11 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     public Player getPlayer1() {
-        return player1;
+        return this.player1;
     }
 
     public Player getPlayer2() {
-        return player2;
+        return this.player2;
     }
 
     public HexGrid getGrid() {
@@ -61,12 +60,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public ArrayList<HexCoordinate> getPlayableCoordinates() {
-        return playableCoordinates;
+        return this.playableCoordinates;
     }
 
     @Override
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        return this.currentPlayer;
     }
 
     public void setDisplay(Display display) {
@@ -88,7 +87,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     }
 
     private void switchPlayer() {
-        checkLoser();
+        this.checkLoser();
         this.currentPlayer.incrementTurn();
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
@@ -108,42 +107,41 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
         Insect insect = cell.getTopInsect();
 
-        if (!isInsectCellClicked) { //On clique sur un insecte à déplacer
+        if (!this.isInsectCellClicked) { //On clique sur un insecte à déplacer
             if (insect.getPlayer().equals(currentPlayer)) {
-                isInsectCellClicked = true;
-                hexClicked = hexagon;
-                playableCoordinates = insect.getPossibleMovesCoordinates(hexClicked, hexGrid);
+                this.isInsectCellClicked = true;
+                this.hexClicked = hexagon;
+                this.playableCoordinates = insect.getPossibleMovesCoordinates(this.hexClicked, this.hexGrid);
                 // rendre transparente la case
-                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
             }
 
         } else {
-            HexCell cellClicked = hexGrid.getCell(hexClicked);
-            if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(hexClicked)) { //On clique sur un insecte cible d'un scarabée
-                handleInsectMoved(hexagon);
-
+            HexCell cellClicked = this.hexGrid.getCell(this.hexClicked);
+            if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(this.hexClicked)) { //On clique sur un insecte cible d'un scarabée
+                this.handleInsectMoved(hexagon);
             } else { //On clique sur un insecte déjà sélectionné
-                isInsectCellClicked = false;
-                display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                this.isInsectCellClicked = false;
+                this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
                 this.playableCoordinates.clear();
             }
         }
     }
 
     private void handleInsectMoved(HexCoordinate hexagon) {
-        if (playableCoordinates.contains(hexagon)) {
-            HexCell cellClicked = hexGrid.getCell(hexClicked);
+        if (this.playableCoordinates.contains(hexagon)) {
+            HexCell cellClicked = this.hexGrid.getCell(this.hexClicked);
             Insect movedInsect = cellClicked.getTopInsect();
-            Move move = new Move(movedInsect, hexClicked, hexagon);
+            Move move = new Move(movedInsect, this.hexClicked, hexagon);
 
-            hexGrid.applyMove(move, currentPlayer);
-            isInsectCellClicked = false;
-            display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-            playableCoordinates.clear();
-            switchPlayer();
-            history.addMove(move);
+            this.hexGrid.applyMove(move, this.currentPlayer);
+            this.isInsectCellClicked = false;
+            this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+            this.playableCoordinates.clear();
+            this.switchPlayer();
+            this.history.addMove(move);
         } else {
             Log.addMessage("Déplacement impossible");
         }
@@ -151,20 +149,20 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect != null) { //Clic sur une case vide sans insect selectionné
-            if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
+            if (this.insect.getPlayer().equals(this.currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
                 if (this.insect.isPlacable(hexagon, hexGrid)) {
-                    if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
+                    if (this.currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
                         if (this.currentPlayer.checkBeePlacement(this.insect)) {
                             Move move = new Move(this.insect, null, hexagon);
-                            hexGrid.applyMove(move, currentPlayer);
+                            this.hexGrid.applyMove(move, this.currentPlayer);
 
                             //Modifier le compteur des boutons
-                            display.getDisplayBankInsects().updateAllLabels();
+                            this.display.getDisplayBankInsects().updateAllLabels();
 
-                            isInsectButtonClicked = false;
-                            playableCoordinates.clear();
-                            switchPlayer();
-                            history.addMove(move);
+                            this.isInsectButtonClicked = false;
+                            this.playableCoordinates.clear();
+                            this.switchPlayer();
+                            this.history.addMove(move);
                         }
                     } else {
                         Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
@@ -183,47 +181,45 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
         int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
-        ArrayList<HexCoordinate> playableCoordinates = getPlayableCoordinates();
-
         HexCoordinate newHoverCell = HexMetrics.pixelToHex(mouseX, mouseY);
-        if (!newHoverCell.equals(hoverCell) && playableCoordinates.contains(newHoverCell)) {
-            hoverCell = newHoverCell;
-            display.getDisplayPlayableHex().updateHoverCell(hoverCell);
+        if (!newHoverCell.equals(this.hoverCell) && this.playableCoordinates.contains(newHoverCell)) {
+            this.hoverCell = newHoverCell;
+            this.display.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
 
-            display.repaint();
+            this.display.repaint();
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
 
-        lastX = e.getX();
-        lastY = e.getY();
+        this.lastX = e.getX();
+        this.lastY = e.getY();
         int mouseX = e.getX() - HexMetrics.getViewOffsetX();
         int mouseY = e.getY() - HexMetrics.getViewOffsetY();
 
         HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
-        HexCell cell = hexGrid.getCell(hexagon);
+        HexCell cell = this.hexGrid.getCell(hexagon);
         if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
-            handleCellClicked(cell, hexagon);
-        } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
-            handleInsectMoved(hexagon);
-        } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
-            handleInsectPlaced(hexagon);
+            this.handleCellClicked(cell, hexagon);
+        } else if (this.isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
+            this.handleInsectMoved(hexagon);
+        } else if (this.isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
+            this.handleInsectPlaced(hexagon);
         }
 
-        display.repaint();
+        this.display.repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        int dx = e.getX() - lastX;
-        int dy = e.getY() - lastY;
+        int dx = e.getX() - this.lastX;
+        int dy = e.getY() - this.lastY;
         HexMetrics.updateViewPosition(dx, dy);
-        lastX = e.getX();
-        lastY = e.getY();
+        this.lastX = e.getX();
+        this.lastY = e.getY();
 
-        display.repaint();
+        this.display.repaint();
     }
 
     @Override
@@ -241,33 +237,33 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             Log.addMessage("Pas le bon joueur !");
         }
 
-        if (player.equals(currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
-            if (this.currentPlayer.getTurn() <= 1 && hexGrid.getGrid().isEmpty()) {
+        if (player.equals(this.currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
+            if (this.currentPlayer.getTurn() <= 1 && this.hexGrid.getGrid().isEmpty()) {
                 Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                 this.playableCoordinates.clear();
-            } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
-                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(hexGrid);
+            } else if (this.currentPlayer.getTurn() <= 1 && !this.hexGrid.getGrid().isEmpty()) {
+                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(this.hexGrid);
             } else if (!this.currentPlayer.checkBeePlacement(this.insect)) {
                 this.playableCoordinates.clear();
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(hexGrid);
+                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(this.hexGrid);
             }
         }
-        display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
-        display.repaint();
+        this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+        this.display.repaint();
     }
 
     @Override
     public void cancelMove() {
-        if (history.canCancel()) {
-            Move move = history.cancelMove();
+        if (this.history.canCancel()) {
+            Move move = this.history.cancelMove();
             this.currentPlayer.decrementTurn();
-            switchPlayer();
+            this.switchPlayer();
             this.currentPlayer.decrementTurn();
-            hexGrid.unapplyMove(move, currentPlayer);
-            display.getDisplayBankInsects().updateAllLabels();
-            display.repaint();
+            this.hexGrid.unapplyMove(move, this.currentPlayer);
+            this.display.getDisplayBankInsects().updateAllLabels();
+            this.display.repaint();
         } else {
             Log.addMessage("no move to cancel");
         }
@@ -275,12 +271,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void redoMove() {
-        if (history.canRedo()) {
-            Move move = history.redoMove();
-            hexGrid.applyMove(move, currentPlayer);
-            switchPlayer();
-            display.getDisplayBankInsects().updateAllLabels();
-            display.repaint();
+        if (this.history.canRedo()) {
+            Move move = this.history.redoMove();
+            this.hexGrid.applyMove(move, this.currentPlayer);
+            this.switchPlayer();
+            this.display.getDisplayBankInsects().updateAllLabels();
+            this.display.repaint();
         } else {
             Log.addMessage("no move to redo");
         }
