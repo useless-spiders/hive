@@ -5,6 +5,7 @@ import java.util.*;
 import Modele.Insect.Bee;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
+import Structures.Log;
 
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
@@ -45,7 +46,7 @@ public class HexGrid implements Cloneable {
             x += DX[index];
             y += DY[index];
         } else {
-            x = y = 0; // cas impossible en théorie
+            Log.addMessage("Direction not found");
         }
         return new HexCoordinate(x, y);
     }
