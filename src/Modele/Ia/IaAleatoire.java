@@ -30,7 +30,7 @@ public class IaAleatoire extends Ia
         {
             ArrayList<HexCoordinate> possibleCells = new ArrayList<>();
             Insect insect = this.us.getInsect(Bee.class);
-            possibleCells = insect.getPossibleInsertionCells(this.Grid);
+            possibleCells = insect.getPossibleInsertionCoordinates(this.Grid);
             HexCoordinate dest = possibleCells.get(r.nextInt(possibleCells.size()));
             return new Move(insect, null, dest);
 
@@ -68,7 +68,7 @@ public class IaAleatoire extends Ia
                 }
                 else
                 {
-                    possibleCells = insect.getPossibleInsertionCellT1(this.Grid);
+                    possibleCells = insect.getPossibleInsertionCoordinatesT1(this.Grid);
                     HexCoordinate dest = possibleCells.get(r.nextInt(possibleCells.size()));
                     return new Move(insect, source, dest);
                 }
@@ -91,7 +91,7 @@ public class IaAleatoire extends Ia
                 }
                 //////////////solution temporaire ///////////
                 Spider zed = new Spider(this.us);
-                possibleCells = zed.getPossibleInsertionCells(this.Grid);
+                possibleCells = zed.getPossibleInsertionCoordinates(this.Grid);
                 /////////////////////////////////////////////
     
                 HexCoordinate source = null;
