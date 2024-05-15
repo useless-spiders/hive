@@ -1,22 +1,25 @@
 package Vue;
 
-import Pattern.GameActionHandler;
+import Controleur.PageManager;
+import Pattern.PageActionHandler;
 import Structures.Log;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayWinFrame {
+
+    JFrame WinFrame;
     private static final String REPLAY = "New Game";
     private static final String MENU = "Menu";
+    private PageManager pageManager;
+    private PageActionHandler controller;
 
-
-    private GameActionHandler controller;
-
-    public DisplayWinFrame(String player,GameActionHandler controller){
+    public DisplayWinFrame(JFrame WinFrame, String player,PageManager pageManager,PageActionHandler controller){
         this.controller = controller;
-        JPanel column1 = createColumn();
-        JFrame WinFrame = new JFrame("Victoire");
+        this.pageManager = pageManager;
+        this.WinFrame = WinFrame;
+        JPanel column1 = createColumn();;
         JLabel Wintext = new JLabel("Victoire de" + player);
         WinFrame.setSize(800, 600);
         WinFrame.add(column1,BorderLayout.CENTER);
@@ -39,6 +42,7 @@ public class DisplayWinFrame {
             case REPLAY:
                 break;
             case MENU:
+                button.addActionListener(e -> controller.WinFrameToMenu(pageManager));
                 break;
             default:
                 Log.addMessage("Erreur dans les boutons de la WinFrame");

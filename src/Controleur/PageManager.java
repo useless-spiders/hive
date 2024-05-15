@@ -10,12 +10,14 @@ public class PageManager {
     private JFrame frameOpening;
     private JFrame frameMenu;
     private JFrame frameGame;
+    private JFrame frameWinFrame;
 
 
     public PageManager() {
         this.frameOpening = new JFrame();
         this.frameGame = new JFrame();
         this.frameMenu = new JFrame();
+        this.frameWinFrame = new JFrame();
     }
 
     public void start() {
@@ -48,6 +50,16 @@ public class PageManager {
     public void gameToOpening(){
         frameOpening.setVisible(false);
         frameGame.setVisible(true);
+    }
+
+    public void gameToWinFrame(){
+        frameWinFrame.setVisible(true);
+        frameGame.setVisible(false);
+    }
+
+    public void WinFrameToMenu(){
+        frameWinFrame.setVisible(false);
+        frameMenu.setVisible(true);
     }
 
 }
