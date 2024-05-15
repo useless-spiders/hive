@@ -15,18 +15,18 @@ public abstract class Insect implements Cloneable {
         this.player = player;
     }
 
-    public abstract ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g);
+    public abstract ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g);
 
     public ArrayList<HexCoordinate> getPossibleInsertionCoordinates(HexGrid g) {
         ArrayList<HexCoordinate> coords = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
 
         for (HexCoordinate h : coordinates) {
-            HashMap<HexCoordinate, String> neighbors = g.getNeighbors(h, false);
+            HashMap<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(h, false);
             for (HexCoordinate neighbor : neighbors.keySet()) {
                 if (g.getCell(neighbor) == null) {
                     boolean sameColor = true;
-                    HashMap<HexCoordinate, String> neighborOfNeighbor = g.getNeighbors(neighbor);
+                    HashMap<HexCoordinate, String> neighborOfNeighbor = g.getNeighborsCoordinates(neighbor);
                     for (HexCoordinate k : neighborOfNeighbor.keySet()) {
                         if (g.getCell(k) != null && !Objects.equals(g.getCell(k).getTopInsect().getPlayer().getColor(), this.getPlayer().getColor())) {
                             sameColor = false;
@@ -44,7 +44,7 @@ public abstract class Insect implements Cloneable {
 
     public ArrayList<HexCoordinate> getPossibleInsertionCoordinatesT1(HexGrid g) {
         Iterator<HexCoordinate> it = g.getGrid().keySet().iterator();
-        return new ArrayList<>(g.getNeighbors(it.next(), false).keySet());
+        return new ArrayList<>(g.getNeighborsCoordinates(it.next(), false).keySet());
     }
 
     public Player getPlayer() {
@@ -69,7 +69,7 @@ public abstract class Insect implements Cloneable {
             if (g.getCell(placement) != null) {
                 return false;
             }
-            HashMap<HexCoordinate, String> neighbors = g.getNeighbors(placement);
+            HashMap<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(placement);
             if ((neighbors.isEmpty())) {
                 return false;
             }
@@ -87,7 +87,7 @@ public abstract class Insect implements Cloneable {
             if (g.getGrid().isEmpty()) {
                 return true;
             } else {
-                HashMap<HexCoordinate, String> neighbors = g.getNeighbors(placement);
+                HashMap<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(placement);
                 return !neighbors.isEmpty();
             }
         }

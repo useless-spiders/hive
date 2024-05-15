@@ -75,7 +75,7 @@ public class HexGridTest {
      * Teste la récupération d'une cellule adjacente
      */
     @Test
-    public void testGetNeighbor() {
+    public void testGetNeighborCoordinates() {
         HexCoordinate coord = new HexCoordinate(0, 0);
 
         HexCell cell1 = new HexCell();
@@ -96,12 +96,12 @@ public class HexGridTest {
         grid.addCell(new HexCoordinate(0, 1), beetle);
         grid.addCell(new HexCoordinate(-1, 1), beetle);
         grid.addCell(new HexCoordinate(-1, 0), spider);
-        assertEquals(cell1, grid.getCell(grid.getNeighbor(coord, "NO")));
-        assertEquals(cell2, grid.getCell(grid.getNeighbor(coord, "NE")));
-        assertEquals(cell3, grid.getCell(grid.getNeighbor(coord, "E")));
-        assertEquals(cell4, grid.getCell(grid.getNeighbor(coord, "SE")));
-        assertEquals(cell5, grid.getCell(grid.getNeighbor(coord, "SO")));
-        assertEquals(cell6, grid.getCell(grid.getNeighbor(coord, "O")));
+        assertEquals(cell1, grid.getCell(grid.getNeighborCoordinates(coord, "NO")));
+        assertEquals(cell2, grid.getCell(grid.getNeighborCoordinates(coord, "NE")));
+        assertEquals(cell3, grid.getCell(grid.getNeighborCoordinates(coord, "E")));
+        assertEquals(cell4, grid.getCell(grid.getNeighborCoordinates(coord, "SE")));
+        assertEquals(cell5, grid.getCell(grid.getNeighborCoordinates(coord, "SO")));
+        assertEquals(cell6, grid.getCell(grid.getNeighborCoordinates(coord, "O")));
     }
 
     /**

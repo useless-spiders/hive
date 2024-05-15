@@ -82,7 +82,7 @@ public class IaAleatoire extends Ia
                     Insect ins = this.Grid.getCell(source).getTopInsect();
                     if(ins.getPlayer()==this.us)
                     {
-                        possibleCells = ins.getPossibleMovesCells(source, this.Grid);
+                        possibleCells = ins.getPossibleMovesCoordinates(source, this.Grid);
                         for(HexCoordinate dest : possibleCells)
                         {
                             possibleMoves.add(new Move(ins, source, dest));

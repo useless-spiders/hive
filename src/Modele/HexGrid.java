@@ -38,7 +38,7 @@ public class HexGrid implements Cloneable {
         this.grid.remove(coord);
     }
 
-    public HexCoordinate getNeighbor(HexCoordinate coord, String dir) {
+    public HexCoordinate getNeighborCoordinates(HexCoordinate coord, String dir) {
         int x = coord.getX();
         int y = coord.getY();
         int index = Arrays.asList(DIRECTIONS).indexOf(dir);
@@ -51,16 +51,16 @@ public class HexGrid implements Cloneable {
         return new HexCoordinate(x, y);
     }
 
-    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord) {
-        return getNeighbors(coord, true);
+    public HashMap<HexCoordinate, String> getNeighborsCoordinates(HexCoordinate coord) {
+        return getNeighborsCoordinates(coord, true);
     }
 
-    public HashMap<HexCoordinate, String> getNeighbors(HexCoordinate coord, boolean verifyNull) {
+    public HashMap<HexCoordinate, String> getNeighborsCoordinates(HexCoordinate coord, boolean verifyNull) {
         HashMap<HexCoordinate, String> neighbors = new HashMap<>();
 
         for (int i = 0; i < DIRECTIONS.length; i++) {
             HexCoordinate next = new HexCoordinate(coord.getX() + DX[i], coord.getY() + DY[i]);
-            if (!verifyNull || this.getCell(this.getNeighbor(coord, DIRECTIONS[i])) != null) {
+            if (!verifyNull || this.getCell(this.getNeighborCoordinates(coord, DIRECTIONS[i])) != null) {
                 neighbors.put(next, DIRECTIONS[i]);
             }
         }
@@ -165,7 +165,7 @@ public class HexGrid implements Cloneable {
     private void dfs(HexCoordinate current, HashSet<HexCoordinate> visited) {
         visited.add(current);
 
-        for (HexCoordinate next : getNeighbors(current).keySet()) {
+        for (HexCoordinate next : getNeighborsCoordinates(current).keySet()) {
             if (!visited.contains(next)) {
                 this.dfs(next, visited);
             }
@@ -177,7 +177,7 @@ public class HexGrid implements Cloneable {
             ArrayList<Insect> insects = this.getCell(h).getInsects();
             for (Insect i : insects) {
                 if (i instanceof Bee && i.getPlayer() == player) {
-                    return this.getNeighbors(h).size() == 6;
+                    return this.getNeighborsCoordinates(h).size() == 6;
                 }
             }
         }

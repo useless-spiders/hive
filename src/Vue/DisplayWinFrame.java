@@ -9,22 +9,22 @@ import java.awt.*;
 
 public class DisplayWinFrame {
 
-    JFrame WinFrame;
+    JFrame winFrame;
     private static final String REPLAY = "New Game";
     private static final String MENU = "Menu";
     private PageManager pageManager;
     private PageActionHandler controller;
 
-    public DisplayWinFrame(JFrame WinFrame, String player,PageManager pageManager,PageActionHandler controller){
+    public DisplayWinFrame(JFrame winFrame, String player,PageManager pageManager,PageActionHandler controller){
         this.controller = controller;
         this.pageManager = pageManager;
-        this.WinFrame = WinFrame;
+        this.winFrame = winFrame;
         JPanel column1 = createColumn();;
         JLabel Wintext = new JLabel("Victoire de" + player);
-        WinFrame.setSize(800, 600);
-        WinFrame.add(column1,BorderLayout.CENTER);
+        winFrame.setSize(800, 600);
+        winFrame.add(column1,BorderLayout.CENTER);
         //TODO : ajouter l'image de l'abeille de la bonne couleur
-        WinFrame.add(Wintext,BorderLayout.NORTH);
+        winFrame.add(Wintext,BorderLayout.NORTH);
     }
 
     private JPanel createColumn() {
