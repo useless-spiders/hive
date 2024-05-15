@@ -13,4 +13,9 @@ public class ChangePage implements PageActionHandler {
     public void menuToGame(PageManager pageManager) {
         pageManager.menuToGame();
     }
+
+    @Override
+    public void gameToMenu(PageManager pageManager) {
+        pageManager.gameToMenu();
+    }
 }

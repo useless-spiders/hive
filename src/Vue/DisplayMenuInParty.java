@@ -58,7 +58,8 @@ public class DisplayMenuInParty {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text){
             case RETOUR:
-                //button.addActionListener(e -> controllerPage.openingToGame());
+                button.addActionListener(e -> controllerPage.gameToMenu(pageManager));
+                break;
             case ANNULER:
                 button.addActionListener(e -> controller.cancelMove());
                 break;

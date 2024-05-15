@@ -31,6 +31,12 @@ public class PageManager {
         frameGame.setVisible(true);
     }
 
+    public void gameToMenu(){
+        frameGame.setVisible(false);
+        frameMenu.setVisible(true);
+
+    }
+
     public void gameToOpening(){
         frameOpening.setVisible(false);
         frameGame.setVisible(true);
