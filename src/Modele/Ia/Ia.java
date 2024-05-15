@@ -28,6 +28,11 @@ public abstract class Ia
 		return resultat;
 	}
 
+	public Player getPlayer()
+	{
+		return this.us;
+	}
+
 	Move chooseMove() 
 	{
 		return null;

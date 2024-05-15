@@ -233,22 +233,31 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     @Override
     public void mousePressed(MouseEvent e) {
 
-        lastX = e.getX();
-        lastY = e.getY();
-        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
-
-        HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
-        HexCell cell = hexGrid.getCell(hexagon);
-        if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
-            handleCellClicked(cell, hexagon);
-        } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
-            handleInsectMoved(hexagon);
-        } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
-            handleInsectPlaced(hexagon);
+        ////////////BESOIN D UN CLIC POUR DEMARER PARTIESI L IA EST PREMIERE A JOUER//////////////////////////////////////
+        if(this.currentPlayer == this.ia.getPlayer())
+        {
+            tourIa();
         }
-
-        display.repaint();
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        else
+        {
+            lastX = e.getX();
+            lastY = e.getY();
+            int mouseX = e.getX() - HexMetrics.getViewOffsetX();
+            int mouseY = e.getY() - HexMetrics.getViewOffsetY();
+    
+            HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
+            HexCell cell = hexGrid.getCell(hexagon);
+            if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
+                handleCellClicked(cell, hexagon);
+            } else if (isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
+                handleInsectMoved(hexagon);
+            } else if (isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
+                handleInsectPlaced(hexagon);
+            }
+    
+            display.repaint();
+        }
     }
 
     @Override
