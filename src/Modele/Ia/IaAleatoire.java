@@ -169,7 +169,7 @@ public class IaAleatoire extends Ia
         {
             if (this.Grid.getCell(to) == null)
             {
-                playInsect(moveToPlay.getInsect());
+                this.us.playInsect(moveToPlay.getInsect().getClass());
                 this.Grid.addCell(to, moveToPlay.getInsect());
             }
             else

@@ -28,16 +28,6 @@ public abstract class Ia
 		return resultat;
 	}
 
-	public void playInsect(Insect insect) {
-        for(int i=0;i<this.us.getStock().size();i++) {
-            Insect insectInStock = this.us.getStock().get(i);
-            if (insectInStock == insect) {
-                this.us.getStock().remove(i);
-                return;
-            }
-        }
-    }
-
 	Move chooseMove() 
 	{
 		return null;
