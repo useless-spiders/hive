@@ -1,5 +1,7 @@
 package Pattern;
 
+import Controleur.PageManager;
+
 public interface PageActionHandler {
-    void openingToGame();
+    void openingToGame(PageManager pageManager);
 }

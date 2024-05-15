@@ -5,7 +5,7 @@ import Vue.MainDisplay;
 
 import javax.swing.*;
 
-public class PageManager implements PageActionHandler {
+public class PageManager {
     private JFrame frameOpening;
     private JFrame frameGame;
 
@@ -16,7 +16,7 @@ public class PageManager implements PageActionHandler {
     }
 
     public void start() {
-        MainDisplay mainDisplay = new MainDisplay(frameOpening, frameGame);
+        MainDisplay mainDisplay = new MainDisplay(this, frameOpening, frameGame);
     }
 
     public void menuToGame(){
@@ -24,8 +24,5 @@ public class PageManager implements PageActionHandler {
         frameGame.setVisible(true);
     }
 
-    @Override
-    public void openingToGame(){
-        System.out.println("opening to game");
-    }
+
 }

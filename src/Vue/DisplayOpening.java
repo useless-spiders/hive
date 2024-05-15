@@ -1,5 +1,6 @@
 package Vue;
 
+import Controleur.PageManager;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structures.HexCoordinate;
@@ -13,9 +14,12 @@ public class DisplayOpening extends JPanel{
     private Image opening;
     private GameActionHandler controller;
     private PageActionHandler controllerPage;
+    private PageManager pageManager;
 
-    public DisplayOpening(JFrame frame) {
+    public DisplayOpening(JFrame frame, PageManager pageManager, PageActionHandler controllerPage) {
         this.frame = frame;
+        this.controllerPage = controllerPage;
+        this.pageManager = pageManager;
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new BorderLayout()); // Définir le layout du JPanel
         this.add(createButton("jouer"));
@@ -26,7 +30,7 @@ public class DisplayOpening extends JPanel{
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        button.addActionListener(e -> controllerPage.openingToGame());
+        button.addActionListener(e -> controllerPage.openingToGame(pageManager));
         return button;
     }
 

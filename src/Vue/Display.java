@@ -79,10 +79,10 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         GridBagConstraints gbc = new GridBagConstraints();
         this.displayConfigParty = new DisplayConfigParty(this, gbc);
     }
-
+    /*
     public void DisplayOpening(){
         this.displayOpening = new DisplayOpening(frame);
-    }
+    }*/
 
     public void displayGame(HexGrid grid){
         setLayout(new GridBagLayout());
