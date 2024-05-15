@@ -116,6 +116,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 playableCells = insect.getPossibleMovesCells(hexClicked, hexGrid);
                 // rendre transparente la case
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                // on affiche la pile
+                if (hexGrid.getGrid().get(hexClicked).getInsects().size() >= 2) {
+                    display.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
+                }
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
             }
@@ -128,6 +132,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             } else { //On clique sur un insecte déjà sélectionné
                 isInsectCellClicked = false;
                 display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+                display.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
                 this.playableCells.clear();
             }
         }
@@ -142,6 +147,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             hexGrid.applyMove(move, currentPlayer);
             isInsectCellClicked = false;
             display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+            display.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
             playableCells.clear();
             switchPlayer();
             history.addMove(move);
@@ -261,6 +267,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             }
         }
         display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
+        display.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
         display.repaint();
     }
 

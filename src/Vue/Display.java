@@ -25,6 +25,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
     private DisplayOpening displayOpening;
+    private DisplayStack displayStack;
 
     private JFrame frame;
     private GameActionHandler controller;
@@ -83,6 +84,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller, pageManager, controllerPage);
+        this.displayStack = new DisplayStack(grid);
         setOpaque(false);
     }
 
@@ -94,6 +96,9 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     }
     public DisplayBankInsects getDisplayBankInsects() {
         return displayBankInsects;
+    }
+    public DisplayStack getDisplayStack() {
+        return displayStack;
     }
 
     public static String getImageName(Class<? extends Insect> insectClass, Player player) {
@@ -120,6 +125,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
 
         this.displayHexGrid.paintHexGrid(g2d);
         this.displayPlayableHex.paintPlayableHex(g2d);
+        this.displayStack.paintStack(g2d);
 
         // Centrer le composant au milieu du GridBagConstraints
         int x = (getWidth() - displayHexGrid.getPreferredSize().width) / 2;
