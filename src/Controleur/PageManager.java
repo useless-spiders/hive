@@ -57,7 +57,7 @@ public class PageManager {
         frameGame.setVisible(false);
     }
 
-    public void WinFrameToMenu(){
+    public void winFrameToMenu(){
         frameWinFrame.setVisible(false);
         frameMenu.setVisible(true);
     }

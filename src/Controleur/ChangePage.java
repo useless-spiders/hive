@@ -18,4 +18,8 @@ public class ChangePage implements PageActionHandler {
     public void gameToMenu(PageManager pageManager) {
         pageManager.gameToMenu();
     }
+
+    @Override
+    public void winFrameToMenu(PageManager pageManager) { pageManager.winFrameToMenu(); }
+
 }

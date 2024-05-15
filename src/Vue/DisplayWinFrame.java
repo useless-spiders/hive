@@ -42,7 +42,7 @@ public class DisplayWinFrame {
             case REPLAY:
                 break;
             case MENU:
-                button.addActionListener(e -> controller.WinFrameToMenu(pageManager));
+                button.addActionListener(e -> controller.winFrameToMenu(pageManager));
                 break;
             default:
                 Log.addMessage("Erreur dans les boutons de la WinFrame");
