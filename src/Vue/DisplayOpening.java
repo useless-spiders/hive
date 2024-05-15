@@ -37,7 +37,6 @@ public class DisplayOpening extends JPanel{
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        //button.setBounds(x, y, width, height);
         button.addActionListener(e -> controllerPage.openingToMenu(pageManager));
         return button;
     }
