@@ -1,12 +1,15 @@
 package Vue;
 
+import Controleur.PageManager;
 import Pattern.GameActionHandler;
+import Pattern.PageActionHandler;
 import Structures.Log;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMenuInParty {
+    private static final String RETOUR = "retour";
     private static final String ANNULER = "annuler";
     private static final String REFAIRE = "refaire";
     private static final String REPLAY = "refaire partie";
@@ -14,12 +17,19 @@ public class DisplayMenuInParty {
     private static final String RULES = "regle";
     private static final String QUIT = "quitter";
 
+
+
     private GameActionHandler controller;
     private JPanel panelGame;
 
-    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
+    private PageManager pageManager;
+    private PageActionHandler controllerPage;
+
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage) {
         this.panelGame = panelGame;
         this.controller = controller;
+        this.controllerPage = controllerPage;
+        this.pageManager = pageManager;
         JPanel column1 = createColumn();
 
         gbc.gridx = GridBagConstraints.RELATIVE; // Pour placer la colonne à droite du composant précédent
@@ -32,6 +42,7 @@ public class DisplayMenuInParty {
     private JPanel createColumn() {
         JPanel column = new JPanel();
         column.setLayout(new BoxLayout(column, BoxLayout.Y_AXIS));
+        column.add(createButton(RETOUR));
         column.add(createButton(ANNULER));
         column.add(createButton(REFAIRE));
         column.add(createButton(REPLAY));
@@ -46,6 +57,8 @@ public class DisplayMenuInParty {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text){
+            case RETOUR:
+                //button.addActionListener(e -> controllerPage.openingToGame());
             case ANNULER:
                 button.addActionListener(e -> controller.cancelMove());
                 break;
@@ -55,6 +68,7 @@ public class DisplayMenuInParty {
             case REPLAY:
                 break;
             case SELECTLVL:
+                //button.addActionListener(e -> controllerPage.)
                 break;
             case RULES:
                 break;

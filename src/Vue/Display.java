@@ -1,9 +1,11 @@
 package Vue;
 
+import Controleur.PageManager;
 import Modele.HexGrid;
 import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
+import Pattern.PageActionHandler;
 import Structures.HexMetrics;
 import Structures.Log;
 
@@ -57,10 +59,10 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         }
     }
 
-    public Display(HexGrid grid, JFrame frame, GameActionHandler controller){
+    public Display(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
         this.frame = frame;
         this.controller = controller;
-        displayGame(grid);
+        displayGame(grid, pageManager, controllerPage);
         //displayMenuSelectLvl();
 
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
@@ -74,19 +76,13 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         frame.getContentPane().removeAll();
     }
 
-    public void displayMenuSelectLvl(){
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        this.displayConfigParty = new DisplayConfigParty(this, gbc);
-    }
-
-    public void displayGame(HexGrid grid){
+    public void displayGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller);
+        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller, pageManager, controllerPage);
         setOpaque(false);
     }
 
