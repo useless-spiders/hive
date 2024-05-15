@@ -2,7 +2,6 @@ package Vue;
 
 import Modele.HexCell;
 import Modele.HexGrid;
-import Modele.Player;
 import Modele.Insect.Insect;
 import Structures.HexCoordinate;
 import Structures.HexMetrics;
@@ -12,15 +11,15 @@ import java.awt.*;
 
 public class DisplayHexGrid extends JComponent {
     private HexGrid hexGrid;
-    private boolean isInsectCellClicked = false;
+    private boolean isInsectHexClicked = false;
     private HexCoordinate hexClicked = null;
 
     public DisplayHexGrid(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
     }
 
-    public void updateInsectClickState(boolean isInsectCellClicked, HexCoordinate hexClicked) {
-        this.isInsectCellClicked = isInsectCellClicked;
+    public void updateInsectClickState(boolean isInsectHexClicked, HexCoordinate hexClicked) {
+        this.isInsectHexClicked = isInsectHexClicked;
         this.hexClicked = hexClicked;
     }
 
@@ -52,7 +51,7 @@ public class DisplayHexGrid extends JComponent {
 
                     int offsetX = center.x - HexMetrics.HEX_WIDTH / 2 + pileHeight;
 
-                    if (isInsectCellClicked && hexClicked.equals(coord) && insectIndex == cell.getInsects().size() - 1) {
+                    if (isInsectHexClicked && hexClicked.equals(coord) && insectIndex == cell.getInsects().size() - 1) {
                         float opacity = 0.5f;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
                     } else {

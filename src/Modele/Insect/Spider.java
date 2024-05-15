@@ -17,16 +17,16 @@ public class Spider extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
         if (this.canMoveInsect(g, this.getPlayer())) {
-            this.getPossibleMovesCellsHelper(current, g, 3, coordinates, current, visited);
+            this.getPossibleMovesCoordinatesHelper(current, g, 3, coordinates, current, visited);
         }
         return coordinates;
     }
 
-    private void getPossibleMovesCellsHelper(HexCoordinate current, HexGrid g, int steps, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
+    private void getPossibleMovesCoordinatesHelper(HexCoordinate current, HexGrid g, int steps, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
         if (steps == 0 && !current.equals(original)) {
             coordinates.add(current);
             return;
@@ -34,14 +34,14 @@ public class Spider extends Insect {
 
         if (steps > 0) {
 
-            Map<HexCoordinate, String> neighbors = g.getNeighbors(current, false);
+            Map<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(current, false);
             for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
                 HexCoordinate neighbor = entry.getKey();
                 String direction = entry.getValue();
 
                 if (!visited.contains(neighbor) && g.getCell(neighbor) == null && g.isHiveConnectedAfterMove(original, neighbor)) {
-                    HexCoordinate adjCoord = g.getNeighbor(current, g.getCounterClockwiseDirection(direction));
-                    HexCoordinate adjCoord2 = g.getNeighbor(current, g.getClockwiseDirection(direction));
+                    HexCoordinate adjCoord = g.getNeighborCoordinates(current, g.getCounterClockwiseDirection(direction));
+                    HexCoordinate adjCoord2 = g.getNeighborCoordinates(current, g.getClockwiseDirection(direction));
 
                     HexCell adj = g.getCell(adjCoord);
                     HexCell adj2 = g.getCell(adjCoord2);
@@ -57,7 +57,7 @@ public class Spider extends Insect {
 
                     if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
                         visited.add(neighbor);
-                        this.getPossibleMovesCellsHelper(neighbor, g, steps - 1, coordinates, original, visited);
+                        this.getPossibleMovesCoordinatesHelper(neighbor, g, steps - 1, coordinates, original, visited);
                     }
                 }
 
