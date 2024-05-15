@@ -68,6 +68,33 @@ public class HexGrid implements Cloneable {
         return neighbors;
     }
 
+    public void applyMove(Move move,Player player){ //Appelé uniquement si le move est valide
+        HexCell newCell = this.getCell(move.getNewCoor());
+        Insect insect = move.getInsect();
+
+        if(insect instanceof Bee){
+            player.setBeePlaced(true);
+        }
+        if(newCell == null){ //cellule d'arrivé vide
+            this.addCell(move.getNewCoor(), insect);
+        }
+        else{ //cellule d'arrivée deja remplis (scarabée)
+            newCell.addInsect(insect);
+        }
+
+        if(move.getPreviousCoor() != null){ //cas deplacement insecte
+            if(this.getCell(move.getPreviousCoor()).getInsects().size() == 1){ //cellule de depart a suppr
+                this.removeCell(move.getPreviousCoor());
+            }
+            else{ //cellule de depart a garder
+                this.getCell(move.getPreviousCoor()).removeTopInsect();
+            }
+        }
+        else{ //cas placement insecte
+            player.playInsect(insect.getClass());
+        }
+    }
+
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
         // Create a copy of the current HexGrid
         HexGrid tempGrid = this.clone();

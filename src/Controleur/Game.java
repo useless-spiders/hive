@@ -137,25 +137,13 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         if (playableCells.contains(hexagon)) {
             HexCell cellClicked = hexGrid.getCell(hexClicked);
             Insect movedInsect = cellClicked.getTopInsect();
+            Move move = new Move(movedInsect,hexClicked,hexagon);
 
-            cellClicked.removeTopInsect();
-            if (cellClicked.getInsects().isEmpty()) {
-                hexGrid.removeCell(hexClicked);
-            }
-
-            if (hexGrid.getCell(hexagon) != null) {
-                hexGrid.getCell(hexagon).addInsect(movedInsect);
-            } else {
-                hexGrid.addCell(hexagon, movedInsect);
-            }
-
+            hexGrid.applyMove(move, currentPlayer);
             isInsectCellClicked = false;
             display.getDisplayHexGrid().updateInsectClickState(isInsectCellClicked, hexClicked);
             playableCells.clear();
             switchPlayer();
-
-            // Add the move to the history
-            Move move = new Move(movedInsect, hexClicked, hexagon);
             history.addMove(move);
         } else {
             Log.addMessage("Déplacement impossible");
@@ -165,15 +153,11 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if(this.insect != null){ //Clic sur une case vide sans insect selectionné
             if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-
                 if (this.insect.isPlacable(hexagon, hexGrid)) {
                     if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
-                        if (this.insect instanceof Bee) {
-                            currentPlayer.setBeePlaced(true);
-                        }
-                        if (currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4) { // Vérifie que la reine a été placé durant les 4 premiers tours
-                            currentPlayer.playInsect(this.insect.getClass());
-                            hexGrid.addCell(hexagon, this.insect);
+                        if(currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4){
+                            Move move = new Move(this.insect,null, hexagon);
+                            hexGrid.applyMove(move, currentPlayer);
 
                             //Modifier le compteur des boutons
                             JLabel label = display.getDisplayBankInsects().getLabel();
@@ -182,20 +166,21 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                             isInsectButtonClicked = false;
                             playableCells.clear();
                             switchPlayer();
-
-                            // Add the placement to the history
-                            Move move = new Move(this.insect, null, hexagon);
                             history.addMove(move);
-                        } else {
+                        }
+                        else {
                             Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
                         }
-                    } else {
+                    }
+                    else {
                         Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
                     }
-                } else {
+                } 
+                else {
                     Log.addMessage("placement impossible !");
                 }
-            } else {
+            } 
+            else {
                 Log.addMessage("Ce n'est pas votre tour");
             }
         }
