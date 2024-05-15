@@ -154,21 +154,18 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
                 if (this.insect.isPlacable(hexagon, hexGrid)) {
                     if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
-                        if (this.currentPlayer.getTurn() == 4 && !this.currentPlayer.isBeePlaced() && !(this.insect instanceof Bee)) {
-                            Log.addMessage("Vous devez placer l'abeille au 4e tour");
-                            return;
+                        if (this.currentPlayer.checkBeePlacement(this.insect)) {
+                            Move move = new Move(this.insect, null, hexagon);
+                            hexGrid.applyMove(move, currentPlayer);
+
+                            //Modifier le compteur des boutons
+                            display.getDisplayBankInsects().updateAllLabels();
+
+                            isInsectButtonClicked = false;
+                            playableCoordinates.clear();
+                            switchPlayer();
+                            history.addMove(move);
                         }
-                        Move move = new Move(this.insect, null, hexagon);
-                        hexGrid.applyMove(move, currentPlayer);
-
-                        //Modifier le compteur des boutons
-                        display.getDisplayBankInsects().updateAllLabels();
-
-                        isInsectButtonClicked = false;
-                        playableCoordinates.clear();
-                        switchPlayer();
-                        history.addMove(move);
-
                     } else {
                         Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
                     }
@@ -250,6 +247,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
                 this.playableCoordinates.clear();
             } else if (this.currentPlayer.getTurn() <= 1 && !hexGrid.getGrid().isEmpty()) {
                 this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(hexGrid);
+            } else if (!this.currentPlayer.checkBeePlacement(this.insect)) {
+                this.playableCoordinates.clear();
             } else {
                 Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
                 this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(hexGrid);

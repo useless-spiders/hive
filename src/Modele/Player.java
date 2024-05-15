@@ -6,6 +6,7 @@ import Modele.Insect.Beetle;
 import Modele.Insect.Grasshopper;
 import Modele.Insect.Insect;
 import Modele.Insect.Spider;
+import Structures.Log;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -110,6 +111,14 @@ public class Player implements Cloneable {
 
     public void unplayInsect(Insect insect) {
         stock.add(insect);
+    }
+
+    public boolean checkBeePlacement(Insect insect) {
+        if (this.getTurn() == 4 && !this.isBeePlaced() && !(insect instanceof Bee)) {
+            Log.addMessage("Vous devez placer l'abeille au 4e tour");
+            return false;
+        }
+        return true;
     }
 
     @Override
