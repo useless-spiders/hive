@@ -12,11 +12,11 @@ public class HexCoordinate {
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     @Override
@@ -28,11 +28,11 @@ public class HexCoordinate {
             return false;
         }
         HexCoordinate other = (HexCoordinate) obj;
-        return x == other.x && y == other.y;
+        return this.x == other.x && this.y == other.y;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(this.x, this.y);
     }
 }
