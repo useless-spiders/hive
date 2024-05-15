@@ -4,6 +4,7 @@ import Modele.Move;
 import Modele.HexCell;
 import Modele.HexGrid;
 import Modele.History;
+import Modele.Insect.Bee;
 import Modele.Insect.Beetle;
 import Modele.Insect.Insect;
 import Modele.Player;
@@ -153,21 +154,16 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
             if (this.insect.getPlayer().equals(currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
                 if (this.insect.isPlacable(hexagon, hexGrid)) {
                     if (currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
-                        if(currentPlayer.isBeePlaced() || currentPlayer.getTurn() < 4){
-                            Move move = new Move(this.insect,null, hexagon);
-                            hexGrid.applyMove(move, currentPlayer);
+                        Move move = new Move(this.insect,null, hexagon);
+                        hexGrid.applyMove(move, currentPlayer);
 
-                            //Modifier le compteur des boutons
-                            display.getDisplayBankInsects().updateAllLabels();
+                        //Modifier le compteur des boutons
+                        display.getDisplayBankInsects().updateAllLabels();
 
-                            isInsectButtonClicked = false;
-                            playableCoordinates.clear();
-                            switchPlayer();
-                            history.addMove(move);
-                        }
-                        else {
-                            Log.addMessage("Vous devez placer l'abeille avant de placer d'autres insectes");
-                        }
+                        isInsectButtonClicked = false;
+                        playableCoordinates.clear();
+                        switchPlayer();
+                        history.addMove(move);
                     }
                     else {
                         Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
@@ -239,6 +235,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.playableCoordinates.clear();
         if(player == this.currentPlayer){
             this.insect = this.currentPlayer.getInsect(insectClass);
+            if(this.currentPlayer.getTurn() == 4 && (this.currentPlayer.isBeePlaced() || !(insect instanceof Bee))){
+                Log.addMessage("Placement de l'abeille obligatoire");
+                return;
+            }                        
             if(this.insect == null){
                 Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
             }
