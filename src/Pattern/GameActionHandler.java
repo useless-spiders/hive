@@ -12,7 +12,7 @@ public interface GameActionHandler {
 
     Player getCurrentPlayer();
 
-    ArrayList<HexCoordinate> getPlayableCells();
+    ArrayList<HexCoordinate> getPlayableCoordinates();
 
     Player getPlayer1();
 

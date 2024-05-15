@@ -15,16 +15,16 @@ public class Grasshopper extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         if (this.canMoveInsect(g, this.getPlayer())) {
-            Map<HexCoordinate, String> neighbors = g.getNeighbors(current, false);
+            Map<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(current, false);
             for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
                 HexCoordinate neighbor = entry.getKey();
                 String direction = entry.getValue();
                 HexCoordinate next = neighbor;
                 while (g.getCell(next) != null) {
-                    next = g.getNeighbor(next, direction);
+                    next = g.getNeighborCoordinates(next, direction);
                 }
                 if(next != neighbor && g.isHiveConnectedAfterMove(current, next)){
                     coordinates.add(next);
