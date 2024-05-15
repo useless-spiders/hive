@@ -3,10 +3,10 @@ package Modele.Insect;
 import Modele.HexCell;
 import Modele.Player;
 import Structures.HexCoordinate;
-import Structures.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 
 import Modele.HexGrid;
 
@@ -20,44 +20,44 @@ public class Ant extends Insect {
     public ArrayList<HexCoordinate> getPossibleMovesCells(HexCoordinate current, HexGrid g) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
-        if (canMoveInsect(g, this.getPlayer())) {
-            getPossibleMovesCellsHelper(current, g, coordinates, current, visited);
+        if (this.canMoveInsect(g, this.getPlayer())) {
+            this.getPossibleMovesCellsHelper(current, g, coordinates, current, visited);
         }
         return coordinates;
     }
 
     private void getPossibleMovesCellsHelper(HexCoordinate current, HexGrid g, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
-        int x = current.getX();
-        int y = current.getY();
         if (!current.equals(original)) {
             coordinates.add(current);
         }
 
-        String[] directions = {"NO", "NE", "E", "SE", "SO", "O"};
-        int[] dx = {0, 1, 1, 0, -1, -1};
-        int[] dy = {-1, -1, 0, 1, 1, 0};
 
-        for (int i = 0; i < directions.length; i++) {
-            HexCoordinate next = new HexCoordinate(x + dx[i], y + dy[i]);
-            if (!visited.contains(next) && g.getNeighbor(current, directions[i]) == null && g.isHiveConnectedAfterMove(original, next)) {
-                String dir = directions[((((i - 1) % directions.length) + directions.length) % directions.length)];
-                HexCell adj = g.getNeighbor(current, dir);
-                HexCell adj2 = g.getNeighbor(current, directions[((i + 1) % directions.length)]);
+        Map<HexCoordinate, String> neighbors = g.getNeighbors(current, false);
+        for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
+            HexCoordinate neighbor = entry.getKey();
+            String direction = entry.getValue();
 
-                if(original.getX() == x + dx[((i-1)+dx.length)%dx.length] & original.getY() == y + dy[((i-1)+dy.length)%dy.length]){
+            if (!visited.contains(neighbor) && g.getCell(neighbor) == null && g.isHiveConnectedAfterMove(original, neighbor)) {
+                HexCoordinate adjCoord = g.getNeighbor(current, g.getCounterClockwiseDirection(direction));
+                HexCoordinate adjCoord2 = g.getNeighbor(current, g.getClockwiseDirection(direction));
+
+                HexCell adj = g.getCell(adjCoord);
+                HexCell adj2 = g.getCell(adjCoord2);
+
+                if (original.getX() == adjCoord.getX() & original.getY() == adjCoord.getY()) {
                     adj = null;
-                    Log.addMessage("cas test 1" );
                 }
-                if(original.getX() == x + dx[(i+1)%dx.length] & original.getY() == y + dy[(i+1)%dy.length]){
+
+                if (original.getX() == adjCoord2.getX() & original.getY() == adjCoord2.getY()) {
                     adj2 = null;
-                    Log.addMessage("cas test 2");
                 }
 
                 if ((adj == null && adj2 != null) || (adj != null && adj2 == null)) {
-                    visited.add(next);
-                    getPossibleMovesCellsHelper(next, g, coordinates, original, visited);
+                    visited.add(neighbor);
+                    this.getPossibleMovesCellsHelper(neighbor, g, coordinates, original, visited);
                 }
             }
+
         }
     }
 

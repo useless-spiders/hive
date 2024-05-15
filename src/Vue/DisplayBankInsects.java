@@ -8,13 +8,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayBankInsects {
     private GameActionHandler controller;
-    private JLabel label;
+    private Map<Class<? extends Insect>, JLabel> player1Labels;
+    private Map<Class<? extends Insect>, JLabel> player2Labels;
 
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
         this.controller = controller;
+        this.player1Labels = new HashMap<>();
+        this.player2Labels = new HashMap<>();
 
         JPanel panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
         JPanel panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
@@ -50,6 +55,13 @@ public class DisplayBankInsects {
 
         // Créer un nouveau JLabel pour chaque bouton
         JLabel label = new JLabel(labelText);
+        if (player.equals(controller.getPlayer1())) {
+            player1Labels.put(insectClass, label);
+        } else if (player.equals(controller.getPlayer2())) {
+            player2Labels.put(insectClass, label);
+        }
+
+        // Ajoutez le label au panel des boutons
         buttonPanel.add(label);
 
         // Ajouter le bouton au-dessous du label
@@ -64,14 +76,21 @@ public class DisplayBankInsects {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                DisplayBankInsects.this.label = label;
                 controller.clicInsectButton(insectClass, player);
             }
         });
         return button;
     }
 
-    public JLabel getLabel() {
-        return this.label;
+    public void updateAllLabels() {
+        updateLabelsForPlayer(controller.getPlayer1(), player1Labels);
+        updateLabelsForPlayer(controller.getPlayer2(), player2Labels);
+    }
+
+    private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
+        for (Class<? extends Insect> insectClass : labels.keySet()) {
+            JLabel label = labels.get(insectClass);
+            label.setText(String.valueOf(player.getInsectCount(insectClass)));
+        }
     }
 }
