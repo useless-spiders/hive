@@ -262,12 +262,14 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     @Override
     public void cancelMove() {
         if (this.history.canCancel()) {
+            this.playableCoordinates.clear();
             Move move = this.history.cancelMove();
             this.currentPlayer.decrementTurn();
             this.switchPlayer();
             this.currentPlayer.decrementTurn();
             this.hexGrid.unapplyMove(move, this.currentPlayer);
             this.display.getDisplayBankInsects().updateAllLabels();
+            this.display.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.display.repaint();
         } else {
             Log.addMessage("no move to cancel");
@@ -277,10 +279,12 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     @Override
     public void redoMove() {
         if (this.history.canRedo()) {
+            this.playableCoordinates.clear();
             Move move = this.history.redoMove();
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.switchPlayer();
             this.display.getDisplayBankInsects().updateAllLabels();
+            this.display.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.display.repaint();
         } else {
             Log.addMessage("no move to redo");
