@@ -10,6 +10,7 @@ import Modele.Player;
 import Pattern.GameActionHandler;
 import Structures.HexCoordinate;
 import Structures.Log;
+import Structures.ViewMetrics;
 import Vue.Display;
 import Structures.HexMetrics;
 
@@ -191,8 +192,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
+        int mouseX = e.getX() - ViewMetrics.getViewOffsetX();
+        int mouseY = e.getY() - ViewMetrics.getViewOffsetY();
 
         ArrayList<HexCoordinate> playableCoordinates = getPlayableCoordinates();
 
@@ -210,8 +211,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
         lastX = e.getX();
         lastY = e.getY();
-        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
+        int mouseX = e.getX() - ViewMetrics.getViewOffsetX();
+        int mouseY = e.getY() - ViewMetrics.getViewOffsetY();
 
         HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
         HexCell cell = hexGrid.getCell(hexagon);
@@ -230,7 +231,7 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     public void mouseDragged(MouseEvent e) {
         int dx = e.getX() - lastX;
         int dy = e.getY() - lastY;
-        HexMetrics.updateViewPosition(dx, dy);
+        ViewMetrics.updateViewPosition(dx, dy);
         lastX = e.getX();
         lastY = e.getY();
 

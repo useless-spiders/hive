@@ -6,7 +6,7 @@ import Modele.Insect.Insect;
 import Modele.Player;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
-import Structures.HexMetrics;
+import Structures.ViewMetrics;
 import Structures.Log;
 
 import javax.imageio.ImageIO;
@@ -121,7 +121,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.translate(HexMetrics.getViewOffsetX(), HexMetrics.getViewOffsetY());
+        g2d.translate(ViewMetrics.getViewOffsetX(), ViewMetrics.getViewOffsetY());
 
         this.displayHexGrid.paintHexGrid(g2d);
         this.displayPlayableHex.paintPlayableHex(g2d);
