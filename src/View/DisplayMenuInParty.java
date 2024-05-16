@@ -21,14 +21,12 @@ public class DisplayMenuInParty {
     private GameActionHandler controller;
     private JPanel panelGame;
 
-    private PageManager pageManager;
     private PageActionHandler controllerPage;
 
-    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage) {
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageActionHandler controllerPage) {
         this.panelGame = panelGame;
         this.controller = controller;
         this.controllerPage = controllerPage;
-        this.pageManager = pageManager;
         JComboBox<String> menu = createMenu();
         JButton annulerButton = createButton(ANNULER);
         JButton refaireButton = createButton(REFAIRE);
@@ -58,7 +56,7 @@ public class DisplayMenuInParty {
                     case NEW:
                         break; // A REMPLIR PLUS TARD
                     case MENU:
-                        controllerPage.gameToMenu(pageManager);
+                        controllerPage.gameToMenu();
                     default:
                         Log.addMessage("Erreur dans les options du menu du jeu");
                 }
@@ -86,4 +84,3 @@ public class DisplayMenuInParty {
         return button;
     }
 }
-
