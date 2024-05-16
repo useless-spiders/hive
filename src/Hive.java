@@ -1,7 +1,6 @@
 import javax.swing.*;
 
-import Controleur.Game;
-import Controleur.PageManager;
+import Controller.PageManager;
 
 public class Hive implements Runnable {
     public static void main(String[] args) {

@@ -1,11 +1,11 @@
 package Test;
 
-import Modele.Move;
-import Modele.History;
-import Modele.Insect.Ant;
-import Modele.Insect.Bee;
-import Modele.Player;
-import Structures.HexCoordinate;
+import Model.Move;
+import Model.History;
+import Model.Insect.Ant;
+import Model.Insect.Bee;
+import Model.Player;
+import Structure.HexCoordinate;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

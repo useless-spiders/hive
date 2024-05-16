@@ -1,8 +1,8 @@
 package Test;
 
-import Modele.Insect.Spider;
-import Modele.Player;
-import Vue.DisplayGame;
+import Model.Insect.Spider;
+import Model.Player;
+import View.DisplayGame;
 import org.junit.Test;
 
 import java.awt.*;
