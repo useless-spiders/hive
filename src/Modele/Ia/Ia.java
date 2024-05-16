@@ -38,8 +38,9 @@ public abstract class Ia
 		return null;
 	}
 
-	 public void playMove()
+	public void playMove()
 	{
 		chooseMove();
 	}
+
 }
