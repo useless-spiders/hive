@@ -1,13 +1,9 @@
 package Modele.Ia;
 
-import java.util.ArrayList;
-
 import Controleur.Game;
 import Modele.HexGrid;
 import Modele.Move;
 import Modele.Player;
-import Modele.Insect.Insect;
-import Structures.HexCoordinate;
 import Structures.Log;
 
 public abstract class Ia

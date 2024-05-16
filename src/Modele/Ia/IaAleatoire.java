@@ -10,7 +10,6 @@ import Modele.Insect.*;
 
 import Modele.Move;
 import Structures.HexCoordinate;
-import Structures.Log;
 
 public class IaAleatoire extends Ia
 {
@@ -147,35 +146,6 @@ public class IaAleatoire extends Ia
     public void playMove() 
     {
         Move moveToPlay = chooseMove();
-        HexCoordinate from = moveToPlay.getPreviousCoor();
-        HexCoordinate to = moveToPlay.getNewCoor();
-        if (from != null) //cas deplacement insecte
-        {
-            if(this.Grid.getCell(from) != null){
-                this.Grid.getCell(from).removeTopInsect();
-            }
-            if(this.Grid.getCell(from) == null || this.Grid.getCell(from).getInsects().isEmpty()){
-                this.Grid.removeCell(from);
-            }
-            if (this.Grid.getCell(to) != null)
-            {
-                this.Grid.getCell(to).addInsect(moveToPlay.getInsect());
-            } else 
-            {
-                this.Grid.addCell(to, moveToPlay.getInsect());
-            }
-        }
-        else//cas placement insecte
-        {
-            if (this.Grid.getCell(to) == null)
-            {
-                this.us.playInsect(moveToPlay.getInsect().getClass());
-                this.Grid.addCell(to, moveToPlay.getInsect());
-            }
-            else
-            {
-                Log.addMessage("cas impossible on ne peux pas placer sur une case deja remplie");
-            }
-        }
+        this.Grid.applyMove(moveToPlay, us);
     }
 }
