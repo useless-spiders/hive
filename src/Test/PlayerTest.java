@@ -1,8 +1,7 @@
 package Test;
 
-import Modele.Insect.Ant;
-import Modele.Insect.Insect;
-import Modele.Player;
+import Model.Insect.Ant;
+import Model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
