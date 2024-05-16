@@ -19,12 +19,11 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
+    private DisplayGameBackground displayGameBackground;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
-    private DisplayConfigParty displayConfigParty;
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
-    private DisplayOpening displayOpening;
     private DisplayStack displayStack;
 
     private JFrame frame;
@@ -77,12 +76,13 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     public void buildGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
+        this.displayGameBackground = new DisplayGameBackground(frame);
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller, pageManager, controllerPage);
         this.displayStack = new DisplayStack(grid);
-        setOpaque(false);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
@@ -105,21 +105,15 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //Afficher l'opening
-        /*this.displayOpening.paintOpening(g);
-        Font font = new Font("Times New Roman", Font.BOLD, 20); // Définir la police, le style et la taille
-        g.setFont(font); // Appliquer la police définie
-        String text = "Tour de : " + this.controller.getCurrentPlayer().getName();
-        int x = 30; // Position x
-        int y = 15; // Position y
-        g.drawString(text, x, y);*/
+
+        //Afficher le background du jeu
+        this.displayGameBackground.paintGameBackground(g);
 
         g.drawString("Tour de : " + this.controller.getCurrentPlayer().getName(), 10, 10);
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.translate(ViewMetrics.getViewOffsetX(), ViewMetrics.getViewOffsetY());
-
         this.displayHexGrid.paintHexGrid(g2d);
         this.displayPlayableHex.paintPlayableHex(g2d);
         this.displayStack.paintStack(g2d);

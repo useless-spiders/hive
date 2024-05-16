@@ -56,6 +56,7 @@ public class DisplayMenuInParty {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
         switch (text){
             case RETOUR:
                 button.addActionListener(e -> controllerPage.gameToMenu(pageManager));
@@ -81,5 +82,4 @@ public class DisplayMenuInParty {
         // il faudra ajouter un listener
         return button;
     }
-
 }

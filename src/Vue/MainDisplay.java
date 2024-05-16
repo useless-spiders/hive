@@ -21,6 +21,7 @@ public class MainDisplay {
         frameOpening.setSize(1280, 720);
         frameOpening.setVisible(true);
 
+        /*Affichage de la config*/
         DisplayConfigParty displayConfigParty = new DisplayConfigParty(frameMenu, pageManager, changePage);
         frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMenu.setSize(1280, 720);
@@ -28,15 +29,13 @@ public class MainDisplay {
 
         /*affichage du jeu*/
         this.frameGame = frameGame;
+        HexGrid hexGrid = new HexGrid();
+        Game g = new Game(hexGrid);
 
+        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageManager, changePage);
         frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameGame.setSize(1280, 720);
         frameGame.setVisible(false);
-
-        HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid);
-        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageManager, changePage);
-
 
         g.setDisplay(displayGame);
 

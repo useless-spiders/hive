@@ -8,7 +8,7 @@ import Structures.FrameMetrics;
 import javax.swing.*;
 import java.awt.*;
 
-public class DisplayOpening extends JPanel{
+public class DisplayOpening extends JPanel {
     JFrame frame;
     private Image opening;
     private GameActionHandler controller;
