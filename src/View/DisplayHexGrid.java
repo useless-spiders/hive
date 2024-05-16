@@ -45,7 +45,7 @@ public class DisplayHexGrid extends JComponent {
                 int insectIndex = i;
                 if (insectIndex < cell.getInsects().size()) {
                     Insect insect = cell.getInsects().get(insectIndex);
-                    Image insectImage = Display.loadImage(Display.getImageName(insect.getClass(), insect.getPlayer()));
+                    Image insectImage = DisplayGame.loadImage(DisplayGame.getImageName(insect.getClass(), insect.getPlayer()));
                     Point center = HexMetrics.hexToPixel(coord);
                     int pileHeight = i * 8; // Hauteur de la pile d'insectes
 
@@ -59,6 +59,9 @@ public class DisplayHexGrid extends JComponent {
                     }
 
                     g2d.drawImage(insectImage, offsetX, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
+
+                    //Remettre à 1 l'opacité, sinon l'affichage "dépilé" d'une pile peut être transparent
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
                 }
             }
         }

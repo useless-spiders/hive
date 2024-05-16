@@ -1,7 +1,7 @@
 package Listener;
 
 import Controller.Game;
-import Structure.HexMetrics;
+import Structure.ViewMetrics;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,14 +18,14 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        game.mouseMoved(e.getX() - HexMetrics.getViewOffsetX(), e.getY() - HexMetrics.getViewOffsetY());
+        game.mouseMoved(e.getX() - ViewMetrics.getViewOffsetX(), e.getY() - ViewMetrics.getViewOffsetY());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         this.lastX = e.getX();
         this.lastY = e.getY();
-        game.mousePressed(this.lastX - HexMetrics.getViewOffsetX(), this.lastY - HexMetrics.getViewOffsetY());
+        game.mousePressed(this.lastX - ViewMetrics.getViewOffsetX(), this.lastY - ViewMetrics.getViewOffsetY());
     }
 
     @Override

@@ -6,7 +6,7 @@ import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
-import Structure.HexMetrics;
+import Structure.ViewMetrics;
 import Structure.Log;
 
 import javax.imageio.ImageIO;
@@ -15,7 +15,7 @@ import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
+public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
@@ -25,6 +25,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
     private DisplayOpening displayOpening;
+    private DisplayStack displayStack;
 
     private JFrame frame;
     private GameActionHandler controller;
@@ -59,30 +60,28 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         }
     }
 
-    public Display(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
+    public DisplayGame(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
         this.frame = frame;
         this.controller = controller;
-        displayGame(grid, pageManager, controllerPage);
-        //displayMenuSelectLvl();
 
+        //Pour construire le jeu
+        buildGame(grid, pageManager, controllerPage);
+
+        //Pour afficher le jeu
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
         container.add(this, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
-
         frame.add(container); // Ajouter le conteneur au JFrame
         frame.pack(); // Pack le JFrame
     }
 
-    public void cleanFrame(){
-        frame.getContentPane().removeAll();
-    }
-
-    public void displayGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
+    public void buildGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.displayHexGrid = new DisplayHexGrid(grid);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
         this.displayPlayableHex = new DisplayPlayableHex(controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller, pageManager, controllerPage);
+        this.displayStack = new DisplayStack(grid);
         setOpaque(false);
     }
 
@@ -94,6 +93,9 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     }
     public DisplayBankInsects getDisplayBankInsects() {
         return displayBankInsects;
+    }
+    public DisplayStack getDisplayStack() {
+        return displayStack;
     }
 
     public static String getImageName(Class<? extends Insect> insectClass, Player player) {
@@ -116,10 +118,11 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.translate(HexMetrics.getViewOffsetX(), HexMetrics.getViewOffsetY());
+        g2d.translate(ViewMetrics.getViewOffsetX(), ViewMetrics.getViewOffsetY());
 
         this.displayHexGrid.paintHexGrid(g2d);
         this.displayPlayableHex.paintPlayableHex(g2d);
+        this.displayStack.paintStack(g2d);
 
         // Centrer le composant au milieu du GridBagConstraints
         int x = (getWidth() - displayHexGrid.getPreferredSize().width) / 2;

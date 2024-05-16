@@ -16,6 +16,7 @@ public class MainDisplay {
         ChangePage changePage = new ChangePage();
         /*affichage de l'opening*/
         this.frameOpening = frameOpening;
+
         DisplayOpening displayOpening = new DisplayOpening(frameOpening, pageManager, changePage);
         frameOpening.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameOpening.setSize(1280, 720);
@@ -35,12 +36,13 @@ public class MainDisplay {
 
         HexGrid hexGrid = new HexGrid();
         Game g = new Game(hexGrid);
-        Display display = new Display(hexGrid, frameGame, g, pageManager, changePage);
-        g.setDisplay(display);
+        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageManager, changePage);
+        g.setDisplayGame(displayGame);
+
         MouseActionListener mouseActionListener = new MouseActionListener(g);
 
-        display.addMouseListener(mouseActionListener);
-        display.addMouseMotionListener(mouseActionListener);
+        displayGame.addMouseListener(mouseActionListener);
+        displayGame.addMouseMotionListener(mouseActionListener);
     }
 
 

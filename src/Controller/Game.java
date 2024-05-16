@@ -11,13 +11,14 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
-import View.Display;
+import Structure.ViewMetrics;
+import View.DisplayGame;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Game implements GameActionHandler {
     private HexGrid hexGrid;
-    private Display display;
+    private DisplayGame displayGame;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -63,8 +64,8 @@ public class Game implements GameActionHandler {
         return this.currentPlayer;
     }
 
-    public void setDisplay(Display display) {
-        this.display = display;
+    public void setDisplayGame(DisplayGame displayGame) {
+        this.displayGame = displayGame;
     }
 
     private void checkLoser() {
@@ -111,7 +112,7 @@ public class Game implements GameActionHandler {
                     Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
                 }
                 // rendre transparente la case
-                this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+                this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
             }
@@ -122,7 +123,7 @@ public class Game implements GameActionHandler {
                 this.handleInsectMoved(hexagon);
             } else { //On clique sur un insecte déjà sélectionné
                 this.isInsectCellClicked = false;
-                this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+                this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
                 this.playableCoordinates.clear();
             }
         }
@@ -136,7 +137,7 @@ public class Game implements GameActionHandler {
 
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.isInsectCellClicked = false;
-            this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+            this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
             this.playableCoordinates.clear();
             this.switchPlayer();
             this.history.addMove(move);
@@ -155,7 +156,7 @@ public class Game implements GameActionHandler {
                             this.hexGrid.applyMove(move, this.currentPlayer);
 
                             //Modifier le compteur des boutons
-                            this.display.getDisplayBankInsects().updateAllLabels();
+                            this.displayGame.getDisplayBankInsects().updateAllLabels();
 
                             this.isInsectButtonClicked = false;
                             this.playableCoordinates.clear();
@@ -180,9 +181,9 @@ public class Game implements GameActionHandler {
         HexCoordinate newHoverCell = HexMetrics.pixelToHex(x, y);
         if (!newHoverCell.equals(this.hoverCell) && this.playableCoordinates.contains(newHoverCell)) {
             this.hoverCell = newHoverCell;
-            this.display.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
+            this.displayGame.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
 
-            this.display.repaint();
+            this.displayGame.repaint();
         }
     }
 
@@ -198,12 +199,12 @@ public class Game implements GameActionHandler {
             this.handleInsectPlaced(hexagon);
         }
 
-        this.display.repaint();
+        this.displayGame.repaint();
     }
 
     public void mouseDragged(int x, int y) {
-        HexMetrics.updateViewPosition(x, y);
-        this.display.repaint();
+        ViewMetrics.updateViewPosition(x, y);
+        this.displayGame.repaint();
     }
 
     @Override
@@ -234,8 +235,8 @@ public class Game implements GameActionHandler {
                 this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(this.hexGrid);
             }
         }
-        this.display.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
-        this.display.repaint();
+        this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+        this.displayGame.repaint();
     }
 
     @Override
@@ -247,9 +248,9 @@ public class Game implements GameActionHandler {
             this.switchPlayer();
             this.currentPlayer.decrementTurn();
             this.hexGrid.unapplyMove(move, this.currentPlayer);
-            this.display.getDisplayBankInsects().updateAllLabels();
-            this.display.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
-            this.display.repaint();
+            this.displayGame.getDisplayBankInsects().updateAllLabels();
+            this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
+            this.displayGame.repaint();
         } else {
             Log.addMessage("no move to cancel");
         }
@@ -262,9 +263,9 @@ public class Game implements GameActionHandler {
             Move move = this.history.redoMove();
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.switchPlayer();
-            this.display.getDisplayBankInsects().updateAllLabels();
-            this.display.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
-            this.display.repaint();
+            this.displayGame.getDisplayBankInsects().updateAllLabels();
+            this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
+            this.displayGame.repaint();
         } else {
             Log.addMessage("no move to redo");
         }
