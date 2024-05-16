@@ -1,7 +1,7 @@
 package Test;
 
 import org.junit.Test;
-import Structures.HexCoordinate;
+import Structure.HexCoordinate;
 
 import static org.junit.Assert.*;
 

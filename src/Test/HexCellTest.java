@@ -1,10 +1,10 @@
 package Test;
 
-import Modele.HexCell;
-import Modele.Insect.Ant;
-import Modele.Insect.Bee;
-import Modele.Insect.Insect;
-import Modele.Player;
+import Model.HexCell;
+import Model.Insect.Ant;
+import Model.Insect.Bee;
+import Model.Insect.Insect;
+import Model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,10 +1,9 @@
 package Pattern;
 
-import Modele.Insect.Insect;
-import Modele.Player;
-import Structures.HexCoordinate;
+import Model.Insect.Insect;
+import Model.Player;
+import Structure.HexCoordinate;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public interface GameActionHandler {

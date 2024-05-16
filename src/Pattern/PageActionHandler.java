@@ -1,6 +1,6 @@
 package Pattern;
 
-import Controleur.PageManager;
+import Controller.PageManager;
 
 public interface PageActionHandler {
     void openingToMenu(PageManager pageManager);

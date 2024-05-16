@@ -1,12 +1,12 @@
 package Test;
 
 
-import Modele.HexCell;
-import Modele.HexGrid;
+import Model.HexCell;
+import Model.HexGrid;
 
-import Modele.Insect.*;
-import Modele.Player;
-import Structures.HexCoordinate;
+import Model.Insect.*;
+import Model.Player;
+import Structure.HexCoordinate;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
