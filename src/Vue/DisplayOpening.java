@@ -4,8 +4,6 @@ import Controleur.PageManager;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structures.FrameMetrics;
-import Structures.HexCoordinate;
-import Structures.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +43,7 @@ public class DisplayOpening extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.opening = Display.loadBackground("Opening.png");
+        this.opening = DisplayGame.loadBackground("Opening.png");
         Dimension frameSize = FrameMetrics.getFrameSize(frame);
         g.drawImage(opening, 0, 0, frameSize.width, frameSize.height, this);
 

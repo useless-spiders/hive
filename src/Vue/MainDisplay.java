@@ -35,13 +35,13 @@ public class MainDisplay {
 
         HexGrid hexGrid = new HexGrid();
         Game g = new Game(hexGrid);
-        Display display = new Display(hexGrid, frameGame, g, pageManager, changePage);
+        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageManager, changePage);
 
 
-        g.setDisplay(display);
+        g.setDisplay(displayGame);
 
-        display.addMouseListener(g);
-        display.addMouseMotionListener(g);
+        displayGame.addMouseListener(g);
+        displayGame.addMouseMotionListener(g);
     }
 
 

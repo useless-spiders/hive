@@ -15,7 +15,7 @@ import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
+public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
@@ -60,7 +60,7 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
         }
     }
 
-    public Display(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
+    public DisplayGame(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
         this.frame = frame;
         this.controller = controller;
 

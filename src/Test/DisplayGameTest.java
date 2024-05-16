@@ -2,7 +2,7 @@ package Test;
 
 import Modele.Insect.Spider;
 import Modele.Player;
-import Vue.Display;
+import Vue.DisplayGame;
 import org.junit.Test;
 
 import java.awt.*;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Classe de test pour l'affichage
  */
-public class DisplayTest {
+public class DisplayGameTest {
     // Déclaration d'un joueur pour les tests
     private Player player = new Player("white", "Inspecteur blanco");
 
@@ -21,7 +21,7 @@ public class DisplayTest {
      */
     @Test
     public void testLoadImage() {
-        Image image = Display.loadImage(Display.getImageName(Spider.class, player));
+        Image image = DisplayGame.loadImage(DisplayGame.getImageName(Spider.class, player));
         assertNotNull(image);
     }
 }
