@@ -1,6 +1,5 @@
 package View;
 
-import Controller.PageManager;
 import Pattern.PageActionHandler;
 
 import javax.swing.*;

@@ -8,40 +8,37 @@ import Pattern.PageActionHandler;
 import javax.swing.*;
 
 public class MainDisplay {
-    JFrame frameOpening;
+    private static final int FRAME_WIDTH = 1280;
+    private static final int FRAME_HEIGHT = 720;
+
     JFrame frameGame;
 
     public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
-        /*affichage de l'opening*/
-        this.frameOpening = frameOpening;
+        new DisplayOpening(frameOpening, pageActionHandler);
+        setupFrame(frameOpening, true);
 
-        DisplayOpening displayOpening = new DisplayOpening(frameOpening, pageActionHandler);
-        frameOpening.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameOpening.setSize(1280, 720);
-        frameOpening.setVisible(true);
+        new DisplayConfigParty(frameMenu, pageActionHandler);
+        setupFrame(frameMenu, false);
 
-        /*Affichage de la config*/
-        DisplayConfigParty displayConfigParty = new DisplayConfigParty(frameMenu, pageActionHandler);
-        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameMenu.setSize(1280, 720);
-        frameMenu.setVisible(false);
+        initializeGame(pageActionHandler, frameGame);
+    }
 
-        /*affichage du jeu*/
-        this.frameGame = frameGame;
+    private JFrame setupFrame(JFrame frame, boolean isVisible) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setVisible(isVisible);
+        return frame;
+    }
+
+    private void initializeGame(PageActionHandler pageActionHandler, JFrame frameGame) {
         HexGrid hexGrid = new HexGrid();
         Game g = new Game(hexGrid);
-
-        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageActionHandler);
-        frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setSize(1280, 720);
-        frameGame.setVisible(false);
-
+        this.frameGame = setupFrame(frameGame, false);
+        DisplayGame displayGame = new DisplayGame(hexGrid, this.frameGame, g, pageActionHandler);
         g.setDisplayGame(displayGame);
 
         MouseActionListener mouseActionListener = new MouseActionListener(g);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
     }
-
-
 }
