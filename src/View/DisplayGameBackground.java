@@ -15,7 +15,7 @@ public class DisplayGameBackground extends JPanel {
 
     public void paintGameBackground(Graphics g) {
         //Affichage du background
-        this.gameBackground = DisplayGame.loadBackground("Game_background.png");
+        this.gameBackground = MainDisplay.loadBackground("Game_background.png");
         Dimension frameSize = FrameMetrics.getFrameSize(frame);
         g.drawImage(this.gameBackground, 0, 0, frameSize.width, frameSize.height, this);
     }

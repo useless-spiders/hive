@@ -50,7 +50,7 @@ public class DisplayStack {
             // Dessiner les insectes dépilés à l'intérieur du rectangle blanc
             for (int i = depiledInsects.size() - 1; i >= 0; i--) {
                 Insect insect = depiledInsects.get(i);
-                Image insectImage = DisplayGame.loadImage(DisplayGame.getImageName(insect.getClass(), insect.getPlayer()));
+                Image insectImage = MainDisplay.loadImage(MainDisplay.getImageInsectName(insect.getClass(), insect.getPlayer()));
                 int offsetY = startY + padding + (insectHeight + padding) * (depiledInsects.size() - i - 1); // Calculer la position Y en inversant l'ordre
 
                 g2d.drawImage(insectImage, startX + 10, offsetY, insectWidth, insectHeight, null);

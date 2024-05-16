@@ -3,15 +3,57 @@ package View;
 import Controller.Game;
 import Listener.MouseActionListener;
 import Model.HexGrid;
+import Model.Insect.Insect;
+import Model.Player;
 import Pattern.PageActionHandler;
+import Structure.Log;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainDisplay {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
+    private static final String IMAGE_PATH = "res/Images/";
+    private static final String BACKGROUND_PATH = "res/Backgrounds/";
+    private JFrame frameGame;
 
-    JFrame frameGame;
+    public static Image loadImage(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger l'image " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static ImageIcon loadIcon(String nom) {
+        try {
+            return new ImageIcon(IMAGE_PATH + nom);
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger l'icon " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static Image loadBackground(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(BACKGROUND_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger le fond " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
+        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
+    }
 
     public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
         new DisplayOpening(frameOpening, pageActionHandler);

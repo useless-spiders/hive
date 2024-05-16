@@ -1,22 +1,13 @@
 package View;
 
 import Model.HexGrid;
-import Model.Insect.Insect;
-import Model.Player;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.ViewMetrics;
-import Structure.Log;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
-    private static final String IMAGE_PATH = "res/Images/";
-    private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
     private DisplayGameBackground displayGameBackground;
     private DisplayHexGrid displayHexGrid;
@@ -27,36 +18,6 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
     private JFrame frame;
     private GameActionHandler controller;
-
-    public static Image loadImage(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'image " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static ImageIcon loadIcon(String nom) {
-        try {
-            return new ImageIcon(IMAGE_PATH + nom);
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'icon " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static Image loadBackground(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(BACKGROUND_PATH + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger le fond " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
 
     public DisplayGame(HexGrid grid, JFrame frame, GameActionHandler controller, PageActionHandler controllerPage){
         this.frame = frame;
@@ -95,10 +56,6 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     }
     public DisplayStack getDisplayStack() {
         return displayStack;
-    }
-
-    public static String getImageName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
     private void printPlayer(Graphics g) {
