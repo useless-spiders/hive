@@ -1,6 +1,5 @@
 package View;
 
-import Controller.PageManager;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.Log;

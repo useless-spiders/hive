@@ -122,7 +122,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         super.paintComponent(g);
 
         //Afficher le background du jeu
-        this.displayGameBackground.paintGameBackground(g);
+        //this.displayGameBackground.paintGameBackground(g);
 
         //Affichage du joueur courant
         printPlayer(g);

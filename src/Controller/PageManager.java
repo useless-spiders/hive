@@ -15,7 +15,7 @@ public class PageManager implements PageActionHandler {
 
     public PageManager() {
         this.frameOpening = new JFrame();
-        this.frameGame = new JFrame();
+        this.frameGame = new JFrame("Hive game");
         this.frameMenu = new JFrame();
         this.frameWinFrame = new JFrame();
     }

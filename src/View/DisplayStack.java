@@ -26,6 +26,8 @@ public class DisplayStack {
     public void paintStack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
+        System.out.println(isInsectCellClicked);
+
         if (this.hexClicked != null && this.isInsectCellClicked) {
             List<Insect> depiledInsects = new ArrayList<>(hexGrid.getCell(hexClicked).getInsects());
             int padding = 5; // Marge entre chaque insecte
