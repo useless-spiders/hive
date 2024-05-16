@@ -76,7 +76,14 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
 
 
             case "IADificile":
-            //pas encore implementee//
+                if(player==1)
+                {
+                    this.iaPlayer1 = Ia.nouvelle(this, "1", player1);
+                }
+                else
+                {
+                    this.iaPlayer2 = Ia.nouvelle(this, "1", player2);
+                }
                 break;
 
             default:

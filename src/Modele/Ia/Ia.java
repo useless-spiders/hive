@@ -22,6 +22,9 @@ public abstract class Ia
 			case "Aleatoire":
 				resultat = new IaAleatoire(g, p);
 				break;
+			case "1":
+				resultat = new Ia1(g, p);
+				break;
 			default:
 				Log.addMessage("IA de type " + ia + " non supportée");
 		}

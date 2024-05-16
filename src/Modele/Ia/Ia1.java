@@ -128,5 +128,6 @@ public class Ia1 extends Ia{
     @Override
     public void playMove(){
         Move move = chooseMove(getMoves());
+        this.Grid.applyMove(move, us);
     }
 }
