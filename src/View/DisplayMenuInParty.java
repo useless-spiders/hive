@@ -9,13 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMenuInParty {
-    private static final String SAUVEGARDER = "Sauvegarder";
-    private static final String REGLES = "Règles";
-    private static final String NEW = "Recommencer la partie";
+    private static final String SAVE = "Sauvegarder";
+    private static final String RULES = "Règles";
+    private static final String NEWGAME = "Recommencer la partie";
     private static final String MENU = "Menu principal";
 
-    private static final String ANNULER = "Annuler";
-    private static final String REFAIRE = "Refaire";
+    private static final String CANCEL = "Annuler";
+    private static final String REDO = "Refaire";
 
 
     private GameActionHandler controller;
@@ -28,8 +28,8 @@ public class DisplayMenuInParty {
         this.controller = controller;
         this.controllerPage = controllerPage;
         JComboBox<String> menu = createMenu();
-        JButton annulerButton = createButton(ANNULER);
-        JButton refaireButton = createButton(REFAIRE);
+        JButton annulerButton = createButton(CANCEL);
+        JButton refaireButton = createButton(REDO);
 
         gbc.gridx = GridBagConstraints.RELATIVE;
         gbc.gridy = 0;
@@ -41,7 +41,7 @@ public class DisplayMenuInParty {
     }
 
     private JComboBox<String> createMenu() {
-        String[] options = {SAUVEGARDER, REGLES, NEW, MENU};
+        String[] options = {SAVE, RULES, NEWGAME, MENU};
         JComboBox<String> menu = new JComboBox<>(options);
         menu.setEditable(true); // Rendre la JComboBox éditable
         menu.setSelectedItem("                       - - -"); // Définir le texte initial
@@ -49,11 +49,11 @@ public class DisplayMenuInParty {
             String selectedItem = (String) menu.getSelectedItem();
             if (selectedItem != null && !selectedItem.equals("MENU")) {
                 switch (selectedItem) {
-                    case SAUVEGARDER:
+                    case SAVE:
                         break; // A REMPLIR PLUS TARD
-                    case REGLES:
+                    case RULES:
                         break; // A REMPLIR PLUS TARD
-                    case NEW:
+                    case NEWGAME:
                         break; // A REMPLIR PLUS TARD
                     case MENU:
                         controllerPage.gameToMenu();
@@ -71,10 +71,10 @@ public class DisplayMenuInParty {
         JButton button = new JButton(text);
         button.addActionListener(e -> {
             switch (text) {
-                case ANNULER:
+                case CANCEL:
                     controller.cancelMove();
                     break;
-                case REFAIRE:
+                case REDO:
                     controller.redoMove();
                     break;
                 default:
