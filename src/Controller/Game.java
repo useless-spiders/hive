@@ -9,17 +9,13 @@ import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
+import Structure.HexMetrics;
 import Structure.Log;
 import View.Display;
-import Structure.HexMetrics;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends MouseAdapter implements GameActionHandler, MouseMotionListener {
+public class Game implements GameActionHandler {
     private HexGrid hexGrid;
     private Display display;
     private Player player1;
@@ -30,7 +26,6 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
     private HexCoordinate hexClicked;
     private HexCoordinate hoverCell;
     private ArrayList<HexCoordinate> playableCoordinates;
-    private int lastX, lastY;
     private History history;
     private Insect insect;
 
@@ -181,12 +176,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         }
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
-
-        HexCoordinate newHoverCell = HexMetrics.pixelToHex(mouseX, mouseY);
+    public void mouseMoved(int x, int y) {
+        HexCoordinate newHoverCell = HexMetrics.pixelToHex(x, y);
         if (!newHoverCell.equals(this.hoverCell) && this.playableCoordinates.contains(newHoverCell)) {
             this.hoverCell = newHoverCell;
             this.display.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
@@ -195,16 +186,10 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-        this.lastX = e.getX();
-        this.lastY = e.getY();
-        int mouseX = e.getX() - HexMetrics.getViewOffsetX();
-        int mouseY = e.getY() - HexMetrics.getViewOffsetY();
-
-        HexCoordinate hexagon = HexMetrics.pixelToHex(mouseX, mouseY);
+    public void mousePressed(int x, int y) {
+        HexCoordinate hexagon = HexMetrics.pixelToHex(x, y);
         HexCell cell = this.hexGrid.getCell(hexagon);
+
         if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
             this.handleCellClicked(cell, hexagon);
         } else if (this.isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
@@ -216,14 +201,8 @@ public class Game extends MouseAdapter implements GameActionHandler, MouseMotion
         this.display.repaint();
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        int dx = e.getX() - this.lastX;
-        int dy = e.getY() - this.lastY;
-        HexMetrics.updateViewPosition(dx, dy);
-        this.lastX = e.getX();
-        this.lastY = e.getY();
-
+    public void mouseDragged(int x, int y) {
+        HexMetrics.updateViewPosition(x, y);
         this.display.repaint();
     }
 

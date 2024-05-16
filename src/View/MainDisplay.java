@@ -3,6 +3,7 @@ package View;
 import Controller.ChangePage;
 import Controller.Game;
 import Controller.PageManager;
+import Listener.MouseActionListener;
 import Model.HexGrid;
 
 import javax.swing.*;
@@ -35,12 +36,11 @@ public class MainDisplay {
         HexGrid hexGrid = new HexGrid();
         Game g = new Game(hexGrid);
         Display display = new Display(hexGrid, frameGame, g, pageManager, changePage);
-
-
         g.setDisplay(display);
+        MouseActionListener mouseActionListener = new MouseActionListener(g);
 
-        display.addMouseListener(g);
-        display.addMouseMotionListener(g);
+        display.addMouseListener(mouseActionListener);
+        display.addMouseMotionListener(mouseActionListener);
     }
 
 
