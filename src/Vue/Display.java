@@ -63,21 +63,18 @@ public class Display extends JPanel { // Étendre JPanel plutôt que JComponent
     public Display(HexGrid grid, JFrame frame, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage){
         this.frame = frame;
         this.controller = controller;
-        displayGame(grid, pageManager, controllerPage);
-        //displayMenuSelectLvl();
 
+        //Pour construire le jeu
+        buildGame(grid, pageManager, controllerPage);
+
+        //Pour afficher le jeu
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
         container.add(this, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
-
         frame.add(container); // Ajouter le conteneur au JFrame
         frame.pack(); // Pack le JFrame
     }
 
-    public void cleanFrame(){
-        frame.getContentPane().removeAll();
-    }
-
-    public void displayGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
+    public void buildGame(HexGrid grid, PageManager pageManager, PageActionHandler controllerPage){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.displayHexGrid = new DisplayHexGrid(grid);

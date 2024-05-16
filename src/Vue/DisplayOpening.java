@@ -3,6 +3,7 @@ package Vue;
 import Controleur.PageManager;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structures.FrameMetrics;
 import Structures.HexCoordinate;
 import Structures.Log;
 
@@ -20,7 +21,7 @@ public class DisplayOpening extends JPanel{
         this.frame = frame;
         this.controllerPage = controllerPage;
         this.pageManager = pageManager;
-        Dimension frameSize = getFrameSize();
+
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
         GridBagConstraints gbc = new GridBagConstraints();
@@ -45,7 +46,7 @@ public class DisplayOpening extends JPanel{
     public void paintComponent(Graphics g) {
         //Affichage du background
         this.opening = Display.loadBackground("Opening.png");
-        Dimension frameSize = getFrameSize();
+        Dimension frameSize = FrameMetrics.getFrameSize(frame);
         g.drawImage(opening, 0, 0, frameSize.width, frameSize.height, this);
 
         //Affichage du message A MODIFIER
@@ -55,12 +56,6 @@ public class DisplayOpening extends JPanel{
         int x = frameSize.width/3; // Position x
         int y = frameSize.height/2; // Position y
         g.drawString(text, x, y);
-    }
-
-    //Récupérer la taille de la fenêtre, notamment pour l'affichage du background
-    //Si réutiliséee dans d'autres classes, à mettre ailleurs
-    public Dimension getFrameSize() {
-        return frame.getSize();
     }
 }
 

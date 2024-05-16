@@ -15,6 +15,7 @@ public class MainDisplay {
         ChangePage changePage = new ChangePage();
         /*affichage de l'opening*/
         this.frameOpening = frameOpening;
+
         DisplayOpening displayOpening = new DisplayOpening(frameOpening, pageManager, changePage);
         frameOpening.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameOpening.setSize(1280, 720);
