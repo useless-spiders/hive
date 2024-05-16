@@ -20,6 +20,7 @@ public class Ia1 extends Ia {
 
     public Ia1(Game g, Player p) {
         this.grid = g.getGrid();
+        insectclass = new ArrayList<>();
         insectclass.add(Bee.class);
         insectclass.add(Beetle.class);
         insectclass.add(Ant.class);

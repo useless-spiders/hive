@@ -45,7 +45,7 @@ public class Game implements GameActionHandler {
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
         /////////A COMMENTER POUR PVP//////////////
-        setPlayer(2, "IAFacile");
+        setPlayer(2, "IADifficile");
         //////////////////////////////////////////
     }
 
@@ -99,9 +99,7 @@ public class Game implements GameActionHandler {
                     this.iaPlayer2 = Ia.nouvelle(this, "Aleatoire", this.player2);
                 }
                 break;
-
-
-            case "IADificile":
+            case "IADifficile":
                 if (player == 1) {
                     this.iaPlayer1 = Ia.nouvelle(this, "1", this.player1);
                 } else {
