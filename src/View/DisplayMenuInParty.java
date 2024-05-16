@@ -1,6 +1,5 @@
 package View;
 
-import Controller.PageManager;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.Log;
@@ -22,14 +21,12 @@ public class DisplayMenuInParty {
     private GameActionHandler controller;
     private JPanel panelGame;
 
-    private PageManager pageManager;
     private PageActionHandler controllerPage;
 
-    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageManager pageManager, PageActionHandler controllerPage) {
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageActionHandler controllerPage) {
         this.panelGame = panelGame;
         this.controller = controller;
         this.controllerPage = controllerPage;
-        this.pageManager = pageManager;
         JPanel column1 = createColumn();
 
         gbc.gridx = GridBagConstraints.RELATIVE; // Pour placer la colonne à droite du composant précédent
@@ -59,7 +56,7 @@ public class DisplayMenuInParty {
 
         switch (text){
             case RETOUR:
-                button.addActionListener(e -> controllerPage.gameToMenu(pageManager));
+                button.addActionListener(e -> controllerPage.gameToMenu());
                 break;
             case ANNULER:
                 button.addActionListener(e -> controller.cancelMove());

@@ -12,11 +12,9 @@ public class DisplayConfigParty extends JPanel {
     private static final String IA_HARD = "ia difficile";
     private static final String JOUER = "jouer";
 
-    private PageManager pageManager;
     private PageActionHandler pageActionHandler;
 
-    public DisplayConfigParty(JFrame frame, PageManager pageManager, PageActionHandler controllerPage){
-        this.pageManager = pageManager;
+    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage){
         this.pageActionHandler = controllerPage;
 
         setLayout(new GridBagLayout());
@@ -57,7 +55,7 @@ public class DisplayConfigParty extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         switch (text) {
             case JOUER:
-                button.addActionListener(e -> pageActionHandler.menuToGame(pageManager));
+                button.addActionListener(e -> pageActionHandler.menuToGame());
                 break;
         }
         return button;
