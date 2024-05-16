@@ -1,7 +1,6 @@
 package Test;
 
-import Modele.Insect.*;
-import Modele.Player;
+import Model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
