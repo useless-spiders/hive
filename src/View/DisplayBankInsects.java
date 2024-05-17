@@ -39,6 +39,7 @@ public class DisplayBankInsects {
 
     private JPanel createButtonPanel(Player player) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panel.setOpaque(false);
 
         // Ajouter le bouton et le label pour chaque insecte
         panel.add(createButtonWithLabel(Spider.class, player, String.valueOf(player.getInsectCount(Spider.class))));
@@ -52,9 +53,15 @@ public class DisplayBankInsects {
     private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setOpaque(false);
+
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
+
+
 
         // Créer un nouveau JLabel pour chaque bouton
-        JLabel label = new JLabel(labelText);
+
         if (player.equals(controller.getPlayer1())) {
             player1Labels.put(insectClass, label);
         } else if (player.equals(controller.getPlayer2())) {
@@ -66,7 +73,6 @@ public class DisplayBankInsects {
 
         // Ajouter le bouton au-dessous du label
         buttonPanel.add(createButton(insectClass, player, label));
-
         return buttonPanel;
     }
 
@@ -79,6 +85,10 @@ public class DisplayBankInsects {
                 controller.clicInsectButton(insectClass, player);
             }
         });
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+
         return button;
     }
 

@@ -1,10 +1,9 @@
 package View;
 
-import Controller.Game;
 import Listener.MouseActionListener;
-import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Player;
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.Log;
 
@@ -19,7 +18,8 @@ public class MainDisplay {
     private static final int FRAME_HEIGHT = 720;
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
-    private JFrame frameGame;
+
+    private DisplayWin displayWin;
 
     public static Image loadImage(String nom) {
         try {
@@ -55,32 +55,39 @@ public class MainDisplay {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin){
+        MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler);
+
+        //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
-        setupFrame(frameOpening, true);
+        setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
+        //Affichage du menu
         new DisplayConfigParty(frameMenu, pageActionHandler);
-        setupFrame(frameMenu, false);
+        setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
-        initializeGame(pageActionHandler, frameGame);
+        //Affichage du jeu
+        DisplayGame displayGame = new DisplayGame(gameActionHandler.getGrid(), frameGame, gameActionHandler, pageActionHandler);
+        setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+
+        gameActionHandler.setDisplayGame(displayGame);
+        displayGame.addMouseListener(mouseActionListener);
+        displayGame.addMouseMotionListener(mouseActionListener);
+
+        //Affichage de la frame de fin de jeu
+        this.displayWin = new DisplayWin(frameWin, frameGame, pageActionHandler);
+        setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
     }
 
-    private JFrame setupFrame(JFrame frame, boolean isVisible) {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+    private JFrame setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
+        frame.setSize(frameWidth, frameHeight); // Définir la taille de la fenêtre
         frame.setVisible(isVisible);
+        frame.setLocationRelativeTo(null); // Pour centrer l'affichage (notamment pour la frameWin)
+        frame.setDefaultCloseOperation(closeOperation); // Définir l'opération de fermeture
         return frame;
     }
 
-    private void initializeGame(PageActionHandler pageActionHandler, JFrame frameGame) {
-        HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid);
-        this.frameGame = setupFrame(frameGame, false);
-        DisplayGame displayGame = new DisplayGame(hexGrid, this.frameGame, g, pageActionHandler);
-        g.setDisplayGame(displayGame);
-
-        MouseActionListener mouseActionListener = new MouseActionListener(g);
-        displayGame.addMouseListener(mouseActionListener);
-        displayGame.addMouseMotionListener(mouseActionListener);
+    public DisplayWin getDisplayWin() {
+        return this.displayWin;
     }
 }

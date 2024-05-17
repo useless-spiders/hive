@@ -6,9 +6,10 @@ import Structure.HexCoordinate;
 import Structure.Log;
 import Model.Player;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Insect implements Cloneable {
+public abstract class Insect implements Cloneable, Serializable {
     private Player player;
 
     public Insect(Player player) {

@@ -14,13 +14,14 @@ import Structure.HexMetrics;
 import Structure.Log;
 import Structure.ViewMetrics;
 import View.DisplayGame;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.Timer;
 
-public class Game implements GameActionHandler, ActionListener  {
+public class Game implements GameActionHandler, ActionListener {
     private HexGrid hexGrid;
     private DisplayGame displayGame;
     private Player player1;
@@ -36,10 +37,11 @@ public class Game implements GameActionHandler, ActionListener  {
     private Ia iaPlayer1;
     private Ia iaPlayer2;
     private Timer delay;
+    private PageManager pageManager;
 
 
-    public Game(HexGrid hexGrid) {
-        this.hexGrid = hexGrid;
+    public Game() {
+        this.hexGrid = new HexGrid();
         this.initPlayers();
 
         this.isInsectButtonClicked = false;
@@ -47,6 +49,7 @@ public class Game implements GameActionHandler, ActionListener  {
         this.hexClicked = null;
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
+        this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         /////////A COMMENTER POUR PVP//////////////
         setPlayer(2, "IADifficile");
@@ -54,22 +57,16 @@ public class Game implements GameActionHandler, ActionListener  {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         Ia ia = null;
-        if (this.iaPlayer1!=null && this.player1 == this.currentPlayer) 
-        {
+        if (this.iaPlayer1 != null && this.player1 == this.currentPlayer) {
             ia = iaPlayer1;
-        } 
-        else 
-        {
-            if(this.iaPlayer2!=null && this.player2 == this.currentPlayer)
-            {
+        } else {
+            if (this.iaPlayer2 != null && this.player2 == this.currentPlayer) {
                 ia = iaPlayer2;
             }
         }
-        if(ia!=null)
-        {
+        if (ia != null) {
             ia.playMove();
             switchPlayer();
             this.displayGame.repaint();
@@ -89,13 +86,11 @@ public class Game implements GameActionHandler, ActionListener  {
         return this.hexGrid;
     }
 
-    public History getHistory()
-    {
+    public History getHistory() {
         return this.history;
     }
 
-    public boolean checkCurrentPlayerIsIa()
-    {
+    public boolean checkCurrentPlayerIsIa() {
         return (this.iaPlayer1 != null && this.currentPlayer == this.player1) || (this.iaPlayer2 != null && this.currentPlayer == this.player2);
     }
 
@@ -113,18 +108,22 @@ public class Game implements GameActionHandler, ActionListener  {
         this.displayGame = displayGame;
     }
 
-    private void checkLoser() {
+    private Player checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
+            return null; // A MODIFIER POUR EGALITE
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                return this.player2;
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                return this.player1;
             }
         }
+        return null;
     }
 
 
@@ -151,16 +150,19 @@ public class Game implements GameActionHandler, ActionListener  {
     }
 
     private void switchPlayer() {
-        this.displayGame.repaint();
-        checkLoser();
-        this.currentPlayer.incrementTurn();
-        if (this.currentPlayer == this.player1) {
-            this.currentPlayer = this.player2;
+        Player winner = this.checkLoser();
+        if (winner != null) {
+            pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            pageManager.gameAndWin();
         } else {
-            this.currentPlayer = this.player1;
+            this.currentPlayer.incrementTurn();
+            if (this.currentPlayer == this.player1) {
+                this.currentPlayer = this.player2;
+            } else {
+                this.currentPlayer = this.player1;
+            }
         }
-        aiTurn();
-        this.displayGame.repaint();
+        this.aiTurn();
     }
 
     private void switchPlayerHistory() {
@@ -173,8 +175,7 @@ public class Game implements GameActionHandler, ActionListener  {
         this.displayGame.repaint();
     }
 
-    public void delay(long time)
-    {
+    public void delay(long time) {
         this.delay.start();
     }
 
@@ -289,7 +290,7 @@ public class Game implements GameActionHandler, ActionListener  {
     public void mousePressed(int x, int y) {
         if(this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null))
         {
-            aiTurn();
+            this.aiTurn();
         }
         HexCoordinate hexagon = HexMetrics.pixelToHex(x, y);
         HexCell cell = this.hexGrid.getCell(hexagon);

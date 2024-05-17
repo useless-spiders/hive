@@ -8,10 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMenuInParty {
+    private static final String DEFAULT = "                       ---";
     private static final String SAVE = "Sauvegarder";
     private static final String RULES = "Règles";
     private static final String NEWGAME = "Recommencer la partie";
-    private static final String MENU = "Menu principal";
+    private static final String ABORT = "Abandonner la partie";
 
     private static final String CANCEL = "Annuler";
     private static final String REDO = "Refaire";
@@ -40,13 +41,11 @@ public class DisplayMenuInParty {
     }
 
     private JComboBox<String> createMenu() {
-        String[] options = {SAVE, RULES, NEWGAME, MENU};
+        String[] options = {DEFAULT, SAVE, RULES, NEWGAME, ABORT};
         JComboBox<String> menu = new JComboBox<>(options);
-        menu.setEditable(true); // Rendre la JComboBox éditable
-        menu.setSelectedItem("                       - - -"); // Définir le texte initial
         menu.addActionListener(e -> {
             String selectedItem = (String) menu.getSelectedItem();
-            if (selectedItem != null && !selectedItem.equals("MENU")) {
+            if (selectedItem != null) {
                 switch (selectedItem) {
                     case SAVE:
                         break; // A REMPLIR PLUS TARD
@@ -54,13 +53,16 @@ public class DisplayMenuInParty {
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
                         break; // A REMPLIR PLUS TARD
-                    case MENU:
-                        controllerPage.gameToMenu();
+                    case ABORT:
+                        controllerPage.gameAndAbort();
+                        //controllerPage.gameToMenu();
+                        break;
+                    case DEFAULT:
+                        break;
                     default:
                         Log.addMessage("Erreur dans les options du menu du jeu");
                 }
-                // Réinitialiser la sélection à "MENU" après l'action
-                menu.setSelectedItem("                       - - -");
+                menu.setSelectedItem(DEFAULT);
             }
         });
         return menu;
