@@ -17,6 +17,7 @@ public class IaAleatoire extends Ia {
 
     public IaAleatoire(Game g, Player p) {
         this.grid = g.getGrid();
+        this.history = g.getHistory();
         this.r = new Random();
         this.us = p;
     }
@@ -37,7 +38,6 @@ public class IaAleatoire extends Ia {
                 Insect insect;
                 HexCoordinate source = null;
                 switch (r.nextInt(5)) {
-                    //TODO ca marche pas verifier les compteurs des insectes
                     case 0:
                         insect = this.us.getInsect(Ant.class);
                         break;
@@ -55,6 +55,7 @@ public class IaAleatoire extends Ia {
                         break;
                 }
                 if (this.grid.getGrid().isEmpty()) {
+                    //TODO placer la premiere piece au milieu de l ecran
                     return new Move(insect, source, new HexCoordinate(0, 0));
                 } else {
                     possibleCells = insect.getPossibleInsertionCoordinatesT1(this.grid);
@@ -121,5 +122,6 @@ public class IaAleatoire extends Ia {
     public void playMove() {
         Move moveToPlay = chooseMove();
         this.grid.applyMove(moveToPlay, us);
+        this.history.addMove(moveToPlay);
     }
 }

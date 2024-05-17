@@ -2,6 +2,7 @@ package Model.Ia;
 
 import Controller.Game;
 import Model.HexGrid;
+import Model.History;
 import Model.Move;
 import Model.Player;
 import Structure.Log;
@@ -9,6 +10,7 @@ import Structure.Log;
 public abstract class Ia {
     Player us;
     HexGrid grid;
+    History history;
 
     public static Ia nouvelle(Game g, String ia, Player p) {
         Ia resultat = null;

@@ -70,9 +70,7 @@ public class Game implements GameActionHandler, ActionListener  {
         }
         if(ia!=null)
         {
-            //Move aiMove = ia.playMove();
             ia.playMove();
-            //this.history.addMove(aiMove);
             switchPlayer();
             this.displayGame.repaint();
             this.delay.stop();
@@ -89,6 +87,11 @@ public class Game implements GameActionHandler, ActionListener  {
 
     public HexGrid getGrid() {
         return this.hexGrid;
+    }
+
+    public History getHistory()
+    {
+        return this.history;
     }
 
     public boolean checkCurrentPlayerIsIa()
