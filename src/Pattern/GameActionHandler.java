@@ -5,6 +5,7 @@ import Model.Insect.Insect;
 import Model.Player;
 import Structure.HexCoordinate;
 import View.DisplayGame;
+import View.DisplayWin;
 
 import java.util.ArrayList;
 
