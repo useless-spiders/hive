@@ -126,9 +126,9 @@ public class Game implements GameActionHandler {
     }
 
     private void tourIa() {
-        if (this.player1 == this.currentPlayer) {
+        if (this.iaPlayer1 != null && this.player1 == this.currentPlayer) {
             this.iaPlayer1.playMove();
-        } else {
+        } else if(this.iaPlayer2 != null && this.player2 == this.currentPlayer){
             this.iaPlayer2.playMove();
         }
         switchPlayer();
@@ -140,6 +140,7 @@ public class Game implements GameActionHandler {
 
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
+        this.currentPlayer = player1; //test pour coco a suppr
     }
 
     private void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
