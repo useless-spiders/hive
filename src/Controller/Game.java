@@ -51,9 +51,6 @@ public class Game implements GameActionHandler, ActionListener {
         this.history = new History();
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
-        /////////A COMMENTER POUR PVP//////////////
-        setPlayer(2, "IADifficile");
-        //////////////////////////////////////////
     }
 
     @Override
@@ -126,17 +123,18 @@ public class Game implements GameActionHandler, ActionListener {
         return null;
     }
 
-
+    @Override
     public void setPlayer(int player, String name) {
+        System.out.println("le joueur " + name);
         switch (name) {
-            case "IAFacile":
+            case "ia facile":
                 if (player == 1) {
                     this.iaPlayer1 = Ia.nouvelle(this, "Aleatoire", this.player1);
                 } else {
                     this.iaPlayer2 = Ia.nouvelle(this, "Aleatoire", this.player2);
                 }
                 break;
-            case "IADifficile":
+            case "ia difficile":
                 if (player == 1) {
                     this.iaPlayer1 = Ia.nouvelle(this, "1", this.player1);
                 } else {

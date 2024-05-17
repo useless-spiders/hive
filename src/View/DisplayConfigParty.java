@@ -1,5 +1,6 @@
 package View;
 
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 
 import javax.swing.*;
@@ -11,16 +12,21 @@ public class DisplayConfigParty extends JPanel {
     private static final String IA_HARD = "ia difficile";
     private static final String JOUER = "jouer";
 
-    private PageActionHandler pageActionHandler;
+    private JComboBox<String> column1;
+    private JComboBox<String> column2;
 
-    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage){
+    private PageActionHandler pageActionHandler;
+    private GameActionHandler gameActionHandler;
+
+    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage, GameActionHandler controllerGame){
         this.pageActionHandler = controllerPage;
+        this.gameActionHandler = controllerGame;
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JComboBox<String> column1 = createDropDownMenu();
-        JComboBox<String> column2 = createDropDownMenu();
+        this.column1 = createDropDownMenu();
+        this.column2 = createDropDownMenu();
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -49,12 +55,19 @@ public class DisplayConfigParty extends JPanel {
         return comboBox;
     }
 
+
+
+
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         switch (text) {
             case JOUER:
-                button.addActionListener(e -> pageActionHandler.menuToGame());
+                button.addActionListener(e -> {
+                    gameActionHandler.setPlayer(1, (String) column1.getSelectedItem());
+                    gameActionHandler.setPlayer(2, (String) column2.getSelectedItem());
+                    pageActionHandler.menuToGame();
+                });
                 break;
         }
         return button;

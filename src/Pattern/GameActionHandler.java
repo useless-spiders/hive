@@ -34,4 +34,6 @@ public interface GameActionHandler {
 
     void mouseDragged(int x, int y);
 
+    void setPlayer(int player, String name);
+
 }
