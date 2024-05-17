@@ -29,10 +29,11 @@ public class Game implements GameActionHandler {
     private ArrayList<HexCoordinate> playableCoordinates;
     private History history;
     private Insect insect;
+    private PageManager pageManager;
 
 
-    public Game(HexGrid hexGrid) {
-        this.hexGrid = hexGrid;
+    public Game(){
+        this.hexGrid = new HexGrid();
         this.initPlayers();
 
         this.isInsectButtonClicked = false;
@@ -40,6 +41,7 @@ public class Game implements GameActionHandler {
         this.hexClicked = null;
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
+        this.pageManager = new PageManager(this);
     }
 
     public Player getPlayer1() {

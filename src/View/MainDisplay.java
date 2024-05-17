@@ -2,7 +2,6 @@ package View;
 
 import Controller.Game;
 import Listener.MouseActionListener;
-import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Player;
 import Pattern.PageActionHandler;
@@ -20,6 +19,7 @@ public class MainDisplay {
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
     private JFrame frameGame;
+    private Game game;
 
     public static Image loadImage(String nom) {
         try {
@@ -55,7 +55,8 @@ public class MainDisplay {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+    public MainDisplay(PageActionHandler pageActionHandler, Game game, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+        this.game = game;
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true);
@@ -76,13 +77,12 @@ public class MainDisplay {
     }
 
     private void initializeGame(PageActionHandler pageActionHandler, JFrame frameGame) {
-        HexGrid hexGrid = new HexGrid();
-        Game g = new Game(hexGrid);
-        this.frameGame = setupFrame(frameGame, false);
-        DisplayGame displayGame = new DisplayGame(hexGrid, this.frameGame, g, pageActionHandler);
-        g.setDisplayGame(displayGame);
 
-        MouseActionListener mouseActionListener = new MouseActionListener(g);
+        this.frameGame = setupFrame(frameGame, false);
+        DisplayGame displayGame = new DisplayGame(this.game.getGrid(), this.frameGame, game, pageActionHandler);
+        this.game.setDisplayGame(displayGame);
+
+        MouseActionListener mouseActionListener = new MouseActionListener(this.game);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
     }
