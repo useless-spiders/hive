@@ -46,9 +46,7 @@ public class PageManager implements PageActionHandler {
     }
 
     @Override
-    public void gameToWin() {
-        this.switchFrame(this.frameGame, this.frameWin);
-    }
+    public void gameToWin() {this.switchFrame(this.frameGame, this.frameWin);}
 
     @Override
     public void gameAndAbort() {
