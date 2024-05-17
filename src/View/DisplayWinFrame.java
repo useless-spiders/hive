@@ -12,12 +12,10 @@ public class DisplayWinFrame {
     JFrame winFrame;
     private static final String REPLAY = "New Game";
     private static final String MENU = "Menu";
-    private PageManager pageManager;
     private PageActionHandler controller;
 
-    public DisplayWinFrame(JFrame winFrame, String player,PageManager pageManager,PageActionHandler controller){
+    public DisplayWinFrame(JFrame winFrame, String player,PageActionHandler controller){
         this.controller = controller;
-        this.pageManager = pageManager;
         this.winFrame = winFrame;
         JPanel column1 = createColumn();;
         JLabel Wintext = new JLabel("Victoire de" + player);
@@ -42,7 +40,7 @@ public class DisplayWinFrame {
             case REPLAY:
                 break;
             case MENU:
-                button.addActionListener(e -> controller.winFrameToMenu(pageManager));
+                button.addActionListener(e -> controller.winFrameToMenu());
                 break;
             default:
                 Log.addMessage("Erreur dans les boutons de la WinFrame");

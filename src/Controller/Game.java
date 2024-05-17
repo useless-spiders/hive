@@ -113,6 +113,11 @@ public class Game implements GameActionHandler {
                 }
                 // rendre transparente la case
                 this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+
+                // on affiche la pile
+                if (hexGrid.getGrid().get(hexClicked).getInsects().size() >= 2) {
+                    this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
+                }
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
             }
@@ -124,6 +129,7 @@ public class Game implements GameActionHandler {
             } else { //On clique sur un insecte déjà sélectionné
                 this.isInsectCellClicked = false;
                 this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+                this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
                 this.playableCoordinates.clear();
             }
         }
@@ -138,6 +144,7 @@ public class Game implements GameActionHandler {
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.isInsectCellClicked = false;
             this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+            this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
             this.playableCoordinates.clear();
             this.switchPlayer();
             this.history.addMove(move);
@@ -250,6 +257,7 @@ public class Game implements GameActionHandler {
             this.hexGrid.unapplyMove(move, this.currentPlayer);
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
+            this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
             this.displayGame.repaint();
         } else {
             Log.addMessage("no move to cancel");

@@ -1,11 +1,12 @@
 package Controller;
 
+import Pattern.PageActionHandler;
 import View.MainDisplay;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PageManager {
+public class PageManager implements PageActionHandler {
     private JFrame frameOpening;
     private JFrame frameMenu;
     private JFrame frameGame;
@@ -14,7 +15,7 @@ public class PageManager {
 
     public PageManager() {
         this.frameOpening = new JFrame();
-        this.frameGame = new JFrame();
+        this.frameGame = new JFrame("Hive game");
         this.frameMenu = new JFrame();
         this.frameWinFrame = new JFrame();
     }
@@ -23,7 +24,7 @@ public class PageManager {
         MainDisplay mainDisplay = new MainDisplay(this, frameOpening, frameMenu, frameGame);
     }
 
-
+    @Override
     public void openingToMenu(){
         Dimension frameSize = frameOpening.getSize();
         frameOpening.setVisible(false);
@@ -31,6 +32,7 @@ public class PageManager {
         frameMenu.setVisible(true);
     }
 
+    @Override
     public void menuToGame(){
         Dimension frameSize = frameMenu.getSize();
         frameMenu.setVisible(false);
@@ -38,6 +40,7 @@ public class PageManager {
         frameGame.setVisible(true);
     }
 
+    @Override
     public void gameToMenu(){
         Dimension frameSize = frameGame.getSize();
         frameGame.setVisible(false);
@@ -56,6 +59,7 @@ public class PageManager {
         frameGame.setVisible(false);
     }
 
+    @Override
     public void winFrameToMenu(){
         frameWinFrame.setVisible(false);
         frameMenu.setVisible(true);

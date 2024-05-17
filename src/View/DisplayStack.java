@@ -7,12 +7,12 @@ import Structure.HexMetrics;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DisplayStack {
     private HexGrid hexGrid;
     private boolean isInsectCellClicked = false;
     private HexCoordinate hexClicked = null;
+    private static final int OFFSET = 5; // Marge entre chaque insecte
 
     public DisplayStack(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
@@ -26,15 +26,12 @@ public class DisplayStack {
     public void paintStack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        if (hexClicked != null && isInsectCellClicked) {
-            List<Insect> depiledInsects = new ArrayList<>(hexGrid.getCell(hexClicked).getInsects());
-            int padding = 5; // Marge entre chaque insecte
-            int insectWidth = HexMetrics.HEX_WIDTH;
-            int insectHeight = HexMetrics.HEX_HEIGHT;
+        if (this.hexClicked != null && this.isInsectCellClicked) {
+            ArrayList<Insect> depiledInsects = this.hexGrid.getCell(this.hexClicked).getInsects();
 
             // Calculer la largeur et la hauteur du rectangle
-            int rectWidth = insectWidth + 20; // Largeur du rectangle (ajouter une marge de 10 pixels de chaque côté)
-            int rectHeight = (insectHeight + padding) * depiledInsects.size(); // Hauteur du rectangle
+            int rectWidth = HexMetrics.HEX_WIDTH + 20; // Largeur du rectangle (ajouter une marge de 10 pixels de chaque côté)
+            int rectHeight = (HexMetrics.HEX_HEIGHT + OFFSET) * depiledInsects.size(); // Hauteur du rectangle
 
             // Calculer les coordonnées X et Y pour positionner le rectangle juste au-dessus de la pile en question
             Point hexCenter = HexMetrics.hexToPixel(hexClicked);
@@ -48,10 +45,10 @@ public class DisplayStack {
             // Dessiner les insectes dépilés à l'intérieur du rectangle blanc
             for (int i = depiledInsects.size() - 1; i >= 0; i--) {
                 Insect insect = depiledInsects.get(i);
-                Image insectImage = DisplayGame.loadImage(DisplayGame.getImageName(insect.getClass(), insect.getPlayer()));
-                int offsetY = startY + padding + (insectHeight + padding) * (depiledInsects.size() - i - 1); // Calculer la position Y en inversant l'ordre
+                Image insectImage = MainDisplay.loadImage(MainDisplay.getImageInsectName(insect.getClass(), insect.getPlayer()));
+                int offsetY = startY + OFFSET + (HexMetrics.HEX_HEIGHT + OFFSET) * (depiledInsects.size() - i - 1); // Calculer la position Y en inversant l'ordre
 
-                g2d.drawImage(insectImage, startX + 10, offsetY, insectWidth, insectHeight, null);
+                g2d.drawImage(insectImage, startX + 10, offsetY, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
             }
         }
     }
