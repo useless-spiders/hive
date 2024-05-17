@@ -1,8 +1,10 @@
 package Pattern;
 
+import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Player;
 import Structure.HexCoordinate;
+import View.DisplayGame;
 
 import java.util.ArrayList;
 
@@ -21,5 +23,14 @@ public interface GameActionHandler {
 
     void redoMove();
 
+    HexGrid getGrid();
+
+    void setDisplayGame(DisplayGame displayGame);
+
+    void mouseMoved(int x, int y);
+
+    void mousePressed(int x, int y);
+
+    void mouseDragged(int x, int y);
 
 }

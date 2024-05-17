@@ -1,9 +1,9 @@
 package View;
 
-import Controller.Game;
 import Listener.MouseActionListener;
 import Model.Insect.Insect;
 import Model.Player;
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.Log;
 
@@ -19,7 +19,8 @@ public class MainDisplay {
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
     private JFrame frameGame;
-    private Game game;
+    private GameActionHandler gameActionHandler;
+    private PageActionHandler pageActionHandler;
 
     public static Image loadImage(String nom) {
         try {
@@ -55,18 +56,25 @@ public class MainDisplay {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public MainDisplay(PageActionHandler pageActionHandler, Game game, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
-        this.game = game;
+    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+        this.pageActionHandler = pageActionHandler;
+        this.gameActionHandler = gameActionHandler;
+        this.frameGame = setupFrame(frameGame, false);
+
         //Affichage de l'opening
-        new DisplayOpening(frameOpening, pageActionHandler);
+        new DisplayOpening(frameOpening, this.pageActionHandler);
         setupFrame(frameOpening, true);
 
         //Affichage du menu
-        new DisplayConfigParty(frameMenu, pageActionHandler);
+        new DisplayConfigParty(frameMenu, this.pageActionHandler);
         setupFrame(frameMenu, false);
 
         //Affichage du jeu
-        initializeGame(pageActionHandler, frameGame);
+        DisplayGame displayGame = new DisplayGame(this.gameActionHandler.getGrid(), this.frameGame, this.gameActionHandler, this.pageActionHandler);
+        this.gameActionHandler.setDisplayGame(displayGame);
+        MouseActionListener mouseActionListener = new MouseActionListener(this.gameActionHandler);
+        displayGame.addMouseListener(mouseActionListener);
+        displayGame.addMouseMotionListener(mouseActionListener);
     }
 
     private JFrame setupFrame(JFrame frame, boolean isVisible) {
@@ -74,16 +82,5 @@ public class MainDisplay {
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setVisible(isVisible);
         return frame;
-    }
-
-    private void initializeGame(PageActionHandler pageActionHandler, JFrame frameGame) {
-
-        this.frameGame = setupFrame(frameGame, false);
-        DisplayGame displayGame = new DisplayGame(this.game.getGrid(), this.frameGame, game, pageActionHandler);
-        this.game.setDisplayGame(displayGame);
-
-        MouseActionListener mouseActionListener = new MouseActionListener(this.game);
-        displayGame.addMouseListener(mouseActionListener);
-        displayGame.addMouseMotionListener(mouseActionListener);
     }
 }
