@@ -10,7 +10,7 @@ public class FrameMetrics {
         return frame.getSize();
     }
 
-    public void cleanFrame(JFrame frame){
+    public static void cleanFrame(JFrame frame){
         frame.getContentPane().removeAll();
     }
 }

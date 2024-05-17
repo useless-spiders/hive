@@ -2,34 +2,41 @@ package Model.Ia;
 
 import Controller.Game;
 import Model.HexGrid;
-import Structure.HexCoordinate;
+import Model.History;
+import Model.Move;
+import Model.Player;
 import Structure.Log;
 
-public abstract class Ia
-{
-    
-    HexGrid Grid;
+public abstract class Ia {
+    Player us;
+    HexGrid grid;
+    History history;
 
-    public static Ia nouvelle(Game g, String ia) 
-	{
-		Ia resultat = null;
-		switch (ia) {
-			case "Aleatoire":
-				resultat = new IaAleatoire(g);
-				break;
-			default:
-				Log.addMessage("IA de type " + ia + " non supportée");
-		}
-		return resultat;
-	}
+    public static Ia nouvelle(Game g, String ia, Player p) {
+        Ia resultat = null;
+        switch (ia) {
+            case "Aleatoire":
+                resultat = new IaAleatoire(g, p);
+                break;
+            case "1":
+                resultat = new Ia1(g, p);
+                break;
+            default:
+                Log.addMessage("IA de type " + ia + " non supportée");
+        }
+        return resultat;
+    }
 
-	void joue() 
-	{
+    public Player getPlayer() {
+        return this.us;
+    }
 
-	}
+    Move chooseMove() {
+        return null;
+    }
 
-	void joue(HexCoordinate from, HexCoordinate to)
-	{
-		joue();
-	}
+    public void playMove() {
+        chooseMove();
+    }
+
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Ia.Ia;
 import Model.Move;
 import Model.HexCell;
 import Model.HexGrid;
@@ -13,10 +14,14 @@ import Structure.HexMetrics;
 import Structure.Log;
 import Structure.ViewMetrics;
 import View.DisplayGame;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.Timer;
 
-public class Game implements GameActionHandler {
+public class Game implements GameActionHandler, ActionListener {
     private HexGrid hexGrid;
     private DisplayGame displayGame;
     private Player player1;
@@ -29,10 +34,14 @@ public class Game implements GameActionHandler {
     private ArrayList<HexCoordinate> playableCoordinates;
     private History history;
     private Insect insect;
+    private Ia iaPlayer1;
+    private Ia iaPlayer2;
+    private Timer delay;
+    private PageManager pageManager;
 
 
-    public Game(HexGrid hexGrid) {
-        this.hexGrid = hexGrid;
+    public Game() {
+        this.hexGrid = new HexGrid();
         this.initPlayers();
 
         this.isInsectButtonClicked = false;
@@ -40,6 +49,29 @@ public class Game implements GameActionHandler {
         this.hexClicked = null;
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
+        this.pageManager = new PageManager(this);
+        this.delay = new Timer(1000, this);
+        /////////A COMMENTER POUR PVP//////////////
+        setPlayer(2, "IADifficile");
+        //////////////////////////////////////////
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Ia ia = null;
+        if (this.iaPlayer1 != null && this.player1 == this.currentPlayer) {
+            ia = iaPlayer1;
+        } else {
+            if (this.iaPlayer2 != null && this.player2 == this.currentPlayer) {
+                ia = iaPlayer2;
+            }
+        }
+        if (ia != null) {
+            ia.playMove();
+            switchPlayer();
+            this.displayGame.repaint();
+            this.delay.stop();
+        }
     }
 
     public Player getPlayer1() {
@@ -52,6 +84,14 @@ public class Game implements GameActionHandler {
 
     public HexGrid getGrid() {
         return this.hexGrid;
+    }
+
+    public History getHistory() {
+        return this.history;
+    }
+
+    public boolean checkCurrentPlayerIsIa() {
+        return (this.iaPlayer1 != null && this.currentPlayer == this.player1) || (this.iaPlayer2 != null && this.currentPlayer == this.player2);
     }
 
     @Override
@@ -68,28 +108,81 @@ public class Game implements GameActionHandler {
         this.displayGame = displayGame;
     }
 
-    private void checkLoser() {
+    private Player checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
+            return null; // A MODIFIER POUR EGALITE
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                return this.player2;
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                return this.player1;
             }
+        }
+        return null;
+    }
+
+
+    public void setPlayer(int player, String name) {
+        switch (name) {
+            case "IAFacile":
+                if (player == 1) {
+                    this.iaPlayer1 = Ia.nouvelle(this, "Aleatoire", this.player1);
+                } else {
+                    this.iaPlayer2 = Ia.nouvelle(this, "Aleatoire", this.player2);
+                }
+                break;
+            case "IADifficile":
+                if (player == 1) {
+                    this.iaPlayer1 = Ia.nouvelle(this, "1", this.player1);
+                } else {
+                    this.iaPlayer2 = Ia.nouvelle(this, "1", this.player2);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
     private void switchPlayer() {
-        this.checkLoser();
-        this.currentPlayer.incrementTurn();
+        Player winner = this.checkLoser();
+        if (winner != null) {
+            pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            pageManager.gameAndWin();
+        } else {
+            this.currentPlayer.incrementTurn();
+            if (this.currentPlayer == this.player1) {
+                this.currentPlayer = this.player2;
+            } else {
+                this.currentPlayer = this.player1;
+            }
+        }
+        this.aiTurn();
+    }
+
+    private void switchPlayerHistory() {
+        this.displayGame.repaint();
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
             this.currentPlayer = this.player1;
         }
+        this.displayGame.repaint();
+    }
+
+    public void delay(long time) {
+        this.delay.start();
+    }
+
+    private void aiTurn() {
+        this.displayGame.repaint();
+        delay(1000);
+        this.displayGame.repaint();
     }
 
     private void initPlayers() {
@@ -108,7 +201,7 @@ public class Game implements GameActionHandler {
                 this.isInsectCellClicked = true;
                 this.hexClicked = hexagon;
                 this.playableCoordinates = insect.getPossibleMovesCoordinates(this.hexClicked, this.hexGrid);
-                if(this.playableCoordinates.isEmpty() && !this.currentPlayer.isBeePlaced()){
+                if (this.playableCoordinates.isEmpty() && !this.currentPlayer.isBeePlaced()) {
                     Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
                 }
                 // rendre transparente la case
@@ -195,6 +288,10 @@ public class Game implements GameActionHandler {
     }
 
     public void mousePressed(int x, int y) {
+        if(this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null))
+        {
+            this.aiTurn();
+        }
         HexCoordinate hexagon = HexMetrics.pixelToHex(x, y);
         HexCell cell = this.hexGrid.getCell(hexagon);
 
@@ -252,7 +349,7 @@ public class Game implements GameActionHandler {
             this.playableCoordinates.clear();
             Move move = this.history.cancelMove();
             this.currentPlayer.decrementTurn();
-            this.switchPlayer();
+            this.switchPlayerHistory();
             this.currentPlayer.decrementTurn();
             this.hexGrid.unapplyMove(move, this.currentPlayer);
             this.displayGame.getDisplayBankInsects().updateAllLabels();

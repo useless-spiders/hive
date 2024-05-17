@@ -1,68 +1,64 @@
 package Controller;
 
 import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import View.MainDisplay;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PageManager implements PageActionHandler {
-    private JFrame frameOpening;
-    private JFrame frameMenu;
-    private JFrame frameGame;
-    private JFrame frameWinFrame;
+    private JFrame frameOpening = new JFrame();
+    private JFrame frameGame = new JFrame("Hive game");
+    private JFrame frameMenu = new JFrame();
+    private JFrame frameWin = new JFrame();
+    private JFrame frameAbort = new JFrame();
+    private MainDisplay mainDisplay;
 
-
-    public PageManager() {
-        this.frameOpening = new JFrame();
-        this.frameGame = new JFrame("Hive game");
-        this.frameMenu = new JFrame();
-        this.frameWinFrame = new JFrame();
+    public PageManager(Game game){
+        mainDisplay = new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
     }
 
-    public void start() {
-        MainDisplay mainDisplay = new MainDisplay(this, frameOpening, frameMenu, frameGame);
-    }
+    private void switchFrame(JFrame frame1, JFrame frame2){
+        Dimension frameSize = FrameMetrics.getFrameSize(frame2);
+        frame1.setVisible(false);
 
-    @Override
-    public void openingToMenu(){
-        Dimension frameSize = frameOpening.getSize();
-        frameOpening.setVisible(false);
-        frameMenu.setSize(frameSize.width, frameSize.height);
-        frameMenu.setVisible(true);
+        frame2.setSize(frameSize.width, frameSize.height);
+        frame2.setVisible(true);
     }
 
     @Override
-    public void menuToGame(){
-        Dimension frameSize = frameMenu.getSize();
-        frameMenu.setVisible(false);
-        frameGame.setSize(frameSize.width, frameSize.height);
+    public void openingToMenu() {
+        this.switchFrame(this.frameOpening, this.frameMenu);
+    }
+
+    @Override
+    public void menuToGame() {
+        this.switchFrame(this.frameMenu, this.frameGame);
+    }
+
+    @Override
+    public void gameToMenu() {
+        this.switchFrame(this.frameGame, this.frameMenu);
+    }
+
+    @Override
+    public void winToMenu() {
+        this.switchFrame(this.frameWin, this.frameMenu);
+    }
+
+    @Override
+    public void gameAndAbort() {
         frameGame.setVisible(true);
+        frameAbort.setVisible(true);
     }
 
-    @Override
-    public void gameToMenu(){
-        Dimension frameSize = frameGame.getSize();
-        frameGame.setVisible(false);
-        frameMenu.setSize(frameSize.width, frameSize.height);
-        frameMenu.setVisible(true);
-
-    }
-
-    public void gameToOpening(){
-        frameOpening.setVisible(false);
+    public void gameAndWin() {
         frameGame.setVisible(true);
+        frameWin.setVisible(true);
     }
 
-    public void gameToWinFrame(){
-        frameWinFrame.setVisible(true);
-        frameGame.setVisible(false);
+    public MainDisplay getMainDisplay() {
+        return this.mainDisplay;
     }
-
-    @Override
-    public void winFrameToMenu(){
-        frameWinFrame.setVisible(false);
-        frameMenu.setVisible(true);
-    }
-
 }

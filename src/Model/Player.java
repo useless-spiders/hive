@@ -7,10 +7,11 @@ import Model.Insect.Grasshopper;
 import Model.Insect.Insect;
 import Model.Insect.Spider;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Player implements Cloneable {
+public class Player implements Cloneable, Serializable {
     private String color;
     private ArrayList<Insect> stock;
     private String name;
@@ -45,6 +46,11 @@ public class Player implements Cloneable {
 
     public int getTurn() {
         return this.turn;
+    }
+
+    public ArrayList<Insect> getStock()
+    {
+        return this.stock;
     }
 
     public void incrementTurn() {
@@ -137,5 +143,10 @@ public class Player implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
