@@ -75,13 +75,18 @@ public class Game implements GameActionHandler {
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
+            pageManager.gameToWin();
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                pageManager.gameToWin();
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                pageManager.gameToWin();
             }
+
         }
+
     }
 
     private void switchPlayer() {

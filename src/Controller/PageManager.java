@@ -15,7 +15,7 @@ public class PageManager implements PageActionHandler {
     private JFrame frameAbort = new JFrame();
 
     public PageManager(Game game){
-        new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame);
+        new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameWin, this.frameGame);
     }
 
     private void switchFrame(JFrame frame1, JFrame frame2){
@@ -43,6 +43,11 @@ public class PageManager implements PageActionHandler {
     @Override
     public void winToMenu() {
         this.switchFrame(this.frameWin, this.frameMenu);
+    }
+
+    @Override
+    public void gameToWin() {
+        this.switchFrame(this.frameGame, this.frameWin);
     }
 
     @Override

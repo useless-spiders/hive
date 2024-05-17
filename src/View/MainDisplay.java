@@ -53,7 +53,7 @@ public class MainDisplay {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameWin, JFrame frameGame){
         MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler);
 
         //Affichage de l'opening
@@ -63,6 +63,9 @@ public class MainDisplay {
         //Affichage du menu
         new DisplayConfigParty(frameMenu, pageActionHandler);
         setupFrame(frameMenu, false);
+
+        new DisplayWin(frameWin, pageActionHandler);
+        setupFrame(frameGame, false);
 
         //Affichage du jeu
         DisplayGame displayGame = new DisplayGame(gameActionHandler.getGrid(), frameGame, gameActionHandler, pageActionHandler);

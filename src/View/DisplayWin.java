@@ -13,11 +13,11 @@ public class DisplayWin {
     private static final String MENU = "Menu";
     private PageActionHandler controller;
 
-    public DisplayWin(JFrame frameWin, String player, PageActionHandler controller){
+    public DisplayWin(JFrame frameWin, PageActionHandler controller){
         this.controller = controller;
         this.frameWin = frameWin;
-        JPanel column1 = createColumn();;
-        JLabel Wintext = new JLabel("Victoire de" + player);
+        JPanel column1 = createColumn();
+        JLabel Wintext = new JLabel("Victoire de");
         frameWin.setSize(800, 600);
         frameWin.add(column1,BorderLayout.CENTER);
         //TODO : ajouter l'image de l'abeille de la bonne couleur
