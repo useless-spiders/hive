@@ -1,9 +1,11 @@
 package Model;
 
 
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.Stack;
 
-public class History {
+public class History implements Serializable {
 
     private Stack<Move> history;
     private Stack<Move> redo;
@@ -46,5 +48,22 @@ public class History {
             return move;
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        History history = (History) obj;
+        return Objects.equals(this.history, history.history) && Objects.equals(this.redo, history.redo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.history, this.redo);
     }
 }
