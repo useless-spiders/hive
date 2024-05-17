@@ -3,10 +3,10 @@ package Pattern;
 import Controller.PageManager;
 
 public interface PageActionHandler {
-    void openingToMenu(PageManager pageManager);
+    void openingToMenu();
     //void gameToMenu(PageManager pageManager);
-    void menuToGame(PageManager pageManager);
-    void gameToMenu(PageManager pageManager);
+    void menuToGame();
+    void gameToMenu();
     //void gameToWinFrame(PageManager pageManager);
-    void winFrameToMenu(PageManager pageManager);
+    void winFrameToMenu();
 }

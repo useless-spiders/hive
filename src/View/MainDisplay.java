@@ -1,49 +1,86 @@
 package View;
 
-import Controller.ChangePage;
 import Controller.Game;
-import Controller.PageManager;
 import Listener.MouseActionListener;
 import Model.HexGrid;
+import Model.Insect.Insect;
+import Model.Player;
+import Pattern.PageActionHandler;
+import Structure.Log;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class MainDisplay {
-    JFrame frameOpening;
-    JFrame frameGame;
+    private static final int FRAME_WIDTH = 1280;
+    private static final int FRAME_HEIGHT = 720;
+    private static final String IMAGE_PATH = "res/Images/";
+    private static final String BACKGROUND_PATH = "res/Backgrounds/";
+    private JFrame frameGame;
 
-    public MainDisplay(PageManager pageManager, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
-        ChangePage changePage = new ChangePage();
-        /*affichage de l'opening*/
-        this.frameOpening = frameOpening;
+    public static Image loadImage(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger l'image " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
 
-        DisplayOpening displayOpening = new DisplayOpening(frameOpening, pageManager, changePage);
-        frameOpening.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameOpening.setSize(1280, 720);
-        frameOpening.setVisible(true);
+    public static ImageIcon loadIcon(String nom) {
+        try {
+            return new ImageIcon(IMAGE_PATH + nom);
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger l'icon " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
 
-        DisplayConfigParty displayConfigParty = new DisplayConfigParty(frameMenu, pageManager, changePage);
-        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameMenu.setSize(1280, 720);
-        frameMenu.setVisible(false);
+    public static Image loadBackground(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(BACKGROUND_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger le fond " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
 
-        /*affichage du jeu*/
-        this.frameGame = frameGame;
+    public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
+        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
+    }
 
-        frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frameGame.setSize(1280, 720);
-        frameGame.setVisible(false);
+    public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+        new DisplayOpening(frameOpening, pageActionHandler);
+        setupFrame(frameOpening, true);
 
+        new DisplayConfigParty(frameMenu, pageActionHandler);
+        setupFrame(frameMenu, false);
+
+        initializeGame(pageActionHandler, frameGame);
+    }
+
+    private JFrame setupFrame(JFrame frame, boolean isVisible) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setVisible(isVisible);
+        return frame;
+    }
+
+    private void initializeGame(PageActionHandler pageActionHandler, JFrame frameGame) {
         HexGrid hexGrid = new HexGrid();
         Game g = new Game(hexGrid);
-        DisplayGame displayGame = new DisplayGame(hexGrid, frameGame, g, pageManager, changePage);
+        this.frameGame = setupFrame(frameGame, false);
+        DisplayGame displayGame = new DisplayGame(hexGrid, this.frameGame, g, pageActionHandler);
         g.setDisplayGame(displayGame);
 
         MouseActionListener mouseActionListener = new MouseActionListener(g);
-
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
     }
-
-
 }
