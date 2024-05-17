@@ -5,6 +5,7 @@ import Model.Insect.Insect;
 import Model.Player;
 import Structure.HexCoordinate;
 import View.DisplayGame;
+import View.DisplayWin;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,8 @@ public interface GameActionHandler {
     HexGrid getGrid();
 
     void setDisplayGame(DisplayGame displayGame);
+
+    void setDisplayWin(DisplayWin displayWin);
 
     void mouseMoved(int x, int y);
 

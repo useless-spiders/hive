@@ -13,12 +13,15 @@ import Structure.HexMetrics;
 import Structure.Log;
 import Structure.ViewMetrics;
 import View.DisplayGame;
+import View.DisplayWin;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Game implements GameActionHandler {
     private HexGrid hexGrid;
     private DisplayGame displayGame;
+    private DisplayWin displayWin;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -70,19 +73,27 @@ public class Game implements GameActionHandler {
         this.displayGame = displayGame;
     }
 
+    public void setDisplayWin(DisplayWin displayWin){ this.displayWin = displayWin;}
+
+    private void goToWinPage(String playerWinner){
+        this.displayWin.setPlayeurWinner(playerWinner);
+        this.displayWin.printWinFrame();
+        pageManager.gameToWin();
+    }
+
     private void checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
-            pageManager.gameToWin();
+            goToWinPage("égalité");
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
-                pageManager.gameToWin();
+                goToWinPage(player1.getName());
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
-                pageManager.gameToWin();
+                goToWinPage(player2.getName());
             }
 
         }

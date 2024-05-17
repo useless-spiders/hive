@@ -64,13 +64,14 @@ public class MainDisplay {
         new DisplayConfigParty(frameMenu, pageActionHandler);
         setupFrame(frameMenu, false);
 
-        new DisplayWin(frameWin, pageActionHandler);
+        DisplayWin displayWin = new DisplayWin(frameWin, pageActionHandler);
         setupFrame(frameGame, false);
 
         //Affichage du jeu
         DisplayGame displayGame = new DisplayGame(gameActionHandler.getGrid(), frameGame, gameActionHandler, pageActionHandler);
         setupFrame(frameGame, false);
         gameActionHandler.setDisplayGame(displayGame);
+        gameActionHandler.setDisplayWin(displayWin);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
     }
