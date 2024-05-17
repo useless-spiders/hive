@@ -18,9 +18,6 @@ public class MainDisplay {
     private static final int FRAME_HEIGHT = 720;
     private static final String IMAGE_PATH = "res/Images/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
-    private JFrame frameGame;
-    private GameActionHandler gameActionHandler;
-    private PageActionHandler pageActionHandler;
 
     public static Image loadImage(String nom) {
         try {
@@ -57,22 +54,20 @@ public class MainDisplay {
     }
 
     public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
-        this.pageActionHandler = pageActionHandler;
-        this.gameActionHandler = gameActionHandler;
-        this.frameGame = setupFrame(frameGame, false);
+        MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler);
 
         //Affichage de l'opening
-        new DisplayOpening(frameOpening, this.pageActionHandler);
+        new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true);
 
         //Affichage du menu
-        new DisplayConfigParty(frameMenu, this.pageActionHandler);
+        new DisplayConfigParty(frameMenu, pageActionHandler);
         setupFrame(frameMenu, false);
 
         //Affichage du jeu
-        DisplayGame displayGame = new DisplayGame(this.gameActionHandler.getGrid(), this.frameGame, this.gameActionHandler, this.pageActionHandler);
-        this.gameActionHandler.setDisplayGame(displayGame);
-        MouseActionListener mouseActionListener = new MouseActionListener(this.gameActionHandler);
+        DisplayGame displayGame = new DisplayGame(gameActionHandler.getGrid(), frameGame, gameActionHandler, pageActionHandler);
+        setupFrame(frameGame, false);
+        gameActionHandler.setDisplayGame(displayGame);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
     }
