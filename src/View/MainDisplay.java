@@ -56,12 +56,15 @@ public class MainDisplay {
     }
 
     public MainDisplay(PageActionHandler pageActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame){
+        //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true);
 
+        //Affichage du menu
         new DisplayConfigParty(frameMenu, pageActionHandler);
         setupFrame(frameMenu, false);
 
+        //Affichage du jeu
         initializeGame(pageActionHandler, frameGame);
     }
 

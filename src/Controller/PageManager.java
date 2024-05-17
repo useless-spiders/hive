@@ -1,6 +1,7 @@
 package Controller;
 
 import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import View.MainDisplay;
 
 import javax.swing.*;
@@ -10,14 +11,16 @@ public class PageManager implements PageActionHandler {
     private JFrame frameOpening;
     private JFrame frameMenu;
     private JFrame frameGame;
-    private JFrame frameWinFrame;
+    private JFrame frameWin;
+    private JFrame frameAbort;
 
 
     public PageManager() {
         this.frameOpening = new JFrame();
         this.frameGame = new JFrame("Hive game");
         this.frameMenu = new JFrame();
-        this.frameWinFrame = new JFrame();
+        this.frameWin = new JFrame();
+        this.frameAbort = new JFrame();
     }
 
     public void start() {
@@ -34,7 +37,7 @@ public class PageManager implements PageActionHandler {
 
     @Override
     public void menuToGame(){
-        Dimension frameSize = frameMenu.getSize();
+        Dimension frameSize = FrameMetrics.getFrameSize(frameMenu);
         frameMenu.setVisible(false);
         frameGame.setSize(frameSize.width, frameSize.height);
         frameGame.setVisible(true);
@@ -49,20 +52,21 @@ public class PageManager implements PageActionHandler {
 
     }
 
-    public void gameToOpening(){
-        frameOpening.setVisible(false);
+    public void gameAndWin(){
         frameGame.setVisible(true);
-    }
-
-    public void gameToWinFrame(){
-        frameWinFrame.setVisible(true);
-        frameGame.setVisible(false);
+        frameWin.setVisible(true);
     }
 
     @Override
-    public void winFrameToMenu(){
-        frameWinFrame.setVisible(false);
+    public void winToMenu(){
+        frameWin.setVisible(false);
         frameMenu.setVisible(true);
+    }
+
+    @Override
+    public void gameAndAbort() {
+        frameGame.setVisible(true);
+        frameAbort.setVisible(true);
     }
 
 }

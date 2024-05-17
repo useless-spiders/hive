@@ -1,28 +1,27 @@
 package View;
 
-import Controller.PageManager;
 import Pattern.PageActionHandler;
 import Structure.Log;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DisplayWinFrame {
+public class DisplayWin {
 
-    JFrame winFrame;
+    JFrame frameWin;
     private static final String REPLAY = "New Game";
     private static final String MENU = "Menu";
     private PageActionHandler controller;
 
-    public DisplayWinFrame(JFrame winFrame, String player,PageActionHandler controller){
+    public DisplayWin(JFrame frameWin, String player, PageActionHandler controller){
         this.controller = controller;
-        this.winFrame = winFrame;
+        this.frameWin = frameWin;
         JPanel column1 = createColumn();;
         JLabel Wintext = new JLabel("Victoire de" + player);
-        winFrame.setSize(800, 600);
-        winFrame.add(column1,BorderLayout.CENTER);
+        frameWin.setSize(800, 600);
+        frameWin.add(column1,BorderLayout.CENTER);
         //TODO : ajouter l'image de l'abeille de la bonne couleur
-        winFrame.add(Wintext,BorderLayout.NORTH);
+        frameWin.add(Wintext,BorderLayout.NORTH);
     }
 
     private JPanel createColumn() {
@@ -32,7 +31,7 @@ public class DisplayWinFrame {
         column.add(createButton(MENU));
         return column;
     }
-    //TODO: Faire les boutons tel Replay et Menu tel qu il renvoie au bonne endroit
+    //TODO: Faire les boutons tel Replay et Menu tel qu il renvoie au bon endroit
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -40,10 +39,10 @@ public class DisplayWinFrame {
             case REPLAY:
                 break;
             case MENU:
-                button.addActionListener(e -> controller.winFrameToMenu());
+                button.addActionListener(e -> controller.winToMenu());
                 break;
             default:
-                Log.addMessage("Erreur dans les boutons de la WinFrame");
+                Log.addMessage("Erreur dans les boutons de la frameWin");
         }
         return button;
     }
