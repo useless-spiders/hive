@@ -70,27 +70,36 @@ public class Game implements GameActionHandler {
         this.displayGame = displayGame;
     }
 
-    private void checkLoser() {
+    private Player checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
+            return null; // A MODIFIER POUR EGALITE
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
+                return this.player2;
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
+                return this.player1;
             }
         }
+        return null;
     }
 
     private void switchPlayer() {
-        this.checkLoser();
-        this.currentPlayer.incrementTurn();
-        if (this.currentPlayer == this.player1) {
-            this.currentPlayer = this.player2;
+        Player winner = this.checkLoser();
+        if (winner != null) {
+            pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            pageManager.gameAndWin();
         } else {
-            this.currentPlayer = this.player1;
+            this.currentPlayer.incrementTurn();
+            if (this.currentPlayer == this.player1) {
+                this.currentPlayer = this.player2;
+            } else {
+                this.currentPlayer = this.player1;
+            }
         }
     }
 

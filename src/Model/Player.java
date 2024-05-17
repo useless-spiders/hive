@@ -138,4 +138,9 @@ public class Player implements Cloneable {
             throw new AssertionError();
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -1,5 +1,6 @@
 package View;
 
+import Model.Player;
 import Pattern.PageActionHandler;
 import Structure.Log;
 
@@ -7,22 +8,38 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayWin {
+    private static final String REPLAY = "Rejouer";
+    private static final String MENU = "Menu principal";
+    private PageActionHandler controllerPage;
+    private Player winner;
+    private JFrame frameWin;
+    private JFrame frameGame;
 
-    JFrame frameWin;
-    private static final String REPLAY = "New Game";
-    private static final String MENU = "Menu";
-    private PageActionHandler controller;
-
-    public DisplayWin(JFrame frameWin, String player, PageActionHandler controller){
-        this.controller = controller;
+    public DisplayWin(JFrame frameWin, JFrame frameGame, PageActionHandler controllerPage){
+        this.controllerPage = controllerPage;
         this.frameWin = frameWin;
-        JPanel column1 = createColumn();;
-        JLabel Wintext = new JLabel("Victoire de" + player);
-        frameWin.setSize(800, 600);
+        this.frameGame = frameGame;
+
+        JPanel column1 = createColumn();
         frameWin.add(column1,BorderLayout.CENTER);
-        //TODO : ajouter l'image de l'abeille de la bonne couleur
+
+    }
+
+    public void updateWinner(Player winner) {
+        this.winner = winner;
+        this.printWinner();
+        this.printIcon();
+    }
+
+    private void printWinner() {
+        JLabel Wintext = new JLabel("Victoire de " + this.winner);
         frameWin.add(Wintext,BorderLayout.NORTH);
     }
+
+    private void printIcon() {
+        //TODO : ajouter l'image de l'abeille de la bonne couleur
+    }
+
 
     private JPanel createColumn() {
         JPanel column = new JPanel();
@@ -39,7 +56,11 @@ public class DisplayWin {
             case REPLAY:
                 break;
             case MENU:
-                button.addActionListener(e -> controller.winToMenu());
+                frameGame.setVisible(false);
+                button.addActionListener(e -> {
+                    this.controllerPage.winToMenu();
+                    frameGame.dispose();
+                });
                 break;
             default:
                 Log.addMessage("Erreur dans les boutons de la frameWin");

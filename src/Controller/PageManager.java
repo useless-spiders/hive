@@ -13,14 +13,16 @@ public class PageManager implements PageActionHandler {
     private JFrame frameMenu = new JFrame();
     private JFrame frameWin = new JFrame();
     private JFrame frameAbort = new JFrame();
+    private MainDisplay mainDisplay;
 
     public PageManager(Game game){
-        new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame);
+        mainDisplay = new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
     }
 
     private void switchFrame(JFrame frame1, JFrame frame2){
-        Dimension frameSize = FrameMetrics.getFrameSize(frame1);
+        Dimension frameSize = FrameMetrics.getFrameSize(frame2);
         frame1.setVisible(false);
+
         frame2.setSize(frameSize.width, frameSize.height);
         frame2.setVisible(true);
     }
@@ -56,4 +58,7 @@ public class PageManager implements PageActionHandler {
         frameWin.setVisible(true);
     }
 
+    public MainDisplay getMainDisplay() {
+        return this.mainDisplay;
+    }
 }
