@@ -7,10 +7,11 @@ import Model.Insect.Grasshopper;
 import Model.Insect.Insect;
 import Model.Insect.Spider;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Player implements Cloneable {
+public class Player implements Cloneable, Serializable {
     private String color;
     private ArrayList<Insect> stock;
     private String name;
