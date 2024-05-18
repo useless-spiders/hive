@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class DisplayConfigParty extends JPanel {
     private static final String HUMAN = "human";
-    private static final String IA_EASY = "ia facile";
-    private static final String IA_HARD = "ia difficile";
+    private static final String IA_EASY = "AiRandom";
+    private static final String IA_HARD = "Ai1";
     private static final String JOUER = "jouer";
 
     private JComboBox<String> column1;
@@ -18,7 +18,7 @@ public class DisplayConfigParty extends JPanel {
     private PageActionHandler pageActionHandler;
     private GameActionHandler gameActionHandler;
 
-    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage, GameActionHandler controllerGame){
+    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage, GameActionHandler controllerGame) {
         this.pageActionHandler = controllerPage;
         this.gameActionHandler = controllerGame;
 
@@ -55,17 +55,19 @@ public class DisplayConfigParty extends JPanel {
         return comboBox;
     }
 
-
-
-
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         switch (text) {
             case JOUER:
                 button.addActionListener(e -> {
-                    gameActionHandler.setPlayer(1, (String) column1.getSelectedItem());
-                    gameActionHandler.setPlayer(2, (String) column2.getSelectedItem());
+                    if (column1.getSelectedItem() != HUMAN) {
+                        gameActionHandler.setPlayer(1, (String) column1.getSelectedItem());
+                    }
+                    if (column2.getSelectedItem() != HUMAN) {
+                        gameActionHandler.setPlayer(2, (String) column2.getSelectedItem());
+                    }
+                    gameActionHandler.startAi();
                     pageActionHandler.menuToGame();
                 });
                 break;
