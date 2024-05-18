@@ -252,6 +252,12 @@ public class Game implements GameActionHandler, ActionListener {
                 if (this.insect.isPlacable(hexagon, hexGrid)) {
                     if (this.currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
                         if (this.currentPlayer.checkBeePlacement(this.insect)) {
+
+                            // Force le premier placement a être au centre
+                            if(this.currentPlayer.getTurn() == 1 && this.getGrid().getGrid().isEmpty()){
+                                hexagon = HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight());
+                            }
+
                             Move move = new Move(this.insect, null, hexagon);
                             this.hexGrid.applyMove(move, this.currentPlayer);
 

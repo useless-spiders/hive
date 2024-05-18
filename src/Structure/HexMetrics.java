@@ -19,4 +19,8 @@ public class HexMetrics {
 
         return new HexCoordinate(x, y);
     }
+
+    public static HexCoordinate hexCenterCoordinate(int frameSizeX, int frameSizeY) {
+        return pixelToHex(frameSizeX/2, frameSizeY/2);
+    }
 }
