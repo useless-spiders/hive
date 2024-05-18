@@ -248,32 +248,20 @@ public class Game implements GameActionHandler, ActionListener {
 
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect != null) { //Clic sur une case vide sans insect selectionné
-            if (this.insect.getPlayer().equals(this.currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-                if (/*this.insect.isPlacable(hexagon, hexGrid)*/ this.playableCoordinates.contains(hexagon)){
-                    if (this.currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
-                        if (this.currentPlayer.checkBeePlacement(this.insect)) {
+            if (this.playableCoordinates.contains(hexagon)) {
 
-                            Move move = new Move(this.insect, null, hexagon);
-                            this.hexGrid.applyMove(move, this.currentPlayer);
+                Move move = new Move(this.insect, null, hexagon);
+                this.hexGrid.applyMove(move, this.currentPlayer);
 
-                            //Modifier le compteur des boutons
-                            this.displayGame.getDisplayBankInsects().updateAllLabels();
+                //Modifier le compteur des boutons
+                this.displayGame.getDisplayBankInsects().updateAllLabels();
 
-                            this.isInsectButtonClicked = false;
-                            this.playableCoordinates.clear();
-                            this.switchPlayer();
-                            this.history.addMove(move);
-                        } else {
-                            Log.addMessage("Vous devez placer l'abeille au 4e tour");
-                        }
-                    } else {
-                        Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
-                    }
-                } else {
-                    Log.addMessage("placement impossible !");
-                }
+                this.isInsectButtonClicked = false;
+                this.playableCoordinates.clear();
+                this.switchPlayer();
+                this.history.addMove(move);
             } else {
-                Log.addMessage("Ce n'est pas votre tour");
+                Log.addMessage("placement impossible !");
             }
         }
     }
@@ -313,34 +301,38 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
-
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
         this.playableCoordinates.clear();
-        if (player == this.currentPlayer) {
+
+        if (player.equals(this.currentPlayer)) {
             this.insect = this.currentPlayer.getInsect(insectClass);
-            if (this.insect == null) {
-                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+            if (this.insect != null) {
+                if (this.currentPlayer.canAddInsect(this.insect.getClass())) {
+                    if (this.currentPlayer.checkBeePlacement(this.insect)) {
+                        if (this.currentPlayer.getTurn() <= 1) {
+                            if (this.hexGrid.getGrid().isEmpty()) {
+                                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
+                                this.playableCoordinates.clear();
+                                this.playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
+                            } else {
+                                this.playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
+                            }
+                        } else {
+                            Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
+                            this.playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
+                        }
+                    } else {
+                        Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
+                    }
+                } else {
+                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                }
+            } else {
+                Log.addMessage("Vous n'avez plus de pions de ce type");
             }
         } else {
             Log.addMessage("Pas le bon joueur !");
-        }
-
-        if (player.equals(this.currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
-            if (this.currentPlayer.getTurn() <= 1) {
-                if (this.hexGrid.getGrid().isEmpty()) {
-                    Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
-                    this.playableCoordinates.clear();
-                    this.playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
-                } else {
-                    this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(this.hexGrid);
-                }
-            } else if (!this.currentPlayer.checkBeePlacement(this.insect)) {
-                this.playableCoordinates.clear();
-            } else {
-                Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinates(this.hexGrid);
-            }
         }
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.repaint();
