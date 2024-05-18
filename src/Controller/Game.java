@@ -185,6 +185,7 @@ public class Game implements GameActionHandler, ActionListener {
 
     private void switchPlayerHistory() {
         this.displayGame.repaint();
+        this.currentPlayer.incrementTurn();
         if (this.currentPlayer == this.player1) {
             this.currentPlayer = this.player2;
         } else {
@@ -349,6 +350,10 @@ public class Game implements GameActionHandler, ActionListener {
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
             this.displayGame.repaint();
+            if(this.checkCurrentPlayerIsIa())
+            {
+                this.cancelMove();
+            }
         } else {
             Log.addMessage("no move to cancel");
         }
@@ -360,10 +365,14 @@ public class Game implements GameActionHandler, ActionListener {
             this.playableCoordinates.clear();
             Move move = this.history.redoMove();
             this.hexGrid.applyMove(move, this.currentPlayer);
-            this.switchPlayer();
+            this.switchPlayerHistory();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.repaint();
+            if(this.checkCurrentPlayerIsIa())
+            {
+                this.redoMove();
+            }
         } else {
             Log.addMessage("no move to redo");
         }
