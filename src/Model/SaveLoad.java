@@ -16,36 +16,27 @@ public class SaveLoad {
     private Player player1;
     private Player player2;
     private Player currentPlayer;
-    private String fileName;
 
-    public SaveLoad(History history, Player player1, Player player2, Player currentPlayer) {
-        this.history = history;
-        this.player1 = player1;
-        this.player2 = player2;
-        this.currentPlayer = currentPlayer;
-        this.fileName = this.formatFileName();
-    }
-
-    public void saveGame() throws Exception {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.fileName))) {
-            out.writeObject(this.history);
-            out.writeObject(this.player1);
-            out.writeObject(this.player2);
-            out.writeObject(this.currentPlayer);
+    public static String saveGame(History history, Player player1, Player player2, Player currentPlayer) throws Exception {
+        String fileName = formatFileName();
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            out.writeObject(history);
+            out.writeObject(player1);
+            out.writeObject(player2);
+            out.writeObject(currentPlayer);
         }
+        return fileName;
     }
 
-    public void loadGame(String fileName) throws Exception {
+    public static SaveLoad loadGame(String fileName) throws Exception {
+        SaveLoad saveLoad = new SaveLoad();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            this.history = (History) in.readObject();
-            this.player1 = (Player) in.readObject();
-            this.player2 = (Player) in.readObject();
-            this.currentPlayer = (Player) in.readObject();
+            saveLoad.history = (History) in.readObject();
+            saveLoad.player1 = (Player) in.readObject();
+            saveLoad.player2 = (Player) in.readObject();
+            saveLoad.currentPlayer = (Player) in.readObject();
         }
-    }
-
-    public String getFileName() {
-        return this.fileName;
+        return saveLoad;
     }
 
     public History getHistory() {
@@ -64,7 +55,7 @@ public class SaveLoad {
         return this.currentPlayer;
     }
 
-    private String formatFileName() {
+    private static String formatFileName() {
         String timeStamp = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
         return SAVE_PATH + timeStamp + SAVE_EXTENSION;
     }

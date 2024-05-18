@@ -46,7 +46,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.startAi();
     }
 
-    public void startAi(){
+    public void startAi() {
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.aiTurn();
         }
@@ -357,10 +357,31 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void saveGame() {
-        SaveLoad saveLoad = new SaveLoad(this.history, this.player1, this.player2, this.currentPlayer);
         try {
-            saveLoad.saveGame();
-            Log.addMessage("Partie sauvegardée");
+            String fileName = SaveLoad.saveGame(this.history, this.player1, this.player2, this.currentPlayer);
+            Log.addMessage("Partie sauvegardée dans le fichier : " + fileName);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void loadGame(String fileName) {
+        try {
+            SaveLoad saveLoad = SaveLoad.loadGame(fileName);
+            this.history = saveLoad.getHistory();
+            this.player1 = saveLoad.getPlayer1();
+            this.player2 = saveLoad.getPlayer2();
+            this.currentPlayer = saveLoad.getCurrentPlayer();
+
+            // Create a new HexGrid
+            this.hexGrid = new HexGrid();
+
+            // Apply each move in the history to the hexGrid
+            for (Move move : this.history.getHistory()) {
+                this.hexGrid.applyMove(move, move.getInsect().getPlayer());
+            }
+
+            Log.addMessage("Partie chargée depuis le fichier : " + fileName);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
