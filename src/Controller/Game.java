@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Ia.Ia;
+import Model.Ai.Ai;
 import Model.Move;
 import Model.HexCell;
 import Model.HexGrid;
@@ -47,10 +47,10 @@ public class Game implements GameActionHandler, ActionListener {
         this.history = new History();
         this.pageManager = new PageManager(this);
         /////////A COMMENTER POUR PVP//////////////
-        //setPlayer(1, "IADifficile");
-        setPlayer(2, "Ia1");
+        //setPlayer(1, "AiAleatoire");
+        setPlayer(2, "Ai1");
         //////////////////////////////////////////
-        this.delay = new Timer(5000, this);
+        this.delay = new Timer(1000, this);
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.aiTurn();
         }
@@ -62,26 +62,19 @@ public class Game implements GameActionHandler, ActionListener {
 
     public void setPlayer(int player, String name) {
         if (player == 1) {
-            this.player1.setAi(Ia.nouvelle(this, name, this.player1));
+            this.player1.setAi(Ai.nouvelle(this, name, this.player1));
         } else {
-            this.player2.setAi(Ia.nouvelle(this, name, this.player2));
+            this.player2.setAi(Ai.nouvelle(this, name, this.player2));
         }
-    }
-
-    private Ia getCurrentPlayerIa() {
-        if (this.currentPlayer.isAi()) {
-            return this.currentPlayer.getIa();
-        }
-        return null;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Ia ia = this.getCurrentPlayerIa();
-        if (ia != null) {
-            Move iaMove = ia.chooseMove();
+        Ai ai = this.currentPlayer.getAi();
+        if (ai != null) {
+            Move iaMove = ai.chooseMove();
             if (iaMove != null) {
-                this.hexGrid.applyMove(iaMove, ia.getPlayer());
+                this.hexGrid.applyMove(iaMove, this.currentPlayer);
                 this.history.addMove(iaMove);
                 this.delay.stop();
                 this.switchPlayer();
@@ -204,13 +197,11 @@ public class Game implements GameActionHandler, ActionListener {
                     if (this.currentPlayer.checkBeePlacement(this.insect)) {
                         if (this.currentPlayer.getTurn() <= 1) {
                             if (this.hexGrid.getGrid().isEmpty()) {
-                                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
                                 playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
                             } else {
                                 playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
                             }
                         } else {
-                            Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
                             playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
                         }
                     } else {
@@ -230,7 +221,7 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
-        // Bloque les intéractions avec l'interface si c'est l'IA qui joue
+        // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.currentPlayer.isAi()) {
             return;
         }
@@ -270,7 +261,7 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void handleInsectMoved(HexCoordinate hexagon) {
-        // Bloque les intéractions avec l'interface si c'est l'IA qui joue
+        // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.currentPlayer.isAi()) {
             return;
         }
@@ -293,7 +284,7 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void handleInsectPlaced(HexCoordinate hexagon) {
-        // Bloque les intéractions avec l'interface si c'est l'IA qui joue
+        // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.currentPlayer.isAi()) {
             return;
         }
@@ -316,7 +307,8 @@ public class Game implements GameActionHandler, ActionListener {
 
     @Override
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
-        if (!this.currentPlayer.isAi()) {
+        // Bloque les interactions avec l'interface si c'est l'IA qui joue
+        if (this.currentPlayer.isAi()) {
             return;
         }
         this.isInsectButtonClicked = true;

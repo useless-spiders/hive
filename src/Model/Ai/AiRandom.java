@@ -1,4 +1,4 @@
-package Model.Ia;
+package Model.Ai;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,11 +11,11 @@ import Model.Insect.*;
 import Model.Move;
 import Structure.HexCoordinate;
 
-public class IaAleatoire extends Ia {
+public class AiRandom extends Ai {
 
     Random r;
 
-    public IaAleatoire(Game g, Player p) {
+    public AiRandom(Game g, Player p) {
         this.grid = g.getGrid();
         this.history = g.getHistory();
         this.r = new Random();

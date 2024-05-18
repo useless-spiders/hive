@@ -1,4 +1,4 @@
-package Model.Ia;
+package Model.Ai;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,15 +15,14 @@ import Model.Insect.Grasshopper;
 import Model.Insect.Insect;
 import Model.Insect.Spider;
 import Structure.HexCoordinate;
-import Structure.Log;
 
-public class Ia1 extends Ia {
+public class Ai1 extends Ai {
 
     ArrayList<Class<? extends Insect>> insectclass;
     Player other;
     Game g;
 
-    public Ia1(Game g, Player p) {
+    public Ai1(Game g, Player p) {
         this.grid = g.getGrid();
         initInsectClass();
         this.us = p;

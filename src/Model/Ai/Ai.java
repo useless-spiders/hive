@@ -1,4 +1,4 @@
-package Model.Ia;
+package Model.Ai;
 
 import Controller.Game;
 import Model.HexGrid;
@@ -7,19 +7,19 @@ import Model.Move;
 import Model.Player;
 import Structure.Log;
 
-public abstract class Ia {
+public abstract class Ai {
     Player us;
     HexGrid grid;
     History history;
 
-    public static Ia nouvelle(Game g, String ia, Player p) {
-        Ia resultat = null;
+    public static Ai nouvelle(Game g, String ia, Player p) {
+        Ai resultat = null;
         switch (ia) {
-            case "IaAleatoire":
-                resultat = new IaAleatoire(g, p);
+            case "AiRandom":
+                resultat = new AiRandom(g, p);
                 break;
-            case "Ia1":
-                resultat = new Ia1(g, p);
+            case "Ai1":
+                resultat = new Ai1(g, p);
                 break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
