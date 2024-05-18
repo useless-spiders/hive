@@ -56,9 +56,9 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        int x = e.getX() - this.lastX;
-        int y = e.getY() - this.lastY;
-        ViewMetrics.updateViewPosition(x, y);
+        int x = e.getX();
+        int y = e.getY();
+        ViewMetrics.updateViewPosition(x - this.lastX, y - this.lastY);
         this.gameActionHandler.getDisplayGame().repaint();
         this.lastX = x;
         this.lastY = y;
