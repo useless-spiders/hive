@@ -2,6 +2,7 @@ package Pattern;
 
 import Model.HexCell;
 import Model.HexGrid;
+import Model.History;
 import Model.Insect.Insect;
 import Model.Player;
 import Structure.HexCoordinate;
@@ -40,5 +41,9 @@ public interface GameActionHandler {
     void handleInsectMoved(HexCoordinate hexagon);
 
     void handleInsectPlaced(HexCoordinate hexagon);
+
+    History getHistory();
+
+    ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player);
 
 }

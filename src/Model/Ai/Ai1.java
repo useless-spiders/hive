@@ -14,28 +14,28 @@ import Model.Insect.Beetle;
 import Model.Insect.Grasshopper;
 import Model.Insect.Insect;
 import Model.Insect.Spider;
+import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 
 public class Ai1 extends Ai {
 
     ArrayList<Class<? extends Insect>> insectclass;
     Player other;
-    Game g;
+    GameActionHandler gameActionHandler;
 
-    public Ai1(Game g, Player p) {
-        this.grid = g.getGrid();
+    public Ai1(GameActionHandler gameActionHandler, Player p) {
+        this.gameActionHandler = gameActionHandler;
+        this.grid = this.gameActionHandler.getGrid();
         initInsectClass();
-        this.us = p;
-        this.g = g;
-        if(g.getPlayer1() == us){
-            this.other = g.getPlayer2();
-        }
-        else{
-            this.other = g.getPlayer1();
+        this.aiPlayer = p;
+        if (this.gameActionHandler.getPlayer1() == aiPlayer) {
+            this.other = this.gameActionHandler.getPlayer2();
+        } else {
+            this.other = this.gameActionHandler.getPlayer1();
         }
     }
 
-    private void initInsectClass(){
+    private void initInsectClass() {
         insectclass = new ArrayList<>();
         insectclass.add(Bee.class);
         insectclass.add(Beetle.class);
@@ -47,43 +47,42 @@ public class Ai1 extends Ai {
 
     int Heuristique(HexGrid g) {
         int result = 0;
-        for(HexCoordinate h : g.getGrid().keySet()){
+        for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
 
-            if(insect instanceof Ant && insect.getPlayer() == this.us){
+            if (insect instanceof Ant && insect.getPlayer() == this.aiPlayer) {
                 result += 3;
             }
-            if(insect instanceof Ant && insect.getPlayer() != this.us){
+            if (insect instanceof Ant && insect.getPlayer() != this.aiPlayer) {
                 result -= 3;
             }
 
-            if(insect instanceof Beetle && insect.getPlayer() == this.us){
+            if (insect instanceof Beetle && insect.getPlayer() == this.aiPlayer) {
                 result += 2;
             }
-            if(insect instanceof Beetle && insect.getPlayer() != this.us){
+            if (insect instanceof Beetle && insect.getPlayer() != this.aiPlayer) {
                 result -= 2;
             }
 
-            if(insect instanceof Grasshopper && insect.getPlayer() == this.us){
+            if (insect instanceof Grasshopper && insect.getPlayer() == this.aiPlayer) {
                 result += 2;
             }
-            if(insect instanceof Grasshopper && insect.getPlayer() != this.us){
+            if (insect instanceof Grasshopper && insect.getPlayer() != this.aiPlayer) {
                 result -= 2;
             }
 
-            if(insect instanceof Spider && insect.getPlayer() == this.us){
+            if (insect instanceof Spider && insect.getPlayer() == this.aiPlayer) {
                 result += 1;
             }
-            if(insect instanceof Spider && insect.getPlayer() != this.us){
+            if (insect instanceof Spider && insect.getPlayer() != this.aiPlayer) {
                 result -= 1;
             }
-            if(insect instanceof Bee){
-                if(insect.getPlayer() == this.us){
-                    result -= g.getNeighborsCoordinates(h).size()*20;
-                }
-                else{
-                    result += g.getNeighborsCoordinates(h).size()*20;
+            if (insect instanceof Bee) {
+                if (insect.getPlayer() == this.aiPlayer) {
+                    result -= g.getNeighborsCoordinates(h).size() * 20;
+                } else {
+                    result += g.getNeighborsCoordinates(h).size() * 20;
                 }
             }
         }
@@ -95,7 +94,7 @@ public class Ai1 extends Ai {
         for (Class<? extends Insect> i : insectclass) {
             if (p.canAddInsect(i)) {
                 Insect insect = p.getInsect(i);
-                ArrayList<HexCoordinate> possibleCells = g.generatePlayableCoordinates(i, p);
+                ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableCoordinates(i, p);
                 for (HexCoordinate h : possibleCells) {
                     moves.add(new Move(insect, null, h));
                 }
@@ -110,8 +109,8 @@ public class Ai1 extends Ai {
         int score;
         int score_max = -999999;
         Random randomNumbers = new Random();
-        Player us_c = this.us.clone();
-        for (Move m : getMoves(this.us)) {
+        Player us_c = this.aiPlayer.clone();
+        for (Move m : getMoves(this.aiPlayer)) {
             g.applyMove(m, us_c);
             score = Heuristique(g);
             if (score > score_max) {
@@ -119,7 +118,7 @@ public class Ai1 extends Ai {
                 toPlay.clear();
                 toPlay.add(m);
             }
-            if(score == score_max){
+            if (score == score_max) {
                 toPlay.add(m);
             }
             g.unapplyMove(m, us_c);
