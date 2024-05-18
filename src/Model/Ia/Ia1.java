@@ -21,11 +21,13 @@ public class Ia1 extends Ia {
 
     ArrayList<Class<? extends Insect>> insectclass;
     Player other;
+    Game g;
 
     public Ia1(Game g, Player p) {
         this.grid = g.getGrid();
         initInsectClass();
         this.us = p;
+        this.g = g;
         if(g.getPlayer1() == us){
             this.other = g.getPlayer2();
         }
@@ -91,87 +93,26 @@ public class Ia1 extends Ia {
 
     private ArrayList<Move> getMoves(Player p) {
         ArrayList<Move> moves = new ArrayList<>();
-        ArrayList<HexCoordinate> possiblecells = new ArrayList<>();
-        Insect insect;
-
-        if (this.grid.getGrid().isEmpty()) { //1er tour, 1er joueur
-            for (Class<? extends Insect> i : insectclass) {
-                if (p.canAddInsect(i)) {
-                    insect = p.getInsect(i);
-                    moves.add(new Move(insect, null, new HexCoordinate(0, 0)));
+        for (Class<? extends Insect> i : insectclass) {
+            if (p.canAddInsect(i)) {
+                Insect insect = p.getInsect(i);
+                ArrayList<HexCoordinate> possibleCells = g.generatePlayableCoordinates(i, p);
+                for (HexCoordinate h : possibleCells) {
+                    moves.add(new Move(insect, null, h));
                 }
             }
-            return moves;
-        }
-
-        if (p.getTurn() == 1 && !this.grid.getGrid().isEmpty()) { //1er tour, 2eme joueur
-            for (Class<? extends Insect> i : insectclass) {
-                if (p.canAddInsect(i)) {
-                    insect = p.getInsect(i);
-                    possiblecells = insect.getPossibleInsertionCoordinatesT1(grid);
-                    for (HexCoordinate h : possiblecells) {
-                        moves.add(new Move(insect, null, h));
-                    }
-                }
-            }
-            return moves;
-        }
-
-        if (!(p.isBeePlaced()) && p.getTurn() == 4) { //placements abeille obligatoire
-            insect = p.getInsect(Bee.class);
-            possiblecells = insect.getPossibleInsertionCoordinates(grid);
-            for (HexCoordinate h : possiblecells) {
-                moves.add(new Move(insect, null, h));
-            }
-            return moves;
-        }
-
-        if (!p.isBeePlaced()) { //placements uniquements
-            for (Class<? extends Insect> i : insectclass) {
-                if (p.canAddInsect(i)) {
-                    insect = p.getInsect(i);
-                    possiblecells = insect.getPossibleInsertionCoordinates(grid);
-                    for (HexCoordinate h : possiblecells) {
-                        moves.add(new Move(insect, null, h));
-                    }
-                }
-            }
-            return moves;
-        }
-
-        if (p.isBeePlaced()) { //abeille placé
-            for (HexCoordinate h1 : grid.getGrid().keySet()) {
-                if (grid.getCell(h1).getTopInsect().getPlayer() == p) {
-                    insect = grid.getCell(h1).getTopInsect();
-                    possiblecells = insect.getPossibleMovesCoordinates(h1, grid);
-                    for (HexCoordinate h2 : possiblecells) {
-                        moves.add(new Move(insect, h1, h2));
-                    }
-                }
-            }
-
-            for (Class<? extends Insect> i : insectclass) {
-                if (p.canAddInsect(i)) {
-                    insect = p.getInsect(i);
-                    possiblecells = insect.getPossibleInsertionCoordinates(grid);
-                    for (HexCoordinate h : possiblecells) {
-                        moves.add(new Move(insect, null, h));
-                    }
-                }
-            }
-            return moves;
         }
         return moves;
     }
 
-    Move chooseMove(ArrayList<Move> moves) {
+    public Move chooseMove() {
         HexGrid g = this.grid.clone();
         ArrayList<Move> toPlay = new ArrayList<>();
         int score;
         int score_max = -999999;
         Random randomNumbers = new Random();
         Player us_c = this.us.clone();
-        for (Move m : moves) {
+        for (Move m : getMoves(this.us)) {
             g.applyMove(m, us_c);
             score = Heuristique(g);
             if (score > score_max) {
@@ -188,15 +129,4 @@ public class Ia1 extends Ia {
         return toPlay.get(randomNumbers.nextInt(toPlay.size()));
     }
 
-    @Override
-    public void playMove() {
-        Move move = chooseMove(getMoves(this.us));
-        if(move == null){
-            Log.addMessage("aucun coup jouable");
-            return;
-        }
-        if(move.getInsect() instanceof Bee){
-        }
-        this.grid.applyMove(move, us);
-    }
 }

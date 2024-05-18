@@ -23,7 +23,7 @@ public class IaAleatoire extends Ia {
     }
 
     @Override
-    Move chooseMove() {
+    public Move chooseMove() {
         if (this.us.getTurn() == 4 && this.us.getInsectCount(Bee.class) > 0) {
             ArrayList<HexCoordinate> possibleCells = new ArrayList<>();
             Insect insect = this.us.getInsect(Bee.class);
@@ -116,12 +116,5 @@ public class IaAleatoire extends Ia {
             }
         }
 
-    }
-
-    @Override
-    public void playMove() {
-        Move moveToPlay = chooseMove();
-        this.grid.applyMove(moveToPlay, us);
-        this.history.addMove(moveToPlay);
     }
 }

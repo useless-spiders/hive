@@ -15,10 +15,10 @@ public abstract class Ia {
     public static Ia nouvelle(Game g, String ia, Player p) {
         Ia resultat = null;
         switch (ia) {
-            case "Aleatoire":
+            case "IaAleatoire":
                 resultat = new IaAleatoire(g, p);
                 break;
-            case "1":
+            case "Ia1":
                 resultat = new Ia1(g, p);
                 break;
             default:
@@ -31,12 +31,8 @@ public abstract class Ia {
         return this.us;
     }
 
-    Move chooseMove() {
+    public Move chooseMove() {
         return null;
-    }
-
-    public void playMove() {
-        chooseMove();
     }
 
 }

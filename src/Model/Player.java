@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Ia.Ia;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
 import Model.Insect.Beetle;
@@ -17,12 +18,16 @@ public class Player implements Cloneable, Serializable {
     private String name;
     private int turn;
     private boolean beePlaced = false;
+    private boolean isAi;
+    private Ia ia;
 
     public Player(String color, String name) {
         this.color = color;
         this.stock = initBank();
         this.turn = 1;
         this.name = name;
+        this.isAi = false;
+        this.ia = null;
     }
 
     private ArrayList<Insect> initBank() {
@@ -38,6 +43,19 @@ public class Player implements Cloneable, Serializable {
         }
         s.add(new Bee(this));
         return s;
+    }
+
+    public void setAi(Ia ia) {
+        this.isAi = true;
+        this.ia = ia;
+    }
+
+    public boolean isAi() {
+        return this.isAi;
+    }
+
+    public Ia getIa() {
+        return this.ia;
     }
 
     public String getName() {
