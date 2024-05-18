@@ -52,7 +52,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         /////////A COMMENTER POUR PVP//////////////
-        setPlayer(2, "IADifficile");
+        //setPlayer(2, "IADifficile");
         //////////////////////////////////////////
     }
 
@@ -249,14 +249,9 @@ public class Game implements GameActionHandler, ActionListener {
     private void handleInsectPlaced(HexCoordinate hexagon) {
         if (this.insect != null) { //Clic sur une case vide sans insect selectionné
             if (this.insect.getPlayer().equals(this.currentPlayer)) { // Vérifie si le joueur actuel est le propriétaire de l'insecte
-                if (this.insect.isPlacable(hexagon, hexGrid)) {
+                if (/*this.insect.isPlacable(hexagon, hexGrid)*/ this.playableCoordinates.contains(hexagon)){
                     if (this.currentPlayer.canAddInsect(this.insect.getClass())) { // Vérifie si le joueur actuel peut ajouter un insecte
                         if (this.currentPlayer.checkBeePlacement(this.insect)) {
-
-                            // Force le premier placement a être au centre
-                            if(this.currentPlayer.getTurn() == 1 && this.getGrid().getGrid().isEmpty()){
-                                hexagon = HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight());
-                            }
 
                             Move move = new Move(this.insect, null, hexagon);
                             this.hexGrid.applyMove(move, this.currentPlayer);
@@ -294,8 +289,7 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     public void mousePressed(int x, int y) {
-        if(this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null))
-        {
+        if (this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null)) {
             this.aiTurn();
         }
         HexCoordinate hexagon = HexMetrics.pixelToHex(x, y);
@@ -333,11 +327,14 @@ public class Game implements GameActionHandler, ActionListener {
         }
 
         if (player.equals(this.currentPlayer) && this.currentPlayer.canAddInsect(insectClass)) {
-            if (this.currentPlayer.getTurn() <= 1 && this.hexGrid.getGrid().isEmpty()) {
-                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
-                this.playableCoordinates.clear();
-            } else if (this.currentPlayer.getTurn() <= 1 && !this.hexGrid.getGrid().isEmpty()) {
-                this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(this.hexGrid);
+            if (this.currentPlayer.getTurn() <= 1) {
+                if (this.hexGrid.getGrid().isEmpty()) {
+                    Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
+                    this.playableCoordinates.clear();
+                    this.playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
+                } else {
+                    this.playableCoordinates = this.currentPlayer.getInsect(insectClass).getPossibleInsertionCoordinatesT1(this.hexGrid);
+                }
             } else if (!this.currentPlayer.checkBeePlacement(this.insect)) {
                 this.playableCoordinates.clear();
             } else {
