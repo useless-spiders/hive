@@ -35,7 +35,6 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.gameActionHandler.launchAi();
         this.lastX = e.getX();
         this.lastY = e.getY();
         int x = this.lastX - ViewMetrics.getViewOffsetX();

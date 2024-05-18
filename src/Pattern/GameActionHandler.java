@@ -41,6 +41,4 @@ public interface GameActionHandler {
 
     void handleInsectPlaced(HexCoordinate hexagon);
 
-    void launchAi();
-
 }

@@ -12,7 +12,6 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
-import Structure.ViewMetrics;
 import View.DisplayGame;
 
 import java.awt.event.ActionEvent;
@@ -51,8 +50,15 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         /////////A COMMENTER POUR PVP//////////////
-        //setPlayer(2, "IADifficile");
+        setPlayer(2, "IADifficile");
         //////////////////////////////////////////
+        if (this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null)) {
+            this.aiTurn();
+        }
+    }
+
+    private void aiTurn(){
+        this.delay.start();
     }
 
     @Override
@@ -170,8 +176,8 @@ public class Game implements GameActionHandler, ActionListener {
     private void switchPlayer() {
         Player winner = this.checkLoser();
         if (winner != null) {
-            pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
-            pageManager.gameAndWin();
+            this.pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            this.pageManager.gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {
@@ -191,16 +197,6 @@ public class Game implements GameActionHandler, ActionListener {
         } else {
             this.currentPlayer = this.player1;
         }
-        this.displayGame.repaint();
-    }
-
-    public void delay(long time) {
-        this.delay.start();
-    }
-
-    private void aiTurn() {
-        this.displayGame.repaint();
-        delay(1000);
         this.displayGame.repaint();
     }
 
@@ -320,13 +316,6 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     @Override
-    public void launchAi(){
-        if (this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null)) {
-            this.aiTurn();
-        }
-    }
-
-    @Override
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
@@ -378,7 +367,3 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 }
-
-
-//TODO : faire un bouton pour recentrer sur le jeu
-//TODO : separer des trucs dans game, et verifier que si on enleve tout le graphique ça fonctionne toujours
