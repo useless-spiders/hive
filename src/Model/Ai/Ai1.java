@@ -123,6 +123,9 @@ public class Ai1 extends Ai {
             }
             g.unapplyMove(m, us_c);
         }
+        if(toPlay.isEmpty()){
+            return null;
+        }
 
         return toPlay.get(randomNumbers.nextInt(toPlay.size()));
     }

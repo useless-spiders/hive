@@ -47,7 +47,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.history = new History();
         this.pageManager = new PageManager(this);
         /////////A COMMENTER POUR PVP//////////////
-        //setPlayer(1, "AiAleatoire");
+        //setPlayer(1, "AiRandom");
         setPlayer(2, "Ai1");
         //////////////////////////////////////////
         this.delay = new Timer(1000, this);
