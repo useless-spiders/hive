@@ -46,11 +46,11 @@ public class Game implements GameActionHandler, ActionListener {
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
         this.pageManager = new PageManager(this);
-        /////////A COMMENTER POUR PVP//////////////
-        //setPlayer(1, "AiRandom");
-        setPlayer(2, "Ai1");
-        //////////////////////////////////////////
         this.delay = new Timer(1000, this);
+        this.startAi();
+    }
+
+    public void startAi(){
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.aiTurn();
         }

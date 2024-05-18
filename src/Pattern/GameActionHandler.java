@@ -46,4 +46,8 @@ public interface GameActionHandler {
 
     ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player);
 
+    void setPlayer(int player, String name);
+
+    void startAi();
+
 }
