@@ -50,4 +50,6 @@ public interface GameActionHandler {
 
     void startAi();
 
+    void saveGame();
+
 }

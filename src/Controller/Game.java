@@ -1,13 +1,9 @@
 package Controller;
 
+import Model.*;
 import Model.Ai.Ai;
-import Model.Move;
-import Model.HexCell;
-import Model.HexGrid;
-import Model.History;
 import Model.Insect.Beetle;
 import Model.Insect.Insect;
-import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
@@ -356,6 +352,17 @@ public class Game implements GameActionHandler, ActionListener {
             }
         } else {
             Log.addMessage("no move to redo");
+        }
+    }
+
+    @Override
+    public void saveGame() {
+        SaveLoad saveLoad = new SaveLoad(this.history, this.player1, this.player2, this.currentPlayer);
+        try {
+            saveLoad.saveGame();
+            Log.addMessage("Partie sauvegardée");
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

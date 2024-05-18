@@ -48,6 +48,7 @@ public class DisplayMenuInParty {
             if (selectedItem != null) {
                 switch (selectedItem) {
                     case SAVE:
+                        this.controller.saveGame();
                         break; // A REMPLIR PLUS TARD
                     case RULES:
                         break; // A REMPLIR PLUS TARD
