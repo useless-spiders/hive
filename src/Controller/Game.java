@@ -30,7 +30,6 @@ public class Game implements GameActionHandler, ActionListener {
     private boolean isInsectButtonClicked;
     private boolean isInsectCellClicked;
     private HexCoordinate hexClicked;
-    private HexCoordinate hoverCell;
     private ArrayList<HexCoordinate> playableCoordinates;
     private History history;
     private Insect insect;
@@ -74,14 +73,17 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 
+    @Override
     public Player getPlayer1() {
         return this.player1;
     }
 
+    @Override
     public Player getPlayer2() {
         return this.player2;
     }
 
+    @Override
     public HexGrid getGrid() {
         return this.hexGrid;
     }
@@ -95,6 +97,16 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     @Override
+    public boolean getIsInsectButtonClicked() {
+        return this.isInsectButtonClicked;
+    }
+
+    @Override
+    public boolean getIsInsectCellClicked() {
+        return this.isInsectCellClicked;
+    }
+
+    @Override
     public ArrayList<HexCoordinate> getPlayableCoordinates() {
         return this.playableCoordinates;
     }
@@ -104,8 +116,14 @@ public class Game implements GameActionHandler, ActionListener {
         return this.currentPlayer;
     }
 
+    @Override
     public void setDisplayGame(DisplayGame displayGame) {
         this.displayGame = displayGame;
+    }
+
+    @Override
+    public DisplayGame getDisplayGame(){
+        return this.displayGame;
     }
 
     private Player checkLoser() {
@@ -193,7 +211,41 @@ public class Game implements GameActionHandler, ActionListener {
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
     }
 
-    private void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
+    public ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player){
+        ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
+        if (player.equals(this.currentPlayer)) {
+            this.insect = this.currentPlayer.getInsect(insectClass);
+            if (this.insect != null) {
+                if (this.currentPlayer.canAddInsect(this.insect.getClass())) {
+                    if (this.currentPlayer.checkBeePlacement(this.insect)) {
+                        if (this.currentPlayer.getTurn() <= 1) {
+                            if (this.hexGrid.getGrid().isEmpty()) {
+                                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
+                                playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
+                            } else {
+                                playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
+                            }
+                        } else {
+                            Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
+                            playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
+                        }
+                    } else {
+                        Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
+                    }
+                } else {
+                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                }
+            } else {
+                Log.addMessage("Vous n'avez plus de pions de ce type");
+            }
+        } else {
+            Log.addMessage("Pas le bon joueur !");
+        }
+        return playableCoordinates;
+    }
+
+    @Override
+    public void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
         Insect insect = cell.getTopInsect();
 
         if (!this.isInsectCellClicked) { //On clique sur un insecte à déplacer
@@ -228,7 +280,8 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 
-    private void handleInsectMoved(HexCoordinate hexagon) {
+    @Override
+    public void handleInsectMoved(HexCoordinate hexagon) {
         if (this.playableCoordinates.contains(hexagon)) {
             HexCell cellClicked = this.hexGrid.getCell(this.hexClicked);
             Insect movedInsect = cellClicked.getTopInsect();
@@ -246,94 +299,39 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 
-    private void handleInsectPlaced(HexCoordinate hexagon) {
-        if (this.insect != null) { //Clic sur une case vide sans insect selectionné
-            if (this.playableCoordinates.contains(hexagon)) {
+    @Override
+    public void handleInsectPlaced(HexCoordinate hexagon) {
+        if (this.playableCoordinates.contains(hexagon)) {
 
-                Move move = new Move(this.insect, null, hexagon);
-                this.hexGrid.applyMove(move, this.currentPlayer);
+            Move move = new Move(this.insect, null, hexagon);
+            this.hexGrid.applyMove(move, this.currentPlayer);
 
-                //Modifier le compteur des boutons
-                this.displayGame.getDisplayBankInsects().updateAllLabels();
+            //Modifier le compteur des boutons
+            this.displayGame.getDisplayBankInsects().updateAllLabels();
 
-                this.isInsectButtonClicked = false;
-                this.playableCoordinates.clear();
-                this.switchPlayer();
-                this.history.addMove(move);
-            } else {
-                Log.addMessage("placement impossible !");
-            }
+            this.isInsectButtonClicked = false;
+            this.playableCoordinates.clear();
+            this.switchPlayer();
+            this.history.addMove(move);
+        } else {
+            Log.addMessage("placement impossible !");
         }
     }
 
-    public void mouseMoved(int x, int y) {
-        HexCoordinate newHoverCell = HexMetrics.pixelToHex(x, y);
-        if (!newHoverCell.equals(this.hoverCell) && this.playableCoordinates.contains(newHoverCell)) {
-            this.hoverCell = newHoverCell;
-            this.displayGame.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
-
-            this.displayGame.repaint();
-        }
-    }
-
-    public void mousePressed(int x, int y) {
+    @Override
+    public void launchAi(){
         if (this.currentPlayer.getTurn() <= 1 && (this.iaPlayer1 != null || this.iaPlayer2 != null)) {
             this.aiTurn();
         }
-        HexCoordinate hexagon = HexMetrics.pixelToHex(x, y);
-        HexCell cell = this.hexGrid.getCell(hexagon);
-
-        if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
-            this.handleCellClicked(cell, hexagon);
-        } else if (this.isInsectCellClicked) { //on clique sur une case vide pour déplacer une case sélectionnée
-            this.handleInsectMoved(hexagon);
-        } else if (this.isInsectButtonClicked) { //on clique sur une case vide pour déposer une nouvelle case
-            this.handleInsectPlaced(hexagon);
-        }
-
-        this.displayGame.repaint();
-    }
-
-    public void mouseDragged(int x, int y) {
-        ViewMetrics.updateViewPosition(x, y);
-        this.displayGame.repaint();
     }
 
     @Override
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
-        this.playableCoordinates.clear();
 
-        if (player.equals(this.currentPlayer)) {
-            this.insect = this.currentPlayer.getInsect(insectClass);
-            if (this.insect != null) {
-                if (this.currentPlayer.canAddInsect(this.insect.getClass())) {
-                    if (this.currentPlayer.checkBeePlacement(this.insect)) {
-                        if (this.currentPlayer.getTurn() <= 1) {
-                            if (this.hexGrid.getGrid().isEmpty()) {
-                                Log.addMessage(" debut : tour " + this.currentPlayer.getTurn());
-                                this.playableCoordinates.clear();
-                                this.playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
-                            } else {
-                                this.playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
-                            }
-                        } else {
-                            Log.addMessage("suite : tour " + this.currentPlayer.getTurn());
-                            this.playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
-                        }
-                    } else {
-                        Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
-                    }
-                } else {
-                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
-                }
-            } else {
-                Log.addMessage("Vous n'avez plus de pions de ce type");
-            }
-        } else {
-            Log.addMessage("Pas le bon joueur !");
-        }
+        this.playableCoordinates = this.generatePlayableCoordinates(insectClass, player);
+
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.repaint();
     }

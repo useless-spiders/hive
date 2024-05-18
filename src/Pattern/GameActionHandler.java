@@ -1,5 +1,6 @@
 package Pattern;
 
+import Model.HexCell;
 import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Player;
@@ -28,10 +29,18 @@ public interface GameActionHandler {
 
     void setDisplayGame(DisplayGame displayGame);
 
-    void mouseMoved(int x, int y);
+    DisplayGame getDisplayGame();
 
-    void mousePressed(int x, int y);
+    boolean getIsInsectButtonClicked();
 
-    void mouseDragged(int x, int y);
+    boolean getIsInsectCellClicked();
+
+    void handleCellClicked(HexCell cell, HexCoordinate hexagon);
+
+    void handleInsectMoved(HexCoordinate hexagon);
+
+    void handleInsectPlaced(HexCoordinate hexagon);
+
+    void launchAi();
 
 }
