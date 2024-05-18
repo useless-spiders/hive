@@ -3,7 +3,6 @@ package Model.Ai;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Controller.Game;
 import Model.HexCell;
 import Model.HexGrid;
 import Model.Move;
@@ -19,29 +18,17 @@ import Structure.HexCoordinate;
 
 public class Ai1 extends Ai {
 
-    ArrayList<Class<? extends Insect>> insectclass;
     Player other;
-    GameActionHandler gameActionHandler;
 
     public Ai1(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.grid = this.gameActionHandler.getGrid();
-        initInsectClass();
         this.aiPlayer = p;
         if (this.gameActionHandler.getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayer1();
         }
-    }
-
-    private void initInsectClass() {
-        insectclass = new ArrayList<>();
-        insectclass.add(Bee.class);
-        insectclass.add(Beetle.class);
-        insectclass.add(Ant.class);
-        insectclass.add(Spider.class);
-        insectclass.add(Grasshopper.class);
     }
 
 
@@ -89,20 +76,6 @@ public class Ai1 extends Ai {
         return result;
     }
 
-    private ArrayList<Move> getMoves(Player p) {
-        ArrayList<Move> moves = new ArrayList<>();
-        for (Class<? extends Insect> i : insectclass) {
-            if (p.canAddInsect(i)) {
-                Insect insect = p.getInsect(i);
-                ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableCoordinates(i, p);
-                for (HexCoordinate h : possibleCells) {
-                    moves.add(new Move(insect, null, h));
-                }
-            }
-        }
-        return moves;
-    }
-
     public Move chooseMove() {
         HexGrid g = this.grid.clone();
         ArrayList<Move> toPlay = new ArrayList<>();
@@ -123,7 +96,7 @@ public class Ai1 extends Ai {
             }
             g.unapplyMove(m, us_c);
         }
-        if(toPlay.isEmpty()){
+        if (toPlay.isEmpty()) {
             return null;
         }
 
