@@ -50,6 +50,4 @@ public interface GameActionHandler {
 
     void startAi();
 
-    void setPlayer(int player, String name);
-
 }
