@@ -67,7 +67,7 @@ public class MainDisplay {
         setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
-        DisplayGame displayGame = new DisplayGame(gameActionHandler.getGrid(), frameGame, gameActionHandler, pageActionHandler);
+        DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
         setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         gameActionHandler.setDisplayGame(displayGame);

@@ -44,6 +44,10 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         this.startAi();
+
+        // Permet de reconstruire a partie d'une sauvegarde
+        // !!! Ne marche que pour human contre human car IA demande trop de dépendance pour le moment
+        //this.loadGame("res/Saves/19-05-2024_01-45-50.save");
     }
 
     public void startAi() {
@@ -380,6 +384,8 @@ public class Game implements GameActionHandler, ActionListener {
             for (Move move : this.history.getHistory()) {
                 this.hexGrid.applyMove(move, move.getInsect().getPlayer());
             }
+            this.displayGame.getDisplayBankInsects().updateAllLabels();
+            this.displayGame.repaint();
 
             Log.addMessage("Partie chargée depuis le fichier : " + fileName);
         } catch (Exception ex) {
