@@ -63,7 +63,7 @@ public class MainDisplay {
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du menu
-        new DisplayConfigParty(frameMenu, pageActionHandler);
+        new DisplayConfigParty(frameMenu, pageActionHandler, gameActionHandler);
         setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu

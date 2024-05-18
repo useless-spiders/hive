@@ -64,35 +64,6 @@ public abstract class Insect implements Cloneable, Serializable {
         return false;
     }
 
-    public boolean isPlacable(HexCoordinate placement, HexGrid g) {
-        if (this.getPlayer().getTurn() > 1) {
-            if (g.getCell(placement) != null) {
-                return false;
-            }
-            HashMap<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(placement);
-            if ((neighbors.isEmpty())) {
-                return false;
-            }
-            for (Map.Entry<HexCoordinate, String> neighbor : neighbors.entrySet()) {
-                HexCoordinate hC = neighbor.getKey();
-                String colorNeighbor = g.getCell(hC).getTopInsect().getPlayer().getColor();
-                Log.addMessage(colorNeighbor);
-                Log.addMessage(this.getPlayer().getColor());
-                if (!Objects.equals(colorNeighbor, this.getPlayer().getColor())) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            if (g.getGrid().isEmpty()) {
-                return true;
-            } else {
-                HashMap<HexCoordinate, String> neighbors = g.getNeighborsCoordinates(placement);
-                return !neighbors.isEmpty();
-            }
-        }
-    }
-
     @Override
     public Insect clone() {
         try {
