@@ -44,9 +44,6 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         this.startAi();
-
-        // Permet de reconstruire a partie d'une sauvegarde
-        //this.loadGame("res/Saves/19-05-2024_01-58-39.save");
     }
 
     public void startAi() {
@@ -408,7 +405,7 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     @Override
-    public void restartGame(){
+    public void restartGameWithSamePlayers(){
         this.playableCoordinates.clear();
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
@@ -422,5 +419,20 @@ public class Game implements GameActionHandler, ActionListener {
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
         this.startAi();
+    }
+
+    @Override
+    public void startGame(){
+        this.hexGrid = new HexGrid();
+        this.initPlayers();
+
+        this.isInsectButtonClicked = false;
+        this.isInsectCellClicked = false;
+        this.hexClicked = null;
+        this.playableCoordinates = new ArrayList<>();
+        this.history = new History();
+        this.startAi();
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.repaint();
     }
 }

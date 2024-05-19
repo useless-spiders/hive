@@ -52,6 +52,8 @@ public interface GameActionHandler {
 
     boolean loadGame(String fileName);
 
-    void restartGame();
+    void restartGameWithSamePlayers();
+
+    void startGame();
 
 }

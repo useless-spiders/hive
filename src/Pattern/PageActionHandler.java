@@ -1,6 +1,5 @@
 package Pattern;
 
-import Controller.PageManager;
 import View.MainDisplay;
 
 public interface PageActionHandler {

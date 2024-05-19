@@ -49,12 +49,12 @@ public class DisplayMenuInParty {
                 switch (selectedItem) {
                     case SAVE:
                         this.controller.saveGame();
-                        break; // A REMPLIR PLUS TARD
+                        break;
                     case RULES:
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
-                        this.controller.restartGame();
-                        break; // A REMPLIR PLUS TARD
+                        this.controller.restartGameWithSamePlayers();
+                        break;
                     case ABORT:
                         controllerPage.gameAndAbort();
                         //controllerPage.gameToMenu();
