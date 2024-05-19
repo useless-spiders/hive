@@ -56,8 +56,8 @@ public class DisplayMenuInParty {
                         this.controller.restartGameWithSamePlayers();
                         break;
                     case ABORT:
-                        controllerPage.gameAndAbort();
-                        //controllerPage.gameToMenu();
+                        //controllerPage.gameAndAbort();
+                        controllerPage.gameToMenu();
                         break;
                     case DEFAULT:
                         break;
