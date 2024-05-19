@@ -180,7 +180,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
     }
 
-    public ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player) {
+    public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
         if (player.equals(this.currentPlayer)) {
             this.insect = this.currentPlayer.getInsect(insectClass);
@@ -306,7 +306,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
 
-        this.playableCoordinates = this.generatePlayableCoordinates(insectClass, player);
+        this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, player);
 
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.repaint();

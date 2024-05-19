@@ -42,7 +42,7 @@ public interface GameActionHandler {
 
     void handleInsectPlaced(HexCoordinate hexagon);
 
-    ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player);
+    ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player);
 
     void setPlayer(int player, String name);
 
