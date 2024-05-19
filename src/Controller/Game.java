@@ -367,6 +367,11 @@ public class Game implements GameActionHandler, ActionListener {
     @Override
     public boolean loadGame(String fileName) {
         try {
+            this.playableCoordinates.clear();
+            this.isInsectButtonClicked = false;
+            this.isInsectCellClicked = false;
+            this.hexClicked = null;
+
             SaveLoad saveLoad = SaveLoad.loadGame(fileName);
             this.history = saveLoad.getHistory();
             this.player1 = saveLoad.getPlayer1();
@@ -400,5 +405,22 @@ public class Game implements GameActionHandler, ActionListener {
             Log.addMessage("Erreur lors du chargement de la partie : " + ex.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public void restartGame(){
+        this.playableCoordinates.clear();
+        this.isInsectButtonClicked = false;
+        this.isInsectCellClicked = false;
+        this.hexClicked = null;
+        this.hexGrid = new HexGrid();
+        this.history = new History();
+        this.player1.reset();
+        this.player2.reset();
+        Random random = new Random();
+        this.currentPlayer = random.nextBoolean() ? player1 : player2;
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.repaint();
+        this.startAi();
     }
 }

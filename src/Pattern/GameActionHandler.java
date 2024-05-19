@@ -52,4 +52,6 @@ public interface GameActionHandler {
 
     boolean loadGame(String fileName);
 
+    void restartGame();
+
 }

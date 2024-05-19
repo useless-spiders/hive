@@ -53,6 +53,7 @@ public class DisplayMenuInParty {
                     case RULES:
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
+                        this.controller.restartGame();
                         break; // A REMPLIR PLUS TARD
                     case ABORT:
                         controllerPage.gameAndAbort();
