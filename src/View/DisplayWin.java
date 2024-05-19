@@ -1,6 +1,7 @@
 package View;
 
 import Model.Player;
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.Log;
 
@@ -11,12 +12,14 @@ public class DisplayWin {
     private static final String REPLAY = "Rejouer";
     private static final String MENU = "Menu principal";
     private PageActionHandler controllerPage;
+    private GameActionHandler controllerGame;
     private Player winner;
     private JFrame frameWin;
     private JFrame frameGame;
 
-    public DisplayWin(JFrame frameWin, JFrame frameGame, PageActionHandler controllerPage){
+    public DisplayWin(JFrame frameWin, JFrame frameGame, PageActionHandler controllerPage, GameActionHandler controllerGame){
         this.controllerPage = controllerPage;
+        this.controllerGame = controllerGame;
         this.frameWin = frameWin;
         this.frameGame = frameGame;
 
@@ -54,6 +57,11 @@ public class DisplayWin {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text) {
             case REPLAY:
+                frameGame.setVisible(false);
+                button.addActionListener(e -> {
+                    this.controllerGame.restartGameWithSamePlayers();
+                    this.controllerPage.winToGame();
+                });
                 break;
             case MENU:
                 frameGame.setVisible(false);

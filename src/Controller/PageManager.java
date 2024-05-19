@@ -48,6 +48,11 @@ public class PageManager implements PageActionHandler {
     }
 
     @Override
+    public void winToGame(){
+        this.switchFrame(this.frameWin, this.frameGame);
+    }
+
+    @Override
     public void gameAndAbort() {
         frameGame.setVisible(true);
         frameAbort.setVisible(true);

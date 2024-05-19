@@ -7,6 +7,7 @@ public interface PageActionHandler {
     void menuToGame();
     void gameToMenu();
     void winToMenu();
+    void winToGame();
     void gameAndAbort();
     void gameAndWin();
     MainDisplay getMainDisplay();
