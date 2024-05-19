@@ -1,12 +1,13 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.*;
 
 import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
 
-public class HexGrid implements Cloneable {
+public class HexGrid implements Cloneable, Serializable {
     private Map<HexCoordinate, HexCell> grid;
     private int insectsCount;
 

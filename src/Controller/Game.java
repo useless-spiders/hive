@@ -373,13 +373,6 @@ public class Game implements GameActionHandler, ActionListener {
             this.player2 = saveLoad.getPlayer2();
             this.currentPlayer = saveLoad.getCurrentPlayer();
 
-            if (this.player1.isAi()) {
-                this.player1.getAi().setGameActionHandler(this);
-            }
-            if (this.player2.isAi()) {
-                this.player2.getAi().setGameActionHandler(this);
-            }
-
             // Create a new HexGrid
             this.hexGrid = new HexGrid();
 
@@ -387,6 +380,17 @@ public class Game implements GameActionHandler, ActionListener {
             for (Move move : this.history.getHistory()) {
                 this.hexGrid.applyMove(move, move.getInsect().getPlayer());
             }
+
+            if (this.player1.isAi()) {
+                this.player1.getAi().setGameActionHandler(this);
+            }
+            if (this.player2.isAi()) {
+                this.player2.getAi().setGameActionHandler(this);
+            }
+            if(this.player1.isAi() || this.player2.isAi()){
+                this.aiTurn();
+            }
+
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.repaint();
 
