@@ -2,10 +2,9 @@ package Model;
 
 import Model.Insect.Insect;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HexCell implements Serializable {
+public class HexCell {
     private ArrayList<Insect> insects;
 
     public HexCell() {

@@ -1,6 +1,5 @@
 package Model.Ai;
 
-import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Move;
 import Model.Player;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public abstract class Ai implements Serializable {
     protected Player aiPlayer;
-    protected HexGrid grid;
+
     // transient indique que l'attribut ne doit pas être sérialisé (utile pour la sauvegarde)
     transient GameActionHandler gameActionHandler;
 
