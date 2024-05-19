@@ -22,7 +22,6 @@ public class Ai1 extends Ai {
 
     public Ai1(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
-        this.grid = this.gameActionHandler.getGrid();
         this.aiPlayer = p;
         if (this.gameActionHandler.getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayer2();
@@ -77,7 +76,7 @@ public class Ai1 extends Ai {
     }
 
     public Move chooseMove() {
-        HexGrid g = this.grid.clone();
+        HexGrid g = this.gameActionHandler.getGrid().clone();
         ArrayList<Move> toPlay = new ArrayList<>();
         int score;
         int score_max = -999999;

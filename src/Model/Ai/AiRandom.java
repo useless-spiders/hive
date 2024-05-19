@@ -10,13 +10,8 @@ import Pattern.GameActionHandler;
 
 public class AiRandom extends Ai {
 
-    Random r;
-
     public AiRandom(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
-        this.grid = this.gameActionHandler.getGrid();
-        this.history = this.gameActionHandler.getHistory();
-        this.r = new Random();
         this.aiPlayer = p;
     }
 

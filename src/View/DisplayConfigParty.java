@@ -1,16 +1,20 @@
 package View;
 
+import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 
 public class DisplayConfigParty extends JPanel {
     private static final String HUMAN = "human";
     private static final String IA_EASY = "AiRandom";
     private static final String IA_HARD = "Ai1";
     private static final String JOUER = "jouer";
+    private static final String LOAD = "charger partie";
 
     private JComboBox<String> column1;
     private JComboBox<String> column2;
@@ -43,6 +47,13 @@ public class DisplayConfigParty extends JPanel {
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(playButton, gbc);
 
+        JButton loadButton = createFileSelectionButton();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        add(loadButton, gbc);
+
         frame.setContentPane(this);
         frame.pack();
     }
@@ -72,6 +83,28 @@ public class DisplayConfigParty extends JPanel {
                 });
                 break;
         }
+        return button;
+    }
+
+    private JButton createFileSelectionButton() {
+        JButton button = new JButton(LOAD);
+        button.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            // Définir le répertoire de départ
+            fileChooser.setCurrentDirectory(new File(SaveLoad.SAVE_PATH));
+
+            // Créer un filtre pour les fichiers .save
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIVE SAVE FILES", SaveLoad.SAVE_EXTENSION);
+            fileChooser.setFileFilter(filter);
+
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                if(gameActionHandler.loadGame(selectedFile.getAbsolutePath())){
+                    pageActionHandler.menuToGame();
+                }
+            }
+        });
         return button;
     }
 }

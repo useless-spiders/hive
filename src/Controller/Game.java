@@ -1,13 +1,9 @@
 package Controller;
 
+import Model.*;
 import Model.Ai.Ai;
-import Model.Move;
-import Model.HexCell;
-import Model.HexGrid;
-import Model.History;
 import Model.Insect.Beetle;
 import Model.Insect.Insect;
-import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
@@ -48,9 +44,12 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         this.startAi();
+
+        // Permet de reconstruire a partie d'une sauvegarde
+        //this.loadGame("res/Saves/19-05-2024_01-58-39.save");
     }
 
-    public void startAi(){
+    public void startAi() {
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.aiTurn();
         }
@@ -97,10 +96,6 @@ public class Game implements GameActionHandler, ActionListener {
     @Override
     public HexGrid getGrid() {
         return this.hexGrid;
-    }
-
-    public History getHistory() {
-        return this.history;
     }
 
     @Override
@@ -356,6 +351,54 @@ public class Game implements GameActionHandler, ActionListener {
             }
         } else {
             Log.addMessage("no move to redo");
+        }
+    }
+
+    @Override
+    public void saveGame() {
+        try {
+            String fileName = SaveLoad.saveGame(this.history, this.player1, this.player2, this.currentPlayer);
+            Log.addMessage("Partie sauvegardée dans le fichier : " + fileName);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public boolean loadGame(String fileName) {
+        try {
+            SaveLoad saveLoad = SaveLoad.loadGame(fileName);
+            this.history = saveLoad.getHistory();
+            this.player1 = saveLoad.getPlayer1();
+            this.player2 = saveLoad.getPlayer2();
+            this.currentPlayer = saveLoad.getCurrentPlayer();
+
+            // Create a new HexGrid
+            this.hexGrid = new HexGrid();
+
+            // Apply each move in the history to the hexGrid
+            for (Move move : this.history.getHistory()) {
+                this.hexGrid.applyMove(move, move.getInsect().getPlayer());
+            }
+
+            if (this.player1.isAi()) {
+                this.player1.getAi().setGameActionHandler(this);
+            }
+            if (this.player2.isAi()) {
+                this.player2.getAi().setGameActionHandler(this);
+            }
+            if(this.player1.isAi() || this.player2.isAi()){
+                this.aiTurn();
+            }
+
+            this.displayGame.getDisplayBankInsects().updateAllLabels();
+            this.displayGame.repaint();
+
+            Log.addMessage("Partie chargée depuis le fichier : " + fileName);
+            return true;
+        } catch (Exception ex) {
+            Log.addMessage("Erreur lors du chargement de la partie : " + ex.getMessage());
+            return false;
         }
     }
 }

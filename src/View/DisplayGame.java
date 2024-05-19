@@ -1,6 +1,5 @@
 package View;
 
-import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.ViewMetrics;
@@ -18,13 +17,15 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
     private JFrame frame;
     private GameActionHandler controller;
+    private PageActionHandler controllerPage;
 
-    public DisplayGame(HexGrid grid, JFrame frame, GameActionHandler controller, PageActionHandler controllerPage){
+    public DisplayGame(JFrame frame, PageActionHandler controllerPage, GameActionHandler controller){
         this.frame = frame;
         this.controller = controller;
+        this.controllerPage = controllerPage;
 
         //Pour construire le jeu
-        buildGame(grid, controllerPage);
+        buildGame();
 
         //Pour afficher le jeu
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
@@ -33,16 +34,16 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         frame.pack(); // Pack le JFrame
     }
 
-    public void buildGame(HexGrid grid, PageActionHandler controllerPage){
+    public void buildGame(){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         this.displayGameBackground = new DisplayGameBackground(frame);
-        this.displayHexGrid = new DisplayHexGrid(grid);
-        this.displayBankInsects = new DisplayBankInsects(this, gbc, controller);
-        this.displayPlayableHex = new DisplayPlayableHex(controller);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, controller, controllerPage);
-        this.displayStack = new DisplayStack(grid);
+        this.displayHexGrid = new DisplayHexGrid(this.controller);
+        this.displayBankInsects = new DisplayBankInsects(this, gbc, this.controller);
+        this.displayPlayableHex = new DisplayPlayableHex(this.controller);
+        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.controller, this.controllerPage);
+        this.displayStack = new DisplayStack(this.controller);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {

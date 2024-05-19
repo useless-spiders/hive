@@ -3,6 +3,7 @@ package View;
 import Model.HexCell;
 import Model.HexGrid;
 import Model.Insect.Insect;
+import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 
@@ -10,12 +11,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayHexGrid extends JComponent {
-    private HexGrid hexGrid;
     private boolean isInsectHexClicked = false;
     private HexCoordinate hexClicked = null;
+    GameActionHandler controller;
 
-    public DisplayHexGrid(HexGrid hexGrid) {
-        this.hexGrid = hexGrid;
+    public DisplayHexGrid(GameActionHandler controller) {
+        this.controller = controller;
     }
 
     public void updateInsectClickState(boolean isInsectHexClicked, HexCoordinate hexClicked) {
@@ -30,7 +31,7 @@ public class DisplayHexGrid extends JComponent {
 
         // Trouver le nombre maximum d'insectes parmi toutes les cellules
         int maxInsectCount = 0;
-        for (HexCell cell : hexGrid.getGrid().values()) {
+        for (HexCell cell : this.controller.getGrid().getGrid().values()) {
             int insectCount = cell.getInsects().size();
             if (insectCount > maxInsectCount) {
                 maxInsectCount = insectCount;
@@ -40,8 +41,8 @@ public class DisplayHexGrid extends JComponent {
         // Dessiner les insectes par étage, de l'étage 1 au maximum
         for (int i = 0; i < maxInsectCount; i++) {
             // Parcourir le contenu de la grille hexagonale
-            for (HexCoordinate coord : hexGrid.getGrid().keySet()) {
-                HexCell cell = hexGrid.getCell(coord);
+            for (HexCoordinate coord : this.controller.getGrid().getGrid().keySet()) {
+                HexCell cell = this.controller.getGrid().getCell(coord);
                 int insectIndex = i;
                 if (insectIndex < cell.getInsects().size()) {
                     Insect insect = cell.getInsects().get(insectIndex);

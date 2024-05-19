@@ -3,7 +3,9 @@ package Model;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
     private Insect insect;
     private HexCoordinate previousCoor;
     private HexCoordinate newCoor;

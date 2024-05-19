@@ -1,8 +1,9 @@
 package Structure;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class HexCoordinate {
+public class HexCoordinate implements Serializable {
     private int x;
     private int y;
 
