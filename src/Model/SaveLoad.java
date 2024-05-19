@@ -9,8 +9,8 @@ import java.util.Date;
 
 public class SaveLoad {
 
-    private static final String SAVE_PATH = "res/Saves/";
-    private static final String SAVE_EXTENSION = ".save";
+    public static final String SAVE_PATH = "res/Saves/";
+    public static final String SAVE_EXTENSION = "save";
 
     private History history;
     private Player player1;
@@ -57,6 +57,6 @@ public class SaveLoad {
 
     private static String formatFileName() {
         String timeStamp = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
-        return SAVE_PATH + timeStamp + SAVE_EXTENSION;
+        return SAVE_PATH + timeStamp + "." + SAVE_EXTENSION;
     }
 }

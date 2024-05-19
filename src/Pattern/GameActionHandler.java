@@ -42,8 +42,6 @@ public interface GameActionHandler {
 
     void handleInsectPlaced(HexCoordinate hexagon);
 
-    History getHistory();
-
     ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player);
 
     void setPlayer(int player, String name);
@@ -51,5 +49,7 @@ public interface GameActionHandler {
     void startAi();
 
     void saveGame();
+
+    boolean loadGame(String fileName);
 
 }

@@ -46,8 +46,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.startAi();
 
         // Permet de reconstruire a partie d'une sauvegarde
-        // !!! Ne marche que pour human contre human car IA demande trop de dépendance pour le moment
-        this.loadGame("res/Saves/19-05-2024_01-58-39.save");
+        //this.loadGame("res/Saves/19-05-2024_01-58-39.save");
     }
 
     public void startAi() {
@@ -97,10 +96,6 @@ public class Game implements GameActionHandler, ActionListener {
     @Override
     public HexGrid getGrid() {
         return this.hexGrid;
-    }
-
-    public History getHistory() {
-        return this.history;
     }
 
     @Override
@@ -369,7 +364,8 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 
-    public void loadGame(String fileName) {
+    @Override
+    public boolean loadGame(String fileName) {
         try {
             SaveLoad saveLoad = SaveLoad.loadGame(fileName);
             this.history = saveLoad.getHistory();
@@ -395,8 +391,10 @@ public class Game implements GameActionHandler, ActionListener {
             this.displayGame.repaint();
 
             Log.addMessage("Partie chargée depuis le fichier : " + fileName);
+            return true;
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            Log.addMessage("Erreur lors du chargement de la partie : " + ex.getMessage());
+            return false;
         }
     }
 }
