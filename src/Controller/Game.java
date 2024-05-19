@@ -155,9 +155,9 @@ public class Game implements GameActionHandler, ActionListener {
             } else {
                 this.currentPlayer = this.player1;
             }
-        }
-        if (this.currentPlayer.isAi()) {
-            this.aiTurn();
+            if (this.currentPlayer.isAi()) {
+                this.aiTurn();
+            }
         }
     }
 
