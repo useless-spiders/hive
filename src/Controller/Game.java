@@ -47,7 +47,7 @@ public class Game implements GameActionHandler, ActionListener {
 
         // Permet de reconstruire a partie d'une sauvegarde
         // !!! Ne marche que pour human contre human car IA demande trop de dépendance pour le moment
-        //this.loadGame("res/Saves/19-05-2024_01-45-50.save");
+        this.loadGame("res/Saves/19-05-2024_01-58-39.save");
     }
 
     public void startAi() {
@@ -376,6 +376,13 @@ public class Game implements GameActionHandler, ActionListener {
             this.player1 = saveLoad.getPlayer1();
             this.player2 = saveLoad.getPlayer2();
             this.currentPlayer = saveLoad.getCurrentPlayer();
+
+            if (this.player1.isAi()) {
+                this.player1.getAi().setGameActionHandler(this);
+            }
+            if (this.player2.isAi()) {
+                this.player2.getAi().setGameActionHandler(this);
+            }
 
             // Create a new HexGrid
             this.hexGrid = new HexGrid();

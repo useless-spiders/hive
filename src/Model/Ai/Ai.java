@@ -1,7 +1,6 @@
 package Model.Ai;
 
 import Model.HexGrid;
-import Model.History;
 import Model.Insect.Insect;
 import Model.Move;
 import Model.Player;
@@ -9,13 +8,18 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Ai {
-    Player aiPlayer;
-    HexGrid grid;
-    History history;
-    GameActionHandler gameActionHandler;
+public abstract class Ai implements Serializable {
+    protected Player aiPlayer;
+    protected HexGrid grid;
+    // transient indique que l'attribut ne doit pas être sérialisé (utile pour la sauvegarde)
+    transient GameActionHandler gameActionHandler;
+
+    public void setGameActionHandler(GameActionHandler gameActionHandler) {
+        this.gameActionHandler = gameActionHandler;
+    }
 
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
         Ai resultat = null;
