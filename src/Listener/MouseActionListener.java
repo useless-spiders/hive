@@ -67,6 +67,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         int oldHexWidth = HexMetrics.HEX_WIDTH;
         int oldHexHeight = HexMetrics.HEX_HEIGHT;
 
+        // Calculate the mouse position in the game world before zooming
+        int x = e.getX() - ViewMetrics.getViewOffsetX();
+        int y = e.getY() - ViewMetrics.getViewOffsetY();
+
         if (notches < 0 && HexMetrics.HEX_WIDTH < HexMetrics.MAX_HEX_WIDTH) {
             // Molette tournée vers le haut
             HexMetrics.updateHexMetricsWidth(5);
@@ -75,11 +79,12 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
             HexMetrics.updateHexMetricsWidth(-5);
         }
 
-        int widthDifference = HexMetrics.HEX_WIDTH - oldHexWidth;
-        int heightDifference = HexMetrics.HEX_HEIGHT - oldHexHeight;
+        // Calculate the mouse position in the game world after zooming
+        int newMouseX = x * HexMetrics.HEX_WIDTH / oldHexWidth;
+        int newMouseY = y * HexMetrics.HEX_HEIGHT / oldHexHeight;
 
-        // Adjust the view position based on the change in hexagon size
-        ViewMetrics.updateViewPosition(-widthDifference, -heightDifference);
+        // Adjust the view position to keep the mouse at the same place in the game world
+        ViewMetrics.updateViewPosition(x - newMouseX, y - newMouseY);
 
         this.gameActionHandler.getDisplayGame().repaint();
     }
