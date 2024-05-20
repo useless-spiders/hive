@@ -48,6 +48,7 @@ public class Player implements Cloneable, Serializable {
     public void reset(){
         this.stock = initBank();
         this.turn = 1;
+        this.beePlaced = false;
     }
 
     public void setAi(Ai ai) {
