@@ -15,6 +15,8 @@ public class DisplayBankInsects {
     private GameActionHandler controller;
     private Map<Class<? extends Insect>, JLabel> player1Labels;
     private Map<Class<? extends Insect>, JLabel> player2Labels;
+    private JPanel panelButtonBankJ1;
+    private JPanel panelButtonBankJ2;
 
     public DisplayBankInsects(JPanel panelGame, GameActionHandler controller) {
         this.controller = controller;
@@ -23,8 +25,10 @@ public class DisplayBankInsects {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JPanel panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
-        JPanel panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
+        this.panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
+        this.panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
+        panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
+        panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -39,6 +43,19 @@ public class DisplayBankInsects {
         panelGame.add(panelButtonBankJ1, gbc);
 
     }
+
+    private void switchBorder(JPanel panel1, JPanel panel2) {
+        panel1.setBorder(null);
+        panel1.setOpaque(false);
+        panel2.setBorder(BorderFactory.createLineBorder(Color.RED));
+        panel2.setOpaque(true);
+
+    }
+
+    public void switchBorderJ1ToJ2(){ switchBorder(panelButtonBankJ1, panelButtonBankJ2); }
+
+    public void switchBorderJ2ToJ1(){ switchBorder(panelButtonBankJ2, panelButtonBankJ1); }
+
 
     private JPanel createButtonPanel(Player player) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));

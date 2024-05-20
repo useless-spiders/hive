@@ -125,6 +125,13 @@ public class Game implements GameActionHandler, ActionListener {
         return this.displayGame;
     }
 
+    private void initBorderBank(){
+        if (currentPlayer == player1) {
+            displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
+        }
+        else {displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();}
+    }
+
     private Player checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
@@ -151,8 +158,10 @@ public class Game implements GameActionHandler, ActionListener {
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {
+                displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
                 this.currentPlayer = this.player2;
             } else {
+                displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
                 this.currentPlayer = this.player1;
             }
             if (this.currentPlayer.isAi()) {
@@ -417,6 +426,7 @@ public class Game implements GameActionHandler, ActionListener {
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
         this.displayGame.getDisplayBankInsects().updateAllLabels();
+        initBorderBank();
         this.displayGame.repaint();
         this.startAi();
     }
@@ -432,6 +442,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
         this.startAi();
+        initBorderBank();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }
