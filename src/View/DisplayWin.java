@@ -15,13 +15,11 @@ public class DisplayWin {
     private GameActionHandler controllerGame;
     private Player winner;
     private JFrame frameWin;
-    private JFrame frameGame;
 
-    public DisplayWin(JFrame frameWin, JFrame frameGame, PageActionHandler controllerPage, GameActionHandler controllerGame){
+    public DisplayWin(JFrame frameWin, PageActionHandler controllerPage, GameActionHandler controllerGame){
         this.controllerPage = controllerPage;
         this.controllerGame = controllerGame;
         this.frameWin = frameWin;
-        this.frameGame = frameGame;
 
         JPanel column1 = createColumn();
         frameWin.add(column1,BorderLayout.CENTER);
@@ -57,17 +55,15 @@ public class DisplayWin {
         button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         switch (text) {
             case REPLAY:
-                frameGame.setVisible(false);
                 button.addActionListener(e -> {
                     this.controllerGame.restartGameWithSamePlayers();
                     this.controllerPage.winToGame();
                 });
                 break;
             case MENU:
-                frameGame.setVisible(false);
                 button.addActionListener(e -> {
                     this.controllerPage.winToMenu();
-                    frameGame.dispose();
+                    this.controllerPage.disposeGame();
                 });
                 break;
             default:

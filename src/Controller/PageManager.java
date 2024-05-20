@@ -63,6 +63,8 @@ public class PageManager implements PageActionHandler {
         frameWin.setVisible(true);
     }
 
+    public void disposeGame(){frameGame.dispose();}
+
     public MainDisplay getMainDisplay() {
         return this.mainDisplay;
     }

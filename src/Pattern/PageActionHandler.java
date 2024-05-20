@@ -10,5 +10,6 @@ public interface PageActionHandler {
     void winToGame();
     void gameAndAbort();
     void gameAndWin();
+    void disposeGame();
     MainDisplay getMainDisplay();
 }
