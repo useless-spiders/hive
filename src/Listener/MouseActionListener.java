@@ -6,11 +6,9 @@ import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
-public class MouseActionListener extends MouseAdapter implements MouseMotionListener {
+public class MouseActionListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
     private GameActionHandler gameActionHandler;
     private int lastX;
     private int lastY;
@@ -61,5 +59,28 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         this.gameActionHandler.getDisplayGame().repaint();
         this.lastX = x;
         this.lastY = y;
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int notches = e.getWheelRotation();
+        int oldHexWidth = HexMetrics.HEX_WIDTH;
+        int oldHexHeight = HexMetrics.HEX_HEIGHT;
+
+        if (notches < 0 && HexMetrics.HEX_WIDTH < HexMetrics.MAX_HEX_WIDTH) {
+            // Molette tournée vers le haut
+            HexMetrics.updateHexMetricsWidth(5);
+        } else if (notches > 0 && HexMetrics.HEX_WIDTH > HexMetrics.MIN_HEX_WIDTH) {
+            // Molette tournée vers le bas
+            HexMetrics.updateHexMetricsWidth(-5);
+        }
+
+        int widthDifference = HexMetrics.HEX_WIDTH - oldHexWidth;
+        int heightDifference = HexMetrics.HEX_HEIGHT - oldHexHeight;
+
+        // Adjust the view position based on the change in hexagon size
+        ViewMetrics.updateViewPosition(-widthDifference, -heightDifference);
+
+        this.gameActionHandler.getDisplayGame().repaint();
     }
 }

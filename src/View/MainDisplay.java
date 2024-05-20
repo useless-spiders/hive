@@ -73,6 +73,7 @@ public class MainDisplay {
         gameActionHandler.setDisplayGame(displayGame);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
+        displayGame.addMouseWheelListener(mouseActionListener);
 
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
