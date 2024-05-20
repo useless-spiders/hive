@@ -17,16 +17,21 @@ public class DisplayBankInsects {
     private Map<Class<? extends Insect>, JLabel> player2Labels;
     private JPanel panelButtonBankJ1;
     private JPanel panelButtonBankJ2;
+    private JLabel player1NameLabel;
+    private JLabel player2NameLabel;
 
     public DisplayBankInsects(JPanel panelGame, GameActionHandler controller) {
         this.controller = controller;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
+        this.player1NameLabel = new JLabel(String.valueOf(this.controller.getPlayer1().getName()));
+        this.player2NameLabel = new JLabel(String.valueOf(this.controller.getPlayer2().getName()));
+
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
-        this.panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
+        this.panelButtonBankJ1 = createButtonPanel(controller.getPlayer1(), player1NameLabel);
+        this.panelButtonBankJ2 = createButtonPanel(controller.getPlayer2(), player2NameLabel);
         panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
         panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
@@ -57,7 +62,7 @@ public class DisplayBankInsects {
     public void switchBorderJ2ToJ1(){ switchBorder(panelButtonBankJ2, panelButtonBankJ1); }
 
 
-    private JPanel createButtonPanel(Player player) {
+    private JPanel createButtonPanel(Player player, JLabel playerName) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panel.setOpaque(false);
 
@@ -67,7 +72,7 @@ public class DisplayBankInsects {
         panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class))));
         panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class))));
         panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class))));
-        panel.add(new JLabel(String.valueOf(player.getName())));
+        panel.add(playerName);
         return panel;
     }
 
@@ -116,12 +121,23 @@ public class DisplayBankInsects {
     public void updateAllLabels() {
         updateLabelsForPlayer(controller.getPlayer1(), player1Labels);
         updateLabelsForPlayer(controller.getPlayer2(), player2Labels);
+        updatePlayerName(controller.getPlayer1());
+        updatePlayerName(controller.getPlayer2());
     }
 
     private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
         for (Class<? extends Insect> insectClass : labels.keySet()) {
             JLabel label = labels.get(insectClass);
             label.setText(String.valueOf(player.getInsectCount(insectClass)));
+        }
+    }
+
+
+    private void updatePlayerName(Player player) {
+        if (player.equals(controller.getPlayer1())) {
+            player1NameLabel.setText(player.getName());
+        } else if (player.equals(controller.getPlayer2())) {
+            player2NameLabel.setText(player.getName());
         }
     }
 }

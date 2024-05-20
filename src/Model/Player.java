@@ -68,6 +68,10 @@ public class Player implements Cloneable, Serializable {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getTurn() {
         return this.turn;
     }
