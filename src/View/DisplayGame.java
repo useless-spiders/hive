@@ -40,7 +40,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
         this.displayGameBackground = new DisplayGameBackground(frame);
         this.displayHexGrid = new DisplayHexGrid(this.controller);
-        this.displayBankInsects = new DisplayBankInsects(this, gbc, this.controller);
+        this.displayBankInsects = new DisplayBankInsects(this, this.controller);
         this.displayPlayableHex = new DisplayPlayableHex(this.controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.controller, this.controllerPage);
         this.displayStack = new DisplayStack(this.controller);

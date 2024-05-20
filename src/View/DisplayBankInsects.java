@@ -16,10 +16,12 @@ public class DisplayBankInsects {
     private Map<Class<? extends Insect>, JLabel> player1Labels;
     private Map<Class<? extends Insect>, JLabel> player2Labels;
 
-    public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller) {
+    public DisplayBankInsects(JPanel panelGame, GameActionHandler controller) {
         this.controller = controller;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
+
+        GridBagConstraints gbc = new GridBagConstraints();
 
         JPanel panelButtonBankJ1 = createButtonPanel(controller.getPlayer1());
         JPanel panelButtonBankJ2 = createButtonPanel(controller.getPlayer2());
@@ -27,6 +29,7 @@ public class DisplayBankInsects {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weighty = 1.0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.PAGE_START;
         panelGame.add(panelButtonBankJ2, gbc);
 
