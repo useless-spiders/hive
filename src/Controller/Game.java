@@ -75,6 +75,7 @@ public class Game implements GameActionHandler, ActionListener {
                 this.delay.stop();
                 this.switchPlayer();
                 this.playableCoordinates.clear();
+                this.displayGame.getDisplayBankInsects().updateAllLabels();
                 this.displayGame.repaint();
             }
         }
