@@ -53,6 +53,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        // Bloque le dragging si la grille est vide
+        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+            return;
+        }
         int x = e.getX();
         int y = e.getY();
         ViewMetrics.updateViewPosition(x - this.lastX, y - this.lastY);
@@ -63,6 +67,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        // Bloque le zoom si la grille est vide
+        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+            return;
+        }
         int notches = e.getWheelRotation();
         int oldHexWidth = HexMetrics.HEX_WIDTH;
         int oldHexHeight = HexMetrics.HEX_HEIGHT;
