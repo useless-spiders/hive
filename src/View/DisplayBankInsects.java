@@ -67,6 +67,7 @@ public class DisplayBankInsects {
         panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class))));
         panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class))));
         panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class))));
+        panel.add(new JLabel(String.valueOf(player.getName())));
         return panel;
     }
 
