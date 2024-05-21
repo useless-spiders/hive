@@ -27,17 +27,48 @@ public class DisplayMenuInParty {
         this.panelGame = panelGame;
         this.controller = controller;
         this.controllerPage = controllerPage;
+
+        // Création du JPanel pour contenir le menu et les boutons
+        JPanel menuPanel = new JPanel(new GridBagLayout());
+        menuPanel.setOpaque(false);
+
+        // Création du menu
         JComboBox<String> menu = createMenu();
+        // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
+        GridBagConstraints menuConstraints = new GridBagConstraints();
+        menuConstraints.gridx = 0;
+        menuConstraints.gridy = 0;
+        menuConstraints.anchor = GridBagConstraints.NORTHEAST;
+        menuConstraints.insets = new Insets(10, 10, 10, 10);
+        menuPanel.add(menu, menuConstraints);
+
+        // Création des boutons annuler et refaire
         JButton annulerButton = createButton(CANCEL);
         JButton refaireButton = createButton(REDO);
 
-        gbc.gridx = GridBagConstraints.RELATIVE;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        panelGame.add(menu, gbc);
-        panelGame.add(annulerButton, gbc);
-        panelGame.add(refaireButton, gbc);
+        // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
+        GridBagConstraints annulerButtonConstraints = new GridBagConstraints();
+        annulerButtonConstraints.gridx = 1; // à droite du menu
+        annulerButtonConstraints.gridy = 0;
+        annulerButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
+        annulerButtonConstraints.insets = new Insets(5, 5, 5, 5);
+        menuPanel.add(annulerButton, annulerButtonConstraints);
+
+        // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
+        GridBagConstraints refaireButtonConstraints = new GridBagConstraints();
+        refaireButtonConstraints.gridx = 2; // à droite du bouton annuler
+        refaireButtonConstraints.gridy = 0;
+        refaireButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
+        refaireButtonConstraints.insets = new Insets(5, 5, 5, 5);
+        menuPanel.add(refaireButton, refaireButtonConstraints);
+
+        // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
+        gbc.gridx = 1; // colonne (commence à 0)
+        gbc.gridy = 0; // ligne (commence à 0)
+        gbc.anchor = GridBagConstraints.NORTHEAST; // ancre dans le coin nord-est
+        gbc.weightx = 1.0; // étendre horizontalement
+        gbc.weighty = 1.0; // étendre verticalement
+        panelGame.add(menuPanel, gbc);
     }
 
     private JComboBox<String> createMenu() {
@@ -49,14 +80,15 @@ public class DisplayMenuInParty {
                 switch (selectedItem) {
                     case SAVE:
                         this.controller.saveGame();
-                        break; // A REMPLIR PLUS TARD
+                        break;
                     case RULES:
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
-                        break; // A REMPLIR PLUS TARD
+                        this.controller.restartGameWithSamePlayers();
+                        break;
                     case ABORT:
-                        controllerPage.gameAndAbort();
-                        //controllerPage.gameToMenu();
+                        //controllerPage.gameAndAbort();
+                        this.controllerPage.gameToMenu();
                         break;
                     case DEFAULT:
                         break;
@@ -74,10 +106,10 @@ public class DisplayMenuInParty {
         button.addActionListener(e -> {
             switch (text) {
                 case CANCEL:
-                    controller.cancelMove();
+                    this.controller.cancelMove();
                     break;
                 case REDO:
-                    controller.redoMove();
+                    this.controller.redoMove();
                     break;
                 default:
                     Log.addMessage("Erreur dans les boutons du jeu");

@@ -35,7 +35,7 @@ public class DisplayStack {
             int rectHeight = (HexMetrics.HEX_HEIGHT + OFFSET) * depiledInsects.size(); // Hauteur du rectangle
 
             // Calculer les coordonnées X et Y pour positionner le rectangle juste au-dessus de la pile en question
-            Point hexCenter = HexMetrics.hexToPixel(hexClicked);
+            Point hexCenter = HexMetrics.hexToPixel(this.hexClicked);
             int startX = hexCenter.x - rectWidth / 2; // Position X de départ (centrée sur la cellule)
             int startY = hexCenter.y - HexMetrics.HEX_HEIGHT - rectHeight; // Position Y de départ (au-dessus de la cellule)
 

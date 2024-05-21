@@ -6,11 +6,9 @@ import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
-public class MouseActionListener extends MouseAdapter implements MouseMotionListener {
+public class MouseActionListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
     private GameActionHandler gameActionHandler;
     private int lastX;
     private int lastY;
@@ -55,11 +53,47 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        // Bloque le dragging si la grille est vide
+        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+            return;
+        }
         int x = e.getX();
         int y = e.getY();
         ViewMetrics.updateViewPosition(x - this.lastX, y - this.lastY);
         this.gameActionHandler.getDisplayGame().repaint();
         this.lastX = x;
         this.lastY = y;
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        // Bloque le zoom si la grille est vide
+        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+            return;
+        }
+        int notches = e.getWheelRotation();
+        int oldHexWidth = HexMetrics.HEX_WIDTH;
+        int oldHexHeight = HexMetrics.HEX_HEIGHT;
+
+        // Calculate the mouse position in the game world before zooming
+        int x = e.getX() - ViewMetrics.getViewOffsetX();
+        int y = e.getY() - ViewMetrics.getViewOffsetY();
+
+        if (notches < 0 && HexMetrics.HEX_WIDTH < HexMetrics.MAX_HEX_WIDTH) {
+            // Molette tournée vers le haut
+            HexMetrics.updateHexMetricsWidth(5);
+        } else if (notches > 0 && HexMetrics.HEX_WIDTH > HexMetrics.MIN_HEX_WIDTH) {
+            // Molette tournée vers le bas
+            HexMetrics.updateHexMetricsWidth(-5);
+        }
+
+        // Calculate the mouse position in the game world after zooming
+        int newMouseX = x * HexMetrics.HEX_WIDTH / oldHexWidth;
+        int newMouseY = y * HexMetrics.HEX_HEIGHT / oldHexHeight;
+
+        // Adjust the view position to keep the mouse at the same place in the game world
+        ViewMetrics.updateViewPosition(x - newMouseX, y - newMouseY);
+
+        this.gameActionHandler.getDisplayGame().repaint();
     }
 }

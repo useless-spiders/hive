@@ -73,9 +73,10 @@ public class MainDisplay {
         gameActionHandler.setDisplayGame(displayGame);
         displayGame.addMouseListener(mouseActionListener);
         displayGame.addMouseMotionListener(mouseActionListener);
+        displayGame.addMouseWheelListener(mouseActionListener);
 
         //Affichage de la frame de fin de jeu
-        this.displayWin = new DisplayWin(frameWin, frameGame, pageActionHandler);
+        this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
     }
 

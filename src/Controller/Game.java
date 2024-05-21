@@ -44,9 +44,6 @@ public class Game implements GameActionHandler, ActionListener {
         this.pageManager = new PageManager(this);
         this.delay = new Timer(1000, this);
         this.startAi();
-
-        // Permet de reconstruire a partie d'une sauvegarde
-        //this.loadGame("res/Saves/19-05-2024_01-58-39.save");
     }
 
     public void startAi() {
@@ -78,6 +75,7 @@ public class Game implements GameActionHandler, ActionListener {
                 this.delay.stop();
                 this.switchPlayer();
                 this.playableCoordinates.clear();
+                this.displayGame.getDisplayBankInsects().updateAllLabels();
                 this.displayGame.repaint();
             }
         }
@@ -128,6 +126,14 @@ public class Game implements GameActionHandler, ActionListener {
         return this.displayGame;
     }
 
+    private void updateBorderBank() {
+        if (this.currentPlayer == this.player1) {
+            this.displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
+        } else {
+            this.displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
+        }
+    }
+
     private Player checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
@@ -154,13 +160,15 @@ public class Game implements GameActionHandler, ActionListener {
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {
+                displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
                 this.currentPlayer = this.player2;
             } else {
+                displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
                 this.currentPlayer = this.player1;
             }
-        }
-        if (this.currentPlayer.isAi()) {
-            this.aiTurn();
+            if (this.currentPlayer.isAi()) {
+                this.aiTurn();
+            }
         }
     }
 
@@ -183,7 +191,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
     }
 
-    public ArrayList<HexCoordinate> generatePlayableCoordinates(Class<? extends Insect> insectClass, Player player) {
+    public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
         if (player.equals(this.currentPlayer)) {
             this.insect = this.currentPlayer.getInsect(insectClass);
@@ -309,7 +317,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
 
-        this.playableCoordinates = this.generatePlayableCoordinates(insectClass, player);
+        this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, player);
 
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.repaint();
@@ -367,6 +375,11 @@ public class Game implements GameActionHandler, ActionListener {
     @Override
     public boolean loadGame(String fileName) {
         try {
+            this.playableCoordinates.clear();
+            this.isInsectButtonClicked = false;
+            this.isInsectCellClicked = false;
+            this.hexClicked = null;
+
             SaveLoad saveLoad = SaveLoad.loadGame(fileName);
             this.history = saveLoad.getHistory();
             this.player1 = saveLoad.getPlayer1();
@@ -387,7 +400,7 @@ public class Game implements GameActionHandler, ActionListener {
             if (this.player2.isAi()) {
                 this.player2.getAi().setGameActionHandler(this);
             }
-            if(this.player1.isAi() || this.player2.isAi()){
+            if (this.player1.isAi() || this.player2.isAi()) {
                 this.aiTurn();
             }
 
@@ -400,5 +413,39 @@ public class Game implements GameActionHandler, ActionListener {
             Log.addMessage("Erreur lors du chargement de la partie : " + ex.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public void restartGameWithSamePlayers() {
+        this.playableCoordinates.clear();
+        this.isInsectButtonClicked = false;
+        this.isInsectCellClicked = false;
+        this.hexClicked = null;
+        this.hexGrid = new HexGrid();
+        this.history = new History();
+        this.player1.reset();
+        this.player2.reset();
+        Random random = new Random();
+        this.currentPlayer = random.nextBoolean() ? player1 : player2;
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.updateBorderBank();
+        this.displayGame.repaint();
+        this.startAi();
+    }
+
+    @Override
+    public void startGame() {
+        this.hexGrid = new HexGrid();
+        this.initPlayers();
+
+        this.isInsectButtonClicked = false;
+        this.isInsectCellClicked = false;
+        this.hexClicked = null;
+        this.playableCoordinates = new ArrayList<>();
+        this.history = new History();
+        this.startAi();
+        this.updateBorderBank();
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.repaint();
     }
 }

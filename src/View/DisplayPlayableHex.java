@@ -25,13 +25,13 @@ public class DisplayPlayableHex extends JComponent {
 
     public void paintPlayableHex(Graphics g) {
         // Affiche les cases jouables
-        for (HexCoordinate coord : controller.getPlayableCoordinates()) {
+        for (HexCoordinate coord : this.controller.getPlayableCoordinates()) {
             Point center = HexMetrics.hexToPixel(coord);
 
-            if (coord.equals(hoverCoord)) {
-                g.drawImage(locationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
+            if (coord.equals(this.hoverCoord)) {
+                g.drawImage(this.locationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
             } else {
-                g.drawImage(otherLocationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
+                g.drawImage(this.otherLocationImage, center.x - HexMetrics.HEX_WIDTH / 2, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
             }
         }
     }
