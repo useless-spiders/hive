@@ -19,8 +19,7 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.Log;
 
-public class Ai2 extends Ai
-{
+public class Ai2 extends Ai {
 
     Player other;
     private Tree config;
@@ -80,37 +79,21 @@ public class Ai2 extends Ai
         return result;
     }
 
-    int maxTree(Node n, HexGrid g, int level)
-    {
-        Log.addMessage(level + "!");
-        if(level >= 2)
-        {
-            Player us_c = this.aiPlayer.clone();
-            HexGrid gridC = g.clone();
-            Log.addMessage("move : " + n.getMove());
-            if(n.getMove() == null)
-            {
-                Log.addMessage("message null");
-            }
-            gridC.applyMove(n.getMove(), us_c);
+    int maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+        if (level >= 2) {
+            gridC.applyMove(n.getMove(), usC);
             int heuristique = heuristique(gridC);
             n.setValue(heuristique);
             return heuristique;
-        }
-        else
-        {
+        } else {
             int max = -9999;
             level++;
-            for (Move m : getMoves(this.aiPlayer)) 
-            {
+            for (Move m : getMoves(this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
-                Player us_c = this.aiPlayer.clone();
-                HexGrid gridC = g.clone();
-                gridC.applyMove(m, us_c);
-                int currentH = minTree(nextMove, gridC, level);
-                if(currentH  > max)
-                {
+                gridC.applyMove(m, usC);
+                int currentH = minTree(nextMove, gridC, usC, otherC, level);
+                if (currentH > max) {
                     max = currentH;
                 }
             }
@@ -120,32 +103,21 @@ public class Ai2 extends Ai
 
     }
 
-    int minTree(Node n, HexGrid g, int level)
-    {
-        Log.addMessage(level + "!");
-        if(level >= 2)
-        {
-            Player us_c = this.aiPlayer.clone();
-            HexGrid gridC = g.clone();
-            gridC.applyMove(n.getMove(), us_c);
+    int minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+        if (level >= 2) {
+            gridC.applyMove(n.getMove(), usC);
             int heuristique = heuristique(gridC);
             n.setValue(heuristique);
             return heuristique;
-        }
-        else
-        {
+        } else {
             int min = 9999;
             level++;
-            for (Move m : getMoves(this.aiPlayer)) 
-            {
+            for (Move m : getMoves(this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
-                Player us_c = this.aiPlayer.clone();
-                HexGrid gridC = g.clone();
-                gridC.applyMove(m, us_c);
-                int currentH = maxTree(nextMove, gridC, level);
-                if(currentH < min)
-                {
+                gridC.applyMove(m, usC);
+                int currentH = maxTree(nextMove, gridC, usC, otherC, level);
+                if (currentH < min) {
                     min = currentH;
                 }
             }
@@ -156,21 +128,21 @@ public class Ai2 extends Ai
     }
 
 
-    public Move chooseMove() 
-    {
+    public Move chooseMove() {
         this.config = new Tree();
-        maxTree(this.config.getCurrent(),this.gameActionHandler.getGrid(), 0);
+        HexGrid gridC = this.gameActionHandler.getGrid().clone();
+        Player usC = this.aiPlayer.clone();
+        Player themC = this.other.clone();
+        maxTree(this.config.getCurrent(), gridC, usC, themC, 0);
         int max = -9999;
         Move returnMove = null;
-        for(Node child : this.config.getCurrent().getChilds())
-        {
-            if(child.getValue() > max)
-            {
+        for (Node child : this.config.getCurrent().getChilds()) {
+            if (child.getValue() > max) {
                 max = child.getValue();
                 returnMove = child.getMove();
             }
         }
         return returnMove;
     }
-    
+
 }
