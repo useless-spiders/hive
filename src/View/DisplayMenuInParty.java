@@ -33,8 +33,8 @@ public class DisplayMenuInParty {
         menuPanel.setOpaque(false);
 
         // Création des boutons annuler et refaire
-        JButton annulerButton = createButton(CANCEL);
-        JButton refaireButton = createButton(REDO);
+        JButton annulerButton = createButtonCancel();
+        JButton refaireButton = createButtonRedo();
         // Création du menu
         JComboBox<String> menu = createMenu();
 
@@ -102,20 +102,15 @@ public class DisplayMenuInParty {
         return menu;
     }
 
-    private JButton createButton(String text) {
-        JButton button = new JButton(text);
-        button.addActionListener(e -> {
-            switch (text) {
-                case CANCEL:
-                    this.controller.cancelMove();
-                    break;
-                case REDO:
-                    this.controller.redoMove();
-                    break;
-                default:
-                    Log.addMessage("Erreur dans les boutons du jeu");
-            }
-        });
+    private JButton createButtonCancel(){
+        JButton button = new JButton(MainDisplay.loadIcon("undo.png"));
+        button.addActionListener(e -> {this.controller.cancelMove();});
+        return button;
+    }
+
+    private JButton createButtonRedo(){
+        JButton button = new JButton(MainDisplay.loadIcon("redo.png"));
+        button.addActionListener(e -> {this.controller.redoMove();});
         return button;
     }
 }
