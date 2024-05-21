@@ -427,10 +427,11 @@ public class Game implements GameActionHandler, ActionListener {
         this.player2.reset();
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
-        this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.updateBorderBank();
-        this.displayGame.repaint();
+        HexMetrics.resetHexMetricsWidth();
         this.startAi();
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.repaint();
     }
 
     @Override
@@ -445,6 +446,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.history = new History();
         this.startAi();
         this.updateBorderBank();
+        HexMetrics.resetHexMetricsWidth();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }
