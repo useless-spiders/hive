@@ -108,7 +108,7 @@ public class DisplayBankInsects {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                this.controller.clicInsectButton(insectClass, player);
+                controller.clicInsectButton(insectClass, player);
             }
         });
         button.setOpaque(false);
