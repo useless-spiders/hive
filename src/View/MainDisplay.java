@@ -32,16 +32,6 @@ public class MainDisplay {
         }
     }
 
-    public static Image loadButtonImage(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(BUTTONIMAGE_PATH + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'image " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
     public static ImageIcon loadIcon(String nom) {
         try {
             return new ImageIcon(IMAGE_PATH + nom);
