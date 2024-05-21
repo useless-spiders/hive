@@ -87,6 +87,11 @@ public class Ai2 extends Ai
         {
             Player us_c = this.aiPlayer.clone();
             HexGrid gridC = g.clone();
+            Log.addMessage("move : " + n.getMove());
+            if(n.getMove() == null)
+            {
+                Log.addMessage("message null");
+            }
             gridC.applyMove(n.getMove(), us_c);
             int heuristique = heuristique(gridC);
             n.setValue(heuristique);
@@ -95,6 +100,7 @@ public class Ai2 extends Ai
         else
         {
             int max = -9999;
+            level++;
             for (Move m : getMoves(this.aiPlayer)) 
             {
                 Node nextMove = new Node(m);
@@ -102,7 +108,7 @@ public class Ai2 extends Ai
                 Player us_c = this.aiPlayer.clone();
                 HexGrid gridC = g.clone();
                 gridC.applyMove(m, us_c);
-                int currentH = minTree(nextMove, gridC, level++);
+                int currentH = minTree(nextMove, gridC, level);
                 if(currentH  > max)
                 {
                     max = currentH;
@@ -129,6 +135,7 @@ public class Ai2 extends Ai
         else
         {
             int min = 9999;
+            level++;
             for (Move m : getMoves(this.aiPlayer)) 
             {
                 Node nextMove = new Node(m);
@@ -136,8 +143,8 @@ public class Ai2 extends Ai
                 Player us_c = this.aiPlayer.clone();
                 HexGrid gridC = g.clone();
                 gridC.applyMove(m, us_c);
-                int currentH;
-                if((currentH = maxTree(nextMove, gridC, level++)) < min)
+                int currentH = maxTree(nextMove, gridC, level);
+                if(currentH < min)
                 {
                     min = currentH;
                 }
