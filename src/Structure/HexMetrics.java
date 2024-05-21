@@ -32,4 +32,9 @@ public class HexMetrics {
         HexMetrics.HEX_WIDTH += width;
         HexMetrics.HEX_HEIGHT = (int) (Math.sqrt(3) / 2 * HEX_WIDTH);
     }
+
+    public static void resetHexMetricsWidth() {
+        HexMetrics.HEX_WIDTH = 100;
+        HexMetrics.HEX_HEIGHT = (int) (Math.sqrt(3) / 2 * HEX_WIDTH);
+    }
 }

@@ -18,6 +18,7 @@ public class MainDisplay {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
     private static final String IMAGE_PATH = "res/Images/";
+    private static final String BUTTONIMAGE_PATH = "res/Bouton/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
     private DisplayWin displayWin;

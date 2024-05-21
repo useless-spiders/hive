@@ -14,10 +14,12 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
     private DisplayStack displayStack;
+    private DisplayInfoInGame displayInfoInGame;
 
     private JFrame frame;
     private GameActionHandler controller;
     private PageActionHandler controllerPage;
+    private JLabel turnLabel;
 
     public DisplayGame(JFrame frame, PageActionHandler controllerPage, GameActionHandler controller){
         this.frame = frame;
@@ -43,7 +45,9 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayBankInsects = new DisplayBankInsects(this, this.controller);
         this.displayPlayableHex = new DisplayPlayableHex(this.controller);
         this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.controller, this.controllerPage);
+        this.displayInfoInGame = new DisplayInfoInGame(this);
         this.displayStack = new DisplayStack(this.controller);
+
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
@@ -58,22 +62,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     public DisplayStack getDisplayStack() {
         return this.displayStack;
     }
-
-    private void printPlayer(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(45, 90, 200, 70); // Les coordonnées et la taille du rectangle
-
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 14)); // Définir la police du texte et le style
-        String[] lines = {
-                "Informations jeu :",
-                "Tour de : " + this.controller.getCurrentPlayer().getName()
-        };
-        int lineHeight = g.getFontMetrics().getHeight();
-        for (int i = 0; i < lines.length; i++) {
-            g.drawString(lines[i], 50, 95 + (i * lineHeight) + 25);
-        }
-    }
+    public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -82,8 +71,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         this.displayGameBackground.paintGameBackground(g);
 
-        //Affichage du joueur courant
-        printPlayer(g);
+        displayInfoInGame.updatePrintInfo(this.controller.getCurrentPlayer().getName(), this.controller.getCurrentPlayer().getTurn());
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
