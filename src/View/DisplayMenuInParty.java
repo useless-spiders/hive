@@ -20,6 +20,8 @@ public class DisplayMenuInParty {
 
     private GameActionHandler controller;
     private JPanel panelGame;
+    private JButton cancelButton;
+    private JButton redoButton;
 
     private PageActionHandler controllerPage;
 
@@ -33,8 +35,9 @@ public class DisplayMenuInParty {
         menuPanel.setOpaque(false);
 
         // Création des boutons annuler et refaire
-        JButton annulerButton = createButtonCancel();
-        JButton refaireButton = createButtonRedo();
+        this.cancelButton = createButtonCancel();
+        this.redoButton = createButtonRedo();
+
         // Création du menu
         JComboBox<String> menu = createMenu();
         menu.setFocusable(false);
@@ -45,7 +48,7 @@ public class DisplayMenuInParty {
         annulerButtonConstraints.gridy = 0;
         annulerButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
         annulerButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(annulerButton, annulerButtonConstraints);
+        menuPanel.add(this.cancelButton, annulerButtonConstraints);
 
 
         // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
@@ -54,7 +57,7 @@ public class DisplayMenuInParty {
         refaireButtonConstraints.gridy = 0;
         refaireButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
         refaireButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(refaireButton, refaireButtonConstraints);
+        menuPanel.add(this.redoButton, refaireButtonConstraints);
 
         // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
         GridBagConstraints menuConstraints = new GridBagConstraints();
@@ -103,15 +106,28 @@ public class DisplayMenuInParty {
         return menu;
     }
 
-    private JButton createButtonCancel(){
-        JButton button = new JButton(MainDisplay.loadIcon("undo.png"));
-        button.addActionListener(e -> {this.controller.cancelMove();});
+    private JButton createButtonCancel() {
+        JButton button = new JButton(MainDisplay.loadIcon("Undo.png"));
+        button.setEnabled(this.controller.getHistory().canCancel());
+        button.addActionListener(e -> {
+            this.controller.cancelMove();
+            updateButtonsState();
+        });
         return button;
     }
 
-    private JButton createButtonRedo(){
-        JButton button = new JButton(MainDisplay.loadIcon("redo.png"));
-        button.addActionListener(e -> {this.controller.redoMove();});
+    private JButton createButtonRedo() {
+        JButton button = new JButton(MainDisplay.loadIcon("Redo.png"));
+        button.setEnabled(this.controller.getHistory().canRedo());
+        button.addActionListener(e -> {
+            this.controller.redoMove();
+            updateButtonsState();
+        });
         return button;
+    }
+
+    public void updateButtonsState() {
+        this.cancelButton.setEnabled(this.controller.getHistory().canCancel());
+        this.redoButton.setEnabled(this.controller.getHistory().canRedo());
     }
 }

@@ -55,7 +55,7 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         } else if (this.gameActionHandler.getIsInsectButtonClicked()) { //on clique sur une case vide pour déposer une nouvelle case
             this.gameActionHandler.handleInsectPlaced(hexagon);
         }
-
+        this.gameActionHandler.getDisplayGame().getDisplayMenuInParty().updateButtonsState();
         this.displayGame.repaint();
     }
 

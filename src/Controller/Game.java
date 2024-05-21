@@ -82,6 +82,11 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     @Override
+    public History getHistory() {
+        return this.history;
+    }
+
+    @Override
     public Player getPlayer1() {
         return this.player1;
     }

@@ -12,24 +12,23 @@ import Structure.Log;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class MainDisplay {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
-    private static final String IMAGE_PATH = "res/Images/";
-    private static final String IMAGE_PATH_INSECTS = "res/Images/Skins/Sus_skin/";
-    private static final String BUTTONIMAGE_PATH = "res/Bouton/";
-    private static final String BACKGROUND_PATH = "res/Backgrounds/";
+    private static final String IMAGE_PATH_INSECTS = "res/Images/Skins/";
+    private static final String IMAGE_PATH_ICONS = "res/Images/Icons/";
+    private static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
+    private static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
+    private static String SKIN_FOLDER = "Default/";
 
     private DisplayWin displayWin;
-    private DisplayGame displayGame;
 
-    public static Image loadImage(String nom) {
+    public static Image loadImageHexagons(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_HEXAGONS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -39,7 +38,7 @@ public class MainDisplay {
 
     public static Image loadImageInsects(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_INSECTS + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -49,7 +48,7 @@ public class MainDisplay {
 
     public static ImageIcon loadIcon(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH + nom);
+            return new ImageIcon(IMAGE_PATH_ICONS + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -59,7 +58,7 @@ public class MainDisplay {
 
     public static ImageIcon loadIconInsects(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH_INSECTS + nom);
+            return new ImageIcon(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -69,7 +68,7 @@ public class MainDisplay {
 
     public static Image loadBackground(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(BACKGROUND_PATH + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_BACKGROUNDS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger le fond " + nom);
             System.exit(1);
@@ -81,7 +80,7 @@ public class MainDisplay {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin){
+    public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin) {
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
@@ -95,9 +94,9 @@ public class MainDisplay {
         setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Ajouter les écouteurs
-        MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler, displayGame);
-        KeyActionListener keyActionListener = new KeyActionListener(frameGame, gameActionHandler);
-        ComponentListener componentListener = new ComponentActionListener(frameGame, displayGame);
+        new MouseActionListener(gameActionHandler, displayGame);
+        new KeyActionListener(frameGame, gameActionHandler);
+        new ComponentActionListener(frameGame, displayGame);
 
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);

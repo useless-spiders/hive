@@ -23,5 +23,8 @@ public class DisplayTest {
     public void testLoadImage() {
         Image image = MainDisplay.loadImageInsects(MainDisplay.getImageInsectName(Spider.class, player));
         assertNotNull(image);
+
+        image = MainDisplay.loadImageHexagons("Full.png");
+        assertNotNull(image);
     }
 }

@@ -66,6 +66,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         return this.displayStack;
     }
     public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
+    public DisplayMenuInParty getDisplayMenuInParty(){return this.displayMenuInParty;}
 
     public void centerGame() {
         HexGrid hexGrid = controller.getGrid();
