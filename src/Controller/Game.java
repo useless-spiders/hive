@@ -404,6 +404,7 @@ public class Game implements GameActionHandler, ActionListener {
                 this.aiTurn();
             }
 
+            this.updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.repaint();
 
