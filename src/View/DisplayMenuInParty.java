@@ -37,6 +37,7 @@ public class DisplayMenuInParty {
         JButton refaireButton = createButtonRedo();
         // Création du menu
         JComboBox<String> menu = createMenu();
+        menu.setFocusable(false);
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
         GridBagConstraints annulerButtonConstraints = new GridBagConstraints();
