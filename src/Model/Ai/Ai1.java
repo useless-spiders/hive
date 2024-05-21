@@ -82,7 +82,7 @@ public class Ai1 extends Ai {
         int score_max = -999999;
         Random randomNumbers = new Random();
         Player us_c = this.aiPlayer.clone();
-        for (Move m : getMoves(this.aiPlayer)) {
+        for (Move m : getMoves(g, this.aiPlayer)) {
             g.applyMove(m, us_c);
             score = Heuristique(g);
             if (score > score_max) {

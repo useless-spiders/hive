@@ -193,31 +193,27 @@ public class Game implements GameActionHandler, ActionListener {
 
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
-        if (player.equals(this.currentPlayer)) {
-            this.insect = this.currentPlayer.getInsect(insectClass);
-            if (this.insect != null) {
-                if (this.currentPlayer.canAddInsect(this.insect.getClass())) {
-                    if (this.currentPlayer.checkBeePlacement(this.insect)) {
-                        if (this.currentPlayer.getTurn() <= 1) {
-                            if (this.hexGrid.getGrid().isEmpty()) {
-                                playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
-                            } else {
-                                playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
-                            }
+        this.insect = player.getInsect(insectClass);
+        if (this.insect != null) {
+            if (player.canAddInsect(this.insect.getClass())) {
+                if (player.checkBeePlacement(this.insect)) {
+                    if (player.getTurn() <= 1) {
+                        if (this.hexGrid.getGrid().isEmpty()) {
+                            playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
                         } else {
-                            playableCoordinates = this.currentPlayer.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
+                            playableCoordinates = player.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
                         }
                     } else {
-                        Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
+                        playableCoordinates = player.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
                     }
                 } else {
-                    Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                    Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
                 }
             } else {
-                Log.addMessage("Vous n'avez plus de pions de ce type");
+                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
             }
         } else {
-            Log.addMessage("Pas le bon joueur !");
+            Log.addMessage("Vous n'avez plus de pions de ce type");
         }
         return playableCoordinates;
     }
@@ -317,8 +313,11 @@ public class Game implements GameActionHandler, ActionListener {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
 
-        this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, player);
-
+        if (player.equals(this.currentPlayer)) {
+            this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
+        } else {
+            Log.addMessage("Pas le bon joueur !");
+        }
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.repaint();
     }

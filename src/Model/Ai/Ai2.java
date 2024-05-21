@@ -1,8 +1,5 @@
 package Model.Ai;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import Model.HexCell;
 import Model.HexGrid;
 import Model.Move;
@@ -17,7 +14,6 @@ import Model.Insect.Insect;
 import Model.Insect.Spider;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
-import Structure.Log;
 
 public class Ai2 extends Ai {
 
@@ -88,7 +84,7 @@ public class Ai2 extends Ai {
         } else {
             int max = -9999;
             level++;
-            for (Move m : getMoves(this.aiPlayer)) {
+            for (Move m : getMoves(gridC, usC)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
@@ -112,10 +108,10 @@ public class Ai2 extends Ai {
         } else {
             int min = 9999;
             level++;
-            for (Move m : getMoves(this.aiPlayer)) {
+            for (Move m : getMoves(gridC, otherC)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
-                gridC.applyMove(m, usC);
+                gridC.applyMove(m, otherC);
                 int currentH = maxTree(nextMove, gridC, usC, otherC, level);
                 if (currentH < min) {
                     min = currentH;
@@ -124,7 +120,6 @@ public class Ai2 extends Ai {
             n.setValue(min);
             return min;
         }
-
     }
 
 

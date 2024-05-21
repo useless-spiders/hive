@@ -91,9 +91,6 @@ public class HexGrid implements Cloneable {
         }
 
         if (move.getPreviousCoor() != null) { //cas deplacement insecte
-//            if (this.getCell(move.getPreviousCoor()) == null) {
-//                return;
-//            }
             if (this.getCell(move.getPreviousCoor()).getInsects().size() == 1) { //cellule de depart a suppr
                 this.removeCell(move.getPreviousCoor());
             } else { //cellule de depart a garder

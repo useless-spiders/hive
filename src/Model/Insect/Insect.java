@@ -16,7 +16,11 @@ public abstract class Insect implements Cloneable, Serializable {
         this.player = player;
     }
 
-    public abstract ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g);
+    public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
+        return this.getPossibleMovesCoordinates(current, g, this.getPlayer());
+    }
+
+    public abstract ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p);
 
     public ArrayList<HexCoordinate> getPossibleInsertionCoordinates(HexGrid g) {
         ArrayList<HexCoordinate> coords = new ArrayList<>();
