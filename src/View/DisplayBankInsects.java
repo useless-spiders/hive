@@ -39,13 +39,14 @@ public class DisplayBankInsects {
         gbc.gridy = 0;
         gbc.weighty = 1.0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.PAGE_START;
-        panelGame.add(panelButtonBankJ2, gbc);
+        gbc.anchor = GridBagConstraints.WEST;
+        panelGame.add(panelButtonBankJ1, gbc);
 
-        gbc.gridy = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        panelGame.add(this.panelButtonBankJ1, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        panelGame.add(this.panelButtonBankJ2, gbc);
 
     }
 
@@ -63,7 +64,9 @@ public class DisplayBankInsects {
 
 
     private JPanel createButtonPanel(Player player, JLabel playerName) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
         panel.setOpaque(false);
 
         // Ajouter le bouton et le label pour chaque insecte
@@ -77,15 +80,12 @@ public class DisplayBankInsects {
     }
 
     private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText) {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setOpaque(false);
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new GridBagLayout());
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
-
-
-
         // Créer un nouveau JLabel pour chaque bouton
 
         if (player.equals(this.controller.getPlayer1())) {
@@ -94,12 +94,18 @@ public class DisplayBankInsects {
             this.player2Labels.put(insectClass, label);
         }
 
-        // Ajoutez le label au panel des boutons
-        buttonPanel.add(label);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(createButton(insectClass, player, label), gbc);
 
+        // Ajoutez le label au panel des boutons
+        panel.add(label, gbc);
         // Ajouter le bouton au-dessous du label
-        buttonPanel.add(createButton(insectClass, player, label));
-        return buttonPanel;
+        return panel;
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player, JLabel label) {
