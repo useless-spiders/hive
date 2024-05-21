@@ -134,27 +134,27 @@ public class Game implements GameActionHandler, ActionListener {
         }
     }
 
-    private Player checkLoser() {
+    private int checkLoser() {
         boolean lPlayer1 = this.hexGrid.checkLoser(player1);
         boolean lPlayer2 = this.hexGrid.checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
             Log.addMessage("Egalité !");
-            return null; // A MODIFIER POUR EGALITE
+            return 0;
         } else {
             if (lPlayer1) {
                 Log.addMessage("Le joueur " + player1.getColor() + " a perdu !");
-                return this.player2;
+                return 2; // return winner
             } else if (lPlayer2) {
                 Log.addMessage("Le joueur " + player2.getColor() + " a perdu !");
-                return this.player1;
+                return 1; // return winner
             }
         }
-        return null;
+        return -1;
     }
 
     private void switchPlayer() {
-        Player winner = this.checkLoser();
-        if (winner != null) {
+        int winner = this.checkLoser();
+        if (winner != -1) {
             this.pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
             this.pageManager.gameAndWin();
         } else {
