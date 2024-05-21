@@ -114,7 +114,7 @@ public class DisplayBankInsects {
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player, JLabel label) {
-        JButton button = new JButton(MainDisplay.loadIcon(MainDisplay.getImageInsectName(insectClass, player)));
+        JButton button = new JButton(MainDisplay.loadIconInsects(MainDisplay.getImageInsectName(insectClass, player)));
         button.addActionListener(new ActionListener() {
 
             @Override
