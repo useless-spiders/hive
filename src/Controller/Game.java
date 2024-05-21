@@ -337,6 +337,7 @@ public class Game implements GameActionHandler, ActionListener {
             this.switchPlayerHistory();
             this.currentPlayer.decrementTurn();
             this.hexGrid.unapplyMove(move, this.currentPlayer);
+            this.updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
@@ -356,6 +357,7 @@ public class Game implements GameActionHandler, ActionListener {
             Move move = this.history.redoMove();
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.switchPlayerHistory();
+            this.updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.repaint();
