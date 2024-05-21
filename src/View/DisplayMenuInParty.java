@@ -32,35 +32,36 @@ public class DisplayMenuInParty {
         JPanel menuPanel = new JPanel(new GridBagLayout());
         menuPanel.setOpaque(false);
 
-        // Création du menu
-        JComboBox<String> menu = createMenu();
-        // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
-        GridBagConstraints menuConstraints = new GridBagConstraints();
-        menuConstraints.gridx = 0;
-        menuConstraints.gridy = 0;
-        menuConstraints.anchor = GridBagConstraints.NORTHEAST;
-        menuConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(menu, menuConstraints);
-
         // Création des boutons annuler et refaire
         JButton annulerButton = createButton(CANCEL);
         JButton refaireButton = createButton(REDO);
+        // Création du menu
+        JComboBox<String> menu = createMenu();
 
-        // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
+        // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
         GridBagConstraints annulerButtonConstraints = new GridBagConstraints();
-        annulerButtonConstraints.gridx = 1; // à droite du menu
+        annulerButtonConstraints.gridx = 0;
         annulerButtonConstraints.gridy = 0;
         annulerButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        annulerButtonConstraints.insets = new Insets(5, 5, 5, 5);
+        annulerButtonConstraints.insets = new Insets(10, 10, 10, 10);
         menuPanel.add(annulerButton, annulerButtonConstraints);
 
-        // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
+
+        // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
         GridBagConstraints refaireButtonConstraints = new GridBagConstraints();
-        refaireButtonConstraints.gridx = 2; // à droite du bouton annuler
+        refaireButtonConstraints.gridx = 1; // à droite du menu
         refaireButtonConstraints.gridy = 0;
         refaireButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
         refaireButtonConstraints.insets = new Insets(5, 5, 5, 5);
         menuPanel.add(refaireButton, refaireButtonConstraints);
+
+        // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
+        GridBagConstraints menuConstraints = new GridBagConstraints();
+        menuConstraints.gridx = 2; // à droite du bouton annuler
+        menuConstraints.gridy = 0;
+        menuConstraints.anchor = GridBagConstraints.NORTHEAST;
+        menuConstraints.insets = new Insets(5, 5, 5, 5);
+        menuPanel.add(menu, menuConstraints);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
         gbc.gridx = 1; // colonne (commence à 0)

@@ -17,6 +17,7 @@ public class MainDisplay {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
     private static final String IMAGE_PATH = "res/Images/";
+    private static final String BUTTONIMAGE_PATH = "res/Bouton/";
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
     private DisplayWin displayWin;
@@ -24,6 +25,16 @@ public class MainDisplay {
     public static Image loadImage(String nom) {
         try {
             return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger l'image " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static Image loadButtonImage(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(BUTTONIMAGE_PATH + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
