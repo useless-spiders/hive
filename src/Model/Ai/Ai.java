@@ -29,6 +29,9 @@ public abstract class Ai implements Serializable {
             case "Ai1":
                 resultat = new Ai1(gameActionHandler, p);
                 break;
+            case "Ai2":
+                resultat = new Ai2(gameActionHandler, p);
+                break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
         }
