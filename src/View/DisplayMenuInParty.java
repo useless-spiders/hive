@@ -52,7 +52,7 @@ public class DisplayMenuInParty {
         refaireButtonConstraints.gridx = 1; // à droite du menu
         refaireButtonConstraints.gridy = 0;
         refaireButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        refaireButtonConstraints.insets = new Insets(5, 5, 5, 5);
+        refaireButtonConstraints.insets = new Insets(10, 10, 10, 10);
         menuPanel.add(refaireButton, refaireButtonConstraints);
 
         // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
@@ -60,7 +60,7 @@ public class DisplayMenuInParty {
         menuConstraints.gridx = 2; // à droite du bouton annuler
         menuConstraints.gridy = 0;
         menuConstraints.anchor = GridBagConstraints.NORTHEAST;
-        menuConstraints.insets = new Insets(5, 5, 5, 5);
+        menuConstraints.insets = new Insets(10, 10, 10, 10);
         menuPanel.add(menu, menuConstraints);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
