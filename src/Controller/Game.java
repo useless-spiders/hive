@@ -77,6 +77,9 @@ public class Game implements GameActionHandler, ActionListener {
                 this.playableCoordinates.clear();
                 this.displayGame.getDisplayBankInsects().updateAllLabels();
                 this.displayGame.repaint();
+            } else {
+                Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
+                this.delay.stop();
             }
         }
     }
