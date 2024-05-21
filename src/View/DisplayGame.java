@@ -62,24 +62,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     public DisplayStack getDisplayStack() {
         return this.displayStack;
     }
-
-
-
-    private void printPlayer(Graphics g) {
-        /*g.setColor(Color.WHITE);
-        g.fillRect(45, 90, 200, 70); // Les coordonnées et la taille du rectangle
-
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 14)); // Définir la police du texte et le style
-        String[] lines = {
-                "Informations jeu :",
-                "Tour : " + this.controller.getCurrentPlayer().getTurn()
-        };
-        int lineHeight = g.getFontMetrics().getHeight();
-        for (int i = 0; i < lines.length; i++) {
-            g.drawString(lines[i], 50, 95 + (i * lineHeight) + 25);
-        }*/
-    }
+    public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -88,8 +71,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         this.displayGameBackground.paintGameBackground(g);
 
-        //Affichage du joueur courant
-        printPlayer(g);
+        displayInfoInGame.updatePrintInfo(this.controller.getCurrentPlayer().getName(), this.controller.getCurrentPlayer().getTurn());
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
