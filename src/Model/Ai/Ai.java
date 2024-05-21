@@ -46,29 +46,27 @@ public abstract class Ai implements Serializable {
         ArrayList<Move> moves = new ArrayList<>();
 
         for (Insect i : p.getStock()) {
-            if (p.canAddInsect(i.getClass())) {
-                Insect insect = p.getInsect(i.getClass());
-                ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i.getClass(), p);
-                for (HexCoordinate h : possibleCells) {
-                    moves.add(new Move(insect, null, h));
-                }
+            Insect insect = p.getInsect(i.getClass());
+            ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i.getClass(), p);
+            for (HexCoordinate h : possibleCells) {
+                moves.add(new Move(insect, null, h));
             }
         }
-        if(!moves.isEmpty()){
+        if (!moves.isEmpty()) {
             Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
         }
-        for(HexCoordinate hex : grid.getGrid().keySet()){
+        for (HexCoordinate hex : grid.getGrid().keySet()) {
             HexCell cell = grid.getCell(hex);
             Insect insect = cell.getTopInsect();
 
-            if(insect.getPlayer().equals(p)){
+            if (insect.getPlayer().equals(p)) {
                 ArrayList<HexCoordinate> possibleCells = insect.getPossibleMovesCoordinates(hex, grid, p);
                 for (HexCoordinate h : possibleCells) {
                     moves.add(new Move(insect, hex, h));
                 }
             }
         }
-        if(!moves.isEmpty()){
+        if (!moves.isEmpty()) {
             Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
         }
         Log.addMessage("Taille de la grille : " + grid.getGrid().size());

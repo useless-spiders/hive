@@ -79,6 +79,7 @@ public class Ai2 extends Ai {
         if (level >= 2) {
             gridC.applyMove(n.getMove(), usC);
             int heuristique = heuristique(gridC);
+            gridC.unapplyMove(n.getMove(), usC);
             n.setValue(heuristique);
             return heuristique;
         } else {
@@ -89,6 +90,7 @@ public class Ai2 extends Ai {
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
                 int currentH = minTree(nextMove, gridC, usC, otherC, level);
+                gridC.unapplyMove(m, otherC);
                 if (currentH > max) {
                     max = currentH;
                 }
@@ -103,6 +105,7 @@ public class Ai2 extends Ai {
         if (level >= 2) {
             gridC.applyMove(n.getMove(), usC);
             int heuristique = heuristique(gridC);
+            gridC.unapplyMove(n.getMove(), usC);
             n.setValue(heuristique);
             return heuristique;
         } else {
@@ -113,6 +116,7 @@ public class Ai2 extends Ai {
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
                 int currentH = maxTree(nextMove, gridC, usC, otherC, level);
+                gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;
                 }
