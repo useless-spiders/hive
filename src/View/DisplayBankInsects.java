@@ -24,14 +24,14 @@ public class DisplayBankInsects {
         this.controller = controller;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
+
         this.player1NameLabel = new JLabel(String.valueOf(this.controller.getPlayer1().getName()));
         this.player2NameLabel = new JLabel(String.valueOf(this.controller.getPlayer2().getName()));
 
-
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.panelButtonBankJ1 = createButtonPanel(this.controller.getPlayer1(), this.player1NameLabel);
-        this.panelButtonBankJ2 = createButtonPanel(this.controller.getPlayer2(), this.player2NameLabel);
+        this.panelButtonBankJ1 = createButtonPanel(this.controller.getPlayer1(), this.player1NameLabel, 1);
+        this.panelButtonBankJ2 = createButtonPanel(this.controller.getPlayer2(), this.player2NameLabel, 2);
         this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
         this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
@@ -63,23 +63,26 @@ public class DisplayBankInsects {
     public void switchBorderJ2ToJ1(){ switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1); }
 
 
-    private JPanel createButtonPanel(Player player, JLabel playerName) {
+    private JPanel createButtonPanel(Player player, JLabel playerName, int side) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         panel.setOpaque(false);
 
+
+        this.player1NameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.player2NameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         // Ajouter le bouton et le label pour chaque insecte
-        panel.add(createButtonWithLabel(Spider.class, player, String.valueOf(player.getInsectCount(Spider.class))));
-        panel.add(createButtonWithLabel(Ant.class, player, String.valueOf(player.getInsectCount(Ant.class))));
-        panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class))));
-        panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class))));
-        panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class))));
         panel.add(playerName);
+        panel.add(createButtonWithLabel(Spider.class, player, String.valueOf(player.getInsectCount(Spider.class)), side));
+        panel.add(createButtonWithLabel(Ant.class, player, String.valueOf(player.getInsectCount(Ant.class)), side));
+        panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class)), side));
+        panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class)), side));
+        panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class)), side));
         return panel;
     }
 
-    private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText) {
+    private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText, int side) {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new GridBagLayout());
@@ -96,15 +99,17 @@ public class DisplayBankInsects {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add(createButton(insectClass, player, label), gbc);
 
-        // Ajoutez le label au panel des boutons
-        panel.add(label, gbc);
-        // Ajouter le bouton au-dessous du label
+        if(side == 1){
+            panel.add(createButton(insectClass, player, label), gbc);
+            gbc.gridx = 1;
+            panel.add(label, gbc);
+        }
+        else{
+            panel.add(label, gbc);
+            gbc.gridx = 1;
+            panel.add(createButton(insectClass, player, label), gbc);
+        }
         return panel;
     }
 
