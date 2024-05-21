@@ -1,5 +1,6 @@
 package View;
 
+import Listener.KeyActionListener;
 import Listener.MouseActionListener;
 import Model.Insect.Insect;
 import Model.Player;
@@ -57,6 +58,7 @@ public class MainDisplay {
 
     public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin){
         MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler);
+        KeyActionListener keyActionListener = new KeyActionListener(frameGame, gameActionHandler);
 
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
@@ -71,9 +73,9 @@ public class MainDisplay {
         setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         gameActionHandler.setDisplayGame(displayGame);
-        displayGame.addMouseListener(mouseActionListener);
-        displayGame.addMouseMotionListener(mouseActionListener);
-        displayGame.addMouseWheelListener(mouseActionListener);
+        gameActionHandler.getDisplayGame().addMouseListener(mouseActionListener);
+        gameActionHandler.getDisplayGame().addMouseMotionListener(mouseActionListener);
+        gameActionHandler.getDisplayGame().addMouseWheelListener(mouseActionListener);
 
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
