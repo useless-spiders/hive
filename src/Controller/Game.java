@@ -126,11 +126,12 @@ public class Game implements GameActionHandler, ActionListener {
         return this.displayGame;
     }
 
-    private void initBorderBank(){
-        if (currentPlayer == player1) {
-            displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
+    private void updateBorderBank() {
+        if (this.currentPlayer == this.player1) {
+            this.displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
+        } else {
+            this.displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
         }
-        else {displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();}
     }
 
     private Player checkLoser() {
@@ -399,7 +400,7 @@ public class Game implements GameActionHandler, ActionListener {
             if (this.player2.isAi()) {
                 this.player2.getAi().setGameActionHandler(this);
             }
-            if(this.player1.isAi() || this.player2.isAi()){
+            if (this.player1.isAi() || this.player2.isAi()) {
                 this.aiTurn();
             }
 
@@ -415,7 +416,7 @@ public class Game implements GameActionHandler, ActionListener {
     }
 
     @Override
-    public void restartGameWithSamePlayers(){
+    public void restartGameWithSamePlayers() {
         this.playableCoordinates.clear();
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
@@ -427,13 +428,13 @@ public class Game implements GameActionHandler, ActionListener {
         Random random = new Random();
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
         this.displayGame.getDisplayBankInsects().updateAllLabels();
-        initBorderBank();
+        this.updateBorderBank();
         this.displayGame.repaint();
         this.startAi();
     }
 
     @Override
-    public void startGame(){
+    public void startGame() {
         this.hexGrid = new HexGrid();
         this.initPlayers();
 
@@ -443,7 +444,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
         this.startAi();
-        initBorderBank();
+        this.updateBorderBank();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }
