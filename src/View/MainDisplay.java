@@ -1,5 +1,6 @@
 package View;
 
+import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
 import Model.Insect.Insect;
@@ -11,6 +12,7 @@ import Structure.Log;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -22,6 +24,7 @@ public class MainDisplay {
     private static final String BACKGROUND_PATH = "res/Backgrounds/";
 
     private DisplayWin displayWin;
+    private DisplayGame displayGame;
 
     public static Image loadImage(String nom) {
         try {
@@ -58,9 +61,6 @@ public class MainDisplay {
     }
 
     public MainDisplay(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin){
-        MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler);
-        KeyActionListener keyActionListener = new KeyActionListener(frameGame, gameActionHandler);
-
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
@@ -73,10 +73,10 @@ public class MainDisplay {
         DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
         setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
-        gameActionHandler.setDisplayGame(displayGame);
-        gameActionHandler.getDisplayGame().addMouseListener(mouseActionListener);
-        gameActionHandler.getDisplayGame().addMouseMotionListener(mouseActionListener);
-        gameActionHandler.getDisplayGame().addMouseWheelListener(mouseActionListener);
+        //Ajouter les écouteurs
+        MouseActionListener mouseActionListener = new MouseActionListener(gameActionHandler, displayGame);
+        KeyActionListener keyActionListener = new KeyActionListener(frameGame, gameActionHandler);
+        ComponentListener componentListener = new ComponentActionListener(frameGame, displayGame);
 
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
