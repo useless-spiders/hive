@@ -15,7 +15,7 @@ public class DisplayWin extends JPanel{
     private GameActionHandler controllerGame;
     private Player winner;
     private JFrame frameWin;
-    private JLabel Wintext;
+    private JLabel winText;
     private GridBagConstraints gbc;
 
     public DisplayWin(JFrame frameWin, PageActionHandler controllerPage, GameActionHandler controllerGame){
@@ -28,10 +28,10 @@ public class DisplayWin extends JPanel{
 
         JPanel column = createColumn();
         this.gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(column, gbc);
+        this.gbc.gridx = 0;
+        this.gbc.gridy = 1;
+        this.gbc.anchor = GridBagConstraints.CENTER;
+        add(column, this.gbc);
         frameWin.add(this);
 
     }
@@ -43,15 +43,15 @@ public class DisplayWin extends JPanel{
     }
 
     public void printWinner() {
-        if (Wintext != null) {
-            Wintext.setText("Victoire de " + this.winner);
+        if (this.winText != null) {
+            this.winText.setText("Victoire de " + this.winner);
         } else {
-            Wintext = createWinnerLabel();
-            JPanel panel = (JPanel) frameWin.getContentPane().getComponent(0);
-            gbc.gridy = 0;
-            panel.add(Wintext, gbc);
-            frameWin.revalidate();
-            frameWin.repaint();
+            this.winText = createWinnerLabel();
+            JPanel panel = (JPanel) this.frameWin.getContentPane().getComponent(0);
+            this.gbc.gridy = 0;
+            panel.add(this.winText, this.gbc);
+            this.frameWin.revalidate();
+            this.frameWin.repaint();
         }
     }
 

@@ -38,23 +38,23 @@ public class DisplayConfigParty extends JPanel {
         this.player1NameField = createTextField();
         this.player2NameField = createTextField();
 
-        this.column1 = createDropDownMenu(player1NameField);
-        this.column2 = createDropDownMenu(player2NameField);
+        this.column1 = createDropDownMenu(this.player1NameField);
+        this.column2 = createDropDownMenu(this.player2NameField);
 
         gbc.gridx = 0;
         gbc.gridy = 0; // Start at the top
         gbc.insets = new Insets(10, 10, 10, 10);
-        add(column1, gbc);
+        add(this.column1, gbc);
 
         gbc.gridx = 1;
-        add(column2, gbc);
+        add(this.column2, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1; // Move down one row
-        add(player1NameField, gbc);
+        add(this.player1NameField, gbc);
 
         gbc.gridx = 1;
-        add(player2NameField, gbc);
+        add(this.player2NameField, gbc);
 
         JButton playButton = createButton(JOUER);
         gbc.gridx = 0;
@@ -120,20 +120,20 @@ public class DisplayConfigParty extends JPanel {
         switch (text) {
             case JOUER:
                 button.addActionListener(e -> {
-                    gameActionHandler.startGame();
-                    if (column1.getSelectedItem() != HUMAN) {
-                        gameActionHandler.setPlayer(1, (String) column1.getSelectedItem());
+                    this.gameActionHandler.startGame();
+                    if (this.column1.getSelectedItem() != HUMAN) {
+                        this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
                     } else {
-                        gameActionHandler.getPlayer1().setName(player1NameField.getText());
+                        this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
                     }
-                    if (column2.getSelectedItem() != HUMAN) {
-                        gameActionHandler.setPlayer(2, (String) column2.getSelectedItem());
+                    if (this.column2.getSelectedItem() != HUMAN) {
+                        this.gameActionHandler.setPlayer(2, (String) this.column2.getSelectedItem());
                     } else {
-                        gameActionHandler.getPlayer2().setName(player2NameField.getText());
+                        this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
                     }
-                    gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
-                    gameActionHandler.startAi();
-                    pageActionHandler.menuToGame();
+                    this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
+                    this.gameActionHandler.startAi();
+                    this.pageActionHandler.menuToGame();
                 });
                 break;
         }
@@ -154,8 +154,8 @@ public class DisplayConfigParty extends JPanel {
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                if(gameActionHandler.loadGame(selectedFile.getAbsolutePath())){
-                    pageActionHandler.menuToGame();
+                if(this.gameActionHandler.loadGame(selectedFile.getAbsolutePath())){
+                    this.pageActionHandler.menuToGame();
                 }
             }
         });

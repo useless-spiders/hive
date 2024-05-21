@@ -52,7 +52,7 @@ public class DisplayHexGrid extends JComponent {
 
                     int offsetX = center.x - HexMetrics.HEX_WIDTH / 2 + pileHeight;
 
-                    if (isInsectHexClicked && hexClicked.equals(coord) && insectIndex == cell.getInsects().size() - 1) {
+                    if (this.isInsectHexClicked && this.hexClicked.equals(coord) && insectIndex == cell.getInsects().size() - 1) {
                         float opacity = 0.5f;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
                     } else {

@@ -31,7 +31,7 @@ public class DisplayOpening extends JPanel {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(e -> controllerPage.openingToMenu());
+        button.addActionListener(e -> this.controllerPage.openingToMenu());
         return button;
     }
 
@@ -39,8 +39,8 @@ public class DisplayOpening extends JPanel {
     public void paintComponent(Graphics g) {
         //Affichage du background
         this.opening = MainDisplay.loadBackground("Opening.png");
-        Dimension frameSize = FrameMetrics.getFrameSize(frame);
-        g.drawImage(opening, 0, 0, frameSize.width, frameSize.height, this);
+        Dimension frameSize = FrameMetrics.getFrameSize(this.frame);
+        g.drawImage(this.opening, 0, 0, frameSize.width, frameSize.height, this);
 
         //Affichage du message A MODIFIER
         Font font = new Font("Times New Roman", Font.BOLD, 30);

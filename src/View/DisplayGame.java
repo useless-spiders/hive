@@ -47,16 +47,16 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
-        return displayHexGrid;
+        return this.displayHexGrid;
     }
     public DisplayPlayableHex getDisplayPlayableHex() {
-        return displayPlayableHex;
+        return this.displayPlayableHex;
     }
     public DisplayBankInsects getDisplayBankInsects() {
-        return displayBankInsects;
+        return this.displayBankInsects;
     }
     public DisplayStack getDisplayStack() {
-        return displayStack;
+        return this.displayStack;
     }
 
     private void printPlayer(Graphics g) {
@@ -93,8 +93,8 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayStack.paintStack(g2d);
 
         // Centrer le composant au milieu du GridBagConstraints
-        int x = (getWidth() - displayHexGrid.getPreferredSize().width) / 2;
-        int y = (getHeight() - displayHexGrid.getPreferredSize().height) / 2;
+        int x = (getWidth() - this.displayHexGrid.getPreferredSize().width) / 2;
+        int y = (getHeight() - this.displayHexGrid.getPreferredSize().height) / 2;
         g2d.translate(x, y);
     }
 }

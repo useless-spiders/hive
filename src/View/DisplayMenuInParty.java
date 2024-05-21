@@ -88,7 +88,7 @@ public class DisplayMenuInParty {
                         break;
                     case ABORT:
                         //controllerPage.gameAndAbort();
-                        controllerPage.gameToMenu();
+                        this.controllerPage.gameToMenu();
                         break;
                     case DEFAULT:
                         break;
@@ -106,10 +106,10 @@ public class DisplayMenuInParty {
         button.addActionListener(e -> {
             switch (text) {
                 case CANCEL:
-                    controller.cancelMove();
+                    this.controller.cancelMove();
                     break;
                 case REDO:
-                    controller.redoMove();
+                    this.controller.redoMove();
                     break;
                 default:
                     Log.addMessage("Erreur dans les boutons du jeu");
