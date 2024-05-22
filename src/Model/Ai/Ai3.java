@@ -23,7 +23,7 @@ public class Ai3 extends Ai {
             this.other = this.gameActionHandler.getPlayer1();
         }
     }
-    
+
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
@@ -31,7 +31,6 @@ public class Ai3 extends Ai {
         result += beeNeighbors(this.other, g)*0.9;
         result += insectsCount(this.aiPlayer, g)*0.1;
         result -= insectsCount(this.other, g)*0.1;
-        Log.addMessage("heuristique: "+result);
         return result;
     }
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
@@ -50,7 +49,7 @@ public class Ai3 extends Ai {
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
                 double h = heuristic(gridC);
-                if(!(h <= h*0.95)){
+                if(!(h <= h*0.8) || level == 0){
                     double currentH = minTree(nextMove, gridC, usC, otherC, level, h);
                     if (currentH > max) {
                         max = currentH;
@@ -83,7 +82,7 @@ public class Ai3 extends Ai {
                     max = heuristic;
                 }
             }
-            if(max >= a*1.05){
+            if(max >= a*1.2 || level == 0){
                 return -1;
             }
 

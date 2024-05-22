@@ -29,7 +29,6 @@ public class Ai1 extends Ai {
         result += beeNeighbors(this.other, g)*0.9;
         result += insectsCount(this.aiPlayer, g)*0.1;
         result -= insectsCount(this.other, g)*0.1;
-        Log.addMessage("heuristique: "+result);
         return result;
     }
 
