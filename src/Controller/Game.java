@@ -8,6 +8,7 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
+import View.DisplayBankInsects;
 import View.DisplayGame;
 
 import java.util.ArrayList;
@@ -320,13 +321,14 @@ public class Game implements GameActionHandler {
             //Modifier le compteur des boutons
             this.displayGame.getDisplayBankInsects().updateAllLabels();
 
-            this.isInsectButtonClicked = false;
-            this.playableCoordinates.clear();
             this.switchPlayer();
             this.history.addMove(move);
         } else {
             Log.addMessage("placement impossible !");
         }
+        this.isInsectButtonClicked = false;
+        this.displayGame.getDisplayBankInsects().updateButtonClickState(isInsectButtonClicked);
+        this.playableCoordinates.clear();
     }
 
     @Override
@@ -335,18 +337,28 @@ public class Game implements GameActionHandler {
         if (this.currentPlayer.isAi()) {
             return;
         }
-        this.isInsectButtonClicked = true;
-        this.isInsectCellClicked = false;
+        if (this.isInsectButtonClicked) { //On désélectionne un bouton
+            this.isInsectButtonClicked = false;
+            this.playableCoordinates.clear();
 
-        player.setName(this.currentPlayer.getName());
+        } else { //On clique sur un bouton
+            this.isInsectButtonClicked = true;
+            this.isInsectCellClicked = false;
 
-        if (this.currentPlayer.equals(player)) {
-            this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
-        } else {
-            Log.addMessage("Pas le bon joueur !");
+            player.setName(this.currentPlayer.getName());
+            if (this.currentPlayer.equals(player)) {
+                this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
+                if (this.playableCoordinates.isEmpty()) {
+                    this.isInsectButtonClicked = false;
+                }
+            } else {
+                Log.addMessage("Pas le bon joueur !");
+            }
         }
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+        this.displayGame.getDisplayBankInsects().updateButtonClickState(this.isInsectButtonClicked);
         this.displayGame.repaint();
+
     }
 
     @Override
@@ -447,7 +459,6 @@ public class Game implements GameActionHandler {
     @Override
     public void restartGameWithSamePlayers() {
         this.stopAi();
-        this.playableCoordinates.clear();
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
         this.hexClicked = null;

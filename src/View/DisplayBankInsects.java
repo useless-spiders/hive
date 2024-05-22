@@ -12,26 +12,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DisplayBankInsects {
-    private GameActionHandler controller;
+    private GameActionHandler gameActionHandler;
     private Map<Class<? extends Insect>, JLabel> player1Labels;
     private Map<Class<? extends Insect>, JLabel> player2Labels;
     private JPanel panelButtonBankJ1;
     private JPanel panelButtonBankJ2;
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
+    private static JButton currentButton;
+    private static Boolean isInsectButtonClicked = false;
 
-    public DisplayBankInsects(JPanel panelGame, GameActionHandler controller) {
-        this.controller = controller;
+    public DisplayBankInsects(JPanel panelGame, GameActionHandler gameActionHandler) {
+        this.gameActionHandler = gameActionHandler;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
 
-        this.player1NameLabel = new JLabel(String.valueOf(this.controller.getPlayer1().getName()));
-        this.player2NameLabel = new JLabel(String.valueOf(this.controller.getPlayer2().getName()));
+        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer1().getName()));
+        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer2().getName()));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.panelButtonBankJ1 = createButtonPanel(this.controller.getPlayer1(), this.player1NameLabel, 1);
-        this.panelButtonBankJ2 = createButtonPanel(this.controller.getPlayer2(), this.player2NameLabel, 2);
+        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayer1(), this.player1NameLabel, 1);
+        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayer2(), this.player2NameLabel, 2);
         this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
         this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
@@ -91,9 +93,9 @@ public class DisplayBankInsects {
         label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
         // Créer un nouveau JLabel pour chaque bouton
 
-        if (player.equals(this.controller.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayer1())) {
             this.player1Labels.put(insectClass, label);
-        } else if (player.equals(this.controller.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
             this.player2Labels.put(insectClass, label);
         }
 
@@ -119,7 +121,10 @@ public class DisplayBankInsects {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.clicInsectButton(insectClass, player);
+                if (!isInsectButtonClicked) {
+                    DisplayBankInsects.currentButton = button;
+                }
+                gameActionHandler.clicInsectButton(insectClass, player);
             }
         });
         button.setOpaque(false);
@@ -129,11 +134,22 @@ public class DisplayBankInsects {
         return button;
     }
 
+    public void updateButtonClickState(boolean isInsectButtonClicked) {
+        DisplayBankInsects.isInsectButtonClicked = isInsectButtonClicked;
+        if (currentButton != null) {
+            if (isInsectButtonClicked) {
+                currentButton.setOpaque(true);
+            } else {
+                currentButton.setOpaque(false);
+            }
+        }
+    }
+
     public void updateAllLabels() {
-        updateLabelsForPlayer(this.controller.getPlayer1(), this.player1Labels);
-        updateLabelsForPlayer(this.controller.getPlayer2(), this.player2Labels);
-        updatePlayerName(this.controller.getPlayer1());
-        updatePlayerName(this.controller.getPlayer2());
+        updateLabelsForPlayer(this.gameActionHandler.getPlayer1(), this.player1Labels);
+        updateLabelsForPlayer(this.gameActionHandler.getPlayer2(), this.player2Labels);
+        updatePlayerName(this.gameActionHandler.getPlayer1());
+        updatePlayerName(this.gameActionHandler.getPlayer2());
     }
 
     private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
@@ -145,9 +161,9 @@ public class DisplayBankInsects {
 
 
     private void updatePlayerName(Player player) {
-        if (player.equals(this.controller.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayer1())) {
             this.player1NameLabel.setText(player.getName());
-        } else if (player.equals(this.controller.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
             this.player2NameLabel.setText(player.getName());
         }
     }
