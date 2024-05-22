@@ -34,47 +34,9 @@ public class Ai3 extends Ai {
     }
 
 
-    double heuristique(HexGrid g) {
-        int result = 0;
-        for (HexCoordinate h : g.getGrid().keySet()) {
-            HexCell cell = g.getCell(h);
-            Insect insect = cell.getTopInsect();
-
-            if (insect instanceof Ant && insect.getPlayer() == this.aiPlayer) {
-                result += 3;
-            }
-            if (insect instanceof Ant && insect.getPlayer() != this.aiPlayer) {
-                result -= 3;
-            }
-
-            if (insect instanceof Beetle && insect.getPlayer() == this.aiPlayer) {
-                result += 2;
-            }
-            if (insect instanceof Beetle && insect.getPlayer() != this.aiPlayer) {
-                result -= 2;
-            }
-
-            if (insect instanceof Grasshopper && insect.getPlayer() == this.aiPlayer) {
-                result += 2;
-            }
-            if (insect instanceof Grasshopper && insect.getPlayer() != this.aiPlayer) {
-                result -= 2;
-            }
-
-            if (insect instanceof Spider && insect.getPlayer() == this.aiPlayer) {
-                result += 1;
-            }
-            if (insect instanceof Spider && insect.getPlayer() != this.aiPlayer) {
-                result -= 1;
-            }
-            if (insect instanceof Bee) {
-                if (insect.getPlayer() == this.aiPlayer) {
-                    result -= g.getNeighborsCoordinates(h).size() * 20;
-                } else {
-                    result += g.getNeighborsCoordinates(h).size() * 20;
-                }
-            }
-        }
+    double heuristic(HexGrid g) {
+        int result = BeeNeighbors(this.aiPlayer, g);
+        result -= BeeNeighbors(this.other, g);
         return normalizeHeuristic(result);
     }
 
@@ -87,10 +49,10 @@ public class Ai3 extends Ai {
 
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
         if(level == 0){
-            a = heuristique(gridC);
+            a = heuristic(gridC);
         }
         if (level >= 2) {
-            double heuristique = heuristique(gridC);
+            double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
@@ -100,7 +62,7 @@ public class Ai3 extends Ai {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double h = heuristique(gridC);
+                double h = heuristic(gridC);
                 if(!(h <= h*0.95)){
                     double currentH = minTree(nextMove, gridC, usC, otherC, level, h);
                     if (currentH > max) {
@@ -118,9 +80,9 @@ public class Ai3 extends Ai {
 
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
         if (level >= 2) {
-            double heuristique = heuristique(gridC);
-            n.setValue(heuristique);
-            return heuristique;
+            double heuristic = heuristic(gridC);
+            n.setValue(heuristic);
+            return heuristic;
         } else {
             double max = 0;
             double min = 1;
@@ -129,8 +91,9 @@ public class Ai3 extends Ai {
             for (Move m : getMoves(gridC, this.other)) {
                 gridC.applyMove(m, otherC);
                 gridC.unapplyMove(m, otherC);
-                if (heuristique(gridC) > max) {
-                    max = heuristique(gridC);
+                double heuristic = heuristic(gridC);
+                if (heuristic > max) {
+                    max = heuristic;
                 }
             }
             if(max >= a*1.05){
@@ -141,7 +104,7 @@ public class Ai3 extends Ai {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
-                double currentH = maxTree(nextMove, gridC, usC, otherC, level, heuristique(gridC));
+                double currentH = maxTree(nextMove, gridC, usC, otherC, level, heuristic(gridC));
                 gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;

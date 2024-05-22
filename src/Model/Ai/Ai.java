@@ -2,7 +2,12 @@ package Model.Ai;
 
 import Model.HexCell;
 import Model.HexGrid;
+import Model.Insect.Ant;
+import Model.Insect.Bee;
+import Model.Insect.Beetle;
+import Model.Insect.Grasshopper;
 import Model.Insect.Insect;
+import Model.Insect.Spider;
 import Model.Move;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -20,6 +25,21 @@ public abstract class Ai implements Serializable {
 
     public void setGameActionHandler(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+    }
+
+    abstract double heuristic(HexGrid g);
+
+    public int BeeNeighbors(Player p, HexGrid g){
+        for (HexCoordinate h : g.getGrid().keySet()) {
+            HexCell cell = g.getCell(h);
+            Insect insect = cell.getTopInsect();
+            if (insect instanceof Bee) {
+                if (insect.getPlayer() == p) {
+                return g.getNeighborsCoordinates(h).size();
+                }
+            }
+        }
+        return 0;
     }
 
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {

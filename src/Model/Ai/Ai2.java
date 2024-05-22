@@ -34,49 +34,12 @@ public class Ai2 extends Ai {
     }
 
 
-    double heuristique(HexGrid g) {
-        int result = 0;
-        for (HexCoordinate h : g.getGrid().keySet()) {
-            HexCell cell = g.getCell(h);
-            Insect insect = cell.getTopInsect();
-
-            if (insect instanceof Ant && insect.getPlayer() == this.aiPlayer) {
-                result += 3;
-            }
-            if (insect instanceof Ant && insect.getPlayer() != this.other) {
-                result -= 3;
-            }
-
-            if (insect instanceof Beetle && insect.getPlayer() == this.aiPlayer) {
-                result += 2;
-            }
-            if (insect instanceof Beetle && insect.getPlayer() != this.other) {
-                result -= 2;
-            }
-
-            if (insect instanceof Grasshopper && insect.getPlayer() == this.aiPlayer) {
-                result += 2;
-            }
-            if (insect instanceof Grasshopper && insect.getPlayer() != this.other) {
-                result -= 2;
-            }
-
-            if (insect instanceof Spider && insect.getPlayer() == this.aiPlayer) {
-                result += 1;
-            }
-            if (insect instanceof Spider && insect.getPlayer() != this.other) {
-                result -= 1;
-            }
-            if (insect instanceof Bee) {
-                if (insect.getPlayer() == this.aiPlayer) {
-                    result -= g.getNeighborsCoordinates(h).size() * 20;
-                } else {
-                    result += g.getNeighborsCoordinates(h).size() * 20;
-                }
-            }
-        }
+    double heuristic(HexGrid g) {
+        int result = BeeNeighbors(this.aiPlayer, g);
+        result -= BeeNeighbors(this.other, g);
         return normalizeHeuristic(result);
     }
+
 
     public static double normalizeHeuristic(int heuristic) {
         return (double) (heuristic + 106) / (106 + 106);
@@ -84,7 +47,7 @@ public class Ai2 extends Ai {
 
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
         if (level >= 2) {
-            double heuristique = heuristique(gridC);
+            double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
@@ -109,7 +72,7 @@ public class Ai2 extends Ai {
 
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
         if (level >= 2) {
-            double heuristique = heuristique(gridC);
+            double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
