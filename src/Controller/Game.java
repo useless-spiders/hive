@@ -247,8 +247,8 @@ public class Game implements GameActionHandler, ActionListener {
                 this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
 
                 // on affiche la pile
-                if (hexGrid.getGrid().get(hexClicked).getInsects().size() >= 2) {
-                    this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
+                if (this.hexGrid.getGrid().get(this.hexClicked).getInsects().size() >= 2) {
+                    this.displayGame.getDisplayStack().updateStackClickState(this.isInsectCellClicked, this.hexClicked);
                 }
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
@@ -280,14 +280,15 @@ public class Game implements GameActionHandler, ActionListener {
 
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.isInsectCellClicked = false;
-            this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
-            this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
-            this.playableCoordinates.clear();
             this.switchPlayer();
             this.history.addMove(move);
         } else {
             Log.addMessage("Déplacement impossible");
         }
+        this.isInsectCellClicked = false;
+        this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
+        this.displayGame.getDisplayStack().updateStackClickState(this.isInsectCellClicked, this.hexClicked);
+        this.playableCoordinates.clear();
     }
 
     @Override
