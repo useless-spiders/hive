@@ -1,19 +1,10 @@
 package Model.Ai;
-
-import Model.HexCell;
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
 import Structure.Tree;
 import Structure.Node;
-import Model.Insect.Ant;
-import Model.Insect.Bee;
-import Model.Insect.Beetle;
-import Model.Insect.Grasshopper;
-import Model.Insect.Insect;
-import Model.Insect.Spider;
 import Pattern.GameActionHandler;
-import Structure.HexCoordinate;
 import Structure.Log;
 
 public class Ai2 extends Ai {
@@ -33,7 +24,7 @@ public class Ai2 extends Ai {
         }
     }
 
-
+    @Override
     double heuristic(HexGrid g) {
         int result = BeeNeighbors(this.aiPlayer, g);
         result -= BeeNeighbors(this.other, g);
