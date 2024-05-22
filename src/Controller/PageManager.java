@@ -21,8 +21,8 @@ public class PageManager implements PageActionHandler {
         displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRules);
     }
 
-    private void switchFrame(JFrame frame1, JFrame frame2){
-        Dimension frameSize = FrameMetrics.getFrameSize(frame2);
+    private void switchFrame(JFrame frame1, JFrame frame2, JFrame size){
+        Dimension frameSize = FrameMetrics.getFrameSize(size);
         frame1.setVisible(false);
 
         frame2.setSize(frameSize.width, frameSize.height);
@@ -31,27 +31,27 @@ public class PageManager implements PageActionHandler {
 
     @Override
     public void openingToMenu() {
-        this.switchFrame(this.frameOpening, this.frameMenu);
+        this.switchFrame(this.frameOpening, this.frameMenu, this.frameOpening);
     }
 
     @Override
     public void menuToGame() {
-        this.switchFrame(this.frameMenu, this.frameGame);
+        this.switchFrame(this.frameMenu, this.frameGame, this.frameMenu);
     }
 
     @Override
     public void gameToMenu() {
-        this.switchFrame(this.frameGame, this.frameMenu);
+        this.switchFrame(this.frameGame, this.frameMenu, this.frameGame);
     }
 
     @Override
     public void winToMenu() {
-        this.switchFrame(this.frameWin, this.frameMenu);
+        this.switchFrame(this.frameWin, this.frameMenu, this.frameGame);
     }
 
     @Override
     public void winToGame(){
-        this.switchFrame(this.frameWin, this.frameGame);
+        this.switchFrame(this.frameWin, this.frameGame, this.frameGame);
     }
 
     @Override

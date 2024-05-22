@@ -8,7 +8,6 @@ import java.awt.*;
 public class DisplayRules extends JPanel {
     private PageActionHandler pageActionHandler;
     private JFrame frameRules;
-    private Image imageRule;
     int numRules;
 
 
@@ -27,19 +26,19 @@ public class DisplayRules extends JPanel {
         gbc.weighty = 1.0; // étendre verticalement
         add(createButton("RETOUR"), gbc);
 
-        JPanel navigatorButtonContener = new JPanel(new GridBagLayout());
-        navigatorButtonContener.setOpaque(false);
+        JPanel navigatorButtonContainer = new JPanel(new GridBagLayout());
+        navigatorButtonContainer.setOpaque(false);
         GridBagConstraints navigatorGbc = new GridBagConstraints();
         navigatorGbc.gridx=0;
         navigatorGbc.gridy=0;
-        navigatorButtonContener.add(createButton("preview"), navigatorGbc);
+        navigatorButtonContainer.add(createButton("preview"), navigatorGbc);
         navigatorGbc.gridx=1;
-        navigatorButtonContener.add(createButton("next"), navigatorGbc);
+        navigatorButtonContainer.add(createButton("next"), navigatorGbc);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.SOUTH;
-        add(navigatorButtonContener, gbc);
+        add(navigatorButtonContainer, gbc);
 
         frameRules.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
         frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
