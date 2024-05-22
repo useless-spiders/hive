@@ -54,8 +54,8 @@ public class Game implements GameActionHandler {
     @Override
     public void startAi() {
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
-            this.delay.stop();
             this.delay = new Timer(1000, e -> new Thread(() -> {
+                this.delay.stop();
                 Ai ai = this.currentPlayer.getAi();
                 if (ai != null) {
                     try {
@@ -84,6 +84,7 @@ public class Game implements GameActionHandler {
             this.delay.start();
         }
     }
+
 
     @Override
     public void stopAi() {
