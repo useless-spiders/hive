@@ -14,15 +14,18 @@ import Model.Insect.Insect;
 import Model.Insect.Spider;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
+import Structure.Log;
 
 public class Ai3 extends Ai {
 
     Player other;
+    int visited;
     private Tree config;
 
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
+        this.visited = 0;
         if (this.gameActionHandler.getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayer2();
         } else {
@@ -85,17 +88,20 @@ public class Ai3 extends Ai {
             n.setValue(heuristique);
             return heuristique;
         } else {
-            double max = -9999;
+            double max = 0;
             level++;
             for (Move m : getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double currentH = minTree(nextMove, gridC, usC, otherC, level);
-                gridC.unapplyMove(m, otherC);
-                if (currentH > max) {
-                    max = currentH;
+                if(!(heuristique(gridC) <= 0.3)){
+                    double currentH = minTree(nextMove, gridC, usC, otherC, level);
+                    if (currentH > max) {
+                        max = currentH;
+                    }
                 }
+                gridC.unapplyMove(m, otherC);
+                visited += 1;
             }
             n.setValue(max);
             return max;
@@ -109,8 +115,21 @@ public class Ai3 extends Ai {
             n.setValue(heuristique);
             return heuristique;
         } else {
-            double min = 9999;
+            double max = 0;
+            double min = 1;
             level++;
+
+            for (Move m : getMoves(gridC, this.other)) {
+                gridC.applyMove(m, otherC);
+                gridC.unapplyMove(m, otherC);
+                if (heuristique(gridC) > max) {
+                    max = heuristique(gridC);
+                }
+            }
+            if(max >= 0.7){
+                return -1;
+            }
+
             for (Move m : getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
@@ -120,6 +139,7 @@ public class Ai3 extends Ai {
                 if (currentH < min) {
                     min = currentH;
                 }
+                visited += 1;
             }
             n.setValue(min);
             return min;
@@ -141,6 +161,7 @@ public class Ai3 extends Ai {
                 returnMove = child.getMove();
             }
         }
+        Log.addMessage(visited+" noeuds visités");
         return returnMove;
     }
 

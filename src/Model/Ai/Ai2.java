@@ -14,13 +14,16 @@ import Model.Insect.Insect;
 import Model.Insect.Spider;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
+import Structure.Log;
 
 public class Ai2 extends Ai {
 
     Player other;
+    int visited;
     private Tree config;
 
     public Ai2(GameActionHandler gameActionHandler, Player p) {
+        this.visited = 0;
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
         if (this.gameActionHandler.getPlayer1() == aiPlayer) {
@@ -96,6 +99,7 @@ public class Ai2 extends Ai {
                 if (currentH > max) {
                     max = currentH;
                 }
+                visited += 1;
             }
             n.setValue(max);
             return max;
@@ -120,6 +124,7 @@ public class Ai2 extends Ai {
                 if (currentH < min) {
                     min = currentH;
                 }
+                visited +=1;
             }
             n.setValue(min);
             return min;
@@ -141,6 +146,7 @@ public class Ai2 extends Ai {
                 returnMove = child.getMove();
             }
         }
+        Log.addMessage(visited+" noeuds visités");
         return returnMove;
     }
 
