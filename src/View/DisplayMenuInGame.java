@@ -118,7 +118,6 @@ public class DisplayMenuInGame {
         button.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.cancelMove();
-            updateButtonsState();
         });
         return button;
     }
@@ -128,7 +127,6 @@ public class DisplayMenuInGame {
         button.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.redoMove();
-            updateButtonsState();
         });
         return button;
     }
@@ -147,12 +145,7 @@ public class DisplayMenuInGame {
         return button;
     }
 
-    public void updateButtonsState() {
-        this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel());
-        this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo());
-    }
-
-    public void updateGameActionHandler() {
+    public void updateButtons() {
         this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
         this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
         this.changeStateAI.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());

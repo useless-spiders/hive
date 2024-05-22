@@ -96,7 +96,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        this.displayMenuInGame.updateGameActionHandler();
+        this.displayMenuInGame.updateButtons();
 
         //Afficher le background du jeu
         this.displayBackground.paintBackground(g, frameGame, "Game_background.png");
