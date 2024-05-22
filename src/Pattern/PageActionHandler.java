@@ -1,6 +1,6 @@
 package Pattern;
 
-import View.MainDisplay;
+import View.DisplayMain;
 
 public interface PageActionHandler {
     void openingToMenu();
@@ -11,5 +11,5 @@ public interface PageActionHandler {
     void gameAndAbort();
     void gameAndWin();
     void disposeGame();
-    MainDisplay getMainDisplay();
+    DisplayMain getDisplayMain();
 }

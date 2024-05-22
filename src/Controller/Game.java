@@ -174,7 +174,7 @@ public class Game implements GameActionHandler {
     private void switchPlayer() {
         int winner = this.checkLoser();
         if (winner != -1) {
-            this.pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            this.pageManager.getDisplayMain().getDisplayWin().updateWinner(winner);
             this.pageManager.gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();

@@ -104,7 +104,7 @@ public class DisplayMenuInGame {
     }
 
     private JButton createButtonCancel() {
-        JButton button = new JButton(MainDisplay.loadIcon("Undo.png"));
+        JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
         button.setEnabled(this.gameActionHandler.getHistory().canCancel());
         button.addActionListener(e -> {
             this.gameActionHandler.cancelMove();
@@ -114,7 +114,7 @@ public class DisplayMenuInGame {
     }
 
     private JButton createButtonRedo() {
-        JButton button = new JButton(MainDisplay.loadIcon("Redo.png"));
+        JButton button = new JButton(DisplayMain.loadIcon("Redo.png"));
         button.setEnabled(this.gameActionHandler.getHistory().canRedo());
         button.addActionListener(e -> {
             this.gameActionHandler.redoMove();

@@ -41,7 +41,7 @@ public class DisplayOpening extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.opening = MainDisplay.loadBackground("Opening.png");
+        this.opening = DisplayMain.loadBackground("Opening.png");
         Dimension frameSize = FrameMetrics.getFrameSize(this.frame);
         g.drawImage(this.opening, 0, 0, frameSize.width, frameSize.height, this);
 

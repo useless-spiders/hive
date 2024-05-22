@@ -2,7 +2,7 @@ package Controller;
 
 import Pattern.PageActionHandler;
 import Structure.FrameMetrics;
-import View.MainDisplay;
+import View.DisplayMain;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ public class PageManager implements PageActionHandler {
     private JFrame frameMenu = new JFrame();
     private JFrame frameWin = new JFrame();
     private JFrame frameAbort = new JFrame();
-    private MainDisplay mainDisplay;
+    private DisplayMain displayMain;
 
     public PageManager(Game game){
-        mainDisplay = new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
+        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
     }
 
     private void switchFrame(JFrame frame1, JFrame frame2){
@@ -65,7 +65,7 @@ public class PageManager implements PageActionHandler {
 
     public void disposeGame(){frameGame.dispose();}
 
-    public MainDisplay getMainDisplay() {
-        return this.mainDisplay;
+    public DisplayMain getDisplayMain() {
+        return this.displayMain;
     }
 }
