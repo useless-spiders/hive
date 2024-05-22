@@ -1,23 +1,21 @@
 package View;
 
 import Pattern.PageActionHandler;
-import Structure.FrameMetrics;
-import Structure.Log;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class DisplayRule extends JPanel {
-    private PageActionHandler controllerPage;
-    private JFrame frameRule;
+public class DisplayRules extends JPanel {
+    private PageActionHandler pageActionHandler;
+    private JFrame frameRules;
     private Image imageRule;
-    int numRule;
+    int numRules;
 
 
-    public DisplayRule(JFrame frameRule, PageActionHandler controllerPage) {
-        this.frameRule = frameRule;
-        this.controllerPage = controllerPage;
-        this.numRule = 1;
+    public DisplayRules(JFrame frameRules, PageActionHandler pageActionHandler) {
+        this.frameRules = frameRules;
+        this.pageActionHandler = pageActionHandler;
+        this.numRules = 1;
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
@@ -29,31 +27,31 @@ public class DisplayRule extends JPanel {
         gbc.weighty = 1.0; // étendre verticalement
         add(createButton("RETOUR"), gbc);
 
-        JPanel navigatorButtonContenaire = new JPanel(new GridBagLayout());
-        navigatorButtonContenaire.setOpaque(false);
+        JPanel navigatorButtonContener = new JPanel(new GridBagLayout());
+        navigatorButtonContener.setOpaque(false);
         GridBagConstraints navigatorGbc = new GridBagConstraints();
         navigatorGbc.gridx=0;
         navigatorGbc.gridy=0;
-        navigatorButtonContenaire.add(createButton("preview"), navigatorGbc);
+        navigatorButtonContener.add(createButton("preview"), navigatorGbc);
         navigatorGbc.gridx=1;
-        navigatorButtonContenaire.add(createButton("next"), navigatorGbc);
+        navigatorButtonContener.add(createButton("next"), navigatorGbc);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.SOUTH;
-        add(navigatorButtonContenaire, gbc);
+        add(navigatorButtonContener, gbc);
 
-        frameRule.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-        frameRule.pack(); // Redimensionne la JFrame pour adapter le JPanel
+        frameRules.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
+        frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
     private void actionPreview(){
-        this.numRule--;
+        this.numRules--;
         repaint();
     }
 
     private void actionNext(){
-        this.numRule++;
+        this.numRules++;
         repaint();
     }
 
@@ -61,7 +59,7 @@ public class DisplayRule extends JPanel {
         JButton button = new JButton(text);
         switch (text){
             case "RETOUR":
-                button.addActionListener(e -> this.controllerPage.ruleToGame());
+                button.addActionListener(e -> this.pageActionHandler.rulesToGame());
                 break;
             case "preview":
                 button.addActionListener(e -> actionPreview());
@@ -78,6 +76,6 @@ public class DisplayRule extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        this.controllerPage.getDisplayBackground().paintRule(g, frameRule, "rule_" + numRule + ".png");
+        this.pageActionHandler.getDisplayBackground().paintRule(g, frameRules, "rule_" + numRules + ".png");
     }
 }
