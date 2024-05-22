@@ -6,6 +6,7 @@ import Model.HexGrid;
 import Model.Move;
 import Model.Player;
 import Pattern.GameActionHandler;
+import Structure.Log;
 
 public class Ai1 extends Ai {
 
@@ -23,13 +24,10 @@ public class Ai1 extends Ai {
 
     @Override
     double heuristic(HexGrid g) {
-        int result = BeeNeighbors(this.aiPlayer, g);
-        result -= BeeNeighbors(this.other, g);
-        return normalizeHeuristic(result);
-    }
-
-    public static double normalizeHeuristic(int heuristic) {
-        return (double) (heuristic + 106) / (106 + 106);
+        double result = 0;
+        result -= beeNeighbors(this.aiPlayer, g)*0.5;
+        result += beeNeighbors(this.other, g)*0.5;
+        return result;
     }
 
     public Move chooseMove() {

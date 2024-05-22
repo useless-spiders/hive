@@ -29,17 +29,40 @@ public abstract class Ai implements Serializable {
 
     abstract double heuristic(HexGrid g);
 
-    public int BeeNeighbors(Player p, HexGrid g){
+    public double beeNeighbors(Player p, HexGrid g){
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
             if (insect instanceof Bee) {
                 if (insect.getPlayer() == p) {
-                return g.getNeighborsCoordinates(h).size();
+                return g.getNeighborsCoordinates(h).size()/6;
                 }
             }
         }
         return 0;
+    }
+
+    public double insectsCount(Player p, HexGrid g){
+        double result = 0;
+        for (HexCoordinate h : g.getGrid().keySet()) {
+            HexCell cell = g.getCell(h);
+            Insect insect = cell.getTopInsect();
+            if(insect.getPlayer() == p){
+                if (insect instanceof Ant) {
+                    result += 3;
+                }
+                if (insect instanceof Beetle) {
+                    result += 2;
+                }
+                if (insect instanceof Grasshopper) {
+                    result += 2;
+                }
+                if (insect instanceof Spider) {
+                    result += 1;
+                }
+            }
+        }
+        return result/22;
     }
 
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
