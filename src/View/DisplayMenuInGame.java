@@ -134,10 +134,16 @@ public class DisplayMenuInGame {
     }
 
     private JButton createButtonChangeStateAI() {
-        JButton button = new JButton("Stopper / Relancer IA");
-        // setEnabled ne marche pas pour l'instant a cause de l'incohérence des états
+        JButton button = new JButton("Stopper les IA");
         button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
-        button.addActionListener(e -> this.gameActionHandler.changeStateAi());
+        button.addActionListener(e -> {
+            this.gameActionHandler.changeStateAi();
+            if (this.gameActionHandler.isAiRunning()) {
+                button.setText("Stopper les IA");
+            } else {
+                button.setText("Relancer les IA");
+            }
+        });
         return button;
     }
 

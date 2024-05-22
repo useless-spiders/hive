@@ -105,6 +105,11 @@ public class Game implements GameActionHandler {
     }
 
     @Override
+    public boolean isAiRunning(){
+        return this.delay.isRunning();
+    }
+
+    @Override
     public History getHistory() {
         return this.history;
     }
