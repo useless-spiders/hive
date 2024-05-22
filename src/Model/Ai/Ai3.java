@@ -76,7 +76,7 @@ public class Ai3 extends Ai {
     }
 
     public static double normalizeHeuristic(int heuristic) {
-        return (double) (heuristic + 106) / (106 + 106);
+        return (double) (heuristic + 87) / (87 + 87);
     }
 
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {

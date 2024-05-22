@@ -1,5 +1,5 @@
 out
 target
 .idea
-res/Saves/*.saves
+res/Saves/*.save
 *.iml
