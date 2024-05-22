@@ -38,17 +38,7 @@ public class DisplayOpening extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.opening = DisplayMain.loadBackground("Opening.png");
-        Dimension frameSize = FrameMetrics.getFrameSize(this.frame);
-        g.drawImage(this.opening, 0, 0, frameSize.width, frameSize.height, this);
-
-        //Affichage du message A MODIFIER
-        Font font = new Font("Times New Roman", Font.BOLD, 30);
-        g.setFont(font); // Appliquer la police définie
-        String text = "Appuyer sur une touche";
-        int x = frameSize.width/3; // Position x
-        int y = frameSize.height/2; // Position y
-        g.drawString(text, x, y);
+        this.controllerPage.getDisplayBackground().paintBackground(g, frame, "opening.png");
     }
 }
 

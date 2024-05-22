@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private DisplayGameBackground displayGameBackground;
+    private DisplayBackground displayBackground;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -44,7 +44,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.displayGameBackground = new DisplayGameBackground(frameGame);
+        this.displayBackground = new DisplayBackground();
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
@@ -96,7 +96,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         super.paintComponent(g);
 
         //Afficher le background du jeu
-        this.displayGameBackground.paintGameBackground(g);
+        this.displayBackground.paintBackground(g, frameGame, "Game_background.png");
 
         displayInfoInGame.updatePrintInfo(this.gameActionHandler.getCurrentPlayer().getName(), this.gameActionHandler.getCurrentPlayer().getTurn());
 

@@ -2,6 +2,7 @@ package Controller;
 
 import Pattern.PageActionHandler;
 import Structure.FrameMetrics;
+import View.DisplayBackground;
 import View.DisplayMain;
 
 import javax.swing.*;
@@ -77,4 +78,6 @@ public class PageManager implements PageActionHandler {
     public DisplayMain getDisplayMain() {
         return this.displayMain;
     }
+
+    public DisplayBackground getDisplayBackground() {return this.displayMain.getDisplayBackground();}
 }
