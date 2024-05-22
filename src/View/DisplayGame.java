@@ -21,14 +21,14 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayInfoInGame displayInfoInGame;
 
     private JFrame frameGame;
-    private GameActionHandler controller;
-    private PageActionHandler controllerPage;
+    private GameActionHandler gameActionHandler;
+    private PageActionHandler pageActionHandler;
     private JLabel turnLabel;
 
-    public DisplayGame(JFrame frameGame, PageActionHandler controllerPage, GameActionHandler controller){
+    public DisplayGame(JFrame frameGame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
-        this.controller = controller;
-        this.controllerPage = controllerPage;
+        this.gameActionHandler = gameActionHandler;
+        this.pageActionHandler = pageActionHandler;
 
         //Pour construire le jeu
         buildGame();
@@ -45,12 +45,12 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         GridBagConstraints gbc = new GridBagConstraints();
 
         this.displayGameBackground = new DisplayGameBackground(frameGame);
-        this.displayHexGrid = new DisplayHexGrid(this.controller);
-        this.displayBankInsects = new DisplayBankInsects(this, this.controller);
-        this.displayPlayableHex = new DisplayPlayableHex(this.controller);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.controller, this.controllerPage);
+        this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
+        this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
+        this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
+        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.gameActionHandler, this.pageActionHandler);
         this.displayInfoInGame = new DisplayInfoInGame(this);
-        this.displayStack = new DisplayStack(this.controller);
+        this.displayStack = new DisplayStack(this.gameActionHandler);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
@@ -69,7 +69,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     public DisplayMenuInParty getDisplayMenuInParty(){return this.displayMenuInParty;}
 
     public void centerGame() {
-        HexGrid hexGrid = controller.getGrid();
+        HexGrid hexGrid = gameActionHandler.getGrid();
         if (!hexGrid.getGrid().isEmpty()) {
             // Récupérer le 1er hexagone de la grille et convertir en pixel
             HexCoordinate hexCoordinate = hexGrid.getGrid().keySet().iterator().next();
@@ -98,7 +98,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         this.displayGameBackground.paintGameBackground(g);
 
-        displayInfoInGame.updatePrintInfo(this.controller.getCurrentPlayer().getName(), this.controller.getCurrentPlayer().getTurn());
+        displayInfoInGame.updatePrintInfo(this.gameActionHandler.getCurrentPlayer().getName(), this.gameActionHandler.getCurrentPlayer().getTurn());
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();

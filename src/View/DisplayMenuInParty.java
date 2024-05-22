@@ -14,21 +14,17 @@ public class DisplayMenuInParty {
     private static final String NEWGAME = "Recommencer la partie";
     private static final String ABORT = "Abandonner la partie";
 
-    private static final String CANCEL = "Annuler";
-    private static final String REDO = "Refaire";
-
-
-    private GameActionHandler controller;
+    private GameActionHandler gameActionHandler;
     private JPanel panelGame;
     private JButton cancelButton;
     private JButton redoButton;
 
-    private PageActionHandler controllerPage;
+    private PageActionHandler pageActionHandler;
 
-    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler controller, PageActionHandler controllerPage) {
+    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
         this.panelGame = panelGame;
-        this.controller = controller;
-        this.controllerPage = controllerPage;
+        this.gameActionHandler = gameActionHandler;
+        this.pageActionHandler = pageActionHandler;
 
         // Création du JPanel pour contenir le menu et les boutons
         JPanel menuPanel = new JPanel(new GridBagLayout());
@@ -43,21 +39,21 @@ public class DisplayMenuInParty {
         menu.setFocusable(false);
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
-        GridBagConstraints annulerButtonConstraints = new GridBagConstraints();
-        annulerButtonConstraints.gridx = 0;
-        annulerButtonConstraints.gridy = 0;
-        annulerButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        annulerButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.cancelButton, annulerButtonConstraints);
+        GridBagConstraints cancelButtonConstraints = new GridBagConstraints();
+        cancelButtonConstraints.gridx = 0;
+        cancelButtonConstraints.gridy = 0;
+        cancelButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
+        cancelButtonConstraints.insets = new Insets(10, 10, 10, 10);
+        menuPanel.add(this.cancelButton, cancelButtonConstraints);
 
 
         // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
-        GridBagConstraints refaireButtonConstraints = new GridBagConstraints();
-        refaireButtonConstraints.gridx = 1; // à droite du menu
-        refaireButtonConstraints.gridy = 0;
-        refaireButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        refaireButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.redoButton, refaireButtonConstraints);
+        GridBagConstraints redoButtonConstraints = new GridBagConstraints();
+        redoButtonConstraints.gridx = 1; // à droite du menu
+        redoButtonConstraints.gridy = 0;
+        redoButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
+        redoButtonConstraints.insets = new Insets(10, 10, 10, 10);
+        menuPanel.add(this.redoButton, redoButtonConstraints);
 
         // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
         GridBagConstraints menuConstraints = new GridBagConstraints();
@@ -84,16 +80,17 @@ public class DisplayMenuInParty {
             if (selectedItem != null) {
                 switch (selectedItem) {
                     case SAVE:
-                        this.controller.saveGame();
+                        this.gameActionHandler.saveGame();
                         break;
                     case RULES:
+                        DisplayRules.openRules();
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
-                        this.controller.restartGameWithSamePlayers();
+                        this.gameActionHandler.restartGameWithSamePlayers();
                         break;
                     case ABORT:
-                        //controllerPage.gameAndAbort();
-                        this.controllerPage.gameToMenu();
+                        //pageActionHandler.gameAndAbort();
+                        this.pageActionHandler.gameToMenu();
                         break;
                     case DEFAULT:
                         break;
@@ -108,9 +105,9 @@ public class DisplayMenuInParty {
 
     private JButton createButtonCancel() {
         JButton button = new JButton(MainDisplay.loadIcon("Undo.png"));
-        button.setEnabled(this.controller.getHistory().canCancel());
+        button.setEnabled(this.gameActionHandler.getHistory().canCancel());
         button.addActionListener(e -> {
-            this.controller.cancelMove();
+            this.gameActionHandler.cancelMove();
             updateButtonsState();
         });
         return button;
@@ -118,16 +115,16 @@ public class DisplayMenuInParty {
 
     private JButton createButtonRedo() {
         JButton button = new JButton(MainDisplay.loadIcon("Redo.png"));
-        button.setEnabled(this.controller.getHistory().canRedo());
+        button.setEnabled(this.gameActionHandler.getHistory().canRedo());
         button.addActionListener(e -> {
-            this.controller.redoMove();
+            this.gameActionHandler.redoMove();
             updateButtonsState();
         });
         return button;
     }
 
     public void updateButtonsState() {
-        this.cancelButton.setEnabled(this.controller.getHistory().canCancel());
-        this.redoButton.setEnabled(this.controller.getHistory().canRedo());
+        this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel());
+        this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo());
     }
 }
