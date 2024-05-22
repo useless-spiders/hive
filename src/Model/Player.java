@@ -169,12 +169,12 @@ public class Player implements Cloneable, Serializable {
             return false;
         }
         Player player = (Player) obj;
-        return Objects.equals(color, player.color);
+        return Objects.equals(color, player.color) && Objects.equals(name, player.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color);
+        return Objects.hash(color, name);
     }
 
     @Override

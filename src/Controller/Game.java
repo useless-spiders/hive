@@ -326,6 +326,8 @@ public class Game implements GameActionHandler {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
 
+        player.setName(this.currentPlayer.getName());
+
         if (this.currentPlayer.equals(player)) {
             this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
         } else {
