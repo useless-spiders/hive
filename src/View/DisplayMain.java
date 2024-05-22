@@ -118,7 +118,7 @@ public class DisplayMain {
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
 
         //Affichage des regles
-        DisplayRule displayRule = new DisplayRule(frameWin, pageActionHandler);
+        DisplayRule displayRule = new DisplayRule(frameRule, pageActionHandler);
         setupFrame(frameRule, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
     }
 

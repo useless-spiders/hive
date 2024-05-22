@@ -8,50 +8,76 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayRule extends JPanel {
-    private PageActionHandler pageActionHandler;
+    private PageActionHandler controllerPage;
     private JFrame frameRule;
     private Image imageRule;
-    GridBagConstraints gbc;
+    int numRule;
 
 
-    public DisplayRule(JFrame frameRule, PageActionHandler pageActionHandler) {
+    public DisplayRule(JFrame frameRule, PageActionHandler controllerPage) {
         this.frameRule = frameRule;
-        this.pageActionHandler = pageActionHandler;
-
+        this.controllerPage = controllerPage;
+        this.numRule = 1;
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
-
-
-        /*
         GridBagConstraints gbc = new GridBagConstraints();
-        this.gbc.gridx = 0;
-        this.gbc.gridy = 1;
-        this.gbc.anchor = GridBagConstraints.CENTER;
-        add(, this.gbc);
-        frameRule.add(this);
-        */
+        gbc.gridx = 1; // colonne (commence à 0)
+        gbc.gridy = 0; // ligne (commence à 0)
+        gbc.anchor = GridBagConstraints.NORTHEAST; // ancre dans le coin nord-est
+        gbc.weightx = 1.0; // étendre horizontalement
+        gbc.weighty = 1.0; // étendre verticalement
+        add(createButton("RETOUR"), gbc);
+
+        JPanel navigatorButtonContenaire = new JPanel(new GridBagLayout());
+        navigatorButtonContenaire.setOpaque(false);
+        GridBagConstraints navigatorGbc = new GridBagConstraints();
+        navigatorGbc.gridx=0;
+        navigatorGbc.gridy=0;
+        navigatorButtonContenaire.add(createButton("preview"), navigatorGbc);
+        navigatorGbc.gridx=1;
+        navigatorButtonContenaire.add(createButton("next"), navigatorGbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        add(navigatorButtonContenaire, gbc);
 
         frameRule.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-        frameRule.add(createButtonReturn());
         frameRule.pack(); // Redimensionne la JFrame pour adapter le JPanel
-        frameRule.repaint();
     }
 
-    private JButton createButtonReturn() {
-        JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
-        button.addActionListener(e -> {
-            this.pageActionHandler.ruleToGame();
-        });
+    private void actionPreview(){
+        this.numRule--;
+        repaint();
+    }
+
+    private void actionNext(){
+        this.numRule++;
+        repaint();
+    }
+
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        switch (text){
+            case "RETOUR":
+                button.addActionListener(e -> this.controllerPage.ruleToGame());
+                break;
+            case "preview":
+                button.addActionListener(e -> actionPreview());
+                break;
+            case "next":
+                button.addActionListener(e -> actionNext());
+                break;
+            default:
+                break;
+        }
+
         return button;
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        //Affichage du background
-        this.imageRule = DisplayMain.loadBackground("Opening.png");
-        Dimension frameSize = FrameMetrics.getFrameSize(this.frameRule);
-        g.drawImage(this.imageRule, 0, 0, frameSize.width, frameSize.height, this);
-        System.out.println(frameSize.width + "x" + frameSize.height);
+        this.controllerPage.getDisplayBackground().paintRule(g, frameRule, "rule_" + numRule + ".png");
     }
 }
