@@ -42,7 +42,7 @@ public class Ai3 extends Ai {
             n.setValue(heuristique);
             return heuristique;
         } else {
-            double max = 0;
+            double max = -1;
             level++;
             for (Move m : getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
@@ -70,7 +70,7 @@ public class Ai3 extends Ai {
             n.setValue(heuristic);
             return heuristic;
         } else {
-            double max = 0;
+            double max = -1;
             double min = 1;
             level++;
 
@@ -110,7 +110,7 @@ public class Ai3 extends Ai {
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
         maxTree(this.config.getCurrent(), gridC, usC, themC, 0, 0);
-        double max = 0;
+        double max = -1;
         Move returnMove = null;
         for (Node child : this.config.getCurrent().getChilds()) {
             if (child.getValue() > max) {
