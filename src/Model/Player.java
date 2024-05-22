@@ -187,4 +187,9 @@ public class Player implements Cloneable, Serializable {
             throw new AssertionError();
         }
     }
+
+    @Override
+    public String toString(){
+        return this.getName();
+    }
 }
