@@ -56,6 +56,7 @@ public class Game implements GameActionHandler {
     public void startAi() {
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.delay = new Timer(1000, e -> new Thread(() -> {
+                this.delay.stop();
                 Ai ai = this.currentPlayer.getAi();
                 if (ai != null) {
                     try {
@@ -64,7 +65,6 @@ public class Game implements GameActionHandler {
                             SwingUtilities.invokeLater(() -> {
                                 this.hexGrid.applyMove(iaMove, this.currentPlayer);
                                 this.history.addMove(iaMove);
-                                this.delay.stop();
                                 this.switchPlayer();
                                 this.playableCoordinates.clear();
                                 this.displayGame.getDisplayBankInsects().updateAllLabels();
@@ -73,13 +73,11 @@ public class Game implements GameActionHandler {
                         } else {
                             SwingUtilities.invokeLater(() -> {
                                 Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
-                                this.delay.stop();
                             });
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
                             Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread");
-                            this.delay.stop();
                         });
                     }
                 }
