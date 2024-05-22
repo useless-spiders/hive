@@ -47,9 +47,9 @@ public abstract class Ai implements Serializable {
         Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
 
-        for (Insect i : p.getStock()) {
-            Insect insect = p.getInsect(i.getClass());
-            ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i.getClass(), p);
+        for (Class<? extends Insect> i : p.getTypes()) {
+            Insect insect = p.getInsect(i);
+            ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i, p);
             for (HexCoordinate h : possibleCells) {
                 moves.add(new Move(insect, null, h));
             }

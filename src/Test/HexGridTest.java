@@ -143,6 +143,11 @@ public class HexGridTest {
         grid.addCell(new HexCoordinate(2, 4), spider2); // SO
         HexGrid clone = grid.clone();
 
+        Player player_c = player.clone();
+        
+        assertEquals(player_c, ant.getPlayer());
+        
+        assertEquals(grid.getCell(new HexCoordinate(0, 0)).getTopInsect().getPlayer(),player_c);
 
         assertEquals(grid.getGrid().size(), clone.getGrid().size());
 

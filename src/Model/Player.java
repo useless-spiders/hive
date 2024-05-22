@@ -81,6 +81,16 @@ public class Player implements Cloneable, Serializable {
         return this.stock;
     }
 
+    public ArrayList<Class<? extends Insect>> getTypes(){
+        ArrayList<Class<? extends Insect>> remainingClass= new ArrayList<>();
+        for(Insect i : this.stock){
+            if(!remainingClass.contains(i.getClass())){
+                remainingClass.add(i.getClass());
+            }
+        }
+        return remainingClass;
+    }
+
     public void incrementTurn() {
         this.turn++;
     }
