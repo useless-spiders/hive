@@ -27,9 +27,6 @@ public class DisplayOpening extends JPanel {
 
         frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
         frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
-
-        frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-        frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
     private JButton createButton(String text) {

@@ -10,6 +10,8 @@ public interface PageActionHandler {
     void winToGame();
     void gameAndAbort();
     void gameAndWin();
+    void gameAndRule();
+    void ruleToGame();
     void disposeGame();
     DisplayMain getDisplayMain();
 }

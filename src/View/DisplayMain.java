@@ -80,7 +80,7 @@ public class DisplayMain {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin) {
+    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRule) {
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
@@ -101,6 +101,12 @@ public class DisplayMain {
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+
+        //Affichage de la frame de fin de jeu
+        DisplayRule displayRule = new DisplayRule(frameWin, pageActionHandler);
+        setupFrame(frameRule, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+
+
     }
 
     private JFrame setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {

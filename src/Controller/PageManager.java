@@ -13,10 +13,11 @@ public class PageManager implements PageActionHandler {
     private JFrame frameMenu = new JFrame();
     private JFrame frameWin = new JFrame();
     private JFrame frameAbort = new JFrame();
+    private JFrame frameRule = new JFrame();
     private DisplayMain displayMain;
 
     public PageManager(Game game){
-        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
+        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRule);
     }
 
     private void switchFrame(JFrame frame1, JFrame frame2){
@@ -54,14 +55,22 @@ public class PageManager implements PageActionHandler {
 
     @Override
     public void gameAndAbort() {
-        frameGame.setVisible(true);
-        frameAbort.setVisible(true);
+        this.frameGame.setVisible(true);
+        this.frameAbort.setVisible(true);
     }
 
     public void gameAndWin() {
-        frameGame.setVisible(true);
-        frameWin.setVisible(true);
+        this.frameGame.setVisible(true);
+        this.frameWin.setVisible(true);
     }
+
+    public void gameAndRule() {
+        this.frameGame.setVisible(true);
+        this.frameRule.setVisible(true);
+    }
+
+    public void ruleToGame(){this.frameRule.setVisible(false);}
+
 
     public void disposeGame(){frameGame.dispose();}
 

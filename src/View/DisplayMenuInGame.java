@@ -83,7 +83,7 @@ public class DisplayMenuInGame {
                         this.gameActionHandler.saveGame();
                         break;
                     case RULES:
-                        DisplayRules.openRules();
+                        this.pageActionHandler.gameAndRule();
                         break; // A REMPLIR PLUS TARD
                     case NEWGAME:
                         this.gameActionHandler.restartGameWithSamePlayers();
