@@ -5,17 +5,25 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
+import View.DisplayGame;
 
 import java.awt.event.*;
 
 public class MouseActionListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
     private GameActionHandler gameActionHandler;
+    private DisplayGame displayGame;
     private int lastX;
     private int lastY;
     private HexCoordinate hoverCell;
 
-    public MouseActionListener(GameActionHandler gameActionHandler) {
+    public MouseActionListener(GameActionHandler gameActionHandler, DisplayGame displayGame) {
         this.gameActionHandler = gameActionHandler;
+        this.displayGame = displayGame;
+        
+        this.gameActionHandler.setDisplayGame(this.displayGame);
+        this.displayGame.addMouseListener(this);
+        this.displayGame.addMouseMotionListener(this);
+        this.displayGame.addMouseWheelListener(this);
     }
 
     @Override
@@ -25,9 +33,9 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         HexCoordinate newHoverCell = HexMetrics.pixelToHex(x, y);
         if (!newHoverCell.equals(this.hoverCell) && this.gameActionHandler.getPlayableCoordinates().contains(newHoverCell)) {
             this.hoverCell = newHoverCell;
-            this.gameActionHandler.getDisplayGame().getDisplayPlayableHex().updateHoverCell(this.hoverCell);
+            this.displayGame.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
 
-            this.gameActionHandler.getDisplayGame().repaint();
+            this.displayGame.repaint();
         }
     }
 
@@ -47,8 +55,8 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         } else if (this.gameActionHandler.getIsInsectButtonClicked()) { //on clique sur une case vide pour déposer une nouvelle case
             this.gameActionHandler.handleInsectPlaced(hexagon);
         }
-
-        this.gameActionHandler.getDisplayGame().repaint();
+        this.gameActionHandler.getDisplayGame().getDisplayMenuInParty().updateButtonsState();
+        this.displayGame.repaint();
     }
 
     @Override
@@ -60,7 +68,7 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         int x = e.getX();
         int y = e.getY();
         ViewMetrics.updateViewPosition(x - this.lastX, y - this.lastY);
-        this.gameActionHandler.getDisplayGame().repaint();
+        this.displayGame.repaint();
         this.lastX = x;
         this.lastY = y;
     }
@@ -94,6 +102,6 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         // Adjust the view position to keep the mouse at the same place in the game world
         ViewMetrics.updateViewPosition(x - newMouseX, y - newMouseY);
 
-        this.gameActionHandler.getDisplayGame().repaint();
+        this.displayGame.repaint();
     }
 }

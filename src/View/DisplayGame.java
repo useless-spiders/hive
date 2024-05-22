@@ -1,11 +1,15 @@
 package View;
 
+import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.HexCoordinate;
+import Structure.HexMetrics;
 import Structure.ViewMetrics;
 
 import javax.swing.*;
 import java.awt.*;
+
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
     private DisplayGameBackground displayGameBackground;
@@ -14,15 +18,17 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayBankInsects displayBankInsects;
     private DisplayMenuInParty displayMenuInParty;
     private DisplayStack displayStack;
+    private DisplayInfoInGame displayInfoInGame;
 
-    private JFrame frame;
-    private GameActionHandler controller;
-    private PageActionHandler controllerPage;
+    private JFrame frameGame;
+    private GameActionHandler gameActionHandler;
+    private PageActionHandler pageActionHandler;
+    private JLabel turnLabel;
 
-    public DisplayGame(JFrame frame, PageActionHandler controllerPage, GameActionHandler controller){
-        this.frame = frame;
-        this.controller = controller;
-        this.controllerPage = controllerPage;
+    public DisplayGame(JFrame frameGame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler){
+        this.frameGame = frameGame;
+        this.gameActionHandler = gameActionHandler;
+        this.pageActionHandler = pageActionHandler;
 
         //Pour construire le jeu
         buildGame();
@@ -30,20 +36,21 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Pour afficher le jeu
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
         container.add(this, BorderLayout.CENTER); // Ajouter le display au centre du conteneur
-        frame.add(container); // Ajouter le conteneur au JFrame
-        frame.pack(); // Pack le JFrame
+        frameGame.add(container); // Ajouter le conteneur au JFrame
+        frameGame.pack(); // Pack le JFrame
     }
 
     public void buildGame(){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.displayGameBackground = new DisplayGameBackground(frame);
-        this.displayHexGrid = new DisplayHexGrid(this.controller);
-        this.displayBankInsects = new DisplayBankInsects(this, this.controller);
-        this.displayPlayableHex = new DisplayPlayableHex(this.controller);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.controller, this.controllerPage);
-        this.displayStack = new DisplayStack(this.controller);
+        this.displayGameBackground = new DisplayGameBackground(frameGame);
+        this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
+        this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
+        this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
+        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.gameActionHandler, this.pageActionHandler);
+        this.displayInfoInGame = new DisplayInfoInGame(this);
+        this.displayStack = new DisplayStack(this.gameActionHandler);
     }
 
     public DisplayHexGrid getDisplayHexGrid() {
@@ -58,20 +65,29 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     public DisplayStack getDisplayStack() {
         return this.displayStack;
     }
+    public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
+    public DisplayMenuInParty getDisplayMenuInParty(){return this.displayMenuInParty;}
 
-    private void printPlayer(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(45, 90, 200, 70); // Les coordonnées et la taille du rectangle
+    public void centerGame() {
+        HexGrid hexGrid = gameActionHandler.getGrid();
+        if (!hexGrid.getGrid().isEmpty()) {
+            // Récupérer le 1er hexagone de la grille et convertir en pixel
+            HexCoordinate hexCoordinate = hexGrid.getGrid().keySet().iterator().next();
+            Point hexCoordinatePoint = HexMetrics.hexToPixel(hexCoordinate);
+            hexCoordinatePoint.x += ViewMetrics.getViewOffsetX();
+            hexCoordinatePoint.y += ViewMetrics.getViewOffsetY();
 
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 14)); // Définir la police du texte et le style
-        String[] lines = {
-                "Informations jeu :",
-                "Tour de : " + this.controller.getCurrentPlayer().getName()
-        };
-        int lineHeight = g.getFontMetrics().getHeight();
-        for (int i = 0; i < lines.length; i++) {
-            g.drawString(lines[i], 50, 95 + (i * lineHeight) + 25);
+            // Calculer le centre de la vue en pixels
+            HexCoordinate hexCenter = HexMetrics.hexCenterCoordinate(this.getWidth(), this.getHeight());
+            Point hexCenterPoint = HexMetrics.hexToPixel(hexCenter);
+
+            // Soustraire hexCoordinate à hexCenter
+            int dx = hexCenterPoint.x - hexCoordinatePoint.x;
+            int dy = hexCenterPoint.y - hexCoordinatePoint.y;
+
+            ViewMetrics.updateViewPosition(dx, dy);
+
+            this.repaint();
         }
     }
 
@@ -82,8 +98,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         this.displayGameBackground.paintGameBackground(g);
 
-        //Affichage du joueur courant
-        printPlayer(g);
+        displayInfoInGame.updatePrintInfo(this.gameActionHandler.getCurrentPlayer().getName(), this.gameActionHandler.getCurrentPlayer().getTurn());
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();

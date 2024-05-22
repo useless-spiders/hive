@@ -3,6 +3,7 @@ package View;
 import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.Log;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,8 +17,11 @@ public class DisplayConfigParty extends JPanel {
     private static final String HUMAN = "human";
     private static final String IA_EASY = "AiRandom";
     private static final String IA_HARD = "Ai1";
+    private static final String IA_HARD2 = "Ai2";
     private static final String JOUER = "jouer";
     private static final String LOAD = "charger partie";
+    private static final String NAME_TEXT = "Nom du joueur";
+
 
     private JComboBox<String> column1;
     private JComboBox<String> column2;
@@ -79,6 +83,7 @@ public class DisplayConfigParty extends JPanel {
         comboBox.addItem(HUMAN);
         comboBox.addItem(IA_EASY);
         comboBox.addItem(IA_HARD);
+        comboBox.addItem(IA_HARD2);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -91,14 +96,13 @@ public class DisplayConfigParty extends JPanel {
 
     private JTextField createTextField() {
         JTextField textField = new JTextField();
-        String defaultText = "Nom du joueur";
-        textField.setText(defaultText);
+        textField.setText(NAME_TEXT);
         textField.setPreferredSize(new Dimension(200, 24)); // Set your preferred size
 
         textField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(defaultText)) {
+                if (textField.getText().equals(NAME_TEXT)) {
                     textField.setText("");
                 }
             }
@@ -106,7 +110,7 @@ public class DisplayConfigParty extends JPanel {
             @Override
             public void focusLost(FocusEvent e) {
                 if (textField.getText().isEmpty()) {
-                    textField.setText(defaultText);
+                    textField.setText(NAME_TEXT);
                 }
             }
         });
@@ -124,12 +128,16 @@ public class DisplayConfigParty extends JPanel {
                     if (this.column1.getSelectedItem() != HUMAN) {
                         this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
                     } else {
-                        this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
+                        if(!this.player1NameField.getText().equals(NAME_TEXT)){
+                            this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
+                        }
                     }
                     if (this.column2.getSelectedItem() != HUMAN) {
                         this.gameActionHandler.setPlayer(2, (String) this.column2.getSelectedItem());
                     } else {
-                        this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
+                        if(!this.player2NameField.getText().equals(NAME_TEXT)){
+                            this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
+                        }
                     }
                     this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
                     this.gameActionHandler.startAi();

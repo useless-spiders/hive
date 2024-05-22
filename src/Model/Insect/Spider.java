@@ -17,10 +17,10 @@ public class Spider extends Insect {
     }
 
     @Override
-    public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
+    public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
         HashSet<HexCoordinate> visited = new HashSet<>();
-        if (this.canMoveInsect(g, this.getPlayer())) {
+        if (this.canMoveInsect(g, p)) {
             this.getPossibleMovesCoordinatesHelper(current, g, 3, coordinates, current, visited);
         }
         return coordinates;

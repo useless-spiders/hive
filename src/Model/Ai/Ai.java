@@ -1,5 +1,7 @@
 package Model.Ai;
 
+import Model.HexCell;
+import Model.HexGrid;
 import Model.Insect.Insect;
 import Model.Move;
 import Model.Player;
@@ -29,6 +31,9 @@ public abstract class Ai implements Serializable {
             case "Ai1":
                 resultat = new Ai1(gameActionHandler, p);
                 break;
+            case "Ai2":
+                resultat = new Ai2(gameActionHandler, p);
+                break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
         }
@@ -37,26 +42,36 @@ public abstract class Ai implements Serializable {
 
     public abstract Move chooseMove();
 
-    protected ArrayList<Move> getMoves(Player p) {
+    protected ArrayList<Move> getMoves(HexGrid grid, Player p) {
+        Log.addMessage("Grille : " + grid);
+        Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
-        for (Insect i : p.getStock()) {
-            if (p.canAddInsect(i.getClass())) {
-                Insect insect = p.getInsect(i.getClass());
-                ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i.getClass(), p);
-                for (HexCoordinate h : possibleCells) {
-                    moves.add(new Move(insect, null, h));
-                }
+
+        for (Class<? extends Insect> i : p.getTypes()) {
+            Insect insect = p.getInsect(i);
+            ArrayList<HexCoordinate> possibleCells = this.gameActionHandler.generatePlayableInsertionCoordinates(i, p);
+            for (HexCoordinate h : possibleCells) {
+                moves.add(new Move(insect, null, h));
             }
         }
-        for(HexCoordinate hex : this.gameActionHandler.getGrid().getGrid().keySet()){
-            if(this.gameActionHandler.getGrid().getCell(hex) != null && this.gameActionHandler.getGrid().getCell(hex).getTopInsect().getPlayer() == p){
-                Insect insect = this.gameActionHandler.getGrid().getCell(hex).getTopInsect();
-                ArrayList<HexCoordinate> possibleCells = insect.getPossibleMovesCoordinates(hex, this.gameActionHandler.getGrid());
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
+        }
+        for (HexCoordinate hex : grid.getGrid().keySet()) {
+            HexCell cell = grid.getCell(hex);
+            Insect insect = cell.getTopInsect();
+
+            if (insect.getPlayer().equals(p)) {
+                ArrayList<HexCoordinate> possibleCells = insect.getPossibleMovesCoordinates(hex, grid, p);
                 for (HexCoordinate h : possibleCells) {
                     moves.add(new Move(insect, hex, h));
                 }
             }
         }
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
+        }
+        Log.addMessage("Taille de la grille : " + grid.getGrid().size());
         return moves;
     }
 

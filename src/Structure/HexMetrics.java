@@ -23,12 +23,18 @@ public class HexMetrics {
         return new HexCoordinate(x, y);
     }
 
+    //Uniquement pour le premier coup
     public static HexCoordinate hexCenterCoordinate(int frameSizeX, int frameSizeY) {
         return pixelToHex(frameSizeX/2, frameSizeY/2);
     }
 
     public static void updateHexMetricsWidth(int width) {
         HexMetrics.HEX_WIDTH += width;
+        HexMetrics.HEX_HEIGHT = (int) (Math.sqrt(3) / 2 * HEX_WIDTH);
+    }
+
+    public static void resetHexMetricsWidth() {
+        HexMetrics.HEX_WIDTH = 100;
         HexMetrics.HEX_HEIGHT = (int) (Math.sqrt(3) / 2 * HEX_WIDTH);
     }
 }

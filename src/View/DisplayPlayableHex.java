@@ -15,8 +15,8 @@ public class DisplayPlayableHex extends JComponent {
 
     public DisplayPlayableHex(GameActionHandler controller) {
         this.controller = controller;
-        this.locationImage = MainDisplay.loadImage("Location.png");
-        this.otherLocationImage = MainDisplay.loadImage("Other_location.png");
+        this.locationImage = MainDisplay.loadImageHexagons("Full.png");
+        this.otherLocationImage = MainDisplay.loadImageHexagons("Border.png");
     }
 
     public void updateHoverCell(HexCoordinate hoverCoord) {

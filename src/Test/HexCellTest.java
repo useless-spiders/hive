@@ -4,7 +4,9 @@ import Model.HexCell;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
 import Model.Insect.Insect;
+import Model.Insect.Spider;
 import Model.Player;
+import Structure.Log;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -48,7 +50,7 @@ public class HexCellTest {
         HexCell cell2 = new HexCell();
         Insect ant = new Ant(player);
         Insect bee = new Bee(player);
-        Insect spider = new Bee(player);
+        Insect spider = new Spider(player);
 
         // Teste l'égalité entre deux cellules
         cell1.addInsect(ant);
@@ -57,10 +59,25 @@ public class HexCellTest {
 
         cell1.addInsect(bee);
         cell2.addInsect(spider);
+        for (Insect i : cell1.getInsects()) {
+            Log.addMessage(i.toString());
+        }
+        for (Insect i : cell2.getInsects()) {
+            Log.addMessage(i.toString());
+        }
         assertNotEquals(cell1, cell2);
 
         // Teste l'égalité entre deux cellules après suppression d'un insecte
         cell2.removeTopInsect();
         assertNotEquals(cell1, cell2);
+    }
+
+    @Test
+    public void testClone(){
+        HexCell cell = new HexCell();
+        Insect ant = new Ant(player);
+        cell.addInsect(ant);
+        HexCell cell2 = cell.clone();
+        assertEquals(cell, cell2);
     }
 }

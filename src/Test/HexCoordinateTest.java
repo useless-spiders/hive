@@ -47,4 +47,11 @@ public class HexCoordinateTest {
         // Teste l'égalité des hashcodes
         assertEquals(coord1.hashCode(), coord2.hashCode());
     }
+
+    @Test
+    public void testClone(){
+        HexCoordinate coord = new HexCoordinate(5, 10);
+        HexCoordinate coord2 = (HexCoordinate) coord.clone();
+        assertEquals(coord, coord2);
+    }
 }
