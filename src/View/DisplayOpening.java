@@ -38,7 +38,7 @@ public class DisplayOpening extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.controllerPage.getDisplayBackground().paintBackground(g, frame, "opening.png");
+        this.controllerPage.getDisplayBackground().paintBackground(g, frame, "Opening.png");
     }
 }
 
