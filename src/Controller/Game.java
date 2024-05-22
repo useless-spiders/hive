@@ -236,9 +236,14 @@ public class Game implements GameActionHandler, ActionListener {
         Insect insect = cell.getTopInsect();
 
         if (!this.isInsectCellClicked) { //On clique sur un insecte à déplacer
+            this.isInsectCellClicked = true;
+            this.hexClicked = hexagon;
+            // on affiche la pile
+            if (this.hexGrid.getGrid().get(this.hexClicked).getInsects().size() >= 2) {
+                this.displayGame.getDisplayStack().updateStackClickState(this.isInsectCellClicked, this.hexClicked);
+            }
+
             if (insect.getPlayer().equals(currentPlayer)) {
-                this.isInsectCellClicked = true;
-                this.hexClicked = hexagon;
                 this.playableCoordinates = insect.getPossibleMovesCoordinates(this.hexClicked, this.hexGrid);
                 if (this.playableCoordinates.isEmpty() && !this.currentPlayer.isBeePlaced()) {
                     Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
@@ -246,12 +251,11 @@ public class Game implements GameActionHandler, ActionListener {
                 // rendre transparente la case
                 this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
 
-                // on affiche la pile
-                if (this.hexGrid.getGrid().get(this.hexClicked).getInsects().size() >= 2) {
-                    this.displayGame.getDisplayStack().updateStackClickState(this.isInsectCellClicked, this.hexClicked);
-                }
             } else {
                 Log.addMessage("Ce pion ne vous appartient pas");
+                if (this.hexGrid.getGrid().get(this.hexClicked).getInsects().size() < 2) { //Si c'est une pile ennemie
+                    this.isInsectCellClicked = false; //On déselectionne la pile ennemie affichée
+                }
             }
 
         } else {
@@ -259,6 +263,7 @@ public class Game implements GameActionHandler, ActionListener {
             if (cellClicked.getTopInsect().getClass() == Beetle.class && !hexagon.equals(this.hexClicked)) { //On clique sur un insecte cible d'un scarabée
                 this.handleInsectMoved(hexagon);
             } else { //On clique sur un insecte déjà sélectionné
+                //On retire la transparence du pion/pile et l'affichage de la pile
                 this.isInsectCellClicked = false;
                 this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
                 this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
@@ -285,6 +290,7 @@ public class Game implements GameActionHandler, ActionListener {
         } else {
             Log.addMessage("Déplacement impossible");
         }
+        //On retire la transparence du pion/pile et l'affichage de la pile
         this.isInsectCellClicked = false;
         this.displayGame.getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
         this.displayGame.getDisplayStack().updateStackClickState(this.isInsectCellClicked, this.hexClicked);
