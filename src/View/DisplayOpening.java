@@ -7,13 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayOpening extends JPanel {
-    JFrame frame;
+    JFrame frameOpening;
     private Image opening;
-    private PageActionHandler controllerPage;
+    private PageActionHandler pageActionHandler;
 
-    public DisplayOpening(JFrame frame, PageActionHandler controllerPage) {
-        this.frame = frame;
-        this.controllerPage = controllerPage;
+    public DisplayOpening(JFrame frameOpening, PageActionHandler pageActionHandler) {
+        this.frameOpening = frameOpening;
+        this.pageActionHandler = pageActionHandler;
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
@@ -25,20 +25,20 @@ public class DisplayOpening extends JPanel {
         gbc.gridheight = 1; // Nombre de lignes occupées par le bouton
         add(createButton("Jouer"), gbc);
 
-        frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-        frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
+        frameOpening.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
+        frameOpening.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(e -> this.controllerPage.openingToMenu());
+        button.addActionListener(e -> this.pageActionHandler.openingToMenu());
         return button;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.controllerPage.getDisplayBackground().paintBackground(g, frame, "Opening.png");
+        this.pageActionHandler.getDisplayBackground().paintBackground(g, frameOpening, "Opening.png");
     }
 }
 

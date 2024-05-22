@@ -11,8 +11,8 @@ public interface PageActionHandler {
     void winToGame();
     void gameAndAbort();
     void gameAndWin();
-    void gameAndRule();
-    void ruleToGame();
+    void gameAndRules();
+    void rulesToGame();
     void disposeGame();
     DisplayMain getDisplayMain();
     DisplayBackground getDisplayBackground();
