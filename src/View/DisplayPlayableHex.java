@@ -8,13 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayPlayableHex extends JComponent {
-    private GameActionHandler controller;
+    private GameActionHandler gameActionHandler;
     private Image locationImage;
     private Image otherLocationImage;
     private HexCoordinate hoverCoord;
 
-    public DisplayPlayableHex(GameActionHandler controller) {
-        this.controller = controller;
+    public DisplayPlayableHex(GameActionHandler gameActionHandler) {
+        this.gameActionHandler = gameActionHandler;
         this.locationImage = DisplayMain.loadImageHexagons("Full.png");
         this.otherLocationImage = DisplayMain.loadImageHexagons("Border.png");
     }
@@ -25,7 +25,7 @@ public class DisplayPlayableHex extends JComponent {
 
     public void paintPlayableHex(Graphics g) {
         // Affiche les cases jouables
-        for (HexCoordinate coord : this.controller.getPlayableCoordinates()) {
+        for (HexCoordinate coord : this.gameActionHandler.getPlayableCoordinates()) {
             Point center = HexMetrics.hexToPixel(coord);
 
             if (coord.equals(this.hoverCoord)) {
