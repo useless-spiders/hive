@@ -3,8 +3,9 @@ package Model;
 import Model.Insect.Insect;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class HexCell {
+public class HexCell implements Cloneable {
     private ArrayList<Insect> insects;
 
     public HexCell() {
@@ -45,5 +46,24 @@ public class HexCell {
             }
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.insects);
+    }
+
+    @Override
+    public HexCell clone() {
+        try {
+            HexCell clone = (HexCell) super.clone();
+            clone.insects = new ArrayList<>();
+            for (Insect insect : this.insects) {
+                clone.insects.add(insect.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Ne devrait jamais se produire
+        }
     }
 }

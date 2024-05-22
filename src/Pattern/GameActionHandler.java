@@ -20,6 +20,8 @@ public interface GameActionHandler {
 
     History getHistory();
 
+    void stopAi();
+
     Player getPlayer1();
 
     Player getPlayer2();

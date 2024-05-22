@@ -68,4 +68,20 @@ public class PlayerTest {
         this.player.setBeePlaced(true);
         assertTrue(this.player.isBeePlaced());
     }
+
+    @Test
+    public void testClone(){
+        this.player = new Player("white", "Inspecteur blanco");
+        this.player.playInsect(Ant.class);
+        Player player2 = this.player.clone();
+        assertEquals(this.player, player2);
+        assertEquals(this.player.getStock().size(), player2.getStock().size());
+    }
+
+    @Test
+    public void testEquals(){
+        this.player = new Player("white", "Inspecteur blanco");
+        Player player2 = new Player("white", "Inspecteur blanco");
+        assertEquals(this.player, player2);
+    }
 }

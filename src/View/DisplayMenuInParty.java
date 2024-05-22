@@ -89,7 +89,7 @@ public class DisplayMenuInParty {
                         this.gameActionHandler.restartGameWithSamePlayers();
                         break;
                     case ABORT:
-                        //pageActionHandler.gameAndAbort();
+                        this.gameActionHandler.stopAi();
                         this.pageActionHandler.gameToMenu();
                         break;
                     case DEFAULT:
