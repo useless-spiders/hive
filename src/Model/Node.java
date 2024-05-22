@@ -9,7 +9,7 @@ public class Node
 
     Move move;
 
-    int value;
+    double value;
 
     public Node(Move m)
     {
@@ -34,12 +34,12 @@ public class Node
         this.move = m;
     }
 
-    public int getValue()
+    public double getValue()
     {
         return this.value;
     }
 
-    public void setValue(int value)
+    public void setValue(double value)
     {
         this.value = value;
     }

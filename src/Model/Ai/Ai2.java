@@ -31,7 +31,7 @@ public class Ai2 extends Ai {
     }
 
 
-    int heuristique(HexGrid g) {
+    double heuristique(HexGrid g) {
         int result = 0;
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
@@ -72,22 +72,26 @@ public class Ai2 extends Ai {
                 }
             }
         }
-        return result;
+        return normalizeHeuristic(result);
     }
 
-    int maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+    public static double normalizeHeuristic(int heuristic) {
+        return (double) (heuristic + 106) / (106 + 106);
+    }
+
+    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
         if (level >= 2) {
-            int heuristique = heuristique(gridC);
+            double heuristique = heuristique(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
-            int max = -9999;
+            double max = -9999;
             level++;
             for (Move m : getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                int currentH = minTree(nextMove, gridC, usC, otherC, level);
+                double currentH = minTree(nextMove, gridC, usC, otherC, level);
                 gridC.unapplyMove(m, otherC);
                 if (currentH > max) {
                     max = currentH;
@@ -99,19 +103,19 @@ public class Ai2 extends Ai {
 
     }
 
-    int minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
         if (level >= 2) {
-            int heuristique = heuristique(gridC);
+            double heuristique = heuristique(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
-            int min = 9999;
+            double min = 9999;
             level++;
             for (Move m : getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
-                int currentH = maxTree(nextMove, gridC, usC, otherC, level);
+                double currentH = maxTree(nextMove, gridC, usC, otherC, level);
                 gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;
@@ -129,7 +133,7 @@ public class Ai2 extends Ai {
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
         maxTree(this.config.getCurrent(), gridC, usC, themC, 0);
-        int max = -9999;
+        double max = -9999;
         Move returnMove = null;
         for (Node child : this.config.getCurrent().getChilds()) {
             if (child.getValue() > max) {
