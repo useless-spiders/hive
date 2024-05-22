@@ -7,7 +7,7 @@ import Structure.Log;
 import javax.swing.*;
 import java.awt.*;
 
-public class DisplayMenuInParty {
+public class DisplayMenuInGame {
     private static final String DEFAULT = "                       ---";
     private static final String SAVE = "Sauvegarder";
     private static final String RULES = "Règles";
@@ -21,7 +21,7 @@ public class DisplayMenuInParty {
 
     private PageActionHandler pageActionHandler;
 
-    public DisplayMenuInParty(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
+    public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
         this.panelGame = panelGame;
         this.gameActionHandler = gameActionHandler;
         this.pageActionHandler = pageActionHandler;
