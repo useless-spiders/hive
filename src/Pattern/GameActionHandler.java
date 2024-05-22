@@ -20,6 +20,8 @@ public interface GameActionHandler {
 
     void changeStateAi();
 
+    boolean isAiRunning();
+
     History getHistory();
 
     void stopAi();

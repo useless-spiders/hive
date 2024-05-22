@@ -105,6 +105,11 @@ public class Game implements GameActionHandler {
     }
 
     @Override
+    public boolean isAiRunning(){
+        return this.delay.isRunning();
+    }
+
+    @Override
     public History getHistory() {
         return this.history;
     }
@@ -353,6 +358,8 @@ public class Game implements GameActionHandler {
         } else { //On clique sur un bouton
             this.isInsectButtonClicked = true;
             this.isInsectCellClicked = false;
+
+            Log.addMessage(this.currentPlayer.getName() + " " + this.currentPlayer.getColor() + " " + this.currentPlayer.isAi() + " --- " + player.getName() + " " + player.getColor() + " " + player.isAi());
 
             // Pas sensé avoir besoin de ça !
             player.setName(this.currentPlayer.getName());
