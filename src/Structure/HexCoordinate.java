@@ -3,7 +3,7 @@ package Structure;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class HexCoordinate implements Serializable {
+public class HexCoordinate implements Cloneable, Serializable {
     private int x;
     private int y;
 
@@ -35,5 +35,14 @@ public class HexCoordinate implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(this.x, this.y);
+    }
+
+    @Override
+    public HexCoordinate clone() {
+        try {
+            return (HexCoordinate) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Ne devrait jamais se produire
+        }
     }
 }
