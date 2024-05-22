@@ -85,7 +85,7 @@ public class Ai2 extends Ai {
         } else {
             int max = -9999;
             level++;
-            for (Move m : getMoves(gridC, usC)) {
+            for (Move m : getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
@@ -103,7 +103,7 @@ public class Ai2 extends Ai {
 
     int minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
         if (level >= 2) {
-            gridC.applyMove(n.getMove(), usC);
+            gridC.applyMove(n.getMove(), this.other);
             int heuristique = heuristique(gridC);
             gridC.unapplyMove(n.getMove(), usC);
             n.setValue(heuristique);
