@@ -1,4 +1,6 @@
-package Model;
+package Structure;
+
+import Model.Move;
 
 import java.util.ArrayList;
 

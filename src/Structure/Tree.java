@@ -1,6 +1,6 @@
-package Model;
+package Structure;
 
-public class Tree 
+public class Tree
 {
     Node root;
     public Node current;
