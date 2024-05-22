@@ -65,6 +65,10 @@ public abstract class Ai implements Serializable {
         return result/22;
     }
 
+    public double insectFree(Player p, HexGrid g){
+        return 0;
+    }
+
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
         Ai resultat = null;
         switch (ia) {

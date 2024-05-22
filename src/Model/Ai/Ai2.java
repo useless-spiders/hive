@@ -24,11 +24,12 @@ public class Ai2 extends Ai {
         }
     }
 
-    @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g)*0.5;
-        result += beeNeighbors(this.other, g)*0.5;
+        result -= beeNeighbors(this.aiPlayer, g)*0.4;
+        result += beeNeighbors(this.other, g)*0.4;
+        result += insectsCount(this.aiPlayer, g)*0.1;
+        result -= insectsCount(this.other, g)*0.1;
         return result;
     }
 
