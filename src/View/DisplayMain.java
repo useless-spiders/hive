@@ -22,6 +22,7 @@ public class DisplayMain {
     private static final String IMAGE_PATH_ICONS = "res/Images/Icons/";
     private static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
     private static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
+    private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
     private static String SKIN_FOLDER = "Default/";
 
     private DisplayWin displayWin;
@@ -71,6 +72,16 @@ public class DisplayMain {
             return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_BACKGROUNDS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger le fond " + nom);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static Image loadRules(String nom) {
+        try {
+            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_RULES + nom)));
+        } catch (Exception e) {
+            Log.addMessage("Impossible de charger la règle " + nom);
             System.exit(1);
             return null;
         }
