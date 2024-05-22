@@ -16,4 +16,9 @@ public class ViewMetrics {
     public static int getViewOffsetY() {
         return viewOffsetY;
     }
+
+    public static void resetViewPosition() {
+        viewOffsetX = 0;
+        viewOffsetY = 0;
+    }
 }

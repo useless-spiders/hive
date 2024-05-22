@@ -8,6 +8,7 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
+import Structure.ViewMetrics;
 import View.DisplayGame;
 
 import java.util.ArrayList;
@@ -453,6 +454,7 @@ public class Game implements GameActionHandler {
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
         this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
+        ViewMetrics.resetViewPosition();
         this.startAi();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
@@ -471,6 +473,7 @@ public class Game implements GameActionHandler {
         this.startAi();
         this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
+        ViewMetrics.resetViewPosition();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }
