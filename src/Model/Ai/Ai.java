@@ -96,15 +96,12 @@ public abstract class Ai implements Serializable {
         Log.addMessage("Grille : " + grid);
         Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
-        ArrayList<HexCoordinate> possibleCoordinates = new ArrayList<>();
-
-        if(!p.getTypes().isEmpty()){
-            possibleCoordinates = this.gameActionHandler.generatePlayableInsertionCoordinates(p.getTypes().get(0), p);
-        }
 
         for (Class<? extends Insect> i : p.getTypes()) {
+            Insect insect = p.getInsect(i);
+            ArrayList<HexCoordinate> possibleCoordinates = this.gameActionHandler.generatePlayableInsertionCoordinates(i, p);
             for (HexCoordinate h : possibleCoordinates) {
-                moves.add(new Move(p.getInsect(i), null, h));
+                moves.add(new Move(insect, null, h));
             }
         }
 
@@ -116,7 +113,7 @@ public abstract class Ai implements Serializable {
             Insect insect = cell.getTopInsect();
 
             if (insect.getPlayer().equals(p)) {
-                possibleCoordinates = insect.getPossibleMovesCoordinates(hex, grid, p);
+                ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, grid, p);
                 for (HexCoordinate h : possibleCoordinates) {
                     moves.add(new Move(insect, hex, h));
                 }
