@@ -2,7 +2,7 @@ package Test;
 
 import Model.Insect.Spider;
 import Model.Player;
-import View.MainDisplay;
+import View.DisplayMain;
 import org.junit.Test;
 
 import java.awt.*;
@@ -21,10 +21,10 @@ public class DisplayTest {
      */
     @Test
     public void testLoadImage() {
-        Image image = MainDisplay.loadImageInsects(MainDisplay.getImageInsectName(Spider.class, player));
+        Image image = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Spider.class, player));
         assertNotNull(image);
 
-        image = MainDisplay.loadImageHexagons("Full.png");
+        image = DisplayMain.loadImageHexagons("Full.png");
         assertNotNull(image);
     }
 }

@@ -46,7 +46,7 @@ public class DisplayHexGrid extends JComponent {
                 int insectIndex = i;
                 if (insectIndex < cell.getInsects().size()) {
                     Insect insect = cell.getInsects().get(insectIndex);
-                    Image insectImage = MainDisplay.loadImageInsects(MainDisplay.getImageInsectName(insect.getClass(), insect.getPlayer()));
+                    Image insectImage = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(insect.getClass(), insect.getPlayer()));
                     Point center = HexMetrics.hexToPixel(coord);
                     int pileHeight = i * 8; // Hauteur de la pile d'insectes
 

@@ -9,6 +9,7 @@ import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
 import View.DisplayBankInsects;
+import Structure.ViewMetrics;
 import View.DisplayGame;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class Game implements GameActionHandler {
     public void startAi() {
         if (this.currentPlayer.getTurn() <= 1 && (this.player1.isAi() || this.player2.isAi())) {
             this.delay = new Timer(1000, e -> new Thread(() -> {
+                this.delay.stop();
                 Ai ai = this.currentPlayer.getAi();
                 if (ai != null) {
                     try {
@@ -64,7 +66,6 @@ public class Game implements GameActionHandler {
                             SwingUtilities.invokeLater(() -> {
                                 this.hexGrid.applyMove(iaMove, this.currentPlayer);
                                 this.history.addMove(iaMove);
-                                this.delay.stop();
                                 this.switchPlayer();
                                 this.playableCoordinates.clear();
                                 this.displayGame.getDisplayBankInsects().updateAllLabels();
@@ -73,13 +74,11 @@ public class Game implements GameActionHandler {
                         } else {
                             SwingUtilities.invokeLater(() -> {
                                 Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
-                                this.delay.stop();
                             });
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
                             Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread");
-                            this.delay.stop();
                         });
                     }
                 }
@@ -174,7 +173,7 @@ public class Game implements GameActionHandler {
     private void switchPlayer() {
         int winner = this.checkLoser();
         if (winner != -1) {
-            this.pageManager.getMainDisplay().getDisplayWin().updateWinner(winner);
+            this.pageManager.getDisplayMain().getDisplayWin().updateWinner(winner);
             this.pageManager.gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();
@@ -470,6 +469,7 @@ public class Game implements GameActionHandler {
         this.currentPlayer = random.nextBoolean() ? player1 : player2;
         this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
+        ViewMetrics.resetViewPosition();
         this.startAi();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
@@ -488,6 +488,7 @@ public class Game implements GameActionHandler {
         this.startAi();
         this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
+        ViewMetrics.resetViewPosition();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }

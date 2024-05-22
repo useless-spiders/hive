@@ -27,9 +27,6 @@ public class DisplayOpening extends JPanel {
 
         frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
         frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
-
-        frame.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-        frame.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
     private JButton createButton(String text) {
@@ -41,7 +38,7 @@ public class DisplayOpening extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.opening = MainDisplay.loadBackground("Opening.png");
+        this.opening = DisplayMain.loadBackground("Opening.png");
         Dimension frameSize = FrameMetrics.getFrameSize(this.frame);
         g.drawImage(this.opening, 0, 0, frameSize.width, frameSize.height, this);
 

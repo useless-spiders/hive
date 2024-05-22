@@ -16,7 +16,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
-    private DisplayMenuInParty displayMenuInParty;
+    private DisplayMenuInGame displayMenuInGame;
     private DisplayStack displayStack;
     private DisplayInfoInGame displayInfoInGame;
 
@@ -48,7 +48,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.gameActionHandler, this.pageActionHandler);
+        this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler, this.pageActionHandler);
         this.displayInfoInGame = new DisplayInfoInGame(this);
         this.displayStack = new DisplayStack(this.gameActionHandler);
     }
@@ -66,7 +66,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         return this.displayStack;
     }
     public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
-    public DisplayMenuInParty getDisplayMenuInParty(){return this.displayMenuInParty;}
+    public DisplayMenuInGame getDisplayMenuInGame(){return this.displayMenuInGame;}
 
     public void centerGame() {
         HexGrid hexGrid = gameActionHandler.getGrid();
