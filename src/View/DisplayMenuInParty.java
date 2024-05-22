@@ -88,6 +88,7 @@ public class DisplayMenuInParty {
                         break;
                     case ABORT:
                         //controllerPage.gameAndAbort();
+                        this.controller.stopAi();
                         this.controllerPage.gameToMenu();
                         break;
                     case DEFAULT:
