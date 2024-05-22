@@ -40,28 +40,28 @@ public class Ai2 extends Ai {
             if (insect instanceof Ant && insect.getPlayer() == this.aiPlayer) {
                 result += 3;
             }
-            if (insect instanceof Ant && insect.getPlayer() != this.aiPlayer) {
+            if (insect instanceof Ant && insect.getPlayer() != this.other) {
                 result -= 3;
             }
 
             if (insect instanceof Beetle && insect.getPlayer() == this.aiPlayer) {
                 result += 2;
             }
-            if (insect instanceof Beetle && insect.getPlayer() != this.aiPlayer) {
+            if (insect instanceof Beetle && insect.getPlayer() != this.other) {
                 result -= 2;
             }
 
             if (insect instanceof Grasshopper && insect.getPlayer() == this.aiPlayer) {
                 result += 2;
             }
-            if (insect instanceof Grasshopper && insect.getPlayer() != this.aiPlayer) {
+            if (insect instanceof Grasshopper && insect.getPlayer() != this.other) {
                 result -= 2;
             }
 
             if (insect instanceof Spider && insect.getPlayer() == this.aiPlayer) {
                 result += 1;
             }
-            if (insect instanceof Spider && insect.getPlayer() != this.aiPlayer) {
+            if (insect instanceof Spider && insect.getPlayer() != this.other) {
                 result -= 1;
             }
             if (insect instanceof Bee) {
