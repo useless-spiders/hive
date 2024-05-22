@@ -8,7 +8,6 @@ import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
-import View.DisplayBankInsects;
 import Structure.ViewMetrics;
 import View.DisplayGame;
 
@@ -91,6 +90,17 @@ public class Game implements GameActionHandler {
     public void stopAi() {
         if (this.delay != null) {
             this.delay.stop();
+        }
+    }
+
+    @Override
+    public void changeStateAi() {
+        if (this.delay != null) {
+            if (this.delay.isRunning()) {
+                this.delay.stop();
+            } else {
+                this.delay.start();
+            }
         }
     }
 
@@ -344,7 +354,9 @@ public class Game implements GameActionHandler {
             this.isInsectButtonClicked = true;
             this.isInsectCellClicked = false;
 
+            // Pas sensé avoir besoin de ça !
             player.setName(this.currentPlayer.getName());
+
             if (this.currentPlayer.equals(player)) {
                 this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
                 if (this.playableCoordinates.isEmpty()) {

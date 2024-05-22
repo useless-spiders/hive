@@ -18,6 +18,8 @@ public interface GameActionHandler {
 
     ArrayList<HexCoordinate> getPlayableCoordinates();
 
+    void changeStateAi();
+
     History getHistory();
 
     void stopAi();

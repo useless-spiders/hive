@@ -18,6 +18,7 @@ public class DisplayMenuInGame {
     private JPanel panelGame;
     private JButton cancelButton;
     private JButton redoButton;
+    private JButton changeStateAI;
 
     private PageActionHandler pageActionHandler;
 
@@ -33,6 +34,7 @@ public class DisplayMenuInGame {
         // Création des boutons annuler et refaire
         this.cancelButton = createButtonCancel();
         this.redoButton = createButtonRedo();
+        this.changeStateAI = createButtonChangeStateAI();
 
         // Création du menu
         JComboBox<String> menu = createMenu();
@@ -54,6 +56,14 @@ public class DisplayMenuInGame {
         redoButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
         redoButtonConstraints.insets = new Insets(10, 10, 10, 10);
         menuPanel.add(this.redoButton, redoButtonConstraints);
+
+        // Ajout du bouton change state
+        GridBagConstraints changeStateAiConstraints = new GridBagConstraints();
+        changeStateAiConstraints.gridx = 0; // à droite du menu
+        changeStateAiConstraints.gridy = 1;
+        changeStateAiConstraints.anchor = GridBagConstraints.NORTHEAST;
+        changeStateAiConstraints.insets = new Insets(10, 10, 10, 10);
+        menuPanel.add(this.changeStateAI, changeStateAiConstraints);
 
         // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
         GridBagConstraints menuConstraints = new GridBagConstraints();
@@ -120,6 +130,14 @@ public class DisplayMenuInGame {
             this.gameActionHandler.redoMove();
             updateButtonsState();
         });
+        return button;
+    }
+
+    private JButton createButtonChangeStateAI() {
+        JButton button = new JButton("Stopper / Relancer IA");
+        // setEnabled ne marche pas pour l'instant a cause de l'incohérence des états
+        //button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        button.addActionListener(e -> this.gameActionHandler.changeStateAi());
         return button;
     }
 
