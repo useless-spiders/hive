@@ -30,16 +30,17 @@ public abstract class Ai implements Serializable {
     abstract double heuristic(HexGrid g);
 
     public double beeNeighbors(Player p, HexGrid g){
+        double result = 0;
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
             if (insect instanceof Bee) {
                 if (insect.getPlayer() == p) {
-                return g.getNeighborsCoordinates(h).size()/6;
+                    result = (g.getNeighborsCoordinates(h).size());
                 }
             }
         }
-        return 0;
+        return (result/6);
     }
 
     public double insectsCount(Player p, HexGrid g){
@@ -62,7 +63,7 @@ public abstract class Ai implements Serializable {
                 }
             }
         }
-        return result/22;
+        return (result/21);
     }
 
     public double insectFree(Player p, HexGrid g){
