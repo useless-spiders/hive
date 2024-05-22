@@ -17,10 +17,16 @@ import static org.junit.Assert.*;
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
     private Player player = new Player("white", "Inspecteur blanco");
+    private Player player2 = new Player("black", "Barbe noire");
+
     private Insect ant = new Ant(player);
     private Insect spider = new Spider(player);
     private Insect bee = new Bee(player);
     private Insect beetle = new Beetle(player);
+    private Insect ant2 = new Ant(player2);
+    private Insect spider2 = new Spider(player2);
+    private Insect bee2 = new Bee(player2);
+    private Insect beetle2 = new Beetle(player2);
 
     /**
      * Teste la création d'une grille vide
@@ -118,6 +124,32 @@ public class HexGridTest {
         grid.addCell(new HexCoordinate(-1, 1), spider); // SO
         grid.addCell(new HexCoordinate(-1, 0), spider); // O
         assertTrue(grid.checkLoser(player));
+    }
+
+    @Test
+    public void testClone(){
+        grid.addCell(new HexCoordinate(0, -1), ant); // NO
+        grid.addCell(new HexCoordinate(1, -1), ant); // NE
+        grid.addCell(new HexCoordinate(0, 0), bee); // Center
+        grid.addCell(new HexCoordinate(1, 0), beetle); // E
+        grid.addCell(new HexCoordinate(0, 1), beetle); // SE
+        grid.addCell(new HexCoordinate(-1, 1), spider); // SO
+
+        grid.addCell(new HexCoordinate(3, 2), ant2); // NO
+        grid.addCell(new HexCoordinate(4, 2), ant2); // NE
+        grid.addCell(new HexCoordinate(3, 3), bee2); // Center
+        grid.addCell(new HexCoordinate(4, 3), beetle2); // E
+        grid.addCell(new HexCoordinate(3, 4), beetle2); // SE
+        grid.addCell(new HexCoordinate(2, 4), spider2); // SO
+        HexGrid clone = grid.clone();
+
+
+        assertEquals(grid.getGrid().size(), clone.getGrid().size());
+
+        assertEquals(grid.getGrid(), clone.getGrid());
+
+        assertEquals(grid, clone);
+
     }
 
 }

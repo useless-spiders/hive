@@ -69,11 +69,28 @@ public abstract class Insect implements Cloneable, Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Insect insect = (Insect) obj;
+        // Compare the class names and the players for equality
+        return Objects.equals(this.getClass().getSimpleName(), insect.getClass().getSimpleName()) &&
+                Objects.equals(player, insect.player);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getClass().getSimpleName(), player);
+    }
+
+    @Override
     public Insect clone() {
         try {
-            Insect newInsect = (Insect) super.clone();
-            newInsect.player = this.player.clone();
-            return newInsect;
+            return (Insect) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }

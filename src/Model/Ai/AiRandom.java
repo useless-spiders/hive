@@ -28,8 +28,8 @@ public class AiRandom extends Ai {
         ArrayList<Move> moves = getMoves(this.gameActionHandler.getGrid(), this.aiPlayer);
         Log.addMessage("Taille de Moves pour J1 : " + moves.size());
 
-        ArrayList<Move> moves2 = getMoves(this.gameActionHandler.getGrid(), this.other);
-        Log.addMessage("Taille de Moves pour J2 : " + moves2.size());
+        ArrayList<Move> moves2 = getMoves(this.gameActionHandler.getGrid().clone(), this.aiPlayer);
+        Log.addMessage("Taille de Moves pour J1 : " + moves2.size());
 
         Log.addMessage("FINNNNNNNNNNN");
 

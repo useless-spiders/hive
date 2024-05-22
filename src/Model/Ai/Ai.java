@@ -43,6 +43,8 @@ public abstract class Ai implements Serializable {
     public abstract Move chooseMove();
 
     protected ArrayList<Move> getMoves(HexGrid grid, Player p) {
+        Log.addMessage("Grille : " + grid);
+        Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
 
         for (Insect i : p.getStock()) {

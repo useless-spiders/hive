@@ -316,7 +316,7 @@ public class Game implements GameActionHandler, ActionListener {
         this.isInsectButtonClicked = true;
         this.isInsectCellClicked = false;
 
-        if (player.equals(this.currentPlayer)) {
+        if (this.currentPlayer.equals(player)) {
             this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
         } else {
             Log.addMessage("Pas le bon joueur !");

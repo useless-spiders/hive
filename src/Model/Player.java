@@ -163,6 +163,11 @@ public class Player implements Cloneable, Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(color);
+    }
+
+    @Override
     public Player clone() {
         try {
             Player clone = (Player) super.clone();
@@ -171,10 +176,5 @@ public class Player implements Cloneable, Serializable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

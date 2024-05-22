@@ -5,11 +5,9 @@ import java.util.*;
 import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
-import Structure.Log;
 
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
-    private int insectsCount;
 
     public static final String[] DIRECTIONS = {"NO", "NE", "E", "SE", "SO", "O"};
     public static final int[] DX = {0, 1, 1, 0, -1, -1};
@@ -26,7 +24,6 @@ public class HexGrid implements Cloneable {
 
     public HexGrid() {
         this.grid = new HashMap<>();
-        this.insectsCount = 0;
     }
 
     public Map<HexCoordinate, HexCell> getGrid() {
@@ -203,23 +200,34 @@ public class HexGrid implements Cloneable {
     }
 
     @Override
-    public HexGrid clone() {
-        HexGrid newGrid = new HexGrid();
-        newGrid.insectsCount = this.insectsCount;
-
-        for (Map.Entry<HexCoordinate, HexCell> entry : this.grid.entrySet()) {
-            HexCoordinate coordinate = entry.getKey();
-            HexCell cell = entry.getValue();
-
-            HexCell newCell = new HexCell();
-            for (Insect insect : cell.getInsects()) {
-                newCell.addInsect(insect.clone());
-            }
-
-            newGrid.grid.put(coordinate, newCell);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        HexGrid hexGrid = (HexGrid) obj;
+        // Compare the grids for equality
+        return Objects.equals(this.getGrid(), hexGrid.getGrid());
+    }
 
-        return newGrid;
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getGrid());
+    }
 
+    @Override
+    public HexGrid clone() {
+        try {
+            HexGrid cloned = (HexGrid) super.clone();
+            cloned.grid = new HashMap<>();
+            for (Map.Entry<HexCoordinate, HexCell> entry : this.grid.entrySet()) {
+                cloned.grid.put(entry.getKey().clone(), entry.getValue().clone());
+            }
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Ne devrait jamais se produire
+        }
     }
 }
