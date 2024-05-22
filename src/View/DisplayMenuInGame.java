@@ -115,7 +115,7 @@ public class DisplayMenuInGame {
 
     private JButton createButtonCancel() {
         JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canCancel());
+        button.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.cancelMove();
             updateButtonsState();
@@ -125,7 +125,7 @@ public class DisplayMenuInGame {
 
     private JButton createButtonRedo() {
         JButton button = new JButton(DisplayMain.loadIcon("Redo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canRedo());
+        button.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.redoMove();
             updateButtonsState();
@@ -136,7 +136,7 @@ public class DisplayMenuInGame {
     private JButton createButtonChangeStateAI() {
         JButton button = new JButton("Stopper / Relancer IA");
         // setEnabled ne marche pas pour l'instant a cause de l'incohérence des états
-        //button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
         button.addActionListener(e -> this.gameActionHandler.changeStateAi());
         return button;
     }
@@ -144,5 +144,11 @@ public class DisplayMenuInGame {
     public void updateButtonsState() {
         this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel());
         this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo());
+    }
+
+    public void updateGameActionHandler() {
+        this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
     }
 }

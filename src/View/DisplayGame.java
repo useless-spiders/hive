@@ -5,6 +5,7 @@ import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.Log;
 import Structure.ViewMetrics;
 
 import javax.swing.*;
@@ -94,6 +95,8 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        this.displayMenuInGame.updateGameActionHandler();
 
         //Afficher le background du jeu
         this.displayBackground.paintBackground(g, frameGame, "Game_background.png");
