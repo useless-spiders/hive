@@ -84,6 +84,7 @@ public class Ai2 extends Ai {
 
     public Move chooseMove() {
         this.config = new Tree();
+        this.visited = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
