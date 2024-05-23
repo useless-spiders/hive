@@ -14,7 +14,7 @@ import java.awt.event.ItemEvent;
 import java.io.File;
 
 public class DisplayConfigParty extends JPanel {
-    private static final String HUMAN = "human";
+    private static final String HUMAN = "humain";
     private static final String IA_EASY = "AiRandom";
     private static final String IA_HARD = "Ai1";
     private static final String IA_HARD2 = "Ai2";
