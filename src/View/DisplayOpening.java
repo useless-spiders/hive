@@ -41,5 +41,3 @@ public class DisplayOpening extends JPanel {
         this.pageActionHandler.getDisplayBackground().paintBackground(g, frameOpening, "Opening.png");
     }
 }
-
-

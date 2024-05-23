@@ -26,7 +26,7 @@ public class DisplayMain {
     private static String SKIN_FOLDER = "Default/";
 
     private DisplayBackground displayBackground;
-
+    private JFrame currentFrame;
     private DisplayWin displayWin;
 
     public static Image loadImageHexagons(String nom) {
@@ -93,11 +93,13 @@ public class DisplayMain {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRule) {
+    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
         this.displayBackground = new DisplayBackground();
+        this.currentFrame = frameOpening;
 
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
+        /*setFullScreen(frameOpening);*/
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du menu
@@ -118,23 +120,32 @@ public class DisplayMain {
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
 
         //Affichage des regles
-        DisplayRules displayRules = new DisplayRules(frameRule, pageActionHandler);
-        setupFrame(frameRule, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+        DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
+        setupFrame(frameRules, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
     }
 
     public DisplayBackground getDisplayBackground() {
         return this.displayBackground;
     }
 
-    private JFrame setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
+    private void setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
         frame.setSize(frameWidth, frameHeight); // Définir la taille de la fenêtre
         frame.setVisible(isVisible);
         frame.setLocationRelativeTo(null); // Pour centrer l'affichage (notamment pour la frameWin)
         frame.setDefaultCloseOperation(closeOperation); // Définir l'opération de fermeture
-        return frame;
     }
 
     public DisplayWin getDisplayWin() {
         return this.displayWin;
+    }
+
+    public JFrame getCurrentFrame() {
+        return this.currentFrame;
+    }
+
+    public void setFullScreen(JFrame frame) {
+        frame.dispose();
+        frame.setUndecorated(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }
