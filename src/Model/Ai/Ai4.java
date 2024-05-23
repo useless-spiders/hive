@@ -11,7 +11,6 @@ import Structure.Log;
 public class Ai4 extends Ai { //Alpha Beta
 
     Player other;
-    private Tree config;
     int node;
     int level;
     private final int MAX_NODE = 1000;
@@ -97,16 +96,16 @@ public class Ai4 extends Ai { //Alpha Beta
     }
 
     public Move chooseMove() {
-        this.config = new Tree();
+        Tree tree = new Tree();
         this.node = 0;
         this.level = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(this.config.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
-        for (Node child : this.config.getRoot().getChilds()) {
+        for (Node child : tree.getRoot().getChilds()) {
             if (child.getValue() > max) {
                 max = child.getValue();
                 returnMove = child.getMove();

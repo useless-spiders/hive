@@ -11,7 +11,6 @@ public class Ai2 extends Ai { //MinMax
 
     Player other;
     int visited;
-    private Tree config;
 
     public Ai2(GameActionHandler gameActionHandler, Player p) {
         this.visited = 0;
@@ -85,15 +84,15 @@ public class Ai2 extends Ai { //MinMax
 
 
     public Move chooseMove() {
-        this.config = new Tree();
+        Tree tree = new Tree();
         this.visited = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(this.config.getCurrent(), gridC, usC, themC, 0);
+        maxTree(tree.getRoot(), gridC, usC, themC, 0);
         double max = -9999;
         Move returnMove = null;
-        for (Node child : this.config.getCurrent().getChilds()) {
+        for (Node child : tree.getRoot().getChilds()) {
             if (child.getValue() > max) {
                 max = child.getValue();
                 returnMove = child.getMove();

@@ -11,7 +11,6 @@ public class Ai3 extends Ai { // Elagage maison
 
     Player other;
     int visited;
-    private Tree config;
 
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
@@ -104,15 +103,15 @@ public class Ai3 extends Ai { // Elagage maison
 
 
     public Move chooseMove() {
-        this.config = new Tree();
+        Tree tree = new Tree();
         this.visited = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(this.config.getCurrent(), gridC, usC, themC, 0, 0);
+        maxTree(tree.getRoot(), gridC, usC, themC, 0, 0);
         double max = -1;
         Move returnMove = null;
-        for (Node child : this.config.getCurrent().getChilds()) {
+        for (Node child : tree.getRoot().getChilds()) {
             if (child.getValue() > max) {
                 max = child.getValue();
                 returnMove = child.getMove();
