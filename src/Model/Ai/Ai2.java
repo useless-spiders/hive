@@ -7,7 +7,7 @@ import Structure.Node;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
-public class Ai2 extends Ai {
+public class Ai2 extends Ai { //MinMax
 
     Player other;
     int visited;

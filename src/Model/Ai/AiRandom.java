@@ -9,7 +9,7 @@ import Model.Move;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
-public class AiRandom extends Ai {
+public class AiRandom extends Ai { //Random
 
     Player other;
 

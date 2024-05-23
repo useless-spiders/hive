@@ -8,7 +8,7 @@ import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
-public class Ai1 extends Ai {
+public class Ai1 extends Ai { //1 Coup
 
     Player other;
 

@@ -7,7 +7,7 @@ import Structure.Node;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
-public class Ai3 extends Ai {
+public class Ai3 extends Ai { // Elagage maison
 
     Player other;
     int visited;
@@ -37,7 +37,7 @@ public class Ai3 extends Ai {
         if(level == 0){
             a = heuristic(gridC);
         }
-        if (level >= 2) {
+        if (level >= 3) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
@@ -65,7 +65,7 @@ public class Ai3 extends Ai {
     }
 
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
-        if (level >= 2) {
+        if (level >= 3) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
