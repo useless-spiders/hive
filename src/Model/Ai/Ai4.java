@@ -30,18 +30,12 @@ public class Ai4 extends Ai { //Alpha Beta
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        if(aiPlayer.getTurn() <= 10){
-            result -= beeNeighbors(this.aiPlayer, g)*aiPlayer.getTurn();
-            result += beeNeighbors(this.other, g)*aiPlayer.getTurn();
-        }
-        else{
-            result -= beeNeighbors(this.aiPlayer, g)*10;
-            result += beeNeighbors(this.other, g)*10;
-        }
-        result += insectsCount(this.aiPlayer, g)*0.2;
-        result -= insectsCount(this.other, g)*0.2;
-        result += insectFree(this.aiPlayer, g)*0.5;
-        result -= insectFree(this.other, g)*0.5;
+        result -= beeNeighbors(this.aiPlayer, g)* (aiPlayer.getTurn()*0.3+1);
+        result += beeNeighbors(this.other, g)* (aiPlayer.getTurn()*0.3+1);
+        result += insectsCount(this.aiPlayer, g);
+        result -= insectsCount(this.other, g);
+        result += insectFree(this.aiPlayer, g)*0.3;
+        result -= insectFree(this.other, g)*0.3;
         return result;
     }
 

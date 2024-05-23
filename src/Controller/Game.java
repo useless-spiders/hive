@@ -68,6 +68,7 @@ public class Game implements GameActionHandler {
                                 this.playableCoordinates.clear();
                                 this.displayGame.getDisplayBankInsects().updateAllLabels();
                                 this.displayGame.repaint();
+                                
                             });
                         } else {
                             SwingUtilities.invokeLater(() -> {
@@ -76,7 +77,7 @@ public class Game implements GameActionHandler {
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread");
+                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread "+ex);
                         });
                     }
                 }
