@@ -99,7 +99,7 @@ public class DisplayMain {
 
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
-        /*setFullScreen(frameOpening);*/
+        setFullScreen(frameOpening);
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du menu
@@ -144,8 +144,6 @@ public class DisplayMain {
     }
 
     public void setFullScreen(JFrame frame) {
-        frame.dispose();
-        frame.setUndecorated(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }
