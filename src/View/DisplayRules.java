@@ -9,7 +9,7 @@ public class DisplayRules extends JPanel {
     private PageActionHandler pageActionHandler;
     private JFrame frameRules;
     int numRules = 1;
-    Image background = DisplayMain.loadRules("rule_1.png");
+    Image background = DisplayMain.loadRules("Rule_1.png");
     private static int MIN = 1;
     private static int MAX = 11;
 
@@ -66,7 +66,7 @@ public class DisplayRules extends JPanel {
     }
 
     private void updateImage() {
-        this.background = DisplayMain.loadRules("rule_" + this.numRules + ".png");
+        this.background = DisplayMain.loadRules("Rule_" + this.numRules + ".png");
         repaint();
     }
 
