@@ -14,7 +14,7 @@ public class DisplayInfoInGame extends JPanel {
 
         JLabel infoLabel = new JLabel("Informations jeu");
         this.namePlayeurLabel = new JLabel("Tour de ");
-        this.turnLabel = new JLabel("Turn : 0" );
+        this.turnLabel = new JLabel("Tour : 0" );
 
 
         JPanel boxContainer  = new JPanel();
