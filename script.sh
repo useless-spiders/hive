@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Suppresion du dossier target
+if [[ -d "target" ]]
+then
+    rm -r target
+fi
+
 # Construire le projet avec Maven
 echo "Construction du projet avec Maven..."
 
