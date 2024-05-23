@@ -25,7 +25,6 @@ public class DisplayMain {
     private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
     private static String SKIN_FOLDER = "Default/";
 
-    private DisplayBackground displayBackground;
     private JFrame currentFrame;
     private DisplayWin displayWin;
 
@@ -94,7 +93,6 @@ public class DisplayMain {
     }
 
     public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
-        this.displayBackground = new DisplayBackground();
         this.currentFrame = frameOpening;
 
         //Affichage de l'opening
@@ -122,10 +120,6 @@ public class DisplayMain {
         //Affichage des regles
         DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
         setupFrame(frameRules, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
-    }
-
-    public DisplayBackground getDisplayBackground() {
-        return this.displayBackground;
     }
 
     private void setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {

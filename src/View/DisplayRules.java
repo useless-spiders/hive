@@ -8,13 +8,13 @@ import java.awt.*;
 public class DisplayRules extends JPanel {
     private PageActionHandler pageActionHandler;
     private JFrame frameRules;
-    int numRules;
+    int numRules = 1;
+    Image background = DisplayMain.loadRules("rule_1.png");
 
 
     public DisplayRules(JFrame frameRules, PageActionHandler pageActionHandler) {
         this.frameRules = frameRules;
         this.pageActionHandler = pageActionHandler;
-        this.numRules = 1;
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
@@ -29,10 +29,10 @@ public class DisplayRules extends JPanel {
         JPanel navigatorButtonContainer = new JPanel(new GridBagLayout());
         navigatorButtonContainer.setOpaque(false);
         GridBagConstraints navigatorGbc = new GridBagConstraints();
-        navigatorGbc.gridx=0;
-        navigatorGbc.gridy=0;
+        navigatorGbc.gridx = 0;
+        navigatorGbc.gridy = 0;
         navigatorButtonContainer.add(createButton("preview"), navigatorGbc);
-        navigatorGbc.gridx=1;
+        navigatorGbc.gridx = 1;
         navigatorButtonContainer.add(createButton("next"), navigatorGbc);
 
         gbc.gridx = 0;
@@ -44,19 +44,24 @@ public class DisplayRules extends JPanel {
         frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
-    private void actionPreview(){
+    private void actionPreview() {
         this.numRules--;
-        repaint();
+        this.updateImage();
     }
 
-    private void actionNext(){
+    private void actionNext() {
         this.numRules++;
+        this.updateImage();
+    }
+
+    private void updateImage() {
+        this.background = DisplayMain.loadRules("rule_" + this.numRules + ".png");
         repaint();
     }
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        switch (text){
+        switch (text) {
             case "RETOUR":
                 button.addActionListener(e -> this.pageActionHandler.rulesToGame());
                 break;
@@ -75,6 +80,6 @@ public class DisplayRules extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        this.pageActionHandler.getDisplayBackground().paintRule(g, frameRules, "rule_" + numRules + ".png");
+        g.drawImage(this.background, 25, 25, this.frameRules.getWidth() - 130, this.frameRules.getHeight() - 130, this);
     }
 }

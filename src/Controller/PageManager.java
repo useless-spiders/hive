@@ -1,12 +1,9 @@
 package Controller;
 
 import Pattern.PageActionHandler;
-import Structure.FrameMetrics;
-import View.DisplayBackground;
 import View.DisplayMain;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PageManager implements PageActionHandler {
     private JFrame frameOpening = new JFrame();
@@ -89,6 +86,4 @@ public class PageManager implements PageActionHandler {
     public DisplayMain getDisplayMain() {
         return this.displayMain;
     }
-
-    public DisplayBackground getDisplayBackground() {return this.displayMain.getDisplayBackground();}
 }

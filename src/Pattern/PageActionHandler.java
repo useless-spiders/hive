@@ -1,6 +1,5 @@
 package Pattern;
 
-import View.DisplayBackground;
 import View.DisplayMain;
 
 public interface PageActionHandler {
@@ -15,5 +14,4 @@ public interface PageActionHandler {
     void rulesToGame();
     void disposeGame();
     DisplayMain getDisplayMain();
-    DisplayBackground getDisplayBackground();
 }

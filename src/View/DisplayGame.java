@@ -3,9 +3,9 @@ package View;
 import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
-import Structure.Log;
 import Structure.ViewMetrics;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private DisplayBackground displayBackground;
+    private Image background  = DisplayMain.loadBackground("Game_background.png");
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -24,7 +24,6 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private JFrame frameGame;
     private GameActionHandler gameActionHandler;
     private PageActionHandler pageActionHandler;
-    private JLabel turnLabel;
 
     public DisplayGame(JFrame frameGame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
@@ -45,7 +44,6 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.displayBackground = new DisplayBackground();
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
@@ -99,7 +97,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayMenuInGame.updateButtons();
 
         //Afficher le background du jeu
-        this.displayBackground.paintBackground(g, frameGame, "Game_background.png");
+        g.drawImage(this.background, 0, 0, this.frameGame.getWidth(), this.frameGame.getHeight(), this);
 
         displayInfoInGame.updatePrintInfo(this.gameActionHandler.getCurrentPlayer().getName(), this.gameActionHandler.getCurrentPlayer().getTurn());
 

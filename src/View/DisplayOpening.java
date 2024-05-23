@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class DisplayOpening extends JPanel {
     JFrame frameOpening;
-    private Image opening;
+    private Image background  = DisplayMain.loadBackground("Opening.png");
     private PageActionHandler pageActionHandler;
 
     public DisplayOpening(JFrame frameOpening, PageActionHandler pageActionHandler) {
@@ -38,6 +38,6 @@ public class DisplayOpening extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         //Affichage du background
-        this.pageActionHandler.getDisplayBackground().paintBackground(g, frameOpening, "Opening.png");
+        g.drawImage(this.background, 0, 0, this.frameOpening.getWidth(), this.frameOpening.getHeight(), this);
     }
 }
