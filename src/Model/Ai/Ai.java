@@ -31,13 +31,19 @@ public abstract class Ai implements Serializable {
 
     public double beeNeighbors(Player p, HexGrid g){
         int result = 0;
+        int cover = 0;
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
-            Insect insect = cell.getTopInsect();
-            if (insect instanceof Bee) {
-                if (insect.getPlayer() == p) {
-                    result = (g.getNeighborsCoordinates(h).size());
-                }
+            ArrayList<Insect> insects = cell.getInsects();
+            for(Insect i :insects){
+                if (i instanceof Bee) {
+                    if (i.getPlayer() == p) {
+                        result = (g.getNeighborsCoordinates(h).size());
+                        if(cell.getTopInsect() != i && cell.getTopInsect().getPlayer() != p){
+                            cover = 10;
+                        }
+                    }
+                }   
             }
         }
         switch(result){
@@ -53,7 +59,7 @@ public abstract class Ai implements Serializable {
             default:
                 break;
         }
-        return result;
+        return result+cover;
     }
 
     public double insectsCount(Player p, HexGrid g){

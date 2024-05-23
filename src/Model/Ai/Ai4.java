@@ -14,8 +14,8 @@ public class Ai4 extends Ai { //Alpha Beta
     private Tree config;
     int node;
     int level;
-    private final int MAX_NODE = 10000;
-    private final int MAX_LEVEL = 20;
+    private final int MAX_NODE = 1000;
+    private final int MAX_LEVEL = 10;
 
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
@@ -30,12 +30,18 @@ public class Ai4 extends Ai { //Alpha Beta
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g);
-        result += beeNeighbors(this.other, g);
-        result += insectsCount(this.aiPlayer, g)*0.1;
-        result -= insectsCount(this.other, g)*0.1;
-        result += insectFree(this.aiPlayer, g)*0.4;
-        result -= insectFree(this.other, g)*0.4;
+        if(aiPlayer.getTurn() <= 10){
+            result -= beeNeighbors(this.aiPlayer, g)*aiPlayer.getTurn();
+            result += beeNeighbors(this.other, g)*aiPlayer.getTurn();
+        }
+        else{
+            result -= beeNeighbors(this.aiPlayer, g)*10;
+            result += beeNeighbors(this.other, g)*10;
+        }
+        result += insectsCount(this.aiPlayer, g)*0.2;
+        result -= insectsCount(this.other, g)*0.2;
+        result += insectFree(this.aiPlayer, g)*0.5;
+        result -= insectFree(this.other, g)*0.5;
         return result;
     }
 
