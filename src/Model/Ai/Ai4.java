@@ -49,7 +49,6 @@ public class Ai4 extends Ai { //Alpha Beta
                 gridC.applyMove(m, usC);
                 double currentH = minTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, usC);
-                node ++;
                 if (currentH > max) {
                     max = currentH;
                 }
@@ -59,6 +58,7 @@ public class Ai4 extends Ai { //Alpha Beta
                 if (max > alpha) {
                     alpha = max;
                 }
+                node ++;
             }
             n.setValue(max);
             return max;
@@ -79,7 +79,6 @@ public class Ai4 extends Ai { //Alpha Beta
                 gridC.applyMove(m, otherC);
                 double currentH = maxTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, otherC);
-                node++;
                 if (currentH < min) {
                     min = currentH;
                 }
@@ -89,6 +88,7 @@ public class Ai4 extends Ai { //Alpha Beta
                 if (min < beta) {
                     beta = min;
                 }
+                node++;
             }
             n.setValue(min);
             return min;

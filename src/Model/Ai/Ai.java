@@ -39,7 +39,7 @@ public abstract class Ai implements Serializable {
                     if (i.getPlayer() == p) {
                         result = (g.getNeighborsCoordinates(h).size());
                     }
-                }   
+                }
             }
         }
         return result;
