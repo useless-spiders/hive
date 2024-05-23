@@ -15,29 +15,23 @@ public class DisplayRules extends JPanel {
 
     private JButton previous;
     private JButton next;
-    private JButton close;
 
     public DisplayRules(JFrame frameRules, PageActionHandler pageActionHandler) {
         this.frameRules = frameRules;
         this.pageActionHandler = pageActionHandler;
 
-        this.previous = this.createButtonPrevious();
-        this.next = this.createButtonNext();
-        this.close = this.createButtonCancel();
+        this.previous = createButtonPrevious();
+        this.next = createButtonNext();
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1; // colonne (commence à 0)
-        gbc.gridy = 0; // ligne (commence à 0)
-        gbc.anchor = GridBagConstraints.NORTHEAST; // ancre dans le coin nord-est
-        gbc.weightx = 1.0; // étendre horizontalement
-        gbc.weighty = 1.0; // étendre verticalement
-        add(this.close, gbc);
 
         JPanel navigatorButtonContainer = new JPanel(new GridBagLayout());
         navigatorButtonContainer.setOpaque(false);
         GridBagConstraints navigatorGbc = new GridBagConstraints();
+        navigatorGbc.anchor = GridBagConstraints.CENTER; // Center alignment within the container
+        navigatorGbc.gridheight = 1;
         navigatorGbc.gridx = 0;
         navigatorGbc.gridy = 0;
         navigatorButtonContainer.add(this.previous, navigatorGbc);
@@ -45,8 +39,12 @@ public class DisplayRules extends JPanel {
         navigatorButtonContainer.add(this.next, navigatorGbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.SOUTH; // Align the container to the bottom of the main panel
+        gbc.weightx = 1.0; // Allow horizontal stretching
+        gbc.weighty = 1.0; // Allow vertical stretching to push the container down
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around the container
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Allow horizontal stretching
         add(navigatorButtonContainer, gbc);
 
         frameRules.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
@@ -70,12 +68,6 @@ public class DisplayRules extends JPanel {
     private void updateImage() {
         this.background = DisplayMain.loadRules("rule_" + this.numRules + ".png");
         repaint();
-    }
-
-    private JButton createButtonCancel() {
-        JButton button = new JButton("Close");
-        button.addActionListener(e -> this.pageActionHandler.rulesToGame());
-        return button;
     }
 
     private JButton createButtonPrevious() {

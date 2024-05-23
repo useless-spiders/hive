@@ -78,9 +78,6 @@ public class PageManager implements PageActionHandler {
         this.frameRules.setVisible(true);
     }
 
-    public void rulesToGame(){this.frameRules.setVisible(false);}
-
-
     public void disposeGame(){frameGame.dispose();}
 
     public DisplayMain getDisplayMain() {

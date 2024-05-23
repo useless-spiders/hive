@@ -119,7 +119,7 @@ public class DisplayMain {
 
         //Affichage des regles
         DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
-        setupFrame(frameRules, false, 700, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+        setupFrame(frameRules, false, 700, 800, JFrame.DISPOSE_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
     }
 
     private void setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
