@@ -6,7 +6,6 @@ import Model.HexGrid;
 import Model.Move;
 import Model.Player;
 import Pattern.GameActionHandler;
-import Structure.Log;
 
 public class Ai1 extends Ai { //1 Coup
 

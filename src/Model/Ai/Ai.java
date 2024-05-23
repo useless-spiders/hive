@@ -30,7 +30,7 @@ public abstract class Ai implements Serializable {
     abstract double heuristic(HexGrid g);
 
     public double beeNeighbors(Player p, HexGrid g){
-        double result = 0;
+        int result = 0;
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
@@ -40,34 +40,82 @@ public abstract class Ai implements Serializable {
                 }
             }
         }
-        return (result/6);
+        switch(result){
+            case 4:
+                result = result*2;
+                break;
+            case 5:
+                result = result*3;
+                break;
+            case 6:
+                result = result*6;
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
     public double insectsCount(Player p, HexGrid g){
         double result = 0;
+        int ant, bee, beetle, spider, grasshopper;
+        int turn = p.getTurn();
+        if(turn <= 4){
+            ant = 2;
+            spider = 4;
+            beetle = 4;
+            grasshopper = 2;
+            bee = 5;
+        }
+        else{
+            ant = 3;
+            spider = 1;
+            beetle = 2;
+            grasshopper = 2;
+            bee = 5;
+        }
+
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
             if(insect.getPlayer() == p){
+                if (insect instanceof Bee) {
+                    result += bee;
+                }
                 if (insect instanceof Ant) {
-                    result += 3;
+                    result += ant;
                 }
                 if (insect instanceof Beetle) {
-                    result += 2;
+                    result += beetle;
                 }
                 if (insect instanceof Grasshopper) {
-                    result += 2;
+                    result += grasshopper;
                 }
                 if (insect instanceof Spider) {
-                    result += 1;
+                    result += spider;
                 }
             }
         }
-        return (result/21);
+        return result;
     }
 
     public double insectFree(Player p, HexGrid g){
-        return 0;
+        double moveCount = 0;
+
+        for (Class<? extends Insect> i : p.getTypes()) {
+            ArrayList<HexCoordinate> possibleCoordinates = this.gameActionHandler.generatePlayableInsertionCoordinates(i, p);
+            moveCount += possibleCoordinates.size();
+        }
+        for (HexCoordinate hex : g.getGrid().keySet()) {
+            HexCell cell = g.getCell(hex);
+            Insect insect = cell.getTopInsect();
+
+            if (insect.getPlayer().equals(p)) {
+                ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, g, p);
+                moveCount += possibleCoordinates.size();
+            }
+        }
+        return moveCount;
     }
 
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {

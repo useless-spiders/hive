@@ -11,13 +11,15 @@ import Structure.Log;
 public class Ai4 extends Ai { //Alpha Beta
 
     Player other;
-    int visited;
     private Tree config;
+    int node;
+    int level;
+    private final int MAX_NODE = 10000;
+    private final int MAX_LEVEL = 20;
 
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        this.visited = 0;
         if (this.gameActionHandler.getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayer2();
         } else {
@@ -28,15 +30,17 @@ public class Ai4 extends Ai { //Alpha Beta
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g) * 0.9;
-        result += beeNeighbors(this.other, g) * 0.9;
-        result += insectsCount(this.aiPlayer, g) * 0.1;
-        result -= insectsCount(this.other, g) * 0.1;
+        result -= beeNeighbors(this.aiPlayer, g);
+        result += beeNeighbors(this.other, g);
+        result += insectsCount(this.aiPlayer, g)*0.1;
+        result -= insectsCount(this.other, g)*0.1;
+        result += insectFree(this.aiPlayer, g)*0.4;
+        result -= insectFree(this.other, g)*0.4;
         return result;
     }
 
-    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double alpha, double beta) {
-        if (this.visited >= 10000 || level >= 10) {
+    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
+        if (this.node >= MAX_NODE || level >= MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -47,9 +51,9 @@ public class Ai4 extends Ai { //Alpha Beta
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double currentH = minTree(nextMove, gridC, usC, otherC, level, alpha, beta);
+                double currentH = minTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, usC);
-                visited += 1;
+                node ++;
                 if (currentH > max) {
                     max = currentH;
                 }
@@ -65,8 +69,8 @@ public class Ai4 extends Ai { //Alpha Beta
         }
     }
 
-    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double alpha, double beta) {
-        if (this.visited >= 10000 || level >= 10) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
+        if (this.node >= MAX_NODE || level >= MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -77,9 +81,9 @@ public class Ai4 extends Ai { //Alpha Beta
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
-                double currentH = maxTree(nextMove, gridC, usC, otherC, level, alpha, beta);
+                double currentH = maxTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, otherC);
-                visited += 1;
+                node++;
                 if (currentH < min) {
                     min = currentH;
                 }
@@ -97,11 +101,12 @@ public class Ai4 extends Ai { //Alpha Beta
 
     public Move chooseMove() {
         this.config = new Tree();
-        this.visited = 0;
+        this.node = 0;
+        this.level = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(this.config.getCurrent(), gridC, usC, themC, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        maxTree(this.config.getCurrent(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
         for (Node child : this.config.getCurrent().getChilds()) {
@@ -110,7 +115,8 @@ public class Ai4 extends Ai { //Alpha Beta
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(visited + " noeuds visités");
+        Log.addMessage(node + " noeuds visités");
+        Log.addMessage(level + " profondeur max");
         return returnMove;
     }
 }
