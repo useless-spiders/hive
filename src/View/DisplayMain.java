@@ -97,8 +97,8 @@ public class DisplayMain {
 
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
-        setFullScreen(frameOpening);
         setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+        setFullScreen(frameOpening);
 
         //Affichage du menu
         new DisplayConfigParty(frameMenu, pageActionHandler, gameActionHandler);
