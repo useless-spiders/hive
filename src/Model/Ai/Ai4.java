@@ -30,12 +30,9 @@ public class Ai4 extends Ai { //Alpha Beta
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g)* (aiPlayer.getTurn()*0.3+1);
-        result += beeNeighbors(this.other, g)* (aiPlayer.getTurn()*0.3+1);
-        result += insectsCount(this.aiPlayer, g);
-        result -= insectsCount(this.other, g);
-        result += insectFree(this.aiPlayer, g)*0.3;
-        result -= insectFree(this.other, g)*0.3;
+        result += (beeNeighbors(this.other, g) - beeNeighbors(this.aiPlayer, g))*10;
+        result += insectsCount(this.aiPlayer, g) - insectsCount(this.other, g);
+        result += (insectFree(this.aiPlayer, g) - insectFree(this.other, g))*2;
         return result;
     }
 
@@ -106,10 +103,10 @@ public class Ai4 extends Ai { //Alpha Beta
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(this.config.getCurrent(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        maxTree(this.config.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
-        for (Node child : this.config.getCurrent().getChilds()) {
+        for (Node child : this.config.getRoot().getChilds()) {
             if (child.getValue() > max) {
                 max = child.getValue();
                 returnMove = child.getMove();
