@@ -35,6 +35,6 @@ public class DisplayInfoInGame extends JPanel {
 
     public void updatePrintInfo(String name, int turn) {
         this.namePlayeurLabel.setText("Tour de "+ name);
-        this.turnLabel.setText("Turn : " + turn);
+        this.turnLabel.setText("Tour : " + turn);
     }
 }
