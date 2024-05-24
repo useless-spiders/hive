@@ -1,7 +1,6 @@
 package View;
 
 import Model.Insect.Bee;
-import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;

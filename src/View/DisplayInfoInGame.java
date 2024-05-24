@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayInfoInGame extends JPanel {
-    JFrame frame;
     private JLabel turnLabel;
     private JLabel namePlayeurLabel;
 
@@ -15,7 +14,6 @@ public class DisplayInfoInGame extends JPanel {
         JLabel infoLabel = new JLabel("Informations jeu");
         this.namePlayeurLabel = new JLabel("Tour de ");
         this.turnLabel = new JLabel("Tour : 0" );
-
 
         JPanel boxContainer  = new JPanel();
         boxContainer.setLayout(new BoxLayout(boxContainer, BoxLayout.Y_AXIS));
@@ -37,6 +35,6 @@ public class DisplayInfoInGame extends JPanel {
 
     public void updatePrintInfo(String name, int turn) {
         this.namePlayeurLabel.setText("Tour de "+ name);
-        this.turnLabel.setText("Turn : " + turn);
+        this.turnLabel.setText("Tour : " + turn);
     }
 }
