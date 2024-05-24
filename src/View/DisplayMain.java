@@ -28,6 +28,7 @@ public class DisplayMain {
     private JFrame currentFrame;
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
+    private DisplayRestart displayRestart;
 
     public static Image loadImageHexagons(String nom) {
         try {
@@ -121,7 +122,10 @@ public class DisplayMain {
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
 
         //Affichage du pop up d'abandon
-        this.displayAbort = new DisplayAbort(pageActionHandler, gameActionHandler);
+        this.displayAbort = new DisplayAbort(pageActionHandler);
+
+        //Affichage du pop up pour recommencer la partie
+        this.displayRestart = new DisplayRestart(gameActionHandler);
 
         //Affichage des regles
         DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
@@ -140,6 +144,9 @@ public class DisplayMain {
     }
     public DisplayAbort getDisplayAbort() {
         return this.displayAbort;
+    }
+    public DisplayRestart getDisplayRestart() {
+        return this.displayRestart;
     }
 
     public JFrame getCurrentFrame() {

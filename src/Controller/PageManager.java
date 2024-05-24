@@ -81,6 +81,11 @@ public class PageManager implements PageActionHandler {
         this.switchFrame(this.frameMenu);
     }
 
+    public void gameAndRestart() {
+        this.frameGame.setVisible(true);
+        this.displayMain.getDisplayRestart().printAskRestart();
+    }
+
     public DisplayMain getDisplayMain() {
         return this.displayMain;
     }

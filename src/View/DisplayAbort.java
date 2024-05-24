@@ -1,22 +1,15 @@
 package View;
 
-import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
-import Structure.Log;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayAbort extends JPanel {
-    private static final String YES = "Oui";
-    private static final String NO = "Non";
     private PageActionHandler pageActionHandler;
-    private GameActionHandler gameActionHandler;
-    private GridBagConstraints gbc;
 
-    public DisplayAbort(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
+    public DisplayAbort(PageActionHandler pageActionHandler) {
         this.pageActionHandler = pageActionHandler;
-        this.gameActionHandler = gameActionHandler;
     }
 
     public void printAskAbort() {

@@ -12,5 +12,6 @@ public interface PageActionHandler {
     void gameAndRules();
     void disposeGame();
     void abortToMenu();
+    void gameAndRestart();
     DisplayMain getDisplayMain();
 }
