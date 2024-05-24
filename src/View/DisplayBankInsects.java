@@ -24,35 +24,15 @@ public class DisplayBankInsects {
 
     private static Boolean isInsectButtonClicked = false;
     private static ImageIcon currentIcon;
+    private JPanel panelGame;
 
     public DisplayBankInsects(JPanel panelGame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.panelGame = panelGame;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
 
-        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer1().getName()));
-        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer2().getName()));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayer1(), this.player1NameLabel, 1);
-        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayer2(), this.player2NameLabel, 2);
-        this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
-        this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weighty = 1.0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.WEST;
-        panelGame.add(panelButtonBankJ1, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
-        panelGame.add(this.panelButtonBankJ2, gbc);
-
+        this.createPanels();
     }
 
     private void switchBorder(JPanel panel1, JPanel panel2) {
@@ -60,12 +40,15 @@ public class DisplayBankInsects {
         panel1.setOpaque(false);
         panel2.setBorder(BorderFactory.createLineBorder(Color.RED));
         panel2.setOpaque(true);
-
     }
 
-    public void switchBorderJ1ToJ2(){ switchBorder(this.panelButtonBankJ1, this.panelButtonBankJ2); }
+    public void switchBorderJ1ToJ2() {
+        switchBorder(this.panelButtonBankJ1, this.panelButtonBankJ2);
+    }
 
-    public void switchBorderJ2ToJ1(){ switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1); }
+    public void switchBorderJ2ToJ1() {
+        switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1);
+    }
 
 
     private JPanel createButtonPanel(Player player, JLabel playerName, int side) {
@@ -105,12 +88,11 @@ public class DisplayBankInsects {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
 
-        if(side == 1){
+        if (side == 1) {
             panel.add(createButton(insectClass, player), gbc);
             gbc.gridx = 1;
             panel.add(label, gbc);
-        }
-        else{
+        } else {
             panel.add(label, gbc);
             gbc.gridx = 1;
             panel.add(createButton(insectClass, player), gbc);
@@ -193,5 +175,36 @@ public class DisplayBankInsects {
 
         // Remplacez l'image de l'ImageIcon par l'image avec l'opacité
         icon.setImage(bufferedImage);
+    }
+
+    public void updateButtons() {
+        this.panelButtonBankJ1.removeAll();
+        this.panelButtonBankJ2.removeAll();
+        this.createPanels();
+    }
+
+    private void createPanels(){
+        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer1().getName()));
+        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer2().getName()));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayer1(), this.player1NameLabel, 1);
+        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayer2(), this.player2NameLabel, 2);
+        this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
+        this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.panelGame.add(panelButtonBankJ1, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.panelGame.add(this.panelButtonBankJ2, gbc);
     }
 }
