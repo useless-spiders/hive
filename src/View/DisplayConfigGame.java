@@ -3,6 +3,7 @@ package View;
 import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.Log;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -205,7 +206,7 @@ public class DisplayConfigGame extends JPanel {
     private JButton createSkinSelectionButton(JButton button) {
         button.addActionListener(e -> {
             // Afficher le popup de sélection des skins
-            String[] skinOptions = {"Skin noir et blanc", "Skin Among Us", "Skin par défaut"};
+            String[] skinOptions = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us"};
             String selectedSkin = (String) JOptionPane.showInputDialog(
                     null,
                     "Choisissez un skin pour les insectes :",
@@ -217,7 +218,19 @@ public class DisplayConfigGame extends JPanel {
 
             // Mettre à jour les skins des hexagones
             if (selectedSkin != null) {
-                // Par exemple : this.hexagonManager.setHexagonSkin(selectedSkin);
+                switch (selectedSkin) {
+                    case "Skin par défaut":
+                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Default/");
+                        break;
+                    case "Skin noir et blanc":
+                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Black_and_white/");
+                        break;
+                    case "Skin Among Us":
+                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Sus_skin/");
+                        break;
+                    default:
+                        Log.addMessage("Skin inconnu");
+                }
             }
         });
         return button;

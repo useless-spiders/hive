@@ -24,11 +24,12 @@ public class DisplayMain {
     private static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
     private static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
     private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
-    private static String SKIN_FOLDER = "Default/";
+    public static String SKIN_FOLDER = "Default/";
 
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
     private DisplayRestart displayRestart;
+    private DisplayGame displayGame;
 
     public static Image loadImageHexagons(String nom) {
         try {
@@ -38,6 +39,12 @@ public class DisplayMain {
             System.exit(1);
             return null;
         }
+    }
+
+    public void setHexagonSkin(String selectedSkin) {
+        SKIN_FOLDER = selectedSkin;
+        this.displayGame.getDisplayBankInsects().updateButtons();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
     }
 
     public static Image loadImageInsects(String nom) {
@@ -116,8 +123,10 @@ public class DisplayMain {
         FrameMetrics.setupFrame(frameMenu, false, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
-        DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
+        this.displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
         FrameMetrics.setupFrame(frameGame, false, JFrame.EXIT_ON_CLOSE);
+
+
 
         //Ajouter les écouteurs
         new MouseActionListener(gameActionHandler, displayGame);

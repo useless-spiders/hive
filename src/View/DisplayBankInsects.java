@@ -1,5 +1,6 @@
 package View;
 
+import Controller.Game;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -206,5 +207,13 @@ public class DisplayBankInsects {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
         this.panelGame.add(this.panelButtonBankJ2, gbc);
+    }
+
+    public void updateBorderBank() {
+        if (this.gameActionHandler.getCurrentPlayer().equals(this.gameActionHandler.getPlayer1())) {
+            this.switchBorderJ2ToJ1();
+        } else {
+            this.switchBorderJ1ToJ2();
+        }
     }
 }

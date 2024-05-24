@@ -42,7 +42,7 @@ public class Game implements GameActionHandler {
         this.history = new History();
         this.pageManager = new PageManager(this);
         this.startAi();
-        this.updateBorderBank();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
@@ -176,14 +176,6 @@ public class Game implements GameActionHandler {
     @Override
     public DisplayGame getDisplayGame() {
         return this.displayGame;
-    }
-
-    private void updateBorderBank() {
-        if (this.currentPlayer.equals(this.player1)) {
-            this.displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
-        } else {
-            this.displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
-        }
     }
 
     private int checkLoser() {
@@ -412,7 +404,7 @@ public class Game implements GameActionHandler {
             this.switchPlayerHistory();
             this.currentPlayer.decrementTurn();
             this.hexGrid.unapplyMove(move, this.currentPlayer);
-            this.updateBorderBank();
+            this.displayGame.getDisplayBankInsects().updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.getDisplayStack().updateStackClickState(isInsectCellClicked, hexClicked);
@@ -432,7 +424,7 @@ public class Game implements GameActionHandler {
             Move move = this.history.redoMove();
             this.hexGrid.applyMove(move, this.currentPlayer);
             this.switchPlayerHistory();
-            this.updateBorderBank();
+            this.displayGame.getDisplayBankInsects().updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.getDisplayHexGrid().updateInsectClickState(false, this.hexClicked);
             this.displayGame.repaint();
@@ -486,7 +478,7 @@ public class Game implements GameActionHandler {
                 this.delay.start();
             }
 
-            this.updateBorderBank();
+            this.displayGame.getDisplayBankInsects().updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.repaint();
 
@@ -513,7 +505,7 @@ public class Game implements GameActionHandler {
         } else {
             this.currentPlayer = this.player2;
         }
-        this.updateBorderBank();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
         this.startAi();
@@ -534,7 +526,7 @@ public class Game implements GameActionHandler {
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
         this.displayGame.getDisplayBankInsects().updateButtons();
-        this.updateBorderBank();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }
