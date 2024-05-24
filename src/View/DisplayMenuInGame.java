@@ -31,8 +31,8 @@ public class DisplayMenuInGame {
         this.pageActionHandler = pageActionHandler;
 
         // Création du JPanel pour contenir le menu et les boutons
-        JPanel menuPanel = new JPanel(new GridBagLayout());
-        menuPanel.setOpaque(false);
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setOpaque(false);
 
         // Création des boutons annuler et refaire
         this.cancelButton = createButtonCancel();
@@ -44,29 +44,25 @@ public class DisplayMenuInGame {
         menu.setFocusable(false);
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
-        GridBagConstraints cancelButtonConstraints = new GridBagConstraints();
-        cancelButtonConstraints.gridx = 1;
-        cancelButtonConstraints.gridy = 0;
-        cancelButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        cancelButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.cancelButton, cancelButtonConstraints);
+        GridBagConstraints gbcButtonInGame  = new GridBagConstraints();
+        gbcButtonInGame.gridx = 0; // à droite du menu
+        gbcButtonInGame.gridy = 0;
+        gbcButtonInGame.anchor = GridBagConstraints.NORTHEAST;
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.changeStateAI, gbcButtonInGame);
+
+
+        gbcButtonInGame.gridx = 1;
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.cancelButton, gbcButtonInGame);
 
 
         // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
-        GridBagConstraints redoButtonConstraints = new GridBagConstraints();
-        redoButtonConstraints.gridx = 2; // à droite du menu
-        redoButtonConstraints.gridy = 0;
-        redoButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        redoButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.redoButton, redoButtonConstraints);
+        gbcButtonInGame.gridx = 2; // à droite du menu
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.redoButton, gbcButtonInGame);
 
-        // Ajout du bouton change state
-        GridBagConstraints changeStateAiConstraints = new GridBagConstraints();
-        changeStateAiConstraints.gridx = 0; // à droite du menu
-        changeStateAiConstraints.gridy = 0;
-        changeStateAiConstraints.anchor = GridBagConstraints.NORTHEAST;
-        changeStateAiConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.changeStateAI, changeStateAiConstraints);
+
 
         // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
         GridBagConstraints menuConstraints = new GridBagConstraints();
@@ -74,9 +70,9 @@ public class DisplayMenuInGame {
         menuConstraints.gridy = 0;
         menuConstraints.anchor = GridBagConstraints.NORTHEAST;
         menuConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(menu, menuConstraints);
+        buttonPanel.add(menu, menuConstraints);
 
-        GridBagConstraints logLabelGbc = new GridBagConstraints();
+
         this.logLabel = new JLabel();
         logLabel.setHorizontalAlignment(SwingConstants.CENTER);
         logLabel.setFont(new Font("Arial", Font.BOLD, 30));
@@ -85,22 +81,19 @@ public class DisplayMenuInGame {
         logLabel.setBackground(Color.BLACK); // Set background color to blue
 
         // Add the message label to the JFrame
-        logLabelGbc.gridx = 0;
-        logLabelGbc.gridy = 1;
-        logLabelGbc.gridwidth = 2; // Span across two columns
-        logLabelGbc.anchor = GridBagConstraints.SOUTH;
-        logLabelGbc.weightx = 1.0;
-        logLabelGbc.weighty = 1.0;
-        logLabelGbc.insets = new Insets(10, 10, 10, 10); // Add some padding
-        panelGame.add(logLabel, logLabelGbc);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        //gbc.gridwidth = 2; // Span across two columns
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.weightx = 1.0;
+        //gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
+        panelGame.add(logLabel, gbc);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
-        gbc.gridx = 1; // Column (starts from 0)
-        gbc.gridy = 0; // Row (starts from 0)
-        gbc.anchor = GridBagConstraints.NORTHEAST; // Anchor to the top-right corner
-        gbc.weightx = 1.0; // Allow horizontal stretching
+        gbc.gridy = 3; // Row (starts from 0)
         gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
-        panelGame.add(menuPanel, gbc);
+        panelGame.add(buttonPanel, gbc);
     }
 
     private void showTemporaryMessage(String message, int duration) {
