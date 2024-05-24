@@ -102,7 +102,7 @@ public class DisplayMain {
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
         FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
-        FrameMetrics.setFrameSize(frameOpening, new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        FrameMetrics.setFrameSize(frameOpening, new Dimension(FRAME_WIDTH, FRAME_HEIGHT)); //Mettre une taille par défaut
         FrameMetrics.setFullScreen(frameOpening);
 
         //Affichage du menu
