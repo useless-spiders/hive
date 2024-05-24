@@ -1,71 +1,87 @@
 package Controller;
 
 import Pattern.PageActionHandler;
-import Structure.FrameMetrics;
-import View.MainDisplay;
+import View.DisplayAbort;
+import View.DisplayMain;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PageManager implements PageActionHandler {
     private JFrame frameOpening = new JFrame();
     private JFrame frameGame = new JFrame("Hive game");
     private JFrame frameMenu = new JFrame();
     private JFrame frameWin = new JFrame();
-    private JFrame frameAbort = new JFrame();
-    private MainDisplay mainDisplay;
+    private JFrame frameRules = new JFrame();
+    private DisplayMain displayMain;
+    private JFrame currentFrame;
 
     public PageManager(Game game){
-        mainDisplay = new MainDisplay(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin);
+        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRules);
+        this.currentFrame = this.displayMain.getCurrentFrame();
     }
 
-    private void switchFrame(JFrame frame1, JFrame frame2){
-        Dimension frameSize = FrameMetrics.getFrameSize(frame2);
-        frame1.setVisible(false);
+    private void switchFrame(JFrame nextFrame){
+        int currentWidth = this.currentFrame.getWidth();
+        int currentHeight = this.currentFrame.getHeight();
+        boolean isFullScreen = (this.currentFrame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH && this.currentFrame.isUndecorated();
 
-        frame2.setSize(frameSize.width, frameSize.height);
-        frame2.setVisible(true);
+        if (isFullScreen) {
+            displayMain.setFullScreen(nextFrame);
+        } else {
+            nextFrame.setSize(currentWidth, currentHeight);
+        }
+
+        this.currentFrame.setVisible(false);
+        nextFrame.setVisible(true);
+
+        this.currentFrame = nextFrame;
     }
 
     @Override
     public void openingToMenu() {
-        this.switchFrame(this.frameOpening, this.frameMenu);
+        this.switchFrame(this.frameMenu);
     }
 
     @Override
     public void menuToGame() {
-        this.switchFrame(this.frameMenu, this.frameGame);
-    }
-
-    @Override
-    public void gameToMenu() {
-        this.switchFrame(this.frameGame, this.frameMenu);
+        this.switchFrame(this.frameGame);
     }
 
     @Override
     public void winToMenu() {
-        this.switchFrame(this.frameWin, this.frameMenu);
+        this.switchFrame(this.frameMenu);
     }
 
     @Override
     public void winToGame(){
-        this.switchFrame(this.frameWin, this.frameGame);
+        this.switchFrame(this.frameGame);
     }
 
     @Override
     public void gameAndAbort() {
-        frameGame.setVisible(true);
-        frameAbort.setVisible(true);
+        this.frameGame.setVisible(true);
+        this.displayMain.getDisplayAbort().printAskAbort();
     }
 
     public void gameAndWin() {
-        frameGame.setVisible(true);
-        frameWin.setVisible(true);
+        this.frameGame.setVisible(true);
+        this.frameWin.setVisible(true);
     }
 
-    public void disposeGame(){frameGame.dispose();}
+    public void gameAndRules() {
+        this.frameGame.setVisible(true);
+        this.frameRules.setVisible(true);
+    }
 
-    public MainDisplay getMainDisplay() {
-        return this.mainDisplay;
+    public void disposeGame() {
+        frameGame.dispose();
+    }
+
+    public void abortToMenu() {
+        this.switchFrame(this.frameMenu);
+    }
+
+    public DisplayMain getDisplayMain() {
+        return this.displayMain;
     }
 }

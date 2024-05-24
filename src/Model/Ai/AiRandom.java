@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Model.Player;
-
+import Model.HexGrid;
 import Model.Move;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
-public class AiRandom extends Ai {
+public class AiRandom extends Ai { //Random
 
     Player other;
 
@@ -21,6 +21,11 @@ public class AiRandom extends Ai {
         } else {
             this.other = this.gameActionHandler.getPlayer1();
         }
+    }
+
+    @Override
+    double heuristic(HexGrid g){
+        return 0;
     }
 
     @Override

@@ -1,0 +1,20 @@
+ (;
+GM[27]VV[1]
+CM[0,1]
+TC[None]
+SU[hive 2 0 101]
+DT[Sun Jan 21 16:08:35 CET 2024]
+GN[HV-engelen-Dumbot-2024-01-21-1508]
+RE[Game won by Dumbot]
+P0[id "engelen"]
+P1[id "Dumbot"]
+; P0[0 Start P0]
+; P0[1 Pick W 2 wG1]TM[9174]
+; P0[2 Dropb wG1 N 14 .]TM[18314]
+; P0[3 Resign ]TM[127669]
+; P0[4 Done ]TM[130444]
+;
+P0[time 0:02:10 ]
+P1[time 0:00:00 ]
+)
+ 

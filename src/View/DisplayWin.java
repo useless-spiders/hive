@@ -51,9 +51,9 @@ public class DisplayWin extends JPanel {
     public void printWinner() {
         if (this.winText != null) {
             if (this.winner == null) {
-                this.winText.setText("Match nul");
+                this.winText = createWinnerLabel();
             } else {
-                this.winText.setText("Victoire de " + this.winner);
+                this.winText = createWinnerLabel();
             }
         } else {
             this.winText = createWinnerLabel();
@@ -82,7 +82,6 @@ public class DisplayWin extends JPanel {
         return column;
     }
 
-    //TODO: Faire les boutons tel Replay et Menu tel qu il renvoie au bon endroit
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -5,6 +5,7 @@ import java.util.*;
 import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
+import Structure.Log;
 
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
@@ -153,12 +154,12 @@ public class HexGrid implements Cloneable {
     }
 
     public boolean isHiveConnected() {
-        HexCoordinate start = this.getGrid().keySet().iterator().next();
-        HashSet<HexCoordinate> visited = new HashSet<>();
-
         if (this.getGrid().isEmpty()) {
             return true;
         }
+
+        HexCoordinate start = this.getGrid().keySet().iterator().next();
+        HashSet<HexCoordinate> visited = new HashSet<>();
 
         this.dfs(start, visited);
 

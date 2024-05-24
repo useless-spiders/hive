@@ -3,6 +3,7 @@ package View;
 import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
@@ -12,18 +13,17 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private DisplayGameBackground displayGameBackground;
+    private Image background  = DisplayMain.loadBackground("Game_background.png");
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
-    private DisplayMenuInParty displayMenuInParty;
+    private DisplayMenuInGame displayMenuInGame;
     private DisplayStack displayStack;
     private DisplayInfoInGame displayInfoInGame;
 
     private JFrame frameGame;
     private GameActionHandler gameActionHandler;
     private PageActionHandler pageActionHandler;
-    private JLabel turnLabel;
 
     public DisplayGame(JFrame frameGame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
@@ -44,11 +44,10 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        this.displayGameBackground = new DisplayGameBackground(frameGame);
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
-        this.displayMenuInParty = new DisplayMenuInParty(this, gbc, this.gameActionHandler, this.pageActionHandler);
+        this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler, this.pageActionHandler);
         this.displayInfoInGame = new DisplayInfoInGame(this);
         this.displayStack = new DisplayStack(this.gameActionHandler);
     }
@@ -66,7 +65,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         return this.displayStack;
     }
     public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
-    public DisplayMenuInParty getDisplayMenuInParty(){return this.displayMenuInParty;}
+    public DisplayMenuInGame getDisplayMenuInGame(){return this.displayMenuInGame;}
 
     public void centerGame() {
         HexGrid hexGrid = gameActionHandler.getGrid();
@@ -95,8 +94,10 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        this.displayMenuInGame.updateButtons();
+
         //Afficher le background du jeu
-        this.displayGameBackground.paintGameBackground(g);
+        g.drawImage(this.background, 0, 0, this.frameGame.getWidth(), this.frameGame.getHeight(), this);
 
         displayInfoInGame.updatePrintInfo(this.gameActionHandler.getCurrentPlayer().getName(), this.gameActionHandler.getCurrentPlayer().getTurn());
 
