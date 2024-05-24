@@ -7,7 +7,7 @@ public class DisplayInfoInGame extends JPanel {
     private JLabel turnLabel;
     private JLabel namePlayeurLabel;
 
-    public DisplayInfoInGame(JPanel panelGame) {
+    public DisplayInfoInGame(JPanel panelGame, GridBagConstraints gbc) {
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
 
@@ -22,7 +22,6 @@ public class DisplayInfoInGame extends JPanel {
         boxContainer.add(this.namePlayeurLabel);
         boxContainer.add(this.turnLabel);
 
-        GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 0, 0); // Espacement entre le bouton et le haut de la fenêtre
