@@ -1,0 +1,18 @@
+ (;
+GM[27]VV[1]
+CM[0,1]
+TC[None]
+SU[hive 2 0 101]
+DT[Mon Feb 26 18:44:48 MST 2024]
+GN[HV-EHentz-Dumbot-2024-02-27-0144]
+RE[Game won by Dumbot]
+P0[id "EHentz"]
+P1[id "Dumbot"]
+; P0[0 Start P0]
+; P0[1 Resign ]TM[19755]
+; P0[2 Done ]TM[22123]
+;
+P0[time 0:00:22 ]
+P1[time 0:00:00 ]
+)
+ 
