@@ -218,7 +218,7 @@ public class DisplayMenuInGame {
     }
 
     private JButton createButtonOption(){
-        JButton button = new JButton("option");
+        JButton button = new JButton(DisplayMain.loadIcon("Menu.png"));
         button.addActionListener(e -> {
             if(this.optionVisible){
                 this.optionsPanel.setVisible(false);
