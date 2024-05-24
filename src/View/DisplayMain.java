@@ -128,7 +128,7 @@ public class DisplayMain {
         this.displayWin = new DisplayWin(pageActionHandler, gameActionHandler);
 
         //Affichage du pop up d'abandon
-        this.displayAbort = new DisplayAbort(pageActionHandler);
+        this.displayAbort = new DisplayAbort(gameActionHandler, pageActionHandler);
 
         //Affichage du pop up pour recommencer la partie
         this.displayRestart = new DisplayRestart(gameActionHandler);
