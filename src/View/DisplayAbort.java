@@ -1,5 +1,6 @@
 package View;
 
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 
 import javax.swing.*;
@@ -7,9 +8,11 @@ import java.awt.*;
 
 public class DisplayAbort extends JPanel {
     private PageActionHandler pageActionHandler;
+    private GameActionHandler gameActionHandler;
 
-    public DisplayAbort(PageActionHandler pageActionHandler) {
+    public DisplayAbort(GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
         this.pageActionHandler = pageActionHandler;
+        this.gameActionHandler = gameActionHandler;
     }
 
     public void printAskAbort() {
@@ -18,6 +21,7 @@ public class DisplayAbort extends JPanel {
             this.pageActionHandler.abortToMenu();
             this.pageActionHandler.disposeGame();
         } else {
+            this.gameActionHandler.changeStateAi();
             Window window = SwingUtilities.getWindowAncestor(this);
             if (window != null) {
                 window.dispose();

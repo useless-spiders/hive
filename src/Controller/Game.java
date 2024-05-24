@@ -5,6 +5,7 @@ import Model.Ai.Ai;
 import Model.Insect.Beetle;
 import Model.Insect.Insect;
 import Pattern.GameActionHandler;
+import Pattern.PageActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
@@ -29,12 +30,11 @@ public class Game implements GameActionHandler {
     private Insect insect;
     private Timer delay;
     private PageManager pageManager;
-
+    private boolean isFirstStart = true;
 
     public Game() {
         this.hexGrid = new HexGrid();
         this.initPlayers();
-
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
         this.hexClicked = null;
@@ -42,6 +42,21 @@ public class Game implements GameActionHandler {
         this.history = new History();
         this.pageManager = new PageManager(this);
         this.startAi();
+        this.updateBorderBank();
+        HexMetrics.resetHexMetricsWidth();
+        ViewMetrics.resetViewPosition();
+        this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.repaint();
+    }
+
+    @Override
+    public void setIsFirstStart(boolean isFirstStart) {
+        this.isFirstStart = isFirstStart;
+    }
+
+    @Override
+    public boolean getIsFirstStart() {
+        return this.isFirstStart;
     }
 
     public void setPlayer(int player, String name) {
@@ -50,6 +65,10 @@ public class Game implements GameActionHandler {
         } else {
             this.player2.setAi(Ai.nouvelle(this, name, this.player2));
         }
+    }
+
+    public PageActionHandler getPageActionHandler() {
+        return this.pageManager;
     }
 
     @Override
@@ -77,7 +96,7 @@ public class Game implements GameActionHandler {
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread "+ex);
+                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread " + ex);
                         });
                     }
                 }
@@ -105,7 +124,7 @@ public class Game implements GameActionHandler {
     }
 
     @Override
-    public boolean isAiRunning(){
+    public boolean isAiRunning() {
         return this.delay.isRunning();
     }
 
@@ -160,7 +179,7 @@ public class Game implements GameActionHandler {
     }
 
     private void updateBorderBank() {
-        if (this.currentPlayer == this.player1) {
+        if (this.currentPlayer.equals(this.player1)) {
             this.displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
         } else {
             this.displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
@@ -194,10 +213,10 @@ public class Game implements GameActionHandler {
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {
-                displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
+                this.displayGame.getDisplayBankInsects().switchBorderJ1ToJ2();
                 this.currentPlayer = this.player2;
             } else {
-                displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
+                this.displayGame.getDisplayBankInsects().switchBorderJ2ToJ1();
                 this.currentPlayer = this.player1;
             }
             if (this.currentPlayer.isAi()) {
@@ -218,11 +237,18 @@ public class Game implements GameActionHandler {
     }
 
     private void initPlayers() {
-        this.player1 = new Player("white", "Inspecteur blanco");
-        this.player2 = new Player("black", "Barbe noir");
-
         Random random = new Random();
-        this.currentPlayer = random.nextBoolean() ? player1 : player2;
+        int color = random.nextInt(2);
+        this.player1 = new Player("Inspecteur blanco");
+        this.player2 = new Player("Barbe noir");
+        this.player1.setColor(color);
+        this.player2.setColor((color + 1) % 2);
+
+        if (this.player1.getColor() == Player.WHITE) {
+            this.currentPlayer = this.player1;
+        } else {
+            this.currentPlayer = this.player2;
+        }
     }
 
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
@@ -362,9 +388,6 @@ public class Game implements GameActionHandler {
 
             Log.addMessage(this.currentPlayer.getName() + " " + this.currentPlayer.getColor() + " " + this.currentPlayer.isAi() + " --- " + player.getName() + " " + player.getColor() + " " + player.isAi());
 
-            // Pas sensé avoir besoin de ça !
-            player.setName(this.currentPlayer.getName());
-
             if (this.currentPlayer.equals(player)) {
                 this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
                 if (this.playableCoordinates.isEmpty()) {
@@ -485,8 +508,11 @@ public class Game implements GameActionHandler {
         this.history = new History();
         this.player1.reset();
         this.player2.reset();
-        Random random = new Random();
-        this.currentPlayer = random.nextBoolean() ? player1 : player2;
+        if (this.player1.getColor() == Player.WHITE) {
+            this.currentPlayer = this.player1;
+        } else {
+            this.currentPlayer = this.player2;
+        }
         this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
@@ -496,19 +522,19 @@ public class Game implements GameActionHandler {
     }
 
     @Override
-    public void startGame() {
+    public void resetGame() {
         this.hexGrid = new HexGrid();
         this.initPlayers();
-
         this.isInsectButtonClicked = false;
         this.isInsectCellClicked = false;
         this.hexClicked = null;
         this.playableCoordinates = new ArrayList<>();
         this.history = new History();
         this.startAi();
-        this.updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
+        this.displayGame.getDisplayBankInsects().updateButtons();
+        this.updateBorderBank();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
         this.displayGame.repaint();
     }

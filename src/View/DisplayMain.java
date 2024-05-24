@@ -91,7 +91,13 @@ public class DisplayMain {
     }
 
     public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
+        String color;
+        if(player.getColor() == Player.WHITE){
+            color = "white";
+        } else {
+            color = "black";
+        }
+        return insectClass.getSimpleName() + "_" + color + ".png";
     }
 
     public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,
@@ -122,7 +128,7 @@ public class DisplayMain {
         this.displayWin = new DisplayWin(pageActionHandler, gameActionHandler);
 
         //Affichage du pop up d'abandon
-        this.displayAbort = new DisplayAbort(pageActionHandler);
+        this.displayAbort = new DisplayAbort(gameActionHandler, pageActionHandler);
 
         //Affichage du pop up pour recommencer la partie
         this.displayRestart = new DisplayRestart(gameActionHandler);

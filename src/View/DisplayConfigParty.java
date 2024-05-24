@@ -128,7 +128,11 @@ public class DisplayConfigParty extends JPanel {
         switch (text) {
             case JOUER:
                 button.addActionListener(e -> {
-                    this.gameActionHandler.startGame();
+                    if(this.gameActionHandler.getIsFirstStart()){
+                        this.gameActionHandler.setIsFirstStart(false);
+                    } else {
+                        this.gameActionHandler.resetGame();
+                    }
                     if (this.column1.getSelectedItem() != HUMAN) {
                         this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
                     } else {
