@@ -44,10 +44,11 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         GridBagConstraints gbc = new GridBagConstraints();
 
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
-        this.displayBankInsects = new DisplayBankInsects(this, this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
+        this.displayInfoInGame = new DisplayInfoInGame(this, gbc);
+        this.displayBankInsects = new DisplayBankInsects(this, gbc, this.gameActionHandler);
         this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler, this.pageActionHandler);
-        this.displayInfoInGame = new DisplayInfoInGame(this);
+
         this.displayStack = new DisplayStack(this.gameActionHandler);
     }
 

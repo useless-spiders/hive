@@ -45,10 +45,6 @@ public class DisplayMenuInGame {
         this.changeStateAI = createButtonChangeStateAI();
         JButton optionButton = createButtonOption();
 
-        // Création du menu
-        //JComboBox<String> menu = createMenu();
-        //menu.setFocusable(false);
-
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
         GridBagConstraints gbcButtonInGame  = new GridBagConstraints();
         gbcButtonInGame.gridx = 0; // à droite du menu
@@ -57,34 +53,20 @@ public class DisplayMenuInGame {
         gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
         buttonPanel.add(this.changeStateAI, gbcButtonInGame);
 
-
         gbcButtonInGame.gridx = 1;
         gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
         buttonPanel.add(this.cancelButton, gbcButtonInGame);
-
 
         // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
         gbcButtonInGame.gridx = 2; // à droite du menu
         gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
         buttonPanel.add(this.redoButton, gbcButtonInGame);
 
-
-        /*
-        // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
-        GridBagConstraints menuConstraints = new GridBagConstraints();
-        menuConstraints.gridx = 3; // à droite du bouton annuler
-        menuConstraints.gridy = 0;
-        menuConstraints.anchor = GridBagConstraints.NORTHEAST;
-        menuConstraints.insets = new Insets(10, 10, 10, 10);
-        buttonPanel.add(menu, menuConstraints);
-        */
-
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.EAST;
         panelGame.add(this.optionsPanel, gbc);
-
 
         this.logLabel = new JLabel();
         logLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -93,15 +75,13 @@ public class DisplayMenuInGame {
         logLabel.setOpaque(true); // Enable opacity to set background color
         logLabel.setBackground(Color.BLACK); // Set background color to blue
 
-
         //TODO : mettre les boutons bien au centre
 
         // Add the message label to the JFrame
 
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.weightx = 1.0;
-        //gbc.weighty = 1.0;
         gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
         panelGame.add(logLabel, gbc);
 
@@ -115,7 +95,6 @@ public class DisplayMenuInGame {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
         panelGame.add(optionButton, gbc);
-
 
     }
 
@@ -136,39 +115,6 @@ public class DisplayMenuInGame {
         timer.setRepeats(false);
         timer.start();
     }
-
-    /*
-    private JComboBox<String> createMenu() {
-        String[] options = {DEFAULT, SAVE, RULES, NEWGAME, ABORT};
-        JComboBox<String> menu = new JComboBox<>(options);
-        menu.addActionListener(e -> {
-            String selectedItem = (String) menu.getSelectedItem();
-            if (selectedItem != null) {
-                switch (selectedItem) {
-                    case SAVE:
-                        this.gameActionHandler.saveGame();
-                        showTemporaryMessage("Sauvegarde en cours !!!", 3000);
-                        break;
-                    case RULES:
-                        this.pageActionHandler.gameAndRules();
-                        break;
-                    case NEWGAME:
-                        this.pageActionHandler.gameAndRestart();
-                        break;
-                    case ABORT:
-                        this.gameActionHandler.stopAi();
-                        this.pageActionHandler.gameAndAbort();
-                        break;
-                    case DEFAULT:
-                        break;
-                    default:
-                        Log.addMessage("Erreur dans les options du menu du jeu");
-                }
-                menu.setSelectedItem(DEFAULT);
-            }
-        });
-        return menu;
-    }*/
 
     private JPanel createOptionPanel(){
         JPanel optionPanel = new JPanel(new GridBagLayout());
