@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player implements Cloneable, Serializable {
-    private String color;
+
+    public static final int WHITE = 0;
+    public static final int BLACK = 1;
+
+    private int color;
     private ArrayList<Insect> stock;
     private String name;
     private int turn;
@@ -21,8 +25,7 @@ public class Player implements Cloneable, Serializable {
     private boolean isAi;
     private Ai ai;
 
-    public Player(String color, String name) {
-        this.color = color;
+    public Player(String name) {
         this.stock = initBank();
         this.turn = 1;
         this.name = name;
@@ -107,7 +110,11 @@ public class Player implements Cloneable, Serializable {
         this.beePlaced = beePlaced;
     }
 
-    public String getColor() {
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
         return this.color;
     }
 

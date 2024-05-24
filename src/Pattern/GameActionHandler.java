@@ -62,6 +62,10 @@ public interface GameActionHandler {
 
     void restartGameWithSamePlayers();
 
-    void startGame();
+    void resetGame();
+
+    void setIsFirstStart(boolean isFirstStart);
+
+    boolean getIsFirstStart();
 
 }

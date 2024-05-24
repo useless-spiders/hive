@@ -90,7 +90,13 @@ public class DisplayMain {
     }
 
     public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
+        String color;
+        if(player.getColor() == Player.WHITE){
+            color = "white";
+        } else {
+            color = "black";
+        }
+        return insectClass.getSimpleName() + "_" + color + ".png";
     }
 
     public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,

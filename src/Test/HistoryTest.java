@@ -6,6 +6,7 @@ import Model.Insect.Ant;
 import Model.Insect.Bee;
 import Model.Player;
 import Structure.HexCoordinate;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,24 +15,27 @@ import static org.junit.Assert.*;
  * Classe de test pour l'historique des moves
  */
 public class HistoryTest {
-    private History history;
-    private Player player = new Player("white", "Inspecteur blanco");
+    private Player player = new Player("Inspecteur blanco");
     private Move move1;
     private Move move2;
+
+    @Before
+    public void setUp() {
+        this.player.setColor(Player.WHITE);
+        this.move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
+        this.move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
+    }
 
     /**
      * Teste l'ajout d'une action dans l'historique
      */
     @Test
     public void testAddMove() {
-        history = new History();
-        // Création des moves
-        move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
-        move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
+        History history = new History();
 
         // Ajout des moves
-        history.addMove(move1);
-        history.addMove(move2);
+        history.addMove(this.move1);
+        history.addMove(this.move2);
 
         // Vérification de l'ajout des moves
         assertFalse(history.getHistory().isEmpty());
@@ -43,14 +47,11 @@ public class HistoryTest {
      */
     @Test
     public void testCancelMove() {
-        history = new History();
-        // Création des moves
-        move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
-        move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
+        History history = new History();
 
         // Ajout des moves
-        history.addMove(move1);
-        history.addMove(move2);
+        history.addMove(this.move1);
+        history.addMove(this.move2);
 
         // Vérification de l'annulation des moves
         Move cancelledMove2 = history.cancelMove();
@@ -63,8 +64,8 @@ public class HistoryTest {
 
         assertFalse(history.canCancel());
 
-        assertEquals(move1, cancelledMove1);
-        assertEquals(move2, cancelledMove2);
+        assertEquals(this.move1, cancelledMove1);
+        assertEquals(this.move2, cancelledMove2);
 
     }
 
@@ -73,17 +74,14 @@ public class HistoryTest {
      */
     @Test
     public void testRedoMove() {
-        history = new History();
-        // Création des moves
-        move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
-        move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
+        History history = new History();
 
         // Vérification de la possibilité de refaire une move
         assertFalse(history.canRedo());
 
         // Ajout des moves
-        history.addMove(move1);
-        history.addMove(move2);
+        history.addMove(this.move1);
+        history.addMove(this.move2);
 
         // Annulation d'une move
         history.cancelMove();
@@ -93,6 +91,6 @@ public class HistoryTest {
         Move redoMove2 = history.redoMove();
 
         assertFalse(history.getHistory().isEmpty());
-        assertEquals(move2, redoMove2);
+        assertEquals(this.move2, redoMove2);
     }
 }

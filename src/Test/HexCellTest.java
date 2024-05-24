@@ -7,6 +7,7 @@ import Model.Insect.Insect;
 import Model.Insect.Spider;
 import Model.Player;
 import Structure.Log;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +17,12 @@ import static org.junit.Assert.*;
  */
 public class HexCellTest {
     // Déclaration d'un joueur pour les tests
-    private Player player = new Player("white", "Inspecteur blanco");
+    private Player player = new Player("Inspecteur blanco");
+
+    @Before
+    public void setUp() {
+        this.player.setColor(Player.WHITE);
+    }
 
     /**
      * Teste l'ajout et la suppression d'insectes dans une cellule

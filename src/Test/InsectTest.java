@@ -3,6 +3,7 @@ package Test;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
 import Model.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,13 +14,22 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class InsectTest {
 
-    private Player player = new Player("white", "Inspecteur blanco");
-    private Player player2 = new Player("black", "Barbe noire");
+    private Player player = new Player("Inspecteur blanco");
+    private Player player2 = new Player("Barbe noire");
 
-    private Ant ant = new Ant(player);
-    private Bee bee = new Bee(player);
-    private Ant ant2 = new Ant(player2);
-    private Bee bee2 = new Bee(player2);
+    private Ant ant;
+    private Bee bee;
+    private Ant ant2;
+
+    @Before
+    public void setUp() {
+        this.player.setColor(Player.WHITE);
+        this.player2.setColor(Player.BLACK);
+        this.ant = new Ant(player);
+        this.bee = new Bee(player);
+        this.ant2 = new Ant(player2);
+    }
+
     /**
      * Teste la création d'une abeille
      */
@@ -63,12 +73,12 @@ public class InsectTest {
 
     @Test
     public void testEquals(){
-        Ant ant1b = new Ant(player);
-        assertEquals(ant, ant1b);
+        Ant ant1b = new Ant(this.player);
+        assertEquals(this.ant, ant1b);
 
-        assertNotEquals(ant, ant2);
+        assertNotEquals(this.ant, this.ant2);
 
-        assertNotEquals(ant, bee);
+        assertNotEquals(this.ant, this.bee);
     }
 
 
