@@ -14,14 +14,15 @@ import java.awt.event.ItemEvent;
 import java.io.File;
 
 public class DisplayConfigParty extends JPanel {
-    private static final String HUMAN = "humain";
-    private static final String IA_EASY = "AiRandom";
-    private static final String IA_HARD = "Ai1";
-    private static final String IA_HARD2 = "Ai2";
-    private static final String IA_HARD3 = "Ai3";
-    private static final String IA_HARD4 = "Ai4";
-    private static final String JOUER = "jouer";
-    private static final String LOAD = "charger partie";
+    private static final String HUMAN = "Humain";
+    private static final String IA_EASY = "IARandom";
+    private static final String IA_HARD = "IA1";
+    private static final String IA_HARD2 = "IA2";
+    private static final String IA_HARD3 = "IA3";
+    private static final String IA_HARD4 = "IA4";
+    private static final String JOUER = "Jouer";
+    private static final String LOAD = "Charger partie";
+    private static final String SKIN = "Choix du skin";
     private static final String NAME_TEXT = "Nom du joueur";
 
 
@@ -44,6 +45,7 @@ public class DisplayConfigParty extends JPanel {
         this.player1NameField = createTextField();
         this.player2NameField = createTextField();
 
+        //Les deux menus déroulants
         this.column1 = createDropDownMenu(this.player1NameField);
         this.column2 = createDropDownMenu(this.player2NameField);
 
@@ -62,6 +64,7 @@ public class DisplayConfigParty extends JPanel {
         gbc.gridx = 1;
         add(this.player2NameField, gbc);
 
+        //Bouton "Jouer"
         JButton playButton = createButton(JOUER);
         gbc.gridx = 0;
         gbc.gridy = 2; // Move down another row
@@ -69,12 +72,21 @@ public class DisplayConfigParty extends JPanel {
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(playButton, gbc);
 
-        JButton loadButton = createFileSelectionButton();
+        //Bouton "Charger partie"
+        JButton loadButton = createButton(LOAD);
         gbc.gridx = 0;
         gbc.gridy = 3; // Move down another row
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(loadButton, gbc);
+
+        //Bouton "Choix du skin"
+        JButton skinButton = createButton(SKIN);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        add(skinButton, gbc);
 
         frame.setContentPane(this);
         frame.pack();
@@ -127,32 +139,43 @@ public class DisplayConfigParty extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         switch (text) {
             case JOUER:
-                button.addActionListener(e -> {
-                    if(this.gameActionHandler.getIsFirstStart()){
-                        this.gameActionHandler.setIsFirstStart(false);
-                    } else {
-                        this.gameActionHandler.resetGame();
-                    }
-                    if (this.column1.getSelectedItem() != HUMAN) {
-                        this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
-                    } else {
-                        if(!this.player1NameField.getText().equals(NAME_TEXT)){
-                            this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
-                        }
-                    }
-                    if (this.column2.getSelectedItem() != HUMAN) {
-                        this.gameActionHandler.setPlayer(2, (String) this.column2.getSelectedItem());
-                    } else {
-                        if(!this.player2NameField.getText().equals(NAME_TEXT)){
-                            this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
-                        }
-                    }
-                    this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
-                    this.gameActionHandler.startAi();
-                    this.pageActionHandler.menuToGame();
-                });
+                button = this.createPlayersSelectionButton(button);
                 break;
+
+            case LOAD:
+                button = this.createFileSelectionButton();
+                break;
+
+            /*case SKIN:*/
         }
+        return button;
+    }
+
+    private JButton createPlayersSelectionButton(JButton button) {
+        button.addActionListener(e -> {
+            if(this.gameActionHandler.getIsFirstStart()){
+                this.gameActionHandler.setIsFirstStart(false);
+            } else {
+                this.gameActionHandler.resetGame();
+            }
+            if (this.column1.getSelectedItem() != HUMAN) {
+                this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
+            } else {
+                if(!this.player1NameField.getText().equals(NAME_TEXT)){
+                    this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
+                }
+            }
+            if (this.column2.getSelectedItem() != HUMAN) {
+                this.gameActionHandler.setPlayer(2, (String) this.column2.getSelectedItem());
+            } else {
+                if(!this.player2NameField.getText().equals(NAME_TEXT)){
+                    this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
+                }
+            }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
+            this.gameActionHandler.startAi();
+            this.pageActionHandler.menuToGame();
+        });
         return button;
     }
 
