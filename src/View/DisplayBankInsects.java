@@ -3,8 +3,6 @@ package View;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
-import Structure.Log;
-import jdk.internal.org.jline.utils.Display;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +21,9 @@ public class DisplayBankInsects {
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
     private static JButton currentButton;
-    private static JButton previousButton;
+
     private static Boolean isInsectButtonClicked = false;
     private static ImageIcon currentIcon;
-    private static ImageIcon previousIcon;
-    private float currentOpacity = 1.0f;
 
     public DisplayBankInsects(JPanel panelGame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
