@@ -7,6 +7,7 @@ import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import Structure.Log;
 
 import javax.imageio.ImageIO;
@@ -25,7 +26,6 @@ public class DisplayMain {
     private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
     private static String SKIN_FOLDER = "Default/";
 
-    private JFrame currentFrame;
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
     private DisplayRestart displayRestart;
@@ -97,20 +97,21 @@ public class DisplayMain {
     public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,
                        JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
 
-        this.currentFrame = frameOpening;
+        FrameMetrics.setCurrentFrame(frameOpening);
 
         //Affichage de l'opening
         new DisplayOpening(frameOpening, pageActionHandler);
-        setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
-        setFullScreen(frameOpening);
+        FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
+        FrameMetrics.setFrameSize(frameOpening, new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        FrameMetrics.setFullScreen(frameOpening);
 
         //Affichage du menu
         new DisplayConfigParty(frameMenu, pageActionHandler, gameActionHandler);
-        setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+        FrameMetrics.setupFrame(frameMenu, false, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
         DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
-        setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+        FrameMetrics.setupFrame(frameGame, false, JFrame.EXIT_ON_CLOSE);
 
         //Ajouter les écouteurs
         new MouseActionListener(gameActionHandler, displayGame);
@@ -119,7 +120,8 @@ public class DisplayMain {
 
         //Affichage de la frame de fin de jeu
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
-        setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+        FrameMetrics.setupFrame(frameWin, false, JFrame.DO_NOTHING_ON_CLOSE);
+        FrameMetrics.setFrameSize(frameWin, new Dimension(400, 800));
 
         //Affichage du pop up d'abandon
         this.displayAbort = new DisplayAbort(pageActionHandler);
@@ -129,14 +131,8 @@ public class DisplayMain {
 
         //Affichage des regles
         DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
-        setupFrame(frameRules, false, 700, 800, JFrame.DISPOSE_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
-    }
-
-    private void setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
-        frame.setSize(frameWidth, frameHeight); // Définir la taille de la fenêtre
-        frame.setVisible(isVisible);
-        frame.setLocationRelativeTo(null); // Pour centrer l'affichage (notamment pour la frameWin)
-        frame.setDefaultCloseOperation(closeOperation); // Définir l'opération de fermeture
+        FrameMetrics.setupFrame(frameRules, false, JFrame.DISPOSE_ON_CLOSE);
+        FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }
 
     public DisplayWin getDisplayWin() {
@@ -147,13 +143,5 @@ public class DisplayMain {
     }
     public DisplayRestart getDisplayRestart() {
         return this.displayRestart;
-    }
-
-    public JFrame getCurrentFrame() {
-        return this.currentFrame;
-    }
-
-    public void setFullScreen(JFrame frame) {
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }
