@@ -130,7 +130,7 @@ public class DisplayMenuInGame {
                 switch (selectedItem) {
                     case SAVE:
                         this.gameActionHandler.saveGame();
-                        showTemporaryMessage("This is a temporary message", 3000);
+                        showTemporaryMessage("Sauvegarde en cour !!!", 3000);
                         break;
                     case RULES:
                         this.pageActionHandler.gameAndRules();
