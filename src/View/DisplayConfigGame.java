@@ -3,7 +3,6 @@ package View;
 import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
-import Structure.Log;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,7 +12,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.io.File;
 
-public class DisplayConfigParty extends JPanel {
+public class DisplayConfigGame extends JPanel {
     private static final String HUMAN = "Humain";
     private static final String IA_EASY = "IARandom";
     private static final String IA_HARD = "IA1";
@@ -35,17 +34,17 @@ public class DisplayConfigParty extends JPanel {
     private PageActionHandler pageActionHandler;
     private GameActionHandler gameActionHandler;
 
-    public DisplayConfigParty(JFrame frame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
+    public DisplayConfigGame(JFrame frame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
         this.pageActionHandler = pageActionHandler;
         this.gameActionHandler = gameActionHandler;
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        //Les deux menus déroulants
         this.player1NameField = createTextField();
         this.player2NameField = createTextField();
 
-        //Les deux menus déroulants
         this.column1 = createDropDownMenu(this.player1NameField);
         this.column2 = createDropDownMenu(this.player2NameField);
 
@@ -146,7 +145,9 @@ public class DisplayConfigParty extends JPanel {
                 button = this.createFileSelectionButton();
                 break;
 
-            /*case SKIN:*/
+            case SKIN:
+                button = this.createSkinSelectionButton(button);
+                break;
         }
         return button;
     }
@@ -196,6 +197,27 @@ public class DisplayConfigParty extends JPanel {
                 if(this.gameActionHandler.loadGame(selectedFile.getAbsolutePath())){
                     this.pageActionHandler.menuToGame();
                 }
+            }
+        });
+        return button;
+    }
+
+    private JButton createSkinSelectionButton(JButton button) {
+        button.addActionListener(e -> {
+            // Afficher le popup de sélection des skins
+            String[] skinOptions = {"Skin noir et blanc", "Skin Among Us", "Skin par défaut"};
+            String selectedSkin = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Choisissez un skin pour les insectes :",
+                    "Sélection du skin",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    skinOptions,
+                    skinOptions[0]);
+
+            // Mettre à jour les skins des hexagones
+            if (selectedSkin != null) {
+                // Par exemple : this.hexagonManager.setHexagonSkin(selectedSkin);
             }
         });
         return button;

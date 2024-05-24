@@ -112,7 +112,7 @@ public class DisplayMain {
         FrameMetrics.setFullScreen(frameOpening);
 
         //Affichage du menu
-        new DisplayConfigParty(frameMenu, pageActionHandler, gameActionHandler);
+        new DisplayConfigGame(frameMenu, pageActionHandler, gameActionHandler);
         FrameMetrics.setupFrame(frameMenu, false, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
