@@ -195,14 +195,14 @@ public class DisplayBankInsects {
         this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.weighty = 1.0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        //gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.WEST;
         this.panelGame.add(panelButtonBankJ1, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
         this.panelGame.add(this.panelButtonBankJ2, gbc);
