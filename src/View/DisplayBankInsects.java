@@ -3,11 +3,14 @@ package View;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
+import Structure.Log;
+import jdk.internal.org.jline.utils.Display;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +23,11 @@ public class DisplayBankInsects {
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
     private static JButton currentButton;
+    private static JButton previousButton;
     private static Boolean isInsectButtonClicked = false;
+    private static ImageIcon currentIcon;
+    private static ImageIcon previousIcon;
+    private float currentOpacity = 1.0f;
 
     public DisplayBankInsects(JPanel panelGame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
@@ -116,13 +123,15 @@ public class DisplayBankInsects {
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player, JLabel label) {
-        JButton button = new JButton(DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player)));
+        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player));
+        JButton button = new JButton(imageIcon);
         button.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isInsectButtonClicked) {
                     DisplayBankInsects.currentButton = button;
+                    DisplayBankInsects.currentIcon = imageIcon;
                 }
                 gameActionHandler.clicInsectButton(insectClass, player);
             }
@@ -136,12 +145,19 @@ public class DisplayBankInsects {
 
     public void updateButtonClickState(boolean isInsectButtonClicked) {
         DisplayBankInsects.isInsectButtonClicked = isInsectButtonClicked;
-        if (currentButton != null) {
-            if (isInsectButtonClicked) {
-                currentButton.setOpaque(true);
-            } else {
-                currentButton.setOpaque(false);
-            }
+
+        if (isInsectButtonClicked) {
+            // Créer une copie de l'icône actuelle
+            ImageIcon copyIcon = new ImageIcon(currentIcon.getImage());
+
+            // Modifier l'opacité de la copie
+            setOpacity(copyIcon, 0.5F);
+
+            // Appliquer l'icône modifiée au bouton
+            currentButton.setIcon(copyIcon);
+        } else {
+            // Rétablir l'icône d'origine
+            currentButton.setIcon(currentIcon);
         }
     }
 
@@ -159,12 +175,27 @@ public class DisplayBankInsects {
         }
     }
 
-
     private void updatePlayerName(Player player) {
         if (player.equals(this.gameActionHandler.getPlayer1())) {
             this.player1NameLabel.setText(player.getName());
         } else if (player.equals(this.gameActionHandler.getPlayer2())) {
             this.player2NameLabel.setText(player.getName());
         }
+    }
+
+    public void setOpacity(ImageIcon icon, float opacity) {
+
+        // Obtenez l'image de l'ImageIcon
+        Image img = icon.getImage();
+
+        // Créez une BufferedImage pour traiter l'opacité
+        BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+
+        // Remplacez l'image de l'ImageIcon par l'image avec l'opacité
+        icon.setImage(bufferedImage);
     }
 }
