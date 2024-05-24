@@ -1,0 +1,18 @@
+ (;
+GM[27]VV[1]
+CM[0,1]
+TC[None]
+SU[hive-m 2 0 101]
+DT[Fri Feb 02 02:58:39 GMT 2024]
+GN[HV-ravibanks-WeakBot-2024-02-02-0258]
+RE[Game won by WeakBot]
+P0[id "ravibanks"]
+P1[id "WeakBot"]
+; P0[0 Start P0]
+; P0[1 Resign ]TM[8484]
+; P0[2 Done ]TM[10335]
+;
+P0[time 0:00:10 ]
+P1[time 0:00:00 ]
+)
+ 

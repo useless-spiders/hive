@@ -1,0 +1,23 @@
+ (;
+GM[27]VV[1]
+CM[0,1]
+TC[None]
+SU[hive-plm 2 0 101]
+DT[Mon Mar 04 21:49:55 GMT 2024]
+GN[HV-guest-WeakBot-2024-03-04-2149]
+RE[Game won by WeakBot]
+P0[id "guest"]
+P1[id "WeakBot"]
+; P0[0 Start P0]
+; P0[1 Pick W 6 wL1]TM[11525]
+; P0[2 Dropb wL1 N 13 .]TM[12628]
+; P0[3 Done ]TM[17270]
+; P1[4 Move B bS1 M 12 /wL]TM[1081]
+; P1[5 Done ]TM[2327]
+; P0[6 Resign ]TM[30996]
+; P0[7 Done ]TM[34083]
+;
+P0[time 0:00:34 ]
+P1[time 0:00:02 ]
+)
+ 

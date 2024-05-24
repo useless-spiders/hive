@@ -1,0 +1,18 @@
+ (;
+GM[27]VV[1]
+CM[0,1]
+TC[None]
+SU[hive-plm 2 0 101]
+DT[Wed Feb 07 14:03:55 EST 2024]
+GN[HV-spepper-Dumbot-2024-02-07-1903]
+RE[Game won by Dumbot]
+P0[id "spepper"]
+P1[id "Dumbot"]
+; P0[0 Start P0]
+; P0[1 Resign ]TM[22293]
+; P0[2 Done ]TM[23708]
+;
+P0[time 0:00:23 ]
+P1[time 0:00:00 ]
+)
+ 
