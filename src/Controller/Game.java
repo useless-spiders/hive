@@ -189,6 +189,7 @@ public class Game implements GameActionHandler {
         int winner = this.checkLoser();
         if (winner != -1) {
             this.pageManager.getDisplayMain().getDisplayWin().updateWinner(winner);
+            this.displayGame.repaint(); //Pour afficher le dernier coup
             this.pageManager.gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();

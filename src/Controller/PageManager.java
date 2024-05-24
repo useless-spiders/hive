@@ -12,12 +12,11 @@ public class PageManager implements PageActionHandler {
     private JFrame frameOpening = new JFrame();
     private JFrame frameGame = new JFrame("Hive game");
     private JFrame frameMenu = new JFrame();
-    private JFrame frameWin = new JFrame();
     private JFrame frameRules = new JFrame();
     private DisplayMain displayMain;
 
     public PageManager(Game game){
-        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRules);
+        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
     }
 
     @Override
@@ -36,11 +35,6 @@ public class PageManager implements PageActionHandler {
     }
 
     @Override
-    public void winToGame(){
-        FrameMetrics.switchFrame(this.frameGame);
-    }
-
-    @Override
     public void gameAndAbort() {
         this.frameGame.setVisible(true);
         this.displayMain.getDisplayAbort().printAskAbort();
@@ -48,7 +42,7 @@ public class PageManager implements PageActionHandler {
 
     public void gameAndWin() {
         this.frameGame.setVisible(true);
-        this.frameWin.setVisible(true);
+        this.displayMain.getDisplayWin().printVictoryDialog();
     }
 
     public void gameAndRules() {

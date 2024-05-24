@@ -95,7 +95,7 @@ public class DisplayMain {
     }
 
     public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,
-                       JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
+                       JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
 
         FrameMetrics.setCurrentFrame(frameOpening);
 
@@ -118,10 +118,8 @@ public class DisplayMain {
         new KeyActionListener(frameGame, gameActionHandler);
         new ComponentActionListener(frameGame, displayGame);
 
-        //Affichage de la frame de fin de jeu
-        this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
-        FrameMetrics.setupFrame(frameWin, false, JFrame.DO_NOTHING_ON_CLOSE);
-        FrameMetrics.setFrameSize(frameWin, new Dimension(400, 800));
+        //Affichage du pop up de fin de jeu
+        this.displayWin = new DisplayWin(pageActionHandler, gameActionHandler);
 
         //Affichage du pop up d'abandon
         this.displayAbort = new DisplayAbort(pageActionHandler);
