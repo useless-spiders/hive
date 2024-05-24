@@ -1,6 +1,7 @@
 package Controller;
 
 import Pattern.PageActionHandler;
+import View.DisplayAbort;
 import View.DisplayMain;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ public class PageManager implements PageActionHandler {
     private JFrame frameGame = new JFrame("Hive game");
     private JFrame frameMenu = new JFrame();
     private JFrame frameWin = new JFrame();
-    private JFrame frameAbort = new JFrame();
     private JFrame frameRules = new JFrame();
     private DisplayMain displayMain;
     private JFrame currentFrame;
@@ -48,11 +48,6 @@ public class PageManager implements PageActionHandler {
     }
 
     @Override
-    public void gameToMenu() {
-        this.switchFrame(this.frameMenu);
-    }
-
-    @Override
     public void winToMenu() {
         this.switchFrame(this.frameMenu);
     }
@@ -65,7 +60,7 @@ public class PageManager implements PageActionHandler {
     @Override
     public void gameAndAbort() {
         this.frameGame.setVisible(true);
-        this.frameAbort.setVisible(true);
+        this.displayMain.getDisplayAbort().printAskAbort();
     }
 
     public void gameAndWin() {
@@ -78,7 +73,13 @@ public class PageManager implements PageActionHandler {
         this.frameRules.setVisible(true);
     }
 
-    public void disposeGame(){frameGame.dispose();}
+    public void disposeGame() {
+        frameGame.dispose();
+    }
+
+    public void abortToMenu() {
+        this.switchFrame(this.frameMenu);
+    }
 
     public DisplayMain getDisplayMain() {
         return this.displayMain;

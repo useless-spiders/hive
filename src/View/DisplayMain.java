@@ -27,6 +27,7 @@ public class DisplayMain {
 
     private JFrame currentFrame;
     private DisplayWin displayWin;
+    private DisplayAbort displayAbort;
 
     public static Image loadImageHexagons(String nom) {
         try {
@@ -92,7 +93,9 @@ public class DisplayMain {
         return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
     }
 
-    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening, JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
+    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,
+                       JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
+
         this.currentFrame = frameOpening;
 
         //Affichage de l'opening
@@ -117,6 +120,9 @@ public class DisplayMain {
         this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
         setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
 
+        //Affichage du pop up d'abandon
+        this.displayAbort = new DisplayAbort(pageActionHandler, gameActionHandler);
+
         //Affichage des regles
         DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
         setupFrame(frameRules, false, 700, 800, JFrame.DISPOSE_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
@@ -131,6 +137,9 @@ public class DisplayMain {
 
     public DisplayWin getDisplayWin() {
         return this.displayWin;
+    }
+    public DisplayAbort getDisplayAbort() {
+        return this.displayAbort;
     }
 
     public JFrame getCurrentFrame() {

@@ -134,13 +134,13 @@ public class DisplayMenuInGame {
                         break;
                     case RULES:
                         this.pageActionHandler.gameAndRules();
-                        break; // A REMPLIR PLUS TARD
+                        break;
                     case NEWGAME:
                         this.gameActionHandler.restartGameWithSamePlayers();
                         break;
                     case ABORT:
                         this.gameActionHandler.stopAi();
-                        this.pageActionHandler.gameToMenu();
+                        this.pageActionHandler.gameAndAbort();
                         break;
                     case DEFAULT:
                         break;

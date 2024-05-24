@@ -110,19 +110,19 @@ public class DisplayBankInsects {
         gbc.gridx = 0;
 
         if(side == 1){
-            panel.add(createButton(insectClass, player, label), gbc);
+            panel.add(createButton(insectClass, player), gbc);
             gbc.gridx = 1;
             panel.add(label, gbc);
         }
         else{
             panel.add(label, gbc);
             gbc.gridx = 1;
-            panel.add(createButton(insectClass, player, label), gbc);
+            panel.add(createButton(insectClass, player), gbc);
         }
         return panel;
     }
 
-    private JButton createButton(Class<? extends Insect> insectClass, Player player, JLabel label) {
+    private JButton createButton(Class<? extends Insect> insectClass, Player player) {
         ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player));
         JButton button = new JButton(imageIcon);
         button.addActionListener(new ActionListener() {
