@@ -2,7 +2,7 @@ import os
 import re
 
 # Define the directory containing the .sgf files
-directory = 'game_data/'
+directory = 'Game/'
 
 # Define the output file
 output_file = 'extracted_tokens.txt'
@@ -21,9 +21,7 @@ results = {}
 # Process each .sgf file in the directory
 for filename in os.listdir(directory):
     if filename.endswith('.sgf'):
-        if ('guest' in filename):
-            print("")
-        else:
+        if 'guest' not in filename:
             filepath = os.path.join(directory, filename)
             with open(filepath, 'r') as file:
                 data = file.read()
