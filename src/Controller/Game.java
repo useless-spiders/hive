@@ -5,6 +5,7 @@ import Model.Ai.Ai;
 import Model.Insect.Beetle;
 import Model.Insect.Insect;
 import Pattern.GameActionHandler;
+import Pattern.PageActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.Log;
@@ -64,6 +65,10 @@ public class Game implements GameActionHandler {
         } else {
             this.player2.setAi(Ai.nouvelle(this, name, this.player2));
         }
+    }
+
+    public PageActionHandler getPageActionHandler() {
+        return this.pageManager;
     }
 
     @Override

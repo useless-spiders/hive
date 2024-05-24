@@ -68,4 +68,6 @@ public interface GameActionHandler {
 
     boolean getIsFirstStart();
 
+    PageActionHandler getPageActionHandler();
+
 }
