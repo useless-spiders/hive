@@ -18,6 +18,8 @@ public class DisplayConfigParty extends JPanel {
     private static final String IA_EASY = "AiRandom";
     private static final String IA_HARD = "Ai1";
     private static final String IA_HARD2 = "Ai2";
+    private static final String IA_HARD3 = "Ai3";
+    private static final String IA_HARD4 = "Ai4";
     private static final String JOUER = "jouer";
     private static final String LOAD = "charger partie";
     private static final String NAME_TEXT = "Nom du joueur";
@@ -84,6 +86,8 @@ public class DisplayConfigParty extends JPanel {
         comboBox.addItem(IA_EASY);
         comboBox.addItem(IA_HARD);
         comboBox.addItem(IA_HARD2);
+        comboBox.addItem(IA_HARD3);
+        comboBox.addItem(IA_HARD4);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {

@@ -77,7 +77,7 @@ public class Game implements GameActionHandler {
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread");
+                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread "+ex);
                         });
                     }
                 }
