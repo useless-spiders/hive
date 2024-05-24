@@ -34,9 +34,9 @@ public class DisplayConfigParty extends JPanel {
     private PageActionHandler pageActionHandler;
     private GameActionHandler gameActionHandler;
 
-    public DisplayConfigParty(JFrame frame, PageActionHandler controllerPage, GameActionHandler controllerGame) {
-        this.pageActionHandler = controllerPage;
-        this.gameActionHandler = controllerGame;
+    public DisplayConfigParty(JFrame frame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
+        this.pageActionHandler = pageActionHandler;
+        this.gameActionHandler = gameActionHandler;
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
