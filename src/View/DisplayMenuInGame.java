@@ -136,7 +136,7 @@ public class DisplayMenuInGame {
                         this.pageActionHandler.gameAndRules();
                         break;
                     case NEWGAME:
-                        this.gameActionHandler.restartGameWithSamePlayers();
+                        this.pageActionHandler.gameAndRestart();
                         break;
                     case ABORT:
                         this.gameActionHandler.stopAi();
