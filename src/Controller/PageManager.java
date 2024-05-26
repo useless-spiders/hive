@@ -16,8 +16,9 @@ public class PageManager implements PageActionHandler {
     private JFrame currentFrame;
 
     public PageManager(Game game){
-        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRules);
+        this.displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameWin, this.frameRules);
         this.currentFrame = this.displayMain.getCurrentFrame();
+        game.setDisplayGame(this.displayMain.getDisplayGame());
     }
 
     private void switchFrame(JFrame nextFrame){

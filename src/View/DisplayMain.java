@@ -28,6 +28,7 @@ public class DisplayMain {
     private JFrame currentFrame;
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
+    private DisplayGame displayGame;
 
     public static Image loadImageHexagons(String nom) {
         try {
@@ -114,7 +115,7 @@ public class DisplayMain {
         setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
-        DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
+        this.displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
         setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
 
         //Ajouter les écouteurs
@@ -146,6 +147,10 @@ public class DisplayMain {
     }
     public DisplayAbort getDisplayAbort() {
         return this.displayAbort;
+    }
+
+    public DisplayGame getDisplayGame(){
+        return this.displayGame;
     }
 
     public JFrame getCurrentFrame() {
