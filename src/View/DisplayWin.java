@@ -10,12 +10,10 @@ import java.awt.*;
 
 
 public class DisplayWin extends JPanel {
-    private PageActionHandler pageActionHandler;
     private GameActionHandler gameActionHandler;
     private Player winner;
 
-    public DisplayWin(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
-        this.pageActionHandler = pageActionHandler;
+    public DisplayWin(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
     }
 
@@ -45,8 +43,8 @@ public class DisplayWin extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             this.gameActionHandler.restartGameWithSamePlayers();
         } else {
-            this.pageActionHandler.winToMenu();
-            this.pageActionHandler.disposeGame();
+            this.gameActionHandler.getPageActionHandler().winToMenu();
+            this.gameActionHandler.getPageActionHandler().disposeGame();
         }
     }
 }

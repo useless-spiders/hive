@@ -15,7 +15,7 @@ public class PageController implements PageActionHandler {
     private DisplayMain displayMain;
 
     public PageController(GameActionHandler gameActionHandler){
-        displayMain = new DisplayMain(this, gameActionHandler, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
+        displayMain = new DisplayMain(gameActionHandler, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
         gameActionHandler.setDisplayGame(this.displayMain.getDisplayGame());
     }
 

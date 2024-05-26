@@ -26,12 +26,9 @@ public class DisplayMenuInGame {
 
     private boolean optionVisible;
 
-    private PageActionHandler pageActionHandler;
-
-    public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
+    public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.panelGame = panelGame;
         this.gameActionHandler = gameActionHandler;
-        this.pageActionHandler = pageActionHandler;
 
         this.optionVisible = false;
         // Création du JPanel pour contenir le menu et les boutons
@@ -144,14 +141,14 @@ public class DisplayMenuInGame {
                     showTemporaryMessage("Sauvegarde en cour !!!", 3000);
                     break;
                 case RULES:
-                    this.pageActionHandler.gameAndRules();
+                    this.gameActionHandler.getPageActionHandler().gameAndRules();
                     break;
                 case NEWGAME:
-                    this.pageActionHandler.gameAndRestart();
+                    this.gameActionHandler.getPageActionHandler().gameAndRestart();
                     break;
                 case ABORT:
                     this.gameActionHandler.getAiController().stopAi();
-                    this.pageActionHandler.gameAndAbort();
+                    this.gameActionHandler.getPageActionHandler().gameAndAbort();
                     break;
                 case DEFAULT:
                     break;

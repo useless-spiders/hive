@@ -22,12 +22,10 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
     private JFrame frameGame;
     private GameActionHandler gameActionHandler;
-    private PageActionHandler pageActionHandler;
 
-    public DisplayGame(JFrame frameGame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler){
+    public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
-        this.pageActionHandler = pageActionHandler;
 
         //Pour construire le jeu
         buildGame();
@@ -47,7 +45,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
         this.displayInfoInGame = new DisplayInfoInGame(this, gbc);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, this.gameActionHandler);
-        this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler, this.pageActionHandler);
+        this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler);
 
         this.displayStack = new DisplayStack(this.gameActionHandler);
     }

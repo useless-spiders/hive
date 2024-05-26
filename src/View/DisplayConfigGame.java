@@ -2,7 +2,6 @@ package View;
 
 import Model.SaveLoad;
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.Log;
 
 import javax.swing.*;
@@ -32,11 +31,9 @@ public class DisplayConfigGame extends JPanel {
     private JTextField player1NameField;
     private JTextField player2NameField;
 
-    private PageActionHandler pageActionHandler;
     private GameActionHandler gameActionHandler;
 
-    public DisplayConfigGame(JFrame frame, PageActionHandler pageActionHandler, GameActionHandler gameActionHandler) {
-        this.pageActionHandler = pageActionHandler;
+    public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
 
         setLayout(new GridBagLayout());
@@ -176,7 +173,7 @@ public class DisplayConfigGame extends JPanel {
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getAiController().startAi();
-            this.pageActionHandler.menuToGame();
+            this.gameActionHandler.getPageActionHandler().menuToGame();
         });
         return button;
     }
@@ -196,7 +193,7 @@ public class DisplayConfigGame extends JPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
-                    this.pageActionHandler.menuToGame();
+                    this.gameActionHandler.getPageActionHandler().menuToGame();
                 }
             }
         });
@@ -220,13 +217,13 @@ public class DisplayConfigGame extends JPanel {
             if (selectedSkin != null) {
                 switch (selectedSkin) {
                     case "Skin par défaut":
-                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Default/");
+                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Default/");
                         break;
                     case "Skin noir et blanc":
-                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Black_and_white/");
+                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Black_and_white/");
                         break;
                     case "Skin Among Us":
-                        this.pageActionHandler.getDisplayMain().setHexagonSkin("Sus_skin/");
+                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Sus_skin/");
                         break;
                     default:
                         Log.addMessage("Skin inconnu");
