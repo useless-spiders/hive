@@ -1,21 +1,22 @@
 package Controller;
 
+import Pattern.GameActionHandler;
 import Pattern.PageActionHandler;
 import Structure.FrameMetrics;
 import View.DisplayMain;
 
 import javax.swing.*;
 
-public class PageManager implements PageActionHandler {
+public class PageController implements PageActionHandler {
     private JFrame frameOpening = new JFrame();
     private JFrame frameGame = new JFrame("Hive game");
     private JFrame frameMenu = new JFrame();
     private JFrame frameRules = new JFrame();
     private DisplayMain displayMain;
 
-    public PageManager(Game game){
-        displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
-        game.setDisplayGame(this.displayMain.getDisplayGame());
+    public PageController(GameActionHandler gameActionHandler){
+        displayMain = new DisplayMain(this, gameActionHandler, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
+        gameActionHandler.setDisplayGame(this.displayMain.getDisplayGame());
     }
 
     @Override

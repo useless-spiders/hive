@@ -92,7 +92,7 @@ public abstract class Ai implements Serializable {
         double moveCount = 0;
 
         for (Class<? extends Insect> i : p.getTypes()) {
-            ArrayList<HexCoordinate> possibleCoordinates = this.gameActionHandler.generatePlayableInsertionCoordinates(i, p);
+            ArrayList<HexCoordinate> possibleCoordinates = this.gameActionHandler.getMoveController().generatePlayableInsertionCoordinates(i, p);
             moveCount += possibleCoordinates.size();
         }
         for (HexCoordinate hex : g.getGrid().keySet()) {

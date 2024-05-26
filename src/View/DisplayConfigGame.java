@@ -161,21 +161,21 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.resetGame();
             }
             if (this.column1.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.setPlayer(1, (String) this.column1.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setPlayer(1, (String) this.column1.getSelectedItem());
             } else {
                 if(!this.player1NameField.getText().equals(NAME_TEXT)){
-                    this.gameActionHandler.getPlayer1().setName(this.player1NameField.getText());
+                    this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.setPlayer(2, (String) this.column2.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setPlayer(2, (String) this.column2.getSelectedItem());
             } else {
                 if(!this.player2NameField.getText().equals(NAME_TEXT)){
-                    this.gameActionHandler.getPlayer2().setName(this.player2NameField.getText());
+                    this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
                 }
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
-            this.gameActionHandler.startAi();
+            this.gameActionHandler.getAiController().startAi();
             this.pageActionHandler.menuToGame();
         });
         return button;
@@ -195,7 +195,7 @@ public class DisplayConfigGame extends JPanel {
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                if(this.gameActionHandler.loadGame(selectedFile.getAbsolutePath())){
+                if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
                     this.pageActionHandler.menuToGame();
                 }
             }

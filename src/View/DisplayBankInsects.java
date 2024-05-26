@@ -82,9 +82,9 @@ public class DisplayBankInsects {
         label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
         // Créer un nouveau JLabel pour chaque bouton
 
-        if (player.equals(this.gameActionHandler.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1Labels.put(insectClass, label);
-        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayerController().getPlayer2())) {
             this.player2Labels.put(insectClass, label);
         }
 
@@ -114,7 +114,7 @@ public class DisplayBankInsects {
                     DisplayBankInsects.currentButton = button;
                     DisplayBankInsects.currentIcon = imageIcon;
                 }
-                gameActionHandler.clicInsectButton(insectClass, player);
+                gameActionHandler.getGameActionListener().clicInsectButton(insectClass, player);
             }
         });
         button.setOpaque(false);
@@ -143,10 +143,10 @@ public class DisplayBankInsects {
     }
 
     public void updateAllLabels() {
-        updateLabelsForPlayer(this.gameActionHandler.getPlayer1(), this.player1Labels);
-        updateLabelsForPlayer(this.gameActionHandler.getPlayer2(), this.player2Labels);
-        updatePlayerName(this.gameActionHandler.getPlayer1());
-        updatePlayerName(this.gameActionHandler.getPlayer2());
+        updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1Labels);
+        updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2Labels);
+        updatePlayerName(this.gameActionHandler.getPlayerController().getPlayer1());
+        updatePlayerName(this.gameActionHandler.getPlayerController().getPlayer2());
     }
 
     private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
@@ -157,9 +157,9 @@ public class DisplayBankInsects {
     }
 
     private void updatePlayerName(Player player) {
-        if (player.equals(this.gameActionHandler.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1NameLabel.setText(player.getName());
-        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayerController().getPlayer2())) {
             this.player2NameLabel.setText(player.getName());
         }
     }
@@ -187,11 +187,11 @@ public class DisplayBankInsects {
     }
 
     private void createPanels(){
-        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer1().getName()));
-        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer2().getName()));
+        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer1().getName()));
+        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer2().getName()));
 
-        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayer1(), this.player1NameLabel, 1);
-        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayer2(), this.player2NameLabel, 2);
+        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1NameLabel, 1);
+        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2NameLabel, 2);
         this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
         this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
 
@@ -210,7 +210,7 @@ public class DisplayBankInsects {
     }
 
     public void updateBorderBank() {
-        if (this.gameActionHandler.getCurrentPlayer().equals(this.gameActionHandler.getPlayer1())) {
+        if (this.gameActionHandler.getPlayerController().getCurrentPlayer().equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.switchBorderJ2ToJ1();
         } else {
             this.switchBorderJ1ToJ2();

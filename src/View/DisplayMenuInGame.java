@@ -140,7 +140,7 @@ public class DisplayMenuInGame {
         button.addActionListener(e -> {
             switch (name) {
                 case SAVE:
-                    this.gameActionHandler.saveGame();
+                    this.gameActionHandler.getSaveLoadController().saveGame();
                     showTemporaryMessage("Sauvegarde en cour !!!", 3000);
                     break;
                 case RULES:
@@ -150,7 +150,7 @@ public class DisplayMenuInGame {
                     this.pageActionHandler.gameAndRestart();
                     break;
                 case ABORT:
-                    this.gameActionHandler.stopAi();
+                    this.gameActionHandler.getAiController().stopAi();
                     this.pageActionHandler.gameAndAbort();
                     break;
                 case DEFAULT:
@@ -180,28 +180,28 @@ public class DisplayMenuInGame {
 
     private JButton createButtonCancel() {
         JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.cancelMove();
+            this.gameActionHandler.getHistoryController().cancelMove();
         });
         return button;
     }
 
     private JButton createButtonRedo() {
         JButton button = new JButton(DisplayMain.loadIcon("Redo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.redoMove();
+            this.gameActionHandler.getHistoryController().redoMove();
         });
         return button;
     }
 
     private JButton createButtonChangeStateAI() {
         JButton button = new JButton("Stopper les IA");
-        button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.changeStateAi();
-            if (this.gameActionHandler.isAiRunning()) {
+            this.gameActionHandler.getAiController().changeStateAi();
+            if (this.gameActionHandler.getAiController().isAiRunning()) {
                 button.setText("Stopper les IA");
             } else {
                 button.setText("Relancer les IA");
@@ -211,9 +211,9 @@ public class DisplayMenuInGame {
     }
 
     public void updateButtons() {
-        this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
-        this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
-        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        this.cancelButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
+        this.redoButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
+        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
     }
 
 }

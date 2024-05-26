@@ -21,9 +21,9 @@ public class DisplayWin extends JPanel {
 
     public void updateWinner(int winner) {
         if (winner == 1) {
-            this.winner = this.gameActionHandler.getPlayer1();
+            this.winner = this.gameActionHandler.getPlayerController().getPlayer1();
         } else if (winner == 2) {
-            this.winner = this.gameActionHandler.getPlayer2();
+            this.winner = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.winner = null;
         }
