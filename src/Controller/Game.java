@@ -216,6 +216,10 @@ public class Game implements GameActionHandler {
             if (this.currentPlayer.isAi()) {
                 this.delay.start();
             }
+            if(getMoves(this.hexGrid, this.currentPlayer).isEmpty()){
+                Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
+                switchPlayer();
+            }
         }
     }
 
@@ -226,6 +230,10 @@ public class Game implements GameActionHandler {
             this.currentPlayer = this.player2;
         } else {
             this.currentPlayer = this.player1;
+        }
+        if(getMoves(this.hexGrid, this.currentPlayer).isEmpty()){
+            Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
+            switchPlayer();
         }
         this.displayGame.repaint();
     }
@@ -245,6 +253,42 @@ public class Game implements GameActionHandler {
         }
     }
 
+    @Override
+    public ArrayList<Move> getMoves(HexGrid grid, Player p) {
+        Log.addMessage("Grille : " + grid);
+        Log.addMessage("Joueur : " + p);
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (Class<? extends Insect> i : p.getTypes()) {
+            Insect insect = p.getInsect(i);
+            ArrayList<HexCoordinate> possibleCoordinates = this.generatePlayableInsertionCoordinates(i, p);
+            for (HexCoordinate h : possibleCoordinates) {
+                moves.add(new Move(insect, null, h));
+            }
+        }
+
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
+        }
+        for (HexCoordinate hex : grid.getGrid().keySet()) {
+            HexCell cell = grid.getCell(hex);
+            Insect insect = cell.getTopInsect();
+
+            if (insect.getPlayer().equals(p)) {
+                ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, grid, p);
+                for (HexCoordinate h : possibleCoordinates) {
+                    moves.add(new Move(insect, hex, h));
+                }
+            }
+        }
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
+        }
+        Log.addMessage("Taille de la grille : " + grid.getGrid().size());
+        return moves;
+    }
+
+    @Override
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
         Insect insect = player.getInsect(insectClass);
@@ -481,6 +525,9 @@ public class Game implements GameActionHandler {
                 this.delay.start();
             }
 
+            HexMetrics.resetHexMetricsWidth();
+            ViewMetrics.resetViewPosition();
+            this.displayGame.getDisplayBankInsects().updateButtons();
             this.updateBorderBank();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.repaint();

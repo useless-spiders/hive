@@ -43,7 +43,7 @@ public class Ai3 extends Ai { // Elagage maison
         } else {
             double max = -1;
             level++;
-            for (Move m : getMoves(gridC, this.aiPlayer)) {
+            for (Move m : this.gameActionHandler.getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
@@ -73,7 +73,7 @@ public class Ai3 extends Ai { // Elagage maison
             double min = 1;
             level++;
 
-            for (Move m : getMoves(gridC, this.other)) {
+            for (Move m : this.gameActionHandler.getMoves(gridC, this.other)) {
                 gridC.applyMove(m, otherC);
                 gridC.unapplyMove(m, otherC);
                 double heuristic = heuristic(gridC);
@@ -85,7 +85,7 @@ public class Ai3 extends Ai { // Elagage maison
                 return -1;
             }
 
-            for (Move m : getMoves(gridC, this.other)) {
+            for (Move m : this.gameActionHandler.getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
