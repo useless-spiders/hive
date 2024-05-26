@@ -30,7 +30,7 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         int x = e.getX() - ViewMetrics.getViewOffsetX();
         int y = e.getY() - ViewMetrics.getViewOffsetY();
         HexCoordinate newHoverCell = HexMetrics.pixelToHex(x, y);
-        if (!newHoverCell.equals(this.hoverCell) && this.gameActionHandler.getPlayableCoordinates().contains(newHoverCell)) {
+        if (!newHoverCell.equals(this.hoverCell) && this.gameActionHandler.getGameActionListener().getPlayableCoordinates().contains(newHoverCell)) {
             this.hoverCell = newHoverCell;
             this.displayGame.getDisplayPlayableHex().updateHoverCell(this.hoverCell);
 
@@ -48,11 +48,11 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         HexCell cell = this.gameActionHandler.getGrid().getCell(hexagon);
 
         if (cell != null) { //on clique sur une case existante pour la déplacer ou bien pour être un insecte cible du scarabée
-            this.gameActionHandler.handleCellClicked(cell, hexagon);
-        } else if (this.gameActionHandler.getIsInsectCellClicked()) { //on clique sur une case vide pour déplacer une case sélectionnée
-            this.gameActionHandler.handleInsectMoved(hexagon);
-        } else if (this.gameActionHandler.getIsInsectButtonClicked()) { //on clique sur une case vide pour déposer une nouvelle case
-            this.gameActionHandler.handleInsectPlaced(hexagon);
+            this.gameActionHandler.getGameActionListener().handleCellClicked(cell, hexagon);
+        } else if (this.gameActionHandler.getGameActionListener().getIsInsectCellClicked()) { //on clique sur une case vide pour déplacer une case sélectionnée
+            this.gameActionHandler.getGameActionListener().handleInsectMoved(hexagon);
+        } else if (this.gameActionHandler.getGameActionListener().getIsInsectButtonClicked()) { //on clique sur une case vide pour déposer une nouvelle case
+            this.gameActionHandler.getGameActionListener().handleInsectPlaced(hexagon);
         }
         this.displayGame.repaint();
     }

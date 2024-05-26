@@ -14,10 +14,10 @@ public class Ai1 extends Ai { //1 Coup
     public Ai1(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayer1() == aiPlayer) {
-            this.other = this.gameActionHandler.getPlayer2();
+        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+            this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
-            this.other = this.gameActionHandler.getPlayer1();
+            this.other = this.gameActionHandler.getPlayerController().getPlayer1();
         }
     }
 
@@ -38,7 +38,7 @@ public class Ai1 extends Ai { //1 Coup
         double score_max = 0;
         Random randomNumbers = new Random();
         Player us_c = this.aiPlayer.clone();
-        for (Move m : this.gameActionHandler.getMoves(g, this.aiPlayer)) {
+        for (Move m : this.gameActionHandler.getMoveController().getMoves(g, this.aiPlayer)) {
             g.applyMove(m, us_c);
             score = heuristic(g);
             if (score > score_max) {

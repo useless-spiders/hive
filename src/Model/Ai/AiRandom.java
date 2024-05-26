@@ -16,10 +16,10 @@ public class AiRandom extends Ai { //Random
     public AiRandom(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayer1() == aiPlayer) {
-            this.other = this.gameActionHandler.getPlayer2();
+        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+            this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
-            this.other = this.gameActionHandler.getPlayer1();
+            this.other = this.gameActionHandler.getPlayerController().getPlayer1();
         }
     }
 
@@ -30,10 +30,10 @@ public class AiRandom extends Ai { //Random
 
     @Override
     public Move chooseMove() {
-        ArrayList<Move> moves = this.gameActionHandler.getMoves(this.gameActionHandler.getGrid(), this.aiPlayer);
+        ArrayList<Move> moves = this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.aiPlayer);
         Log.addMessage("Taille de Moves pour J1 : " + moves.size());
 
-        ArrayList<Move> moves2 = this.gameActionHandler.getMoves(this.gameActionHandler.getGrid().clone(), this.aiPlayer);
+        ArrayList<Move> moves2 = this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid().clone(), this.aiPlayer);
         Log.addMessage("Taille de Moves pour J1 : " + moves2.size());
 
         Log.addMessage("FINNNNNNNNNNN");

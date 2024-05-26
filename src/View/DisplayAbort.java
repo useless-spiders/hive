@@ -21,7 +21,7 @@ public class DisplayAbort extends JPanel {
             this.pageActionHandler.abortToMenu();
             this.pageActionHandler.disposeGame();
         } else {
-            this.gameActionHandler.changeStateAi();
+            this.gameActionHandler.getAiController().changeStateAi();
             Window window = SwingUtilities.getWindowAncestor(this);
             if (window != null) {
                 window.dispose();

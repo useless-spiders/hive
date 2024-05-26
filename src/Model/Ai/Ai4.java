@@ -19,10 +19,10 @@ public class Ai4 extends Ai { //Alpha Beta
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayer1() == aiPlayer) {
-            this.other = this.gameActionHandler.getPlayer2();
+        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+            this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
-            this.other = this.gameActionHandler.getPlayer1();
+            this.other = this.gameActionHandler.getPlayerController().getPlayer1();
         }
     }
 
@@ -43,7 +43,7 @@ public class Ai4 extends Ai { //Alpha Beta
         } else {
             double max = Double.NEGATIVE_INFINITY;
             level++;
-            for (Move m : this.gameActionHandler.getMoves(gridC, this.aiPlayer)) {
+            for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
@@ -73,7 +73,7 @@ public class Ai4 extends Ai { //Alpha Beta
         } else {
             double min = Double.POSITIVE_INFINITY;
             level++;
-            for (Move m : this.gameActionHandler.getMoves(gridC, this.other)) {
+            for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
