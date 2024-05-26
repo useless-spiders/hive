@@ -15,11 +15,11 @@ import java.io.File;
 
 public class DisplayConfigGame extends JPanel {
     private static final String HUMAN = "Humain";
-    private static final String IA_EASY = "IARandom";
-    private static final String IA_HARD = "IA1";
-    private static final String IA_HARD2 = "IA2";
-    private static final String IA_HARD3 = "IA3";
-    private static final String IA_HARD4 = "IA4";
+    private static final String IA_EASY = "AiRandom";
+    private static final String IA_HARD = "Ai1";
+    private static final String IA_HARD2 = "Ai2";
+    private static final String IA_HARD3 = "Ai3";
+    private static final String IA_HARD4 = "Ai4";
     private static final String JOUER = "Jouer";
     private static final String LOAD = "Charger partie";
     private static final String SKIN = "Choix du skin";
