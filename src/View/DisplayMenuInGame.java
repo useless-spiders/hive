@@ -1,7 +1,6 @@
 package View;
 
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.Log;
 
 import javax.swing.*;

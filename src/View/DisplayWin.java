@@ -3,7 +3,6 @@ package View;
 import Model.Insect.Bee;
 import Model.Player;
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 
 import javax.swing.*;
 import java.awt.*;

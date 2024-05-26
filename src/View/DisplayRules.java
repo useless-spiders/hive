@@ -1,7 +1,5 @@
 package View;
 
-import Pattern.PageActionHandler;
-
 import javax.swing.*;
 import java.awt.*;
 

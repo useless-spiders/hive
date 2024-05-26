@@ -1,6 +1,5 @@
 package View;
 
-import Controller.Game;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;

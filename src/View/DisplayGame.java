@@ -2,7 +2,6 @@ package View;
 
 import Model.HexGrid;
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;

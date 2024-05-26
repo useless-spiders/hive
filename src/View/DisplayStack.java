@@ -1,7 +1,6 @@
 package View;
 
 import Model.Insect.Insect;
-import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
