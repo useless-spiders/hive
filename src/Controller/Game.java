@@ -214,6 +214,10 @@ public class Game implements GameActionHandler {
             if (this.currentPlayer.isAi()) {
                 this.delay.start();
             }
+            if(getMoves(this.hexGrid, this.currentPlayer).isEmpty()){
+                Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
+                switchPlayer();
+            }
         }
     }
 
@@ -224,6 +228,10 @@ public class Game implements GameActionHandler {
             this.currentPlayer = this.player2;
         } else {
             this.currentPlayer = this.player1;
+        }
+        if(getMoves(this.hexGrid, this.currentPlayer).isEmpty()){
+            Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
+            switchPlayer();
         }
         this.displayGame.repaint();
     }
@@ -243,20 +251,56 @@ public class Game implements GameActionHandler {
         }
     }
 
+    @Override
+    public ArrayList<Move> getMoves(HexGrid grid, Player p) {
+        Log.addMessage("Grille : " + grid);
+        Log.addMessage("Joueur : " + p);
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (Class<? extends Insect> i : p.getTypes()) {
+            Insect insect = p.getInsect(i);
+            ArrayList<HexCoordinate> possibleCoordinates = this.generatePlayableInsertionCoordinates(i, p);
+            for (HexCoordinate h : possibleCoordinates) {
+                moves.add(new Move(insect, null, h));
+            }
+        }
+
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
+        }
+        for (HexCoordinate hex : grid.getGrid().keySet()) {
+            HexCell cell = grid.getCell(hex);
+            Insect insect = cell.getTopInsect();
+
+            if (insect.getPlayer().equals(p)) {
+                ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, grid, p);
+                for (HexCoordinate h : possibleCoordinates) {
+                    moves.add(new Move(insect, hex, h));
+                }
+            }
+        }
+        if (!moves.isEmpty()) {
+            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
+        }
+        Log.addMessage("Taille de la grille : " + grid.getGrid().size());
+        return moves;
+    }
+
+    @Override
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
-        this.insect = player.getInsect(insectClass);
-        if (this.insect != null) {
-            if (player.canAddInsect(this.insect.getClass())) {
+        Insect insect = player.getInsect(insectClass);
+        if (insect != null) {
+            if (player.canAddInsect(insect.getClass())) {
                 if (player.checkBeePlacement(this.insect)) {
                     if (player.getTurn() <= 1) {
                         if (this.hexGrid.getGrid().isEmpty()) {
                             playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.displayGame.getWidth(), this.displayGame.getHeight()));
                         } else {
-                            playableCoordinates = player.getInsect(this.insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
+                            playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinatesT1(this.hexGrid);
                         }
                     } else {
-                        playableCoordinates = player.getInsect(this.insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
+                        playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinates(this.hexGrid);
                     }
                 } else {
                     Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
@@ -381,6 +425,7 @@ public class Game implements GameActionHandler {
             Log.addMessage(this.currentPlayer.getName() + " " + this.currentPlayer.getColor() + " " + this.currentPlayer.isAi() + " --- " + player.getName() + " " + player.getColor() + " " + player.isAi());
 
             if (this.currentPlayer.equals(player)) {
+                this.insect = this.currentPlayer.getInsect(insectClass);
                 this.playableCoordinates = this.generatePlayableInsertionCoordinates(insectClass, this.currentPlayer);
                 if (this.playableCoordinates.isEmpty()) {
                     this.isInsectButtonClicked = false;
@@ -479,6 +524,9 @@ public class Game implements GameActionHandler {
             }
 
             this.displayGame.getDisplayBankInsects().updateBorderBank();
+            HexMetrics.resetHexMetricsWidth();
+            ViewMetrics.resetViewPosition();
+            this.displayGame.getDisplayBankInsects().updateButtons();
             this.displayGame.getDisplayBankInsects().updateAllLabels();
             this.displayGame.repaint();
 

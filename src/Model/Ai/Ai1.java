@@ -38,7 +38,7 @@ public class Ai1 extends Ai { //1 Coup
         double score_max = 0;
         Random randomNumbers = new Random();
         Player us_c = this.aiPlayer.clone();
-        for (Move m : getMoves(g, this.aiPlayer)) {
+        for (Move m : this.gameActionHandler.getMoves(g, this.aiPlayer)) {
             g.applyMove(m, us_c);
             score = heuristic(g);
             if (score > score_max) {

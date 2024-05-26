@@ -20,7 +20,6 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         this.gameActionHandler = gameActionHandler;
         this.displayGame = displayGame;
         
-        this.gameActionHandler.setDisplayGame(this.displayGame);
         this.displayGame.addMouseListener(this);
         this.displayGame.addMouseMotionListener(this);
         this.displayGame.addMouseWheelListener(this);

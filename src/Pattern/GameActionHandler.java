@@ -3,8 +3,9 @@ package Pattern;
 import Model.HexCell;
 import Model.HexGrid;
 import Model.History;
-import Model.Insect.Insect;
 import Model.Player;
+import Model.Move;
+import Model.Insect.Insect;
 import Structure.HexCoordinate;
 import View.DisplayGame;
 import View.DisplayWin;
@@ -69,5 +70,7 @@ public interface GameActionHandler {
     boolean getIsFirstStart();
 
     PageActionHandler getPageActionHandler();
+
+    ArrayList<Move> getMoves(HexGrid grid, Player p);
 
 }

@@ -148,6 +148,10 @@ public class DisplayMain {
         FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }
 
+    public DisplayGame getDisplayGame(){
+        return this.displayGame;
+    }
+
     public DisplayWin getDisplayWin() {
         return this.displayWin;
     }

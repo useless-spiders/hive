@@ -2,11 +2,9 @@ package Controller;
 
 import Pattern.PageActionHandler;
 import Structure.FrameMetrics;
-import View.DisplayAbort;
 import View.DisplayMain;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PageManager implements PageActionHandler {
     private JFrame frameOpening = new JFrame();
@@ -17,6 +15,7 @@ public class PageManager implements PageActionHandler {
 
     public PageManager(Game game){
         displayMain = new DisplayMain(this, game, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
+        game.setDisplayGame(this.displayMain.getDisplayGame());
     }
 
     @Override
