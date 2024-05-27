@@ -1,5 +1,8 @@
 package Global;
 
+/**
+ * Classe de configuration pour l'ensemble du jeu
+ */
 public class Configuration {
     public static final int PLAYER_WHITE = 0;
     public static final int PLAYER_BLACK = 1;

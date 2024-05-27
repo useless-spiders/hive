@@ -10,6 +10,9 @@ import View.DisplayGame;
 
 import java.util.ArrayList;
 
+/**
+ * Controleur principal pour le jeu
+ */
 public class GameController implements GameActionHandler {
     private HexGrid hexGrid;
     private boolean isFirstStart = true;
@@ -22,6 +25,9 @@ public class GameController implements GameActionHandler {
     private DisplayGame displayGame;
     private PageController pageController;
 
+    /**
+     * Constructeur
+     */
     public GameController() {
         this.hexGrid = new HexGrid();
         this.playerController = new PlayerController(this);
@@ -43,71 +49,126 @@ public class GameController implements GameActionHandler {
         this.displayGame.repaint();
     }
 
+    /**
+     * Renvoie le controleur de page
+     * @return PageController
+     */
     @Override
     public PageController getPageController() {
         return this.pageController;
     }
 
+    /**
+     * Renvoie le controleur de joueur
+     * @return PlayerController
+     */
     @Override
     public PlayerController getPlayerController() {
         return this.playerController;
     }
 
+    /**
+     * Renvoie le controleur de l'IA
+     * @return AiController
+     */
     @Override
     public AiController getAiController() {
         return this.aiController;
     }
 
+    /**
+     * Renvoie le controleur de mouvement
+     * @return MoveController
+     */
     @Override
     public MoveController getMoveController() {
         return this.moveController;
     }
 
+    /**
+     * Renvoie le controleur d'historique
+     * @return HistoryController
+     */
     @Override
     public HistoryController getHistoryController() {
         return this.historyController;
     }
 
+    /**
+     * Renvoie le controleur d'action de jeu
+     * @return GameActionListener
+     */
     @Override
     public GameActionListener getGameActionListener() {
         return this.gameActionListener;
     }
 
+    /**
+     * Renvoie le controleur de sauvegarde
+     * @return SaveLoadController
+     */
     @Override
     public SaveLoadController getSaveLoadController() {
         return this.saveLoadController;
     }
 
+    /**
+     * Renvoie si c'est le premier démarrage
+     * @return boolean
+     */
     @Override
     public boolean getIsFirstStart() {
         return this.isFirstStart;
     }
 
+    /**
+     * Change l'état du premier démarrage
+     * @param isFirstStart boolean
+     */
     @Override
     public void setIsFirstStart(boolean isFirstStart) {
         this.isFirstStart = isFirstStart;
     }
 
+    /**
+     * Renvoie la grille
+     * @return HexGrid
+     */
     @Override
     public HexGrid getGrid() {
         return this.hexGrid;
     }
 
+    /**
+     * Change la grille
+     * @param hexGrid HexGrid
+     */
     @Override
     public void setGrid(HexGrid hexGrid) {
         this.hexGrid = hexGrid;
     }
 
-    @Override
-    public void setDisplayGame(DisplayGame displayGame) {
-        this.displayGame = displayGame;
-    }
-
+    /**
+     * Renvoie le display du jeu
+     * @return DisplayGame
+     */
     @Override
     public DisplayGame getDisplayGame() {
         return this.displayGame;
     }
 
+    /**
+     * Change le display du jeu
+     * @param displayGame DisplayGame
+     */
+    @Override
+    public void setDisplayGame(DisplayGame displayGame) {
+        this.displayGame = displayGame;
+    }
+
+    /**
+     * Réinitalise le jeu avec les mêmes joueurs
+     */
     @Override
     public void restartGameWithSamePlayers() {
         this.aiController.stopAi();
@@ -130,6 +191,9 @@ public class GameController implements GameActionHandler {
         this.displayGame.repaint();
     }
 
+    /**
+     * Réinitialise le jeu
+     */
     @Override
     public void resetGame() {
         this.hexGrid = new HexGrid();

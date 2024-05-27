@@ -1,22 +1,22 @@
 package Listener;
 
-import Model.HexGrid;
 import Pattern.GameActionHandler;
-import Structure.HexCoordinate;
-import Structure.HexMetrics;
-import Structure.ViewMetrics;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 
-public class KeyActionListener implements KeyListener {
+/**
+ * Listener pour les actions sur les touches
+ */
+public class KeyActionListener extends KeyAdapter {
     private GameActionHandler gameActionHandler;
     private JFrame frameGame;
 
+    /**
+     * Constructeur
+     * @param frameGame Fenêtre du jeu
+     * @param gameActionHandler GameActionHandler
+     */
     public KeyActionListener(JFrame frameGame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.frameGame = frameGame;
@@ -33,19 +33,15 @@ public class KeyActionListener implements KeyListener {
         });
     }
 
+    /**
+     * Recentrage du jeu quand on appuie sur la touche C
+     * @param e KeyEvent
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_C) {
             this.gameActionHandler.getDisplayGame().centerGame();
         }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
     }
 }
