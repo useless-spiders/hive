@@ -21,11 +21,11 @@ public class PlayerController {
 
     public void initPlayers() {
         Random random = new Random();
-        int color = random.nextInt(2);
-        this.player1 = new Player("Inspecteur blanco");
-        this.player2 = new Player("Barbe noir");
+        int color = random.nextInt(Configuration.PLAYER_NUMBER);
+        this.player1 = new Player(Configuration.PLAYER_1);
+        this.player2 = new Player(Configuration.PLAYER_2);
         this.player1.setColor(color);
-        this.player2.setColor((color + 1) % 2);
+        this.player2.setColor((color + 1) % Configuration.PLAYER_NUMBER);
 
         if (this.player1.getColor() == Configuration.PLAYER_WHITE) {
             this.currentPlayer = this.player1;

@@ -3,6 +3,9 @@ package Global;
 public class Configuration {
     public static final int PLAYER_WHITE = 0;
     public static final int PLAYER_BLACK = 1;
+    public static final String PLAYER_1 = "Joueur 1";
+    public static final String PLAYER_2 = "Joueur 2";
+    public static final int PLAYER_NUMBER = 2;
 
     public static final int MAX_ANT = 3;
     public static final int MAX_GRASSHOPPER = 3;
