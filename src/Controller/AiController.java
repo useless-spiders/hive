@@ -45,7 +45,6 @@ public class AiController {
                 }
             }).start());
             this.delay.start();
-
         }
     }
 
