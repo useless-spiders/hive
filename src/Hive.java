@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-import Controller.Game;
+import Controller.GameController;
 
 public class Hive implements Runnable {
     public static void main(String[] args) {
@@ -9,6 +9,6 @@ public class Hive implements Runnable {
 
     @Override
     public void run() {
-        new Game();
+        new GameController();
     }
 }

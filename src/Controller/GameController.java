@@ -9,7 +9,7 @@ import View.DisplayGame;
 
 import java.util.ArrayList;
 
-public class Game implements GameActionHandler {
+public class GameController implements GameActionHandler {
     private HexGrid hexGrid;
     private boolean isFirstStart = true;
     private PlayerController playerController;
@@ -21,7 +21,7 @@ public class Game implements GameActionHandler {
     private DisplayGame displayGame;
     private PageController pageController;
 
-    public Game() {
+    public GameController() {
         this.hexGrid = new HexGrid();
         this.playerController = new PlayerController(this);
         this.playerController.initPlayers();
