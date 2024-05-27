@@ -39,6 +39,8 @@ public class DisplayStack {
             int startY = hexCenter.y - HexMetrics.HEX_HEIGHT - rectHeight; // Position Y de départ (au-dessus de la cellule)
 
             // Dessiner le rectangle blanc autour de l'affichage de la pile
+            Color lightGray = Color.GRAY.brighter();  // Obtient une version plus claire de la couleur grise
+            g2d.setColor(lightGray);
             g2d.fillRect(startX, startY, rectWidth, rectHeight);
 
             // Dessiner les insectes dépilés à l'intérieur du rectangle blanc
