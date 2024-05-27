@@ -1,7 +1,6 @@
 package View;
 
 import Global.Configuration;
-import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
@@ -159,14 +158,14 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.resetGame();
             }
             if (this.column1.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.getPlayerController().setPlayer(1, (String) this.column1.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setAiPlayer(1, (String) this.column1.getSelectedItem());
             } else {
                 if(!this.player1NameField.getText().equals(NAME_TEXT)){
                     this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.getPlayerController().setPlayer(2, (String) this.column2.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setAiPlayer(2, (String) this.column2.getSelectedItem());
             } else {
                 if(!this.player2NameField.getText().equals(NAME_TEXT)){
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
