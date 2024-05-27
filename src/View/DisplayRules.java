@@ -1,12 +1,9 @@
 package View;
 
-import Pattern.PageActionHandler;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayRules extends JPanel {
-    private PageActionHandler pageActionHandler;
     private JFrame frameRules;
     int numRules = 1;
     Image background = DisplayMain.loadRules("Rule_1.png");
@@ -16,9 +13,8 @@ public class DisplayRules extends JPanel {
     private JButton previous;
     private JButton next;
 
-    public DisplayRules(JFrame frameRules, PageActionHandler pageActionHandler) {
+    public DisplayRules(JFrame frameRules) {
         this.frameRules = frameRules;
-        this.pageActionHandler = pageActionHandler;
 
         this.previous = createButtonPrevious();
         this.next = createButtonNext();

@@ -1,5 +1,6 @@
 package Model;
 
+import Global.Configuration;
 import Model.Ai.Ai;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player implements Cloneable, Serializable {
-    private String color;
+
+    private int color;
     private ArrayList<Insect> stock;
     private String name;
     private int turn;
@@ -21,8 +23,7 @@ public class Player implements Cloneable, Serializable {
     private boolean isAi;
     private Ai ai;
 
-    public Player(String color, String name) {
-        this.color = color;
+    public Player(String name) {
         this.stock = initBank();
         this.turn = 1;
         this.name = name;
@@ -33,19 +34,26 @@ public class Player implements Cloneable, Serializable {
     private ArrayList<Insect> initBank() {
         ArrayList<Insect> s = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < Configuration.MAX_ANT; i++) {
             s.add(new Ant(this));
+        }
+        for (int i = 0; i < Configuration.MAX_GRASSHOPPER; i++) {
             s.add(new Grasshopper(this));
         }
-        for (int i = 0; i < 2; i++) {
-            s.add(new Beetle(this));
+        for (int i = 0; i < Configuration.MAX_SPIDER; i++) {
             s.add(new Spider(this));
         }
-        s.add(new Bee(this));
+        for (int i = 0; i < Configuration.MAX_BEETLE; i++) {
+            s.add(new Beetle(this));
+        }
+        for (int i = 0; i < Configuration.MAX_BEE; i++) {
+            s.add(new Bee(this));
+        }
+
         return s;
     }
 
-    public void reset(){
+    public void reset() {
         this.stock = initBank();
         this.turn = 1;
         this.beePlaced = false;
@@ -76,15 +84,14 @@ public class Player implements Cloneable, Serializable {
         return this.turn;
     }
 
-    public ArrayList<Insect> getStock()
-    {
+    public ArrayList<Insect> getStock() {
         return this.stock;
     }
 
-    public ArrayList<Class<? extends Insect>> getTypes(){
-        ArrayList<Class<? extends Insect>> remainingClass= new ArrayList<>();
-        for(Insect i : this.stock){
-            if(!remainingClass.contains(i.getClass())){
+    public ArrayList<Class<? extends Insect>> getTypes() {
+        ArrayList<Class<? extends Insect>> remainingClass = new ArrayList<>();
+        for (Insect i : this.stock) {
+            if (!remainingClass.contains(i.getClass())) {
                 remainingClass.add(i.getClass());
             }
         }
@@ -107,7 +114,11 @@ public class Player implements Cloneable, Serializable {
         this.beePlaced = beePlaced;
     }
 
-    public String getColor() {
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
         return this.color;
     }
 
@@ -189,7 +200,7 @@ public class Player implements Cloneable, Serializable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.getName();
     }
 }

@@ -21,38 +21,20 @@ public class DisplayBankInsects {
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
     private static JButton currentButton;
+    private GridBagConstraints gbc;
 
     private static Boolean isInsectButtonClicked = false;
     private static ImageIcon currentIcon;
+    private JPanel panelGame;
 
-    public DisplayBankInsects(JPanel panelGame, GameActionHandler gameActionHandler) {
+    public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.panelGame = panelGame;
+        this.gbc = gbc;
         this.player1Labels = new HashMap<>();
         this.player2Labels = new HashMap<>();
 
-        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer1().getName()));
-        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayer2().getName()));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayer1(), this.player1NameLabel, 1);
-        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayer2(), this.player2NameLabel, 2);
-        this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
-        this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weighty = 1.0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.WEST;
-        panelGame.add(panelButtonBankJ1, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
-        panelGame.add(this.panelButtonBankJ2, gbc);
-
+        this.createPanels();
     }
 
     private void switchBorder(JPanel panel1, JPanel panel2) {
@@ -60,12 +42,15 @@ public class DisplayBankInsects {
         panel1.setOpaque(false);
         panel2.setBorder(BorderFactory.createLineBorder(Color.RED));
         panel2.setOpaque(true);
-
     }
 
-    public void switchBorderJ1ToJ2(){ switchBorder(this.panelButtonBankJ1, this.panelButtonBankJ2); }
+    public void switchBorderJ1ToJ2() {
+        switchBorder(this.panelButtonBankJ1, this.panelButtonBankJ2);
+    }
 
-    public void switchBorderJ2ToJ1(){ switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1); }
+    public void switchBorderJ2ToJ1() {
+        switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1);
+    }
 
 
     private JPanel createButtonPanel(Player player, JLabel playerName, int side) {
@@ -96,24 +81,23 @@ public class DisplayBankInsects {
         label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
         // Créer un nouveau JLabel pour chaque bouton
 
-        if (player.equals(this.gameActionHandler.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1Labels.put(insectClass, label);
-        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayerController().getPlayer2())) {
             this.player2Labels.put(insectClass, label);
         }
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        GridBagConstraints duoGbc = new GridBagConstraints();
+        duoGbc.gridx = 0;
 
-        if(side == 1){
-            panel.add(createButton(insectClass, player), gbc);
-            gbc.gridx = 1;
-            panel.add(label, gbc);
-        }
-        else{
-            panel.add(label, gbc);
-            gbc.gridx = 1;
-            panel.add(createButton(insectClass, player), gbc);
+        if (side == 1) {
+            panel.add(createButton(insectClass, player), duoGbc);
+            duoGbc.gridx = 1;
+            panel.add(label, duoGbc);
+        } else {
+            panel.add(label, duoGbc);
+            duoGbc.gridx = 1;
+            panel.add(createButton(insectClass, player), duoGbc);
         }
         return panel;
     }
@@ -129,7 +113,7 @@ public class DisplayBankInsects {
                     DisplayBankInsects.currentButton = button;
                     DisplayBankInsects.currentIcon = imageIcon;
                 }
-                gameActionHandler.clicInsectButton(insectClass, player);
+                gameActionHandler.getGameActionListener().clicInsectButton(insectClass, player);
             }
         });
         button.setOpaque(false);
@@ -158,10 +142,10 @@ public class DisplayBankInsects {
     }
 
     public void updateAllLabels() {
-        updateLabelsForPlayer(this.gameActionHandler.getPlayer1(), this.player1Labels);
-        updateLabelsForPlayer(this.gameActionHandler.getPlayer2(), this.player2Labels);
-        updatePlayerName(this.gameActionHandler.getPlayer1());
-        updatePlayerName(this.gameActionHandler.getPlayer2());
+        updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1Labels);
+        updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2Labels);
+        updatePlayerName(this.gameActionHandler.getPlayerController().getPlayer1());
+        updatePlayerName(this.gameActionHandler.getPlayerController().getPlayer2());
     }
 
     private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
@@ -172,9 +156,9 @@ public class DisplayBankInsects {
     }
 
     private void updatePlayerName(Player player) {
-        if (player.equals(this.gameActionHandler.getPlayer1())) {
+        if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1NameLabel.setText(player.getName());
-        } else if (player.equals(this.gameActionHandler.getPlayer2())) {
+        } else if (player.equals(this.gameActionHandler.getPlayerController().getPlayer2())) {
             this.player2NameLabel.setText(player.getName());
         }
     }
@@ -193,5 +177,42 @@ public class DisplayBankInsects {
 
         // Remplacez l'image de l'ImageIcon par l'image avec l'opacité
         icon.setImage(bufferedImage);
+    }
+
+    public void updateButtons() {
+        this.panelButtonBankJ1.removeAll();
+        this.panelButtonBankJ2.removeAll();
+        this.createPanels();
+    }
+
+    private void createPanels(){
+        this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer1().getName()));
+        this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer2().getName()));
+
+        this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1NameLabel, 1);
+        this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2NameLabel, 2);
+        this.panelButtonBankJ1.setBackground(new Color(255, 215, 0, 100));
+        this.panelButtonBankJ2.setBackground(new Color(255, 215, 0, 100));
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 1.0;
+        //gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.panelGame.add(panelButtonBankJ1, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.panelGame.add(this.panelButtonBankJ2, gbc);
+    }
+
+    public void updateBorderBank() {
+        if (this.gameActionHandler.getPlayerController().getCurrentPlayer().equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
+            this.switchBorderJ2ToJ1();
+        } else {
+            this.switchBorderJ1ToJ2();
+        }
     }
 }

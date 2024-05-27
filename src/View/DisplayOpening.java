@@ -1,7 +1,6 @@
 package View;
 
-import Pattern.PageActionHandler;
-import Structure.FrameMetrics;
+import Pattern.GameActionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +8,11 @@ import java.awt.*;
 public class DisplayOpening extends JPanel {
     JFrame frameOpening;
     private Image background  = DisplayMain.loadBackground("Opening.png");
-    private PageActionHandler pageActionHandler;
+    private GameActionHandler gameActionHandler;
 
-    public DisplayOpening(JFrame frameOpening, PageActionHandler pageActionHandler) {
+    public DisplayOpening(JFrame frameOpening, GameActionHandler gameActionHandler) {
         this.frameOpening = frameOpening;
-        this.pageActionHandler = pageActionHandler;
+        this.gameActionHandler = gameActionHandler;
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
@@ -31,7 +30,7 @@ public class DisplayOpening extends JPanel {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(e -> this.pageActionHandler.openingToMenu());
+        button.addActionListener(e -> this.gameActionHandler.getPageController().openingToMenu());
         return button;
     }
 

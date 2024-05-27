@@ -2,6 +2,7 @@ package Test;
 
 import Model.Insect.Ant;
 import Model.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,13 +13,17 @@ import static org.junit.Assert.*;
 public class PlayerTest {
     private Player player;
 
+    @Before
+    public void setUp() {
+        this.player = new Player("Inspecteur blanco");
+        this.player.setColor(0);
+    }
+
     /**
      * Teste l'ajout d'insectes
      */
     @Test
     public void testMaxInsects() {
-        this.player = new Player("white", "Inspecteur blanco");
-
         // Teste l'ajout d'une fourmi
         assertTrue(this.player.canAddInsect(Ant.class));
 
@@ -36,7 +41,6 @@ public class PlayerTest {
      */
     @Test
     public void testName(){
-        this.player = new Player("white", "Inspecteur blanco");
         // Teste le nom du joueur
         assertEquals("Inspecteur blanco", this.player.getName());
     }
@@ -46,7 +50,6 @@ public class PlayerTest {
      */
     @Test
     public void testTurn(){
-        this.player = new Player("white", "Inspecteur blanco");
         // Teste l'incrementation du tour
         assertEquals(1, this.player.getTurn());
         this.player.incrementTurn();
@@ -62,7 +65,6 @@ public class PlayerTest {
      */
     @Test
     public void testBeePlaced(){
-        this.player = new Player("white", "Inspecteur blanco");
         // Teste si l'abeille a été placé
         assertFalse(this.player.isBeePlaced());
         this.player.setBeePlaced(true);
@@ -71,7 +73,6 @@ public class PlayerTest {
 
     @Test
     public void testClone(){
-        this.player = new Player("white", "Inspecteur blanco");
         this.player.playInsect(Ant.class);
         Player player2 = this.player.clone();
         assertEquals(this.player, player2);
@@ -80,8 +81,8 @@ public class PlayerTest {
 
     @Test
     public void testEquals(){
-        this.player = new Player("white", "Inspecteur blanco");
-        Player player2 = new Player("white", "Inspecteur blanco");
+        Player player2 = new Player("Inspecteur blanco");
+        player2.setColor(this.player.getColor());
         assertEquals(this.player, player2);
     }
 }

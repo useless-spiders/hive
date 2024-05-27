@@ -1,7 +1,6 @@
 package View;
 
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.Log;
 
 import javax.swing.*;
@@ -9,174 +8,212 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DisplayMenuInGame {
-    private static final String DEFAULT = "                       ---";
+public class DisplayMenuInGame extends JFrame{
     private static final String SAVE = "Sauvegarder";
     private static final String RULES = "Règles";
-    private static final String NEWGAME = "Recommencer la partie";
+    private static final String RESTART = "Recommencer la partie";
     private static final String ABORT = "Abandonner la partie";
+    private static final String RETURN = "Retour au jeu";
 
     private GameActionHandler gameActionHandler;
     private JPanel panelGame;
+    private JPanel optionsPanel;
     private JButton cancelButton;
     private JButton redoButton;
     private JButton changeStateAI;
-    private JLabel logLabel;
+    private static JLabel messageLabel;
 
-    private PageActionHandler pageActionHandler;
+    private boolean optionVisible;
 
-    public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler, PageActionHandler pageActionHandler) {
+    public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.panelGame = panelGame;
         this.gameActionHandler = gameActionHandler;
-        this.pageActionHandler = pageActionHandler;
 
+        this.optionVisible = false;
         // Création du JPanel pour contenir le menu et les boutons
-        JPanel menuPanel = new JPanel(new GridBagLayout());
-        menuPanel.setOpaque(false);
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setOpaque(false);
+        this.optionsPanel = createOptionPanel();
 
         // Création des boutons annuler et refaire
         this.cancelButton = createButtonCancel();
         this.redoButton = createButtonRedo();
-        this.changeStateAI = createButtonChangeStateAI();
 
-        // Création du menu
-        JComboBox<String> menu = createMenu();
-        menu.setFocusable(false);
+        this.changeStateAI = createButtonChangeStateAI();
+        JButton optionButton = createButtonOption();
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
-        GridBagConstraints cancelButtonConstraints = new GridBagConstraints();
-        cancelButtonConstraints.gridx = 1;
-        cancelButtonConstraints.gridy = 0;
-        cancelButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        cancelButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.cancelButton, cancelButtonConstraints);
+        GridBagConstraints gbcButtonInGame  = new GridBagConstraints();
+        gbcButtonInGame.gridx = 0; // à droite du menu
+        gbcButtonInGame.gridy = 0;
+        gbcButtonInGame.anchor = GridBagConstraints.NORTHEAST;
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.changeStateAI, gbcButtonInGame);
 
+        gbcButtonInGame.gridx = 1;
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.cancelButton, gbcButtonInGame);
 
         // Ajout du bouton annuler au JPanel avec les contraintes pour le positionner à gauche du menu
-        GridBagConstraints redoButtonConstraints = new GridBagConstraints();
-        redoButtonConstraints.gridx = 2; // à droite du menu
-        redoButtonConstraints.gridy = 0;
-        redoButtonConstraints.anchor = GridBagConstraints.NORTHEAST;
-        redoButtonConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.redoButton, redoButtonConstraints);
+        gbcButtonInGame.gridx = 2; // à droite du menu
+        gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
+        buttonPanel.add(this.redoButton, gbcButtonInGame);
 
-        // Ajout du bouton change state
-        GridBagConstraints changeStateAiConstraints = new GridBagConstraints();
-        changeStateAiConstraints.gridx = 0; // à droite du menu
-        changeStateAiConstraints.gridy = 0;
-        changeStateAiConstraints.anchor = GridBagConstraints.NORTHEAST;
-        changeStateAiConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(this.changeStateAI, changeStateAiConstraints);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.EAST;
+        panelGame.add(this.optionsPanel, gbc);
 
-        // Ajout du bouton refaire au JPanel avec les contraintes pour le positionner à droite du menu
-        GridBagConstraints menuConstraints = new GridBagConstraints();
-        menuConstraints.gridx = 3; // à droite du bouton annuler
-        menuConstraints.gridy = 0;
-        menuConstraints.anchor = GridBagConstraints.NORTHEAST;
-        menuConstraints.insets = new Insets(10, 10, 10, 10);
-        menuPanel.add(menu, menuConstraints);
+        this.messageLabel = new JLabel();
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        messageLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
+        messageLabel.setOpaque(true); // Enable opacity to set background color
+        messageLabel.setBackground(Color.BLACK); // Set background color to blue
+        gbc.gridx = 1; // Placer le JLabel au centre horizontalement
+        gbc.gridy = 1; // Placer le JLabel sous le JPanel des options
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        panelGame.add(messageLabel, gbc);
 
-        GridBagConstraints logLabelGbc = new GridBagConstraints();
-        this.logLabel = new JLabel();
-        logLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        logLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        logLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
-        logLabel.setOpaque(true); // Enable opacity to set background color
-        logLabel.setBackground(Color.BLACK); // Set background color to blue
+        //TODO : mettre les boutons bien au centre
 
         // Add the message label to the JFrame
-        logLabelGbc.gridx = 0;
-        logLabelGbc.gridy = 1;
-        logLabelGbc.gridwidth = 2; // Span across two columns
-        logLabelGbc.anchor = GridBagConstraints.SOUTH;
-        logLabelGbc.weightx = 1.0;
-        logLabelGbc.weighty = 1.0;
-        logLabelGbc.insets = new Insets(10, 10, 10, 10); // Add some padding
-        panelGame.add(logLabel, logLabelGbc);
+
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
+        panelGame.add(messageLabel, gbc);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
-        gbc.gridx = 1; // Column (starts from 0)
-        gbc.gridy = 0; // Row (starts from 0)
-        gbc.anchor = GridBagConstraints.NORTHEAST; // Anchor to the top-right corner
-        gbc.weightx = 1.0; // Allow horizontal stretching
+        gbc.gridy = 3; // Row (starts from 0)
         gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
-        panelGame.add(menuPanel, gbc);
+        panelGame.add(buttonPanel, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
+        panelGame.add(optionButton, gbc);
+
     }
 
-    private void showTemporaryMessage(String message, int duration) {
-        // Set the message on the label
-        JLabel jmessage = this.logLabel;
-                jmessage.setText(message);
+    private void showTemporaryMessage(String message) {
+        this.messageLabel.setText(message);
+        this.messageLabel.setVisible(true);
 
-        // Create a Timer to clear the message after the specified duration
-        Timer timer = new Timer(duration, new ActionListener() {
+        // Cacher le message après 3 secondes
+        Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jmessage.setText("");
+                DisplayMenuInGame.messageLabel.setText("");
+                DisplayMenuInGame.messageLabel.setVisible(false);
             }
         });
-
-        // Ensure the timer only runs once
         timer.setRepeats(false);
         timer.start();
     }
 
-    private JComboBox<String> createMenu() {
-        String[] options = {DEFAULT, SAVE, RULES, NEWGAME, ABORT};
-        JComboBox<String> menu = new JComboBox<>(options);
-        menu.addActionListener(e -> {
-            String selectedItem = (String) menu.getSelectedItem();
-            if (selectedItem != null) {
-                switch (selectedItem) {
-                    case SAVE:
-                        this.gameActionHandler.saveGame();
-                        showTemporaryMessage("This is a temporary message", 3000);
-                        break;
-                    case RULES:
-                        this.pageActionHandler.gameAndRules();
-                        break;
-                    case NEWGAME:
-                        this.gameActionHandler.restartGameWithSamePlayers();
-                        break;
-                    case ABORT:
-                        this.gameActionHandler.stopAi();
-                        this.pageActionHandler.gameAndAbort();
-                        break;
-                    case DEFAULT:
-                        break;
-                    default:
-                        Log.addMessage("Erreur dans les options du menu du jeu");
-                }
-                menu.setSelectedItem(DEFAULT);
+    private JPanel createOptionPanel(){
+        JPanel optionPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints optionGbc = new GridBagConstraints();
+        optionPanel.setVisible(false);
+        optionPanel.setBackground(new Color(88, 41, 0, 75));
+        optionGbc.gridx = 0;
+        optionGbc.gridy = 0;
+        optionGbc.insets = new Insets(10, 10, 10, 10);
+        optionGbc.anchor = GridBagConstraints.CENTER;
+        optionPanel.add(createButton(SAVE), optionGbc);
+        optionGbc.gridy = 1;
+        optionPanel.add(createButton(RULES), optionGbc);
+        optionGbc.gridy = 2;
+        optionPanel.add(createButton(RESTART), optionGbc);
+        optionGbc.gridy = 3;
+        optionPanel.add(createButton(ABORT), optionGbc);
+        optionGbc.gridy = 4;
+        optionPanel.add(createButton(RETURN), optionGbc);
+
+        // Définir une taille plus grande pour optionsPanel
+        optionPanel.setPreferredSize(new Dimension(300, 300));
+
+        return optionPanel;
+    }
+
+    private JButton createButton(String name){
+        JButton button = new JButton(name);
+        button.addActionListener(e -> {
+            switch (name) {
+                case SAVE:
+                    this.gameActionHandler.getSaveLoadController().saveGame();
+                    showTemporaryMessage("Sauvegarde en cours");
+                    break;
+                case RULES:
+                    this.gameActionHandler.getPageController().gameAndRules();
+                    break;
+                case RESTART:
+                    this.gameActionHandler.getPageController().gameAndRestart();
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
+                    break;
+                case ABORT:
+                    this.gameActionHandler.getAiController().stopAi();
+                    this.gameActionHandler.getPageController().gameAndAbort();
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
+                    break;
+                case RETURN:
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
+                default:
+                    Log.addMessage("Erreur dans les options du menu du jeu");
+            }
+
+        });
+        return button;
+    }
+
+    private JButton createButtonOption(){
+        JButton button = new JButton(DisplayMain.loadIcon("Menu.png"));
+        button.addActionListener(e -> {
+            if(this.optionVisible){
+                this.optionsPanel.setVisible(false);
+                this.optionVisible = false;
+            }
+            else {
+                this.optionsPanel.setVisible(true);
+                this.optionVisible = true;
             }
         });
-        return menu;
+        return button;
     }
 
     private JButton createButtonCancel() {
         JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.cancelMove();
+            this.gameActionHandler.getHistoryController().cancelMove();
         });
         return button;
     }
 
     private JButton createButtonRedo() {
         JButton button = new JButton(DisplayMain.loadIcon("Redo.png"));
-        button.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
+        button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.redoMove();
+            this.gameActionHandler.getHistoryController().redoMove();
         });
         return button;
     }
 
     private JButton createButtonChangeStateAI() {
         JButton button = new JButton("Stopper les IA");
-        button.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.changeStateAi();
-            if (this.gameActionHandler.isAiRunning()) {
+            this.gameActionHandler.getAiController().changeStateAi();
+            if (this.gameActionHandler.getAiController().isAiRunning()) {
                 button.setText("Stopper les IA");
             } else {
                 button.setText("Relancer les IA");
@@ -186,8 +223,9 @@ public class DisplayMenuInGame {
     }
 
     public void updateButtons() {
-        this.cancelButton.setEnabled(this.gameActionHandler.getHistory().canCancel() && !this.gameActionHandler.getCurrentPlayer().isAi());
-        this.redoButton.setEnabled(this.gameActionHandler.getHistory().canRedo() && !this.gameActionHandler.getCurrentPlayer().isAi());
-        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayer1().isAi() && this.gameActionHandler.getPlayer2().isAi());
+        this.cancelButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
+        this.redoButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
+        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
     }
+
 }

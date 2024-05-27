@@ -16,10 +16,10 @@ public class Ai2 extends Ai { //MinMax
         this.visited = 0;
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayer1() == aiPlayer) {
-            this.other = this.gameActionHandler.getPlayer2();
+        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+            this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
-            this.other = this.gameActionHandler.getPlayer1();
+            this.other = this.gameActionHandler.getPlayerController().getPlayer1();
         }
     }
 
@@ -41,7 +41,7 @@ public class Ai2 extends Ai { //MinMax
         } else {
             double max = -9999;
             level++;
-            for (Move m : getMoves(gridC, this.aiPlayer)) {
+            for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
@@ -66,7 +66,7 @@ public class Ai2 extends Ai { //MinMax
         } else {
             double min = 9999;
             level++;
-            for (Move m : getMoves(gridC, this.other)) {
+            for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);

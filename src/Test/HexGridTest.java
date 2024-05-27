@@ -7,6 +7,7 @@ import Model.HexGrid;
 import Model.Insect.*;
 import Model.Player;
 import Structure.HexCoordinate;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,17 +17,33 @@ import static org.junit.Assert.*;
  */
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
-    private Player player = new Player("white", "Inspecteur blanco");
-    private Player player2 = new Player("black", "Barbe noire");
+    private Player player = new Player("Inspecteur blanco");
+    private Player player2 = new Player("Barbe noire");
 
-    private Insect ant = new Ant(player);
-    private Insect spider = new Spider(player);
-    private Insect bee = new Bee(player);
-    private Insect beetle = new Beetle(player);
-    private Insect ant2 = new Ant(player2);
-    private Insect spider2 = new Spider(player2);
-    private Insect bee2 = new Bee(player2);
-    private Insect beetle2 = new Beetle(player2);
+    private Insect ant;
+    private Insect spider;
+    private Insect bee;
+    private Insect beetle;
+    private Insect ant2;
+    private Insect spider2;
+    private Insect bee2;
+    private Insect beetle2;
+
+    @Before
+    public void setUp() {
+        this.player.setColor(0);
+        this.player2.setColor(1);
+        grid = new HexGrid();
+        this.ant = new Ant(player);
+        this.spider = new Spider(player);
+        this.bee = new Bee(player);
+        this.beetle = new Beetle(player);
+        this.ant2 = new Ant(player2);
+        this.spider2 = new Spider(player2);
+        this.bee2 = new Bee(player2);
+        this.beetle2 = new Beetle(player2);
+    }
+
 
     /**
      * Teste la création d'une grille vide

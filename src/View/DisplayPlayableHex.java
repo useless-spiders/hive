@@ -25,7 +25,7 @@ public class DisplayPlayableHex extends JComponent {
 
     public void paintPlayableHex(Graphics g) {
         // Affiche les cases jouables
-        for (HexCoordinate coord : this.gameActionHandler.getPlayableCoordinates()) {
+        for (HexCoordinate coord : this.gameActionHandler.getGameActionListener().getPlayableCoordinates()) {
             Point center = HexMetrics.hexToPixel(coord);
 
             if (coord.equals(this.hoverCoord)) {

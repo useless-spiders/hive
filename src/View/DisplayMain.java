@@ -1,12 +1,14 @@
 package View;
 
+import Global.Configuration;
 import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
+import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
+import Structure.FrameMetrics;
 import Structure.Log;
 
 import javax.imageio.ImageIO;
@@ -16,22 +18,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class DisplayMain {
-    private static final int FRAME_WIDTH = 1280;
-    private static final int FRAME_HEIGHT = 720;
-    private static final String IMAGE_PATH_INSECTS = "res/Images/Skins/";
-    private static final String IMAGE_PATH_ICONS = "res/Images/Icons/";
-    private static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
-    private static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
-    private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
-    private static String SKIN_FOLDER = "Default/";
 
-    private JFrame currentFrame;
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
+    private DisplayRestart displayRestart;
+    private DisplayGame displayGame;
 
     public static Image loadImageHexagons(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_HEXAGONS + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_HEXAGONS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -39,9 +34,15 @@ public class DisplayMain {
         }
     }
 
+    public void setHexagonSkin(String selectedSkin) {
+        Configuration.DEFAULT_SKINS = selectedSkin;
+        this.displayGame.getDisplayBankInsects().updateButtons();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
+    }
+
     public static Image loadImageInsects(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -51,7 +52,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIcon(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH_ICONS + nom);
+            return new ImageIcon(Configuration.IMAGE_PATH_ICONS + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -61,7 +62,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIconInsects(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom);
+            return new ImageIcon(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -71,7 +72,7 @@ public class DisplayMain {
 
     public static Image loadBackground(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_BACKGROUNDS + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_BACKGROUNDS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger le fond " + nom);
             System.exit(1);
@@ -81,7 +82,7 @@ public class DisplayMain {
 
     public static Image loadRules(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_RULES + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_RULES + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger la règle " + nom);
             System.exit(1);
@@ -90,49 +91,66 @@ public class DisplayMain {
     }
 
     public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
-        return insectClass.getSimpleName() + "_" + player.getColor() + ".png";
+        String color;
+        Insect insect = player.getInsect(insectClass);
+        if(player.getColor() == Configuration.PLAYER_WHITE){
+            color = "white";
+        } else {
+            color = "black";
+        }
+
+        /*if (insect != null && !player.checkBeePlacement(insect)) {
+            if (insect.getClass().equals(Bee.class)) {
+                return insect.getClass().getSimpleName() + "_" + color + "_last_tour" + ".png";
+            }
+        }*/
+
+        return insectClass.getSimpleName() + "_" + color + ".png";
     }
 
-    public DisplayMain(PageActionHandler pageActionHandler, GameActionHandler gameActionHandler, JFrame frameOpening,
-                       JFrame frameMenu, JFrame frameGame, JFrame frameWin, JFrame frameRules) {
+    public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,
+                       JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
 
-        this.currentFrame = frameOpening;
+        FrameMetrics.setCurrentFrame(frameOpening);
 
         //Affichage de l'opening
-        new DisplayOpening(frameOpening, pageActionHandler);
-        setupFrame(frameOpening, true, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
-        setFullScreen(frameOpening);
+        new DisplayOpening(frameOpening, gameActionHandler);
+        FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
+        FrameMetrics.setFrameSize(frameOpening, new Dimension(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT)); //Mettre une taille par défaut
+        FrameMetrics.setFullScreen(frameOpening);
 
         //Affichage du menu
-        new DisplayConfigParty(frameMenu, pageActionHandler, gameActionHandler);
-        setupFrame(frameMenu, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+        new DisplayConfigGame(frameMenu, gameActionHandler);
+        FrameMetrics.setupFrame(frameMenu, false, JFrame.EXIT_ON_CLOSE);
 
         //Affichage du jeu
-        DisplayGame displayGame = new DisplayGame(frameGame, pageActionHandler, gameActionHandler);
-        setupFrame(frameGame, false, FRAME_WIDTH, FRAME_HEIGHT, JFrame.EXIT_ON_CLOSE);
+        this.displayGame = new DisplayGame(frameGame, gameActionHandler);
+        FrameMetrics.setupFrame(frameGame, false, JFrame.EXIT_ON_CLOSE);
+
+
 
         //Ajouter les écouteurs
         new MouseActionListener(gameActionHandler, displayGame);
         new KeyActionListener(frameGame, gameActionHandler);
         new ComponentActionListener(frameGame, displayGame);
 
-        //Affichage de la frame de fin de jeu
-        this.displayWin = new DisplayWin(frameWin, pageActionHandler, gameActionHandler);
-        setupFrame(frameWin, false, 400, 800, JFrame.DO_NOTHING_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+        //Affichage du pop up de fin de jeu
+        this.displayWin = new DisplayWin(gameActionHandler);
 
         //Affichage du pop up d'abandon
-        this.displayAbort = new DisplayAbort(pageActionHandler, gameActionHandler);
+        this.displayAbort = new DisplayAbort(gameActionHandler);
+
+        //Affichage du pop up pour recommencer la partie
+        this.displayRestart = new DisplayRestart(gameActionHandler);
 
         //Affichage des regles
-        DisplayRules displayRules = new DisplayRules(frameRules, pageActionHandler);
-        setupFrame(frameRules, false, 700, 800, JFrame.DISPOSE_ON_CLOSE); //Peut être faire des variables globales, j'attends de voir s'il y aura d'autres dimensions);
+        DisplayRules displayRules = new DisplayRules(frameRules);
+        FrameMetrics.setupFrame(frameRules, false, JFrame.DISPOSE_ON_CLOSE);
+        FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }
 
-    private void setupFrame(JFrame frame, boolean isVisible, int frameWidth, int frameHeight, int closeOperation) {
-        frame.setSize(frameWidth, frameHeight); // Définir la taille de la fenêtre
-        frame.setVisible(isVisible);
-        frame.setLocationRelativeTo(null); // Pour centrer l'affichage (notamment pour la frameWin)
-        frame.setDefaultCloseOperation(closeOperation); // Définir l'opération de fermeture
+    public DisplayGame getDisplayGame(){
+        return this.displayGame;
     }
 
     public DisplayWin getDisplayWin() {
@@ -141,12 +159,7 @@ public class DisplayMain {
     public DisplayAbort getDisplayAbort() {
         return this.displayAbort;
     }
-
-    public JFrame getCurrentFrame() {
-        return this.currentFrame;
-    }
-
-    public void setFullScreen(JFrame frame) {
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    public DisplayRestart getDisplayRestart() {
+        return this.displayRestart;
     }
 }
