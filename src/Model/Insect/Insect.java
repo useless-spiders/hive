@@ -3,7 +3,6 @@ package Model.Insect;
 import Model.HexCell;
 import Model.HexGrid;
 import Structure.HexCoordinate;
-import Structure.Log;
 import Model.Player;
 
 import java.io.Serializable;

@@ -6,6 +6,9 @@ import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
 
+/**
+ * Classe pour la grille hexagonale
+ */
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;
 
@@ -22,28 +25,55 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    /**
+     * Constructeur
+     */
     public HexGrid() {
         this.grid = new HashMap<>();
     }
 
+    /**
+     * Renvoie la grille
+     * @return Map<HexCoordinate, HexCell>
+     */
     public Map<HexCoordinate, HexCell> getGrid() {
         return this.grid;
     }
 
+    /**
+     * Renvoie la cellule à partir des coordonnées
+     * @param coord Coordonnées
+     * @return HexCell
+     */
     public HexCell getCell(HexCoordinate coord) {
         return this.grid.get(coord);
     }
 
+    /**
+     * Ajoute une cellule
+     * @param coord Coordonnées
+     * @param insect Insecte
+     */
     public void addCell(HexCoordinate coord, Insect insect) {
         HexCell cell = new HexCell();
         cell.addInsect(insect);
         this.grid.put(coord, cell);
     }
 
+    /**
+     * Supprime une cellule
+     * @param coord Coordonnées
+     */
     public void removeCell(HexCoordinate coord) {
         this.grid.remove(coord);
     }
 
+    /**
+     * Renvoie les coordonnées voisines
+     * @param coord Coordonnées
+     * @param dir Direction
+     * @return HexCoordinate
+     */
     public HexCoordinate getNeighborCoordinates(HexCoordinate coord, String dir) {
         int x = coord.getX();
         int y = coord.getY();
@@ -57,10 +87,21 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    /**
+     * Renvoie les coordonnées voisines
+     * @param coord Coordonnées
+     * @return HashMap<HexCoordinate, String>
+     */
     public HashMap<HexCoordinate, String> getNeighborsCoordinates(HexCoordinate coord) {
         return getNeighborsCoordinates(coord, true);
     }
 
+    /**
+     * Renvoie les coordonnées voisines
+     * @param coord Coordonnées
+     * @param verifyNull Vérifie si la cellule est nulle
+     * @return HashMap<HexCoordinate, String>
+     */
     public HashMap<HexCoordinate, String> getNeighborsCoordinates(HexCoordinate coord, boolean verifyNull) {
         HashMap<HexCoordinate, String> neighbors = new HashMap<>();
 
@@ -74,6 +115,11 @@ public class HexGrid implements Cloneable {
         return neighbors;
     }
 
+    /**
+     * Applique un mouvement
+     * @param move Move
+     * @param player Player
+     */
     public void applyMove(Move move, Player player) { //Appelé uniquement si le move est valide
         HexCell newCell = this.getCell(move.getNewCoor());
         Insect insect = move.getInsect();
@@ -98,6 +144,11 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    /**
+     * Annule un mouvement
+     * @param move Move
+     * @param player Player
+     */
     public void unapplyMove(Move move, Player player) {
         HexCoordinate from = move.getPreviousCoor();
         HexCoordinate to = move.getNewCoor();
@@ -126,6 +177,12 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    /**
+     * Vérifie si la ruche est toujours connectée après un mouvement
+     * @param from Ancienne coordonnée
+     * @param to Nouvelle coordonnée
+     * @return boolean
+     */
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
         // Create a copy of the current HexGrid
         HexGrid tempGrid = this.clone();
@@ -152,6 +209,10 @@ public class HexGrid implements Cloneable {
         return isConnected1 && isConnected2;
     }
 
+    /**
+     * Vérifie si la ruche est connectée
+     * @return boolean
+     */
     public boolean isHiveConnected() {
         if (this.getGrid().isEmpty()) {
             return true;
@@ -165,6 +226,11 @@ public class HexGrid implements Cloneable {
         return visited.size() == this.getGrid().size();
     }
 
+    /**
+     * Parcours en profondeur
+     * @param current Coordonnée actuelle
+     * @param visited Coordonnées visitées
+     */
     private void dfs(HexCoordinate current, HashSet<HexCoordinate> visited) {
         visited.add(current);
 
@@ -175,6 +241,11 @@ public class HexGrid implements Cloneable {
         }
     }
 
+    /**
+     * Vérifie si un joueur a perdu
+     * @param player Joueur
+     * @return boolean
+     */
     public boolean checkLoser(Player player) {
         for (HexCoordinate h : this.getGrid().keySet()) {
             ArrayList<Insect> insects = this.getCell(h).getInsects();
@@ -187,18 +258,33 @@ public class HexGrid implements Cloneable {
         return false;
     }
 
+    /**
+     * Renvoie la direction dans le sens horaire
+     * @param direction Direction
+     * @return String
+     */
     public String getClockwiseDirection(String direction) {
         int index = Arrays.asList(DIRECTIONS).indexOf(direction);
         int clockwiseIndex = (index + 1) % DIRECTIONS.length;
         return DIRECTIONS[clockwiseIndex];
     }
 
+    /**
+     * Renvoie la direction dans le sens anti-horaire
+     * @param direction Direction
+     * @return String
+     */
     public String getCounterClockwiseDirection(String direction) {
         int index = Arrays.asList(DIRECTIONS).indexOf(direction);
         int counterClockwiseIndex = (index - 1 + DIRECTIONS.length) % DIRECTIONS.length;
         return DIRECTIONS[counterClockwiseIndex];
     }
 
+    /**
+     * Teste si deux grilles sont égales
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -212,11 +298,19 @@ public class HexGrid implements Cloneable {
         return Objects.equals(this.getGrid(), hexGrid.getGrid());
     }
 
+    /**
+     * Renvoie le hashcode de la grille
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.getGrid());
     }
 
+    /**
+     * Clone la grille
+     * @return HexGrid
+     */
     @Override
     public HexGrid clone() {
         try {
