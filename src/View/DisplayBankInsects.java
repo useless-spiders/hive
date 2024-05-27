@@ -103,7 +103,7 @@ public class DisplayBankInsects {
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player) {
-        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player));
+        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
         JButton button = new JButton(imageIcon);
         button.addActionListener(new ActionListener() {
 

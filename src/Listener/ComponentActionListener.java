@@ -3,13 +3,22 @@ package Listener;
 import View.DisplayGame;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
-public class ComponentActionListener implements ComponentListener {
+
+/**
+ * Listener pour les actions sur les composants
+ */
+public class ComponentActionListener extends ComponentAdapter {
     JFrame frameGame;
     DisplayGame displayGame;
 
+    /**
+     * Constructeur
+     * @param frameGame   Fenêtre du jeu
+     * @param displayGame Affichage du jeu
+     */
     public ComponentActionListener(JFrame frameGame, DisplayGame displayGame) {
         this.frameGame = frameGame;
         this.displayGame = displayGame;
@@ -17,21 +26,13 @@ public class ComponentActionListener implements ComponentListener {
         frameGame.addComponentListener(this);
     }
 
+    /**
+     * Recentre le jeu quand on change la taille de la fenêtre
+     * @param componentEvent ComponentEvent
+     */
     @Override
     public void componentResized(ComponentEvent componentEvent) {
         displayGame.centerGame();
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
     }
 }
 

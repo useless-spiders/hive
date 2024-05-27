@@ -1,7 +1,6 @@
 package View;
 
 import Global.Configuration;
-import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
@@ -24,6 +23,7 @@ public class DisplayConfigGame extends JPanel {
     private static final String LOAD = "Charger partie";
     private static final String SKIN = "Choix du skin";
     private static final String NAME_TEXT = "Nom du joueur";
+    private Image background ;
 
 
     private JComboBox<String> column1;
@@ -37,8 +37,11 @@ public class DisplayConfigGame extends JPanel {
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
 
+        this.background = DisplayMain.loadBackground("Opening_param.png");
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
 
         //Les deux menus déroulants
         this.player1NameField = createTextField();
@@ -88,6 +91,8 @@ public class DisplayConfigGame extends JPanel {
 
         frame.setContentPane(this);
         frame.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(screenSize.width - frame.getWidth(),100);
     }
 
     private JComboBox<String> createDropDownMenu(JTextField textField) {
@@ -159,14 +164,14 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.resetGame();
             }
             if (this.column1.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.getPlayerController().setPlayer(1, (String) this.column1.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setAiPlayer(1, (String) this.column1.getSelectedItem());
             } else {
                 if(!this.player1NameField.getText().equals(NAME_TEXT)){
                     this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
-                this.gameActionHandler.getPlayerController().setPlayer(2, (String) this.column2.getSelectedItem());
+                this.gameActionHandler.getPlayerController().setAiPlayer(2, (String) this.column2.getSelectedItem());
             } else {
                 if(!this.player2NameField.getText().equals(NAME_TEXT)){
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
@@ -233,4 +238,12 @@ public class DisplayConfigGame extends JPanel {
         });
         return button;
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Image scaledBackground = background.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        g.drawImage(scaledBackground, 0, 0, this);
+    }
+
 }

@@ -1,23 +1,33 @@
 package Structure;
 
-public class Tree
-{
+/**
+ * Classe pour les logs
+ */
+public class Tree {
     Node root;
     public Node current;
 
-    public Tree()
-    {
+    /**
+     * Constructeur
+     */
+    public Tree() {
         this.root = new Node();
         this.current = root;
     }
 
-    public Node getRoot()
-    {
+    /**
+     * Retourne la racine
+     * @return Node
+     */
+    public Node getRoot() {
         return this.root;
     }
 
-    public Node getCurrent()
-    {
+    /**
+     * Retourne le noeud courant
+     * @return Node
+     */
+    public Node getCurrent() {
         return this.current;
     }
 

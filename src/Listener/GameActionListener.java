@@ -11,6 +11,9 @@ import Structure.Log;
 
 import java.util.ArrayList;
 
+/**
+ * Listener pour les actions du jeu
+ */
 public class GameActionListener {
     private GameController gameController;
     private Insect insect;
@@ -19,6 +22,10 @@ public class GameActionListener {
     private HexCoordinate hexClicked;
     private ArrayList<HexCoordinate> playableCoordinates;
 
+    /**
+     * Constructeur
+     * @param gameController GameController
+     */
     public GameActionListener(GameController gameController) {
         this.gameController = gameController;
         this.isInsectCellClicked = false;
@@ -26,38 +33,73 @@ public class GameActionListener {
         this.playableCoordinates = new ArrayList<>();
     }
 
+    /**
+     * Renvoie l'hexagon cliqué
+     * @return HexCoordinate
+     */
     public HexCoordinate getHexClicked() {
         return this.hexClicked;
     }
 
+    /**
+     * Définit l'hexagon cliqué
+     * @param hexClicked HexCoordinate
+     */
     public void setHexClicked(HexCoordinate hexClicked) {
         this.hexClicked = hexClicked;
     }
 
+    /**
+     * Renvoie si un insecte est cliqué
+     * @return boolean
+     */
     public boolean getIsInsectCellClicked() {
         return this.isInsectCellClicked;
     }
 
+    /**
+     * Définit si un insecte est cliqué
+     * @param isInsectCellClicked boolean
+     */
     public void setIsInsectCellClicked(boolean isInsectCellClicked) {
         this.isInsectCellClicked = isInsectCellClicked;
     }
 
+    /**
+     * Renvoie si un bouton insecte est cliqué
+     * @return boolean
+     */
     public boolean getIsInsectButtonClicked() {
         return this.isInsectButtonClicked;
     }
 
+    /**
+     * Définit si un bouton insecte est cliqué
+     * @param isInsectButtonClicked boolean
+     */
     public void setIsInsectButtonClicked(boolean isInsectButtonClicked) {
         this.isInsectButtonClicked = isInsectButtonClicked;
     }
 
+    /**
+     * Renvoie les coordonnées jouables
+     * @return ArrayList<HexCoordinate>
+     */
     public ArrayList<HexCoordinate> getPlayableCoordinates() {
         return this.playableCoordinates;
     }
 
+    /**
+     * Définit les coordonnées jouables
+     * @param playableCoordinates ArrayList<HexCoordinate>
+     */
     public void setPlayableCoordinates(ArrayList<HexCoordinate> playableCoordinates) {
         this.playableCoordinates = playableCoordinates;
     }
 
+    /**
+     * Gère le clic sur un insecte de la grille
+     */
     public void handleCellClicked(HexCell cell, HexCoordinate hexagon) { //Clic sur un insecte du plateau
         // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.gameController.getPlayerController().getCurrentPlayer().isAi()) {
@@ -102,6 +144,9 @@ public class GameActionListener {
         }
     }
 
+    /**
+     * Gère le déplacement d'un insecte sur la grille
+     */
     public void handleInsectMoved(HexCoordinate hexagon) {
         // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.gameController.getPlayerController().getCurrentPlayer().isAi()) {
@@ -126,6 +171,9 @@ public class GameActionListener {
         this.playableCoordinates.clear();
     }
 
+    /**
+     * Gère le placement d'un insecte sur la grille
+     */
     public void handleInsectPlaced(HexCoordinate hexagon) {
         // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.gameController.getPlayerController().getCurrentPlayer().isAi()) {
@@ -149,6 +197,9 @@ public class GameActionListener {
         this.playableCoordinates.clear();
     }
 
+    /**
+     * Gère le clic sur un bouton insecte
+     */
     public void clicInsectButton(Class<? extends Insect> insectClass, Player player) {
         // Bloque les interactions avec l'interface si c'est l'IA qui joue
         if (this.gameController.getPlayerController().getCurrentPlayer().isAi()) {

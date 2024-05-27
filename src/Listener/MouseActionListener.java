@@ -1,5 +1,6 @@
 package Listener;
 
+import Global.Configuration;
 import Model.HexCell;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
@@ -9,6 +10,9 @@ import View.DisplayGame;
 
 import java.awt.event.*;
 
+/**
+ * Listener pour les actions de la souris
+ */
 public class MouseActionListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
     private GameActionHandler gameActionHandler;
     private DisplayGame displayGame;
@@ -16,6 +20,11 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
     private int lastY;
     private HexCoordinate hoverCell;
 
+    /**
+     * Constructeur
+     * @param gameActionHandler GameActionHandler
+     * @param displayGame DisplayGame
+     */
     public MouseActionListener(GameActionHandler gameActionHandler, DisplayGame displayGame) {
         this.gameActionHandler = gameActionHandler;
         this.displayGame = displayGame;
@@ -25,6 +34,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         this.displayGame.addMouseWheelListener(this);
     }
 
+    /**
+     * Met en surbrillance l'hexagon survolé
+     * @return HexCoordinate
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         int x = e.getX() - ViewMetrics.getViewOffsetX();
@@ -38,6 +51,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         }
     }
 
+    /**
+     * Gère les clics de souris
+     * @param e MouseEvent
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         this.lastX = e.getX();
@@ -57,6 +74,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         this.displayGame.repaint();
     }
 
+    /**
+     * Gère le dragging de la souris
+     * @param e MouseEvent
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         // Bloque le dragging si la grille est vide
@@ -71,6 +92,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         this.lastY = y;
     }
 
+    /**
+     * Gère le zoom de la souris
+     * @param e MouseWheelEvent
+     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         // Bloque le zoom si la grille est vide
@@ -85,10 +110,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         int x = e.getX() - ViewMetrics.getViewOffsetX();
         int y = e.getY() - ViewMetrics.getViewOffsetY();
 
-        if (notches < 0 && HexMetrics.HEX_WIDTH < HexMetrics.MAX_HEX_WIDTH) {
+        if (notches < 0 && HexMetrics.HEX_WIDTH < Configuration.MAX_HEX_WIDTH) {
             // Molette tournée vers le haut
             HexMetrics.updateHexMetricsWidth(5);
-        } else if (notches > 0 && HexMetrics.HEX_WIDTH > HexMetrics.MIN_HEX_WIDTH) {
+        } else if (notches > 0 && HexMetrics.HEX_WIDTH > Configuration.MIN_HEX_WIDTH) {
             // Molette tournée vers le bas
             HexMetrics.updateHexMetricsWidth(-5);
         }

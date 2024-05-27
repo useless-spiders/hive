@@ -3,25 +3,49 @@ package Model.Insect;
 import Model.HexCell;
 import Model.HexGrid;
 import Structure.HexCoordinate;
-import Structure.Log;
 import Model.Player;
 
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Classe abstraite pour les insectes
+ */
 public abstract class Insect implements Cloneable, Serializable {
     private Player player;
 
+    /**
+     * Constructeur
+     * @param player Joueur
+     */
     public Insect(Player player) {
         this.player = player;
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour le déplacement
+     * @param current Coordonnées actuelles
+     * @param g Grille
+     * @return ArrayList
+     */
     public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
         return this.getPossibleMovesCoordinates(current, g, this.getPlayer());
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour le déplacement
+     * @param current Coordonnées actuelles
+     * @param g Grille
+     * @param p Joueur
+     * @return ArrayList
+     */
     public abstract ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p);
 
+    /**
+     * Renvoie les coordonnées possibles pour l'insertion
+     * @param g Grille
+     * @return ArrayList
+     */
     public ArrayList<HexCoordinate> getPossibleInsertionCoordinates(HexGrid g) {
         ArrayList<HexCoordinate> coords = new ArrayList<>();
         Set<HexCoordinate> coordinates = g.getGrid().keySet();
@@ -47,20 +71,35 @@ public abstract class Insect implements Cloneable, Serializable {
         return coords;
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour l'insertion
+     * @param g Grille
+     * @return ArrayList
+     */
     public ArrayList<HexCoordinate> getPossibleInsertionCoordinatesT1(HexGrid g) {
         Iterator<HexCoordinate> it = g.getGrid().keySet().iterator();
         return new ArrayList<>(g.getNeighborsCoordinates(it.next(), false).keySet());
     }
 
+    /**
+     * Renvoie le joueur
+     * @return Player
+     */
     public Player getPlayer() {
         return this.player;
     }
 
-    // can't move any insect if the Bee is not in the grid
+    /**
+     * Vérifie si l'insecte peut se déplacer
+     * @param g Grille
+     * @param player Joueur
+     * @return boolean
+     */
     protected boolean canMoveInsect(HexGrid g, Player player) {
         for (HexCell cell : g.getGrid().values()) {
             for (Insect insect : cell.getInsects()) {
                 if (insect.getPlayer() == player && insect.getClass() == Bee.class) {
+                    // on peut déplacer des insectes que si la reine est posée
                     return true;
                 }
             }
@@ -68,6 +107,11 @@ public abstract class Insect implements Cloneable, Serializable {
         return false;
     }
 
+    /**
+     * Test si deux insectes sont égaux
+     * @param obj Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -82,11 +126,19 @@ public abstract class Insect implements Cloneable, Serializable {
                 Objects.equals(player, insect.player);
     }
 
+    /**
+     * Renvoie le hashcode de l'insecte
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.getClass().getSimpleName(), player);
     }
 
+    /**
+     * Clone l'insecte
+     * @return Insect
+     */
     @Override
     public Insect clone() {
         try {

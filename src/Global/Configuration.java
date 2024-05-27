@@ -1,5 +1,8 @@
 package Global;
 
+/**
+ * Classe de configuration pour l'ensemble du jeu
+ */
 public class Configuration {
     public static final int PLAYER_WHITE = 0;
     public static final int PLAYER_BLACK = 1;
@@ -18,6 +21,8 @@ public class Configuration {
     public static final String SAVE_FORMAT = "dd-MM-yyyy_HH-mm-ss";
 
     public static final int HEX_DEFAULT_WIDTH = 100;
+    public static final int MAX_HEX_WIDTH = 200;
+    public static final int MIN_HEX_WIDTH = 50;
 
     public static final int FRAME_WIDTH = 1280;
     public static final int FRAME_HEIGHT = 720;

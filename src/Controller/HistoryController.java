@@ -7,23 +7,41 @@ import Structure.Log;
 
 import java.util.ArrayList;
 
+/**
+ * Controleur pour l'historique des mouvements
+ */
 public class HistoryController {
     private GameActionHandler gameActionHandler;
     private History history;
 
+    /**
+     * Constructeur
+     * @param gameActionHandler GameActionHandler
+     */
     public HistoryController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.history = new History();
     }
 
+    /**
+     * Renvoie l'historique
+     * @return History
+     */
     public History getHistory() {
         return this.history;
     }
 
+    /**
+     * Définit l'historique
+     * @param history History
+     */
     public void setHistory(History history) {
         this.history = history;
     }
 
+    /**
+     * Annule le dernier mouvement
+     */
     public void cancelMove() {
         if (this.history.canCancel()) {
             this.gameActionHandler.getGameActionListener().setPlayableCoordinates(new ArrayList<>());
@@ -45,6 +63,9 @@ public class HistoryController {
         }
     }
 
+    /**
+     * Refait le dernier mouvement annulé
+     */
     public void redoMove() {
         if (this.history.canRedo()) {
             this.gameActionHandler.getGameActionListener().setPlayableCoordinates(new ArrayList<>());
@@ -63,6 +84,10 @@ public class HistoryController {
         }
     }
 
+    /**
+     * Ajoute un mouvement à l'historique
+     * @param move Move
+     */
     public void addMove(Move move) {
         this.history.addMove(move);
     }

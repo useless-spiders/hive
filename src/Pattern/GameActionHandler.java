@@ -5,6 +5,9 @@ import Listener.GameActionListener;
 import Model.HexGrid;
 import View.DisplayGame;
 
+/**
+ * Interface pour les actions du jeu
+ */
 public interface GameActionHandler {
     HexGrid getGrid();
 

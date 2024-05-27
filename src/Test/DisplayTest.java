@@ -27,7 +27,7 @@ public class DisplayTest {
      */
     @Test
     public void testLoadImage() {
-        Image image = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Spider.class, this.player));
+        Image image = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Spider.class, this.player, this.player));
         assertNotNull(image);
 
         image = DisplayMain.loadImageHexagons("Full.png");
