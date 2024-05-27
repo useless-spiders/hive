@@ -32,8 +32,8 @@ public interface GameActionHandler {
 
     SaveLoadController getSaveLoadController();
 
-    boolean getIsFirstStart();
+    PageController getPageController();
 
-    PageActionHandler getPageActionHandler();
+    boolean getIsFirstStart();
 
 }

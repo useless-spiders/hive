@@ -173,7 +173,7 @@ public class DisplayConfigGame extends JPanel {
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getAiController().startAi();
-            this.gameActionHandler.getPageActionHandler().menuToGame();
+            this.gameActionHandler.getPageController().menuToGame();
         });
         return button;
     }
@@ -193,7 +193,7 @@ public class DisplayConfigGame extends JPanel {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
-                    this.gameActionHandler.getPageActionHandler().menuToGame();
+                    this.gameActionHandler.getPageController().menuToGame();
                 }
             }
         });
@@ -217,13 +217,13 @@ public class DisplayConfigGame extends JPanel {
             if (selectedSkin != null) {
                 switch (selectedSkin) {
                     case "Skin par défaut":
-                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Default/");
+                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Default/");
                         break;
                     case "Skin noir et blanc":
-                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Black_and_white/");
+                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Black_and_white/");
                         break;
                     case "Skin Among Us":
-                        this.gameActionHandler.getPageActionHandler().getDisplayMain().setHexagonSkin("Sus_skin/");
+                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Sus_skin/");
                         break;
                     default:
                         Log.addMessage("Skin inconnu");

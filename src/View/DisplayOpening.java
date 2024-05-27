@@ -30,7 +30,7 @@ public class DisplayOpening extends JPanel {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.addActionListener(e -> this.gameActionHandler.getPageActionHandler().openingToMenu());
+        button.addActionListener(e -> this.gameActionHandler.getPageController().openingToMenu());
         return button;
     }
 

@@ -140,14 +140,14 @@ public class DisplayMenuInGame {
                     showTemporaryMessage("Sauvegarde en cour !!!", 3000);
                     break;
                 case RULES:
-                    this.gameActionHandler.getPageActionHandler().gameAndRules();
+                    this.gameActionHandler.getPageController().gameAndRules();
                     break;
                 case NEWGAME:
-                    this.gameActionHandler.getPageActionHandler().gameAndRestart();
+                    this.gameActionHandler.getPageController().gameAndRestart();
                     break;
                 case ABORT:
                     this.gameActionHandler.getAiController().stopAi();
-                    this.gameActionHandler.getPageActionHandler().gameAndAbort();
+                    this.gameActionHandler.getPageController().gameAndAbort();
                     break;
                 case DEFAULT:
                     break;

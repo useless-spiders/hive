@@ -42,8 +42,8 @@ public class DisplayWin extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             this.gameActionHandler.restartGameWithSamePlayers();
         } else {
-            this.gameActionHandler.getPageActionHandler().winToMenu();
-            this.gameActionHandler.getPageActionHandler().disposeGame();
+            this.gameActionHandler.getPageController().winToMenu();
+            this.gameActionHandler.getPageController().disposeGame();
         }
     }
 }

@@ -1,13 +1,12 @@
 package Controller;
 
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.FrameMetrics;
 import View.DisplayMain;
 
 import javax.swing.*;
 
-public class PageController implements PageActionHandler {
+public class PageController {
     private JFrame frameOpening = new JFrame();
     private JFrame frameGame = new JFrame("Hive game");
     private JFrame frameMenu = new JFrame();
@@ -19,22 +18,18 @@ public class PageController implements PageActionHandler {
         gameActionHandler.setDisplayGame(this.displayMain.getDisplayGame());
     }
 
-    @Override
     public void openingToMenu() {
         FrameMetrics.switchFrame(this.frameMenu);
     }
 
-    @Override
     public void menuToGame() {
         FrameMetrics.switchFrame(this.frameGame);
     }
 
-    @Override
     public void winToMenu() {
         FrameMetrics.switchFrame(this.frameMenu);
     }
 
-    @Override
     public void gameAndAbort() {
         this.frameGame.setVisible(true);
         this.displayMain.getDisplayAbort().printAskAbort();

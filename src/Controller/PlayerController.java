@@ -37,9 +37,9 @@ public class PlayerController {
         this.gameActionHandler.getGameActionListener().setPlayableCoordinates(new ArrayList<>());
         int winner = this.checkLoser();
         if (winner != -1) {
-            this.gameActionHandler.getPageActionHandler().getDisplayMain().getDisplayWin().updateWinner(winner);
+            this.gameActionHandler.getPageController().getDisplayMain().getDisplayWin().updateWinner(winner);
             this.gameActionHandler.getDisplayGame().repaint(); //Pour afficher le dernier coup
-            this.gameActionHandler.getPageActionHandler().gameAndWin();
+            this.gameActionHandler.getPageController().gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {

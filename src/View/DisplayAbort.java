@@ -15,8 +15,8 @@ public class DisplayAbort extends JPanel {
     public void printAskAbort() {
         int choice = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment abandonner ?", "Confirmation", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
-            this.gameActionHandler.getPageActionHandler().abortToMenu();
-            this.gameActionHandler.getPageActionHandler().disposeGame();
+            this.gameActionHandler.getPageController().abortToMenu();
+            this.gameActionHandler.getPageController().disposeGame();
         } else {
             this.gameActionHandler.getAiController().changeStateAi();
             Window window = SwingUtilities.getWindowAncestor(this);

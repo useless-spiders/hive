@@ -3,7 +3,6 @@ package Controller;
 import Listener.GameActionListener;
 import Model.*;
 import Pattern.GameActionHandler;
-import Pattern.PageActionHandler;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
 import View.DisplayGame;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 
 public class Game implements GameActionHandler {
     private HexGrid hexGrid;
-    private PageActionHandler pageActionHandler;
     private boolean isFirstStart = true;
     private PlayerController playerController;
     private AiController aiController;
@@ -21,6 +19,7 @@ public class Game implements GameActionHandler {
     private GameActionListener gameActionListener;
     private SaveLoadController saveLoadController;
     private DisplayGame displayGame;
+    private PageController pageController;
 
     public Game() {
         this.hexGrid = new HexGrid();
@@ -32,7 +31,7 @@ public class Game implements GameActionHandler {
 
         this.moveController = new MoveController(this);
         this.historyController = new HistoryController(this);
-        this.pageActionHandler = new PageController(this);
+        this.pageController = new PageController(this);
         this.gameActionListener = new GameActionListener(this);
         this.saveLoadController = new SaveLoadController(this);
 
@@ -44,8 +43,8 @@ public class Game implements GameActionHandler {
     }
 
     @Override
-    public PageActionHandler getPageActionHandler() {
-        return this.pageActionHandler;
+    public PageController getPageController() {
+        return this.pageController;
     }
 
     @Override
