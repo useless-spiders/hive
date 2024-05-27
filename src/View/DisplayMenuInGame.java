@@ -188,8 +188,6 @@ public class DisplayMenuInGame extends JFrame{
                 this.optionVisible = true;
             }
         });
-        //Augmenter la taille du bouton des options
-        button.setPreferredSize(new Dimension(150, 50));
         return button;
     }
 

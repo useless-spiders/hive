@@ -3,6 +3,7 @@ package View;
 import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
+import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -98,11 +99,19 @@ public class DisplayMain {
 
     public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
         String color;
+        Insect insect = player.getInsect(insectClass);
         if(player.getColor() == Player.WHITE){
             color = "white";
         } else {
             color = "black";
         }
+
+        if (insect != null && !player.checkBeePlacement(insect)) {
+            if (insectClass.getSimpleName().equals("Bee")) {
+                return insectClass.getSimpleName() + "_" + color + "_last_tour" + ".png";
+            }
+        }
+
         return insectClass.getSimpleName() + "_" + color + ".png";
     }
 
