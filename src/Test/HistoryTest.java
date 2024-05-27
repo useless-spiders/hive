@@ -21,7 +21,7 @@ public class HistoryTest {
 
     @Before
     public void setUp() {
-        this.player.setColor(Player.WHITE);
+        this.player.setColor(0);
         this.move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));
         this.move2 = new Move(new Ant(player), new HexCoordinate(0, 2), new HexCoordinate(1, 1));
     }

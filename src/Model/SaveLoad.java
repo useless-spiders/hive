@@ -1,5 +1,7 @@
 package Model;
 
+import Global.Configuration;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -8,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SaveLoad {
-
-    public static final String SAVE_PATH = "res/Saves/";
-    public static final String SAVE_EXTENSION = "save";
 
     private History history;
     private Player player1;
@@ -56,7 +55,7 @@ public class SaveLoad {
     }
 
     private static String formatFileName() {
-        String timeStamp = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
-        return SAVE_PATH + timeStamp + "." + SAVE_EXTENSION;
+        String timeStamp = new SimpleDateFormat(Configuration.SAVE_FORMAT).format(new Date());
+        return Configuration.SAVE_PATH + timeStamp + "." + Configuration.SAVE_EXTENSION;
     }
 }

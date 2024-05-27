@@ -21,7 +21,7 @@ public class HexCellTest {
 
     @Before
     public void setUp() {
-        this.player.setColor(Player.WHITE);
+        this.player.setColor(0);
     }
 
     /**

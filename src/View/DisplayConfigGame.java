@@ -1,5 +1,6 @@
 package View;
 
+import Global.Configuration;
 import Model.SaveLoad;
 import Pattern.GameActionHandler;
 import Structure.Log;
@@ -183,10 +184,10 @@ public class DisplayConfigGame extends JPanel {
         button.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             // Définir le répertoire de départ
-            fileChooser.setCurrentDirectory(new File(SaveLoad.SAVE_PATH));
+            fileChooser.setCurrentDirectory(new File(Configuration.SAVE_PATH));
 
             // Créer un filtre pour les fichiers .save
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIVE SAVE FILES", SaveLoad.SAVE_EXTENSION);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIVE SAVE FILES", Configuration.SAVE_EXTENSION);
             fileChooser.setFileFilter(filter);
 
             int returnValue = fileChooser.showOpenDialog(null);

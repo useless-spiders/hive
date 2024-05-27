@@ -20,7 +20,7 @@ public class MoveTest {
     @Test
     public void testAction() {
         Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
+        player.setColor(0);
 
         // Première action
         Move move1 = new Move(new Bee(player), new HexCoordinate(0, 0), new HexCoordinate(0, 1));

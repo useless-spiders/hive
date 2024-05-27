@@ -5,7 +5,6 @@ import java.util.*;
 import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
-import Structure.Log;
 
 public class HexGrid implements Cloneable {
     private Map<HexCoordinate, HexCell> grid;

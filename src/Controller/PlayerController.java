@@ -1,5 +1,6 @@
 package Controller;
 
+import Global.Configuration;
 import Model.Ai.Ai;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -26,7 +27,7 @@ public class PlayerController {
         this.player1.setColor(color);
         this.player2.setColor((color + 1) % 2);
 
-        if (this.player1.getColor() == Player.WHITE) {
+        if (this.player1.getColor() == Configuration.PLAYER_WHITE) {
             this.currentPlayer = this.player1;
         } else {
             this.currentPlayer = this.player2;

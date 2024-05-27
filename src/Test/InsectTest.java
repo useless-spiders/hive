@@ -23,8 +23,8 @@ public class InsectTest {
 
     @Before
     public void setUp() {
-        this.player.setColor(Player.WHITE);
-        this.player2.setColor(Player.BLACK);
+        this.player.setColor(0);
+        this.player2.setColor(1);
         this.ant = new Ant(player);
         this.bee = new Bee(player);
         this.ant2 = new Ant(player2);

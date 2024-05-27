@@ -18,8 +18,8 @@ public class SaveLoadTest {
 
     @Before
     public void setUp() {
-        this.player1.setColor(Player.WHITE);
-        this.player2.setColor(Player.BLACK);
+        this.player1.setColor(0);
+        this.player2.setColor(1);
         this.currentPlayer = this.player1;
     }
 

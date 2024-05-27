@@ -1,5 +1,6 @@
 package View;
 
+import Global.Configuration;
 import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
@@ -16,14 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class DisplayMain {
-    private static final int FRAME_WIDTH = 1280;
-    private static final int FRAME_HEIGHT = 720;
-    private static final String IMAGE_PATH_INSECTS = "res/Images/Skins/";
-    private static final String IMAGE_PATH_ICONS = "res/Images/Icons/";
-    private static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
-    private static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
-    private static final String IMAGE_PATH_RULES = "res/Images/Rules/";
-    public static String SKIN_FOLDER = "Default/";
 
     private DisplayWin displayWin;
     private DisplayAbort displayAbort;
@@ -32,7 +25,7 @@ public class DisplayMain {
 
     public static Image loadImageHexagons(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_HEXAGONS + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_HEXAGONS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -41,14 +34,14 @@ public class DisplayMain {
     }
 
     public void setHexagonSkin(String selectedSkin) {
-        SKIN_FOLDER = selectedSkin;
+        Configuration.DEFAULT_SKINS = selectedSkin;
         this.displayGame.getDisplayBankInsects().updateButtons();
         this.displayGame.getDisplayBankInsects().updateBorderBank();
     }
 
     public static Image loadImageInsects(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -58,7 +51,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIcon(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH_ICONS + nom);
+            return new ImageIcon(Configuration.IMAGE_PATH_ICONS + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -68,7 +61,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIconInsects(String nom) {
         try {
-            return new ImageIcon(IMAGE_PATH_INSECTS + SKIN_FOLDER + nom);
+            return new ImageIcon(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom);
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -78,7 +71,7 @@ public class DisplayMain {
 
     public static Image loadBackground(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_BACKGROUNDS + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_BACKGROUNDS + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger le fond " + nom);
             System.exit(1);
@@ -88,7 +81,7 @@ public class DisplayMain {
 
     public static Image loadRules(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(IMAGE_PATH_RULES + nom)));
+            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_RULES + nom)));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger la règle " + nom);
             System.exit(1);
@@ -98,7 +91,7 @@ public class DisplayMain {
 
     public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
         String color;
-        if(player.getColor() == Player.WHITE){
+        if(player.getColor() == Configuration.PLAYER_WHITE){
             color = "white";
         } else {
             color = "black";
@@ -114,7 +107,7 @@ public class DisplayMain {
         //Affichage de l'opening
         new DisplayOpening(frameOpening, gameActionHandler);
         FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
-        FrameMetrics.setFrameSize(frameOpening, new Dimension(FRAME_WIDTH, FRAME_HEIGHT)); //Mettre une taille par défaut
+        FrameMetrics.setFrameSize(frameOpening, new Dimension(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT)); //Mettre une taille par défaut
         FrameMetrics.setFullScreen(frameOpening);
 
         //Affichage du menu

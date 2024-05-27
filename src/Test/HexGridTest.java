@@ -31,8 +31,8 @@ public class HexGridTest {
 
     @Before
     public void setUp() {
-        this.player.setColor(Player.WHITE);
-        this.player2.setColor(Player.BLACK);
+        this.player.setColor(0);
+        this.player2.setColor(1);
         grid = new HexGrid();
         this.ant = new Ant(player);
         this.spider = new Spider(player);

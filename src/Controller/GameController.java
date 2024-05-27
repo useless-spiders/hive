@@ -1,5 +1,6 @@
 package Controller;
 
+import Global.Configuration;
 import Listener.GameActionListener;
 import Model.*;
 import Pattern.GameActionHandler;
@@ -116,7 +117,7 @@ public class GameController implements GameActionHandler {
         this.hexGrid = new HexGrid();
         this.historyController.setHistory(new History());
         this.getPlayerController().resetPlayers();
-        if (this.getPlayerController().getPlayer1().getColor() == Player.WHITE) {
+        if (this.getPlayerController().getPlayer1().getColor() == Configuration.PLAYER_WHITE) {
             this.getPlayerController().setCurrentPlayer(this.getPlayerController().getPlayer1());
         } else {
             this.getPlayerController().setCurrentPlayer(this.getPlayerController().getPlayer2());

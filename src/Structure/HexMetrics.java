@@ -1,9 +1,11 @@
 package Structure;
 
+import Global.Configuration;
+
 import java.awt.*;
 
 public class HexMetrics {
-    public static int HEX_WIDTH = 100; // Largeur de l'hexagone
+    public static int HEX_WIDTH = Configuration.HEX_DEFAULT_WIDTH; // Largeur de l'hexagone
     public static int HEX_HEIGHT = (int) (Math.sqrt(3) / 2 * HEX_WIDTH); // Hauteur pour maintenir la proportion
 
     public static final int MAX_HEX_WIDTH = 200;

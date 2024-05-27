@@ -19,7 +19,7 @@ public class DisplayTest {
 
     @Before
     public void setUp() {
-        this.player.setColor(Player.WHITE);
+        this.player.setColor(0);
     }
 
     /**

@@ -2,6 +2,7 @@ package Test;
 
 import Model.Insect.Ant;
 import Model.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,25 +11,29 @@ import static org.junit.Assert.*;
  * Classe de test pour les joueurs
  */
 public class PlayerTest {
+    private Player player;
+
+    @Before
+    public void setUp() {
+        this.player = new Player("Inspecteur blanco");
+        this.player.setColor(0);
+    }
 
     /**
      * Teste l'ajout d'insectes
      */
     @Test
     public void testMaxInsects() {
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
-
         // Teste l'ajout d'une fourmi
-        assertTrue(player.canAddInsect(Ant.class));
+        assertTrue(this.player.canAddInsect(Ant.class));
 
         // Teste l'ajout d'une fourmi alors que le nombre maximum est atteint
         for (int i = 0; i < 3; i++) {
-            player.playInsect(Ant.class);
+            this.player.playInsect(Ant.class);
         }
 
-        assertFalse(player.canAddInsect(Ant.class));
-        assertEquals(player.getInsectCount(Ant.class), 0);
+        assertFalse(this.player.canAddInsect(Ant.class));
+        assertEquals(this.player.getInsectCount(Ant.class), 0);
     }
 
     /**
@@ -36,10 +41,8 @@ public class PlayerTest {
      */
     @Test
     public void testName(){
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
         // Teste le nom du joueur
-        assertEquals("Inspecteur blanco", player.getName());
+        assertEquals("Inspecteur blanco", this.player.getName());
     }
 
     /**
@@ -47,17 +50,14 @@ public class PlayerTest {
      */
     @Test
     public void testTurn(){
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
-
         // Teste l'incrementation du tour
-        assertEquals(1, player.getTurn());
-        player.incrementTurn();
-        assertEquals(2, player.getTurn());
+        assertEquals(1, this.player.getTurn());
+        this.player.incrementTurn();
+        assertEquals(2, this.player.getTurn());
 
         // Test la décrémentation du tour
-        player.decrementTurn();
-        assertEquals(1, player.getTurn());
+        this.player.decrementTurn();
+        assertEquals(1, this.player.getTurn());
     }
 
     /**
@@ -65,30 +65,24 @@ public class PlayerTest {
      */
     @Test
     public void testBeePlaced(){
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
         // Teste si l'abeille a été placé
-        assertFalse(player.isBeePlaced());
-        player.setBeePlaced(true);
-        assertTrue(player.isBeePlaced());
+        assertFalse(this.player.isBeePlaced());
+        this.player.setBeePlaced(true);
+        assertTrue(this.player.isBeePlaced());
     }
 
     @Test
     public void testClone(){
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
-        player.playInsect(Ant.class);
-        Player player2 = player.clone();
-        assertEquals(player, player2);
-        assertEquals(player.getStock().size(), player2.getStock().size());
+        this.player.playInsect(Ant.class);
+        Player player2 = this.player.clone();
+        assertEquals(this.player, player2);
+        assertEquals(this.player.getStock().size(), player2.getStock().size());
     }
 
     @Test
     public void testEquals(){
-        Player player = new Player("Inspecteur blanco");
-        player.setColor(Player.WHITE);
         Player player2 = new Player("Inspecteur blanco");
-        player2.setColor(Player.WHITE);
-        assertEquals(player, player2);
+        player2.setColor(this.player.getColor());
+        assertEquals(this.player, player2);
     }
 }
