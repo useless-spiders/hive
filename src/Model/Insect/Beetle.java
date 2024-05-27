@@ -28,7 +28,7 @@ public class Beetle extends Insect {
                     if (g.getCell(leftNeighbor) != null || g.getCell(rightNeighbor) != null) {
                         coordinates.add(neighbor);
                     }
-                    if (g.getCell(neighbor) != null) {
+                    if (g.getCell(neighbor) != null || !g.getCell(current).getInsects().isEmpty()) {
                         coordinates.add(neighbor);
                     }
                 }
