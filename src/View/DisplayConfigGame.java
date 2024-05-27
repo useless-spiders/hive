@@ -24,6 +24,7 @@ public class DisplayConfigGame extends JPanel {
     private static final String LOAD = "Charger partie";
     private static final String SKIN = "Choix du skin";
     private static final String NAME_TEXT = "Nom du joueur";
+    private Image background ;
 
 
     private JComboBox<String> column1;
@@ -37,8 +38,11 @@ public class DisplayConfigGame extends JPanel {
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
 
+        this.background = DisplayMain.loadBackground("Opening_param.png");
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
 
         //Les deux menus déroulants
         this.player1NameField = createTextField();
@@ -88,6 +92,8 @@ public class DisplayConfigGame extends JPanel {
 
         frame.setContentPane(this);
         frame.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(screenSize.width - frame.getWidth(),100);
     }
 
     private JComboBox<String> createDropDownMenu(JTextField textField) {
@@ -233,4 +239,12 @@ public class DisplayConfigGame extends JPanel {
         });
         return button;
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Image scaledBackground = background.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        g.drawImage(scaledBackground, 0, 0, this);
+    }
+
 }
