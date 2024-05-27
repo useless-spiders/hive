@@ -6,6 +6,9 @@ import View.DisplayMain;
 
 import javax.swing.*;
 
+/**
+ * Controleur pour les pages
+ */
 public class PageController {
     private JFrame frameOpening = new JFrame();
     private JFrame frameGame = new JFrame("Hive game");
@@ -13,11 +16,18 @@ public class PageController {
     private JFrame frameRules = new JFrame();
     private DisplayMain displayMain;
 
+    /**
+     * Constructeur
+     * @param gameActionHandler GameActionHandler
+     */
     public PageController(GameActionHandler gameActionHandler){
         displayMain = new DisplayMain(gameActionHandler, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
         gameActionHandler.setDisplayGame(this.displayMain.getDisplayGame());
     }
 
+    /*
+     * Méthodes de transition entre les pages
+     */
     public void openingToMenu() {
         FrameMetrics.switchFrame(this.frameMenu);
     }
@@ -58,6 +68,10 @@ public class PageController {
         this.displayMain.getDisplayRestart().printAskRestart();
     }
 
+    /**
+     * Renvoie le displayMain
+     * @return DisplayMain
+     */
     public DisplayMain getDisplayMain() {
         return this.displayMain;
     }

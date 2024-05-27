@@ -10,13 +10,23 @@ import Structure.ViewMetrics;
 
 import java.util.ArrayList;
 
+/**
+ * Controleur pour la sauvegarde et le chargement de partie
+ */
 public class SaveLoadController {
     private GameActionHandler gameActionHandler;
 
+    /**
+     * Constructeur
+     * @param gameActionHandler GameActionHandler
+     */
     public SaveLoadController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
     }
 
+    /**
+     * Sauvegarde la partie
+     */
     public void saveGame() {
         try {
             String fileName = SaveLoad.saveGame(this.gameActionHandler.getHistoryController().getHistory(), this.gameActionHandler.getPlayerController().getPlayer1(), this.gameActionHandler.getPlayerController().getPlayer2(), this.gameActionHandler.getPlayerController().getCurrentPlayer());
@@ -26,12 +36,13 @@ public class SaveLoadController {
         }
     }
 
+    /**
+     * Charge une partie
+     * @param fileName String
+     * @return boolean
+     */
     public boolean loadGame(String fileName) {
         try {
-            this.gameActionHandler.getGameActionListener().setPlayableCoordinates(new ArrayList<>());
-            this.gameActionHandler.getGameActionListener().setIsInsectButtonClicked(false);
-            this.gameActionHandler.getGameActionListener().setIsInsectCellClicked(false);
-            this.gameActionHandler.getGameActionListener().setHexClicked(null);
 
             SaveLoad saveLoad = SaveLoad.loadGame(fileName);
             this.gameActionHandler.getHistoryController().setHistory(saveLoad.getHistory());

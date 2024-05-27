@@ -12,18 +12,32 @@ import Structure.Log;
 
 import java.util.ArrayList;
 
+/**
+ * Controleur pour les mouvements
+ */
 public class MoveController {
     private GameActionHandler gameActionHandler;
 
+    /**
+     * Constructeur
+     * @param gameActionHandler GameActionHandler
+     */
     public MoveController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
     }
 
+    /**
+     * Renvoie les mouvements possibles
+     * @param grid HexGrid
+     * @param p Player
+     * @return ArrayList<Move>
+     */
     public ArrayList<Move> getMoves(HexGrid grid, Player p) {
         Log.addMessage("Grille : " + grid);
         Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
 
+        // On récupère les insertions possibles
         for (Class<? extends Insect> i : p.getTypes()) {
             Insect insect = p.getInsect(i);
             ArrayList<HexCoordinate> possibleCoordinates = this.generatePlayableInsertionCoordinates(i, p);
@@ -35,6 +49,8 @@ public class MoveController {
         if (!moves.isEmpty()) {
             Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
         }
+
+        // On récupère les déplacements possibles
         for (HexCoordinate hex : grid.getGrid().keySet()) {
             HexCell cell = grid.getCell(hex);
             Insect insect = cell.getTopInsect();
@@ -53,6 +69,12 @@ public class MoveController {
         return moves;
     }
 
+    /**
+     * Renvoie les coordonnées d'insertion possibles
+     * @param insectClass Class<? extends Insect>
+     * @param player Player
+     * @return ArrayList<HexCoordinate>
+     */
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {
         ArrayList<HexCoordinate> playableCoordinates = new ArrayList<>();
         Insect insect = player.getInsect(insectClass);
@@ -60,12 +82,12 @@ public class MoveController {
             if (player.canAddInsect(insect.getClass())) {
                 if (player.checkBeePlacement(insect)) {
                     if (player.getTurn() <= 1) {
-                        if (this.gameActionHandler.getGrid().getGrid().isEmpty()) {
+                        if (this.gameActionHandler.getGrid().getGrid().isEmpty()) { // on force la première insertion au centre de l'affichage
                             playableCoordinates.add(HexMetrics.hexCenterCoordinate(this.gameActionHandler.getDisplayGame().getWidth(), this.gameActionHandler.getDisplayGame().getHeight()));
-                        } else {
+                        } else { // Les insertions possibles au tour 1
                             playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinatesT1(this.gameActionHandler.getGrid());
                         }
-                    } else {
+                    } else { // Les insertions possibles à partir du tour 2
                         playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinates(this.gameActionHandler.getGrid());
                     }
                 } else {
