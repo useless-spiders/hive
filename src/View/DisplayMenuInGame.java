@@ -9,12 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DisplayMenuInGame {
-    private static final String DEFAULT = "                       ---";
+public class DisplayMenuInGame extends JFrame{
     private static final String SAVE = "Sauvegarder";
     private static final String RULES = "Règles";
-    private static final String NEWGAME = "Recommencer la partie";
+    private static final String RESTART = "Recommencer la partie";
     private static final String ABORT = "Abandonner la partie";
+    private static final String RETURN = "Retour au jeu";
 
     private GameActionHandler gameActionHandler;
     private JPanel panelGame;
@@ -22,7 +22,7 @@ public class DisplayMenuInGame {
     private JButton cancelButton;
     private JButton redoButton;
     private JButton changeStateAI;
-    private JLabel logLabel;
+    private static JLabel messageLabel;
 
     private boolean optionVisible;
 
@@ -34,11 +34,12 @@ public class DisplayMenuInGame {
         // Création du JPanel pour contenir le menu et les boutons
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false);
-
         this.optionsPanel = createOptionPanel();
+
         // Création des boutons annuler et refaire
         this.cancelButton = createButtonCancel();
         this.redoButton = createButtonRedo();
+
         this.changeStateAI = createButtonChangeStateAI();
         JButton optionButton = createButtonOption();
 
@@ -65,12 +66,18 @@ public class DisplayMenuInGame {
         gbc.anchor = GridBagConstraints.EAST;
         panelGame.add(this.optionsPanel, gbc);
 
-        this.logLabel = new JLabel();
-        logLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        logLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        logLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
-        logLabel.setOpaque(true); // Enable opacity to set background color
-        logLabel.setBackground(Color.BLACK); // Set background color to blue
+        this.messageLabel = new JLabel();
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        messageLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
+        messageLabel.setOpaque(true); // Enable opacity to set background color
+        messageLabel.setBackground(Color.BLACK); // Set background color to blue
+        gbc.gridx = 1; // Placer le JLabel au centre horizontalement
+        gbc.gridy = 1; // Placer le JLabel sous le JPanel des options
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        panelGame.add(messageLabel, gbc);
 
         //TODO : mettre les boutons bien au centre
 
@@ -80,7 +87,7 @@ public class DisplayMenuInGame {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.weightx = 1.0;
         gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
-        panelGame.add(logLabel, gbc);
+        panelGame.add(messageLabel, gbc);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
         gbc.gridy = 3; // Row (starts from 0)
@@ -95,20 +102,18 @@ public class DisplayMenuInGame {
 
     }
 
-    private void showTemporaryMessage(String message, int duration) {
-        // Set the message on the label
-        JLabel jmessage = this.logLabel;
-                jmessage.setText(message);
+    private void showTemporaryMessage(String message) {
+        this.messageLabel.setText(message);
+        this.messageLabel.setVisible(true);
 
-        // Create a Timer to clear the message after the specified duration
-        Timer timer = new Timer(duration, new ActionListener() {
+        // Cacher le message après 3 secondes
+        Timer timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jmessage.setText("");
+                DisplayMenuInGame.messageLabel.setText("");
+                DisplayMenuInGame.messageLabel.setVisible(false);
             }
         });
-
-        // Ensure the timer only runs once
         timer.setRepeats(false);
         timer.start();
     }
@@ -126,9 +131,15 @@ public class DisplayMenuInGame {
         optionGbc.gridy = 1;
         optionPanel.add(createButton(RULES), optionGbc);
         optionGbc.gridy = 2;
-        optionPanel.add(createButton(NEWGAME), optionGbc);
+        optionPanel.add(createButton(RESTART), optionGbc);
         optionGbc.gridy = 3;
         optionPanel.add(createButton(ABORT), optionGbc);
+        optionGbc.gridy = 4;
+        optionPanel.add(createButton(RETURN), optionGbc);
+
+        // Définir une taille plus grande pour optionsPanel
+        optionPanel.setPreferredSize(new Dimension(300, 300));
+
         return optionPanel;
     }
 
@@ -138,20 +149,25 @@ public class DisplayMenuInGame {
             switch (name) {
                 case SAVE:
                     this.gameActionHandler.getSaveLoadController().saveGame();
-                    showTemporaryMessage("Sauvegarde en cour !!!", 3000);
+                    showTemporaryMessage("Sauvegarde en cours");
                     break;
                 case RULES:
                     this.gameActionHandler.getPageActionHandler().gameAndRules();
                     break;
-                case NEWGAME:
+                case RESTART:
                     this.gameActionHandler.getPageActionHandler().gameAndRestart();
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
                     break;
                 case ABORT:
                     this.gameActionHandler.getAiController().stopAi();
                     this.gameActionHandler.getPageActionHandler().gameAndAbort();
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
                     break;
-                case DEFAULT:
-                    break;
+                case RETURN:
+                    this.optionsPanel.setVisible(false);
+                    this.optionVisible = false;
                 default:
                     Log.addMessage("Erreur dans les options du menu du jeu");
             }
@@ -172,6 +188,8 @@ public class DisplayMenuInGame {
                 this.optionVisible = true;
             }
         });
+        //Augmenter la taille du bouton des options
+        button.setPreferredSize(new Dimension(150, 50));
         return button;
     }
 
