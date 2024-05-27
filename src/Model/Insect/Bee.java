@@ -8,12 +8,26 @@ import java.util.Map;
 
 import Model.HexGrid;
 
+/**
+ * Classe pour les abeilles
+ */
 public class Bee extends Insect {
 
+    /**
+     * Constructeur
+     * @param player Joueur
+     */
     public Bee(Player player) {
         super(player);
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour le déplacement
+     * @param current Coordonnées actuelles
+     * @param g Grille
+     * @param p Joueur
+     * @return ArrayList
+     */
     @Override
     public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();

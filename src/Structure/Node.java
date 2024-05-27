@@ -4,8 +4,10 @@ import Model.Move;
 
 import java.util.ArrayList;
 
-public class Node 
-{
+/**
+ * Classe pour les noeuds de l'arbre
+ */
+public class Node {
     Node parent;
     ArrayList<Node> childs;
 
@@ -13,58 +15,85 @@ public class Node
 
     double value;
 
-    public Node(Move m)
-    {
+    /**
+     * Constructeur
+     * @param m Mouvement
+     */
+    public Node(Move m) {
         this.move = m;
         this.childs = new ArrayList<>();
     }
 
-    // constructeur racine
-    public Node()
-    {
+    /**
+     * Constructeur
+     */
+    public Node() {
         this.move = null;
         this.childs = new ArrayList<>();
     }
 
-    public Move getMove()
-    {
+    /**
+     * Renvoie le mouvement
+     * @return Move
+     */
+    public Move getMove() {
         return this.move;
     }
 
-    public void setMove(Move m)
-    {
+    /**
+     * Définit le mouvement
+     * @param m Mouvement
+     */
+    public void setMove(Move m) {
         this.move = m;
     }
 
-    public double getValue()
-    {
+    /**
+     * Renvoie la valeur
+     * @return double
+     */
+    public double getValue() {
         return this.value;
     }
 
-    public void setValue(double value)
-    {
+    /**
+     * Définit la valeur
+     * @param value Valeur
+     */
+    public void setValue(double value) {
         this.value = value;
     }
 
-    public void newChild(Node n)
-    {
+    /**
+     * Ajoute un enfant
+     * @param n Noeud
+     */
+    public void newChild(Node n) {
         n.parent = this;
         this.childs.add(n);
     }
 
-    public Node getParent()
-    {
+    /**
+     * Renvoie le parent
+     * @return Node
+     */
+    public Node getParent() {
         return this.parent;
     }
 
-    public ArrayList<Node> getChilds()
-    {
+    /**
+     * Renvoie les enfants
+     * @return ArrayList
+     */
+    public ArrayList<Node> getChilds() {
         return this.childs;
     }
 
-
-    public boolean isLeaf()
-    {
+    /**
+     * Renvoie si le noeud est une feuille
+     * @return boolean
+     */
+    public boolean isLeaf() {
         return this.childs.isEmpty();
     }
 }

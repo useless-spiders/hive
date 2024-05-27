@@ -1,5 +1,6 @@
 package Listener;
 
+import Global.Configuration;
 import Model.HexCell;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
@@ -109,10 +110,10 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
         int x = e.getX() - ViewMetrics.getViewOffsetX();
         int y = e.getY() - ViewMetrics.getViewOffsetY();
 
-        if (notches < 0 && HexMetrics.HEX_WIDTH < HexMetrics.MAX_HEX_WIDTH) {
+        if (notches < 0 && HexMetrics.HEX_WIDTH < Configuration.MAX_HEX_WIDTH) {
             // Molette tournée vers le haut
             HexMetrics.updateHexMetricsWidth(5);
-        } else if (notches > 0 && HexMetrics.HEX_WIDTH > HexMetrics.MIN_HEX_WIDTH) {
+        } else if (notches > 0 && HexMetrics.HEX_WIDTH > Configuration.MIN_HEX_WIDTH) {
             // Molette tournée vers le bas
             HexMetrics.updateHexMetricsWidth(-5);
         }

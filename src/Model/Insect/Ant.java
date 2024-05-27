@@ -10,12 +10,26 @@ import java.util.Map;
 
 import Model.HexGrid;
 
+/**
+ * Classe pour les fourmis
+ */
 public class Ant extends Insect {
 
+    /**
+     * Constructeur
+     * @param player Joueur
+     */
     public Ant(Player player) {
         super(player);
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour le déplacement
+     * @param current Coordonnées actuelles
+     * @param g Grille
+     * @param p Joueur
+     * @return ArrayList
+     */
     @Override
     public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p) {
         ArrayList<HexCoordinate> coordinates = new ArrayList<>();
@@ -26,6 +40,14 @@ public class Ant extends Insect {
         return coordinates;
     }
 
+    /**
+     * Renvoie les coordonnées possibles pour le déplacement
+     * @param current Coordonnées actuelles
+     * @param g Grille
+     * @param coordinates Liste des coordonnées
+     * @param original Coordonnées d'origine
+     * @param visited Liste des coordonnées visitées
+     */
     private void getPossibleMovesCoordinatesHelper(HexCoordinate current, HexGrid g, ArrayList<HexCoordinate> coordinates, HexCoordinate original, HashSet<HexCoordinate> visited) {
         if (!current.equals(original)) {
             coordinates.add(current);
