@@ -44,10 +44,8 @@ public class PlayerController {
         } else {
             this.currentPlayer.incrementTurn();
             if (this.currentPlayer == this.player1) {
-                this.gameActionHandler.getDisplayGame().getDisplayBankInsects().switchBorderJ1ToJ2();
                 this.currentPlayer = this.player2;
             } else {
-                this.gameActionHandler.getDisplayGame().getDisplayBankInsects().switchBorderJ2ToJ1();
                 this.currentPlayer = this.player1;
             }
             if (this.currentPlayer.isAi()) {
@@ -57,6 +55,8 @@ public class PlayerController {
                 Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
                 this.switchPlayer();
             }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
         }
     }
 

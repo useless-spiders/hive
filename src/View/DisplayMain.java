@@ -90,21 +90,16 @@ public class DisplayMain {
         }
     }
 
-    public static String getImageInsectName(Class<? extends Insect> insectClass, Player player) {
+    public static String getImageInsectName(Class<? extends Insect> insectClass, Player player, Player currentPlayer) {
         String color;
-        Insect insect = player.getInsect(insectClass);
-        if(player.getColor() == Configuration.PLAYER_WHITE){
+        if (player.getColor() == Configuration.PLAYER_WHITE) {
             color = "white";
         } else {
             color = "black";
         }
-
-        /*if (insect != null && !player.checkBeePlacement(insect)) {
-            if (insect.getClass().equals(Bee.class)) {
-                return insect.getClass().getSimpleName() + "_" + color + "_last_tour" + ".png";
-            }
-        }*/
-
+        if(insectClass.equals(Bee.class) && player.equals(currentPlayer) && player.getTurn() == 4 && !player.isBeePlaced()) {
+            return insectClass.getSimpleName() + "_" + color + "_last_tour" + ".png";
+        }
         return insectClass.getSimpleName() + "_" + color + ".png";
     }
 
@@ -128,7 +123,6 @@ public class DisplayMain {
         FrameMetrics.setupFrame(frameGame, false, JFrame.EXIT_ON_CLOSE);
 
 
-
         //Ajouter les écouteurs
         new MouseActionListener(gameActionHandler, displayGame);
         new KeyActionListener(frameGame, gameActionHandler);
@@ -149,16 +143,18 @@ public class DisplayMain {
         FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }
 
-    public DisplayGame getDisplayGame(){
+    public DisplayGame getDisplayGame() {
         return this.displayGame;
     }
 
     public DisplayWin getDisplayWin() {
         return this.displayWin;
     }
+
     public DisplayAbort getDisplayAbort() {
         return this.displayAbort;
     }
+
     public DisplayRestart getDisplayRestart() {
         return this.displayRestart;
     }

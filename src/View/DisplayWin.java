@@ -33,7 +33,7 @@ public class DisplayWin extends JPanel {
             choice = JOptionPane.showOptionDialog(null, "Félicitations, il y a une égalité parfaite ! Que voulez-vous faire maintenant ?", "Egalité",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Rejouer", "Menu principal"}, null);
         } else {
-            Image insectImage = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Bee.class, this.winner));
+            Image insectImage = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Bee.class, this.winner, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
             ImageIcon icon = new ImageIcon(insectImage);
             choice = JOptionPane.showOptionDialog(null, "Félicitations, " + this.winner + " a gagné ! Que voulez-vous faire maintenant ?", "Victoire",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, new String[]{"Rejouer", "Menu principal"}, null);
