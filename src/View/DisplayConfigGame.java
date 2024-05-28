@@ -20,11 +20,18 @@ public class DisplayConfigGame extends JPanel {
     private static final String IA_HARD3 = "Ai3";
     private static final String IA_HARD4 = "Ai4";
     private static final String JOUER = "Jouer";
+    private static final String RETOUR = "Retour";
     private static final String LOAD = "Charger partie";
     private static final String SKIN = "Choix du skin";
     private static final String NAME_TEXT = "Nom du joueur";
+    private boolean isSkinSelectorAdded = false;
     private Image background ;
+    private JPanel eastPanel;
+    private JPanel westPanel;
 
+    public JPanel getWestPanel() {
+        return westPanel;
+    }
 
     private JComboBox<String> column1;
     private JComboBox<String> column2;
@@ -48,24 +55,24 @@ public class DisplayConfigGame extends JPanel {
         this.column1 = createDropDownMenu(this.player1NameField);
         this.column2 = createDropDownMenu(this.player2NameField);
 
-        JPanel eastPanel = new JPanel(new GridBagLayout());
-        eastPanel.setOpaque(false);
+        this.eastPanel = new JPanel(new GridBagLayout());
+        this.eastPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridx = 0;
         gbc.gridy = 0; // Start at the top
         gbc.insets = new Insets(10, 10, 10, 10);
-        eastPanel.add(this.column1, gbc);
+        this.eastPanel.add(this.column1, gbc);
 
         gbc.gridx = 1;
-        eastPanel.add(this.column2, gbc);
+        this.eastPanel.add(this.column2, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1; // Move down one row
-        eastPanel.add(this.player1NameField, gbc);
+        this.eastPanel.add(this.player1NameField, gbc);
 
         gbc.gridx = 1;
-        eastPanel.add(this.player2NameField, gbc);
+        this.eastPanel.add(this.player2NameField, gbc);
 
         //Bouton "Jouer"
         JButton playButton = createButton(JOUER);
@@ -73,27 +80,27 @@ public class DisplayConfigGame extends JPanel {
         gbc.gridy = 2; // Move down another row
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_END;
-        eastPanel.add(playButton, gbc);
+        this.eastPanel.add(playButton, gbc);
 
         //Bouton "Charger partie"
         JButton loadButton = createButton(LOAD);
         gbc.gridx = 0;
         gbc.gridy = 3; // Move down another row
 
-        eastPanel.add(loadButton, gbc);
+        this.eastPanel.add(loadButton, gbc);
 
         //Bouton "Choix du skin"
         JButton skinButton = createButton(SKIN);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        eastPanel.add(skinButton, gbc);
+        this.eastPanel.add(skinButton, gbc);
 
 
-        JPanel westPanel = new JPanel();
-        westPanel.setVisible(false);
+        this.westPanel = new JPanel(new BorderLayout());
+        this.westPanel.setVisible(false);
 
-        add(westPanel);
-        add(eastPanel);
+        add(this.westPanel);
+        add(this.eastPanel);
 
         frame.setContentPane(this);
         frame.pack();
@@ -156,7 +163,15 @@ public class DisplayConfigGame extends JPanel {
                 break;
 
             case SKIN:
-                button = this.createSkinSelectionButton(button);
+                button = this.SkinSelection(button);
+                break;
+
+            case RETOUR:
+                button.addActionListener(e -> {
+                    this.background = DisplayMain.loadBackground("Opening_param.png");
+                    eastPanel.setVisible(true);
+                    westPanel.setVisible(false);
+                });
                 break;
         }
         return button;
@@ -212,37 +227,65 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
-    private JButton createSkinSelectionButton(JButton button) {
+    private JButton SkinSelection(JButton button) {
         button.addActionListener(e -> {
-            // Afficher le popup de sélection des skins
-            String[] skinOptions = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us"};
-            String selectedSkin = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Choisissez un skin pour les insectes :",
-                    "Sélection du skin",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    skinOptions,
-                    skinOptions[0]);
+            if (!isSkinSelectorAdded) {
+                changeBackgroundAndAddButtons();
+                isSkinSelectorAdded = true;
+            }
+            this.background = DisplayMain.loadBackground("Opening_skin.png");
+            repaint();
+            this.eastPanel.setVisible(false);
+            this.westPanel.setVisible(true);
+            this.westPanel.setBackground(new Color(0, 0, 0, 0));
+            //TODO: rendre invisible et defocus les boutons de la page de configuration
 
-            // Mettre à jour les skins des hexagones
-            if (selectedSkin != null) {
-                switch (selectedSkin) {
-                    case "Skin par défaut":
-                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Default/");
-                        break;
-                    case "Skin noir et blanc":
-                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Black_and_white/");
-                        break;
-                    case "Skin Among Us":
-                        this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Sus_skin/");
-                        break;
-                    default:
-                        Log.addMessage("Skin inconnu");
+
+        });
+        return button;
+    }
+
+    private void changeBackgroundAndAddButtons() {
+        // Changer le fond d'écran
+        String[] skins = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us","Developper"};
+        JComboBox<String> skinSelector = new JComboBox<>(skins);
+        String[] insects = {"Ant_white", "Beetle_white", "Bee_white", "Grasshopper_white", "Spider_white"};
+        for (String insect : insects) {
+            JLabel insectLabel = new JLabel();
+            insectLabel.setName(insect);
+            this.westPanel.add(insectLabel);
+        }
+
+        // Ajouter le JComboBox et le JLabel au JPanel
+        this.westPanel.add(skinSelector);
+        skinSelector.addActionListener(e -> {
+            String selectedSkin = (String) skinSelector.getSelectedItem();
+            switch (selectedSkin) {
+                case "Skin par défaut":
+                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Default/");
+                    break;
+                case "Skin noir et blanc":
+                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Black_and_white/");
+                    break;
+                case "Skin Among Us":
+                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Sus_skin/");
+                    break;
+                case "Developper":
+                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Skin_very_hard/");
+                    break;
+                default:
+                    Log.addMessage("Skin inconnu");
+            }
+            for (Component component : this.westPanel.getComponents()) {
+                if (component instanceof JLabel) {
+                    JLabel insectLabel = (JLabel) component;
+                    ImageIcon insectImage = new ImageIcon("res/Images/Skins/" + selectedSkin + "/" + insectLabel.getName() + ".png");
+                    insectLabel.setIcon(insectImage);
                 }
             }
         });
-        return button;
+        JButton jeux = createButton(RETOUR);
+        this.westPanel.add(jeux,BorderLayout.SOUTH);
     }
 
     @Override
