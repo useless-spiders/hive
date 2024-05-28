@@ -102,8 +102,10 @@ public class PlayerController {
      */
     public void setAiPlayer(int player, String name) {
         if (player == 1) {
+            this.player1.setName(name);
             this.player1.setAi(Ai.nouvelle(this.gameActionHandler, name, this.player1));
         } else {
+            this.player2.setName(name);
             this.player2.setAi(Ai.nouvelle(this.gameActionHandler, name, this.player2));
         }
     }
