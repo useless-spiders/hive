@@ -12,7 +12,6 @@ public class Ai4 extends Ai { //Alpha Beta
 
     Player other;
     int node;
-    int level;
     private final int MAX_NODE = 1000;
     private final int MAX_LEVEL = 10;
 
@@ -29,25 +28,39 @@ public class Ai4 extends Ai { //Alpha Beta
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result += (beeNeighbors(this.other, g) - beeNeighbors(this.aiPlayer, g))*10;
-        result += insectsCount(this.aiPlayer, g) - insectsCount(this.other, g);
+        result += ((beeNeighbors(this.other, g)*1.5) - beeNeighbors(this.aiPlayer, g))*20;
+        result += insectsCount(this.aiPlayer, g);
         result += (insectFree(this.aiPlayer, g) - insectFree(this.other, g))*2;
         return result;
     }
 
-    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (this.node >= MAX_NODE || level >= MAX_LEVEL) {
+    double maxTree(Node n, HexGrid gridC, Player usC, Player themC, double alpha, double beta, int treeDepth) {
+        //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egaitee est comptee comme une defaite
+        if(gridC.checkLoser(usC))
+        {
+            Log.addMessage("on a  perdu!");
+            n.setValue(Double.MIN_VALUE);
+            return Double.MIN_VALUE;
+        }
+        if(gridC.checkLoser(themC))
+        {
+            Log.addMessage("on a  gagné!");
+            n.setValue(Double.MAX_VALUE);
+            return Double.MAX_VALUE;
+        }
+        int depth = treeDepth;
+        if (this.node >= MAX_NODE || depth >= MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
         } else {
             double max = Double.NEGATIVE_INFINITY;
-            level++;
+            depth++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double currentH = minTree(nextMove, gridC, usC, otherC, alpha, beta);
+                double currentH = minTree(nextMove, gridC, usC, themC, alpha, beta, depth);
                 gridC.unapplyMove(m, usC);
                 if (currentH > max) {
                     max = currentH;
@@ -65,20 +78,34 @@ public class Ai4 extends Ai { //Alpha Beta
         }
     }
 
-    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (this.node >= MAX_NODE || level >= MAX_LEVEL) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player themC, double alpha, double beta, int treeDepth) {
+        //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egaitee est comptee comme une defaite
+        if(gridC.checkLoser(usC))
+        {
+            Log.addMessage("on a  perdu!");
+            n.setValue(Double.MIN_VALUE);
+            return Double.MIN_VALUE;
+        }
+        if(gridC.checkLoser(themC))
+        {
+            Log.addMessage("on a  gagné!");
+            n.setValue(Double.MAX_VALUE);
+            return Double.MAX_VALUE;
+        }
+        int depth = treeDepth;
+        if (this.node >= MAX_NODE || depth >= MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
         } else {
             double min = Double.POSITIVE_INFINITY;
-            level++;
+            depth++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
-                gridC.applyMove(m, otherC);
-                double currentH = maxTree(nextMove, gridC, usC, otherC, alpha, beta);
-                gridC.unapplyMove(m, otherC);
+                gridC.applyMove(m, themC);
+                double currentH = maxTree(nextMove, gridC, usC, themC, alpha, beta, depth);
+                gridC.unapplyMove(m, themC);
                 if (currentH < min) {
                     min = currentH;
                 }
@@ -98,11 +125,10 @@ public class Ai4 extends Ai { //Alpha Beta
     public Move chooseMove() {
         Tree tree = new Tree();
         this.node = 0;
-        this.level = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
         double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
         for (Node child : tree.getRoot().getChilds()) {
@@ -112,7 +138,6 @@ public class Ai4 extends Ai { //Alpha Beta
             }
         }
         Log.addMessage(node + " noeuds visités");
-        Log.addMessage(level + " profondeur max");
         return returnMove;
     }
 }
