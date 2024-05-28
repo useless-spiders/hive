@@ -1,15 +1,15 @@
 package View;
 
 import Global.Configuration;
+import Model.Insect.*;
+import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
+import java.awt.event.*;
 import java.io.File;
 
 public class DisplayConfigGame extends JPanel {
@@ -28,6 +28,9 @@ public class DisplayConfigGame extends JPanel {
     private Image background ;
     private JPanel eastPanel;
     private JPanel westPanel;
+    private JPanel exampleSkinPanelWhite;
+    private JPanel exampleSkinPanelBlack;
+    private GridBagConstraints westGbc;
 
     public JPanel getWestPanel() {
         return westPanel;
@@ -96,7 +99,7 @@ public class DisplayConfigGame extends JPanel {
         this.eastPanel.add(skinButton, gbc);
 
 
-        this.westPanel = new JPanel(new BorderLayout());
+        this.westPanel = new JPanel(new GridBagLayout());
         this.westPanel.setVisible(false);
 
         add(this.westPanel);
@@ -163,7 +166,7 @@ public class DisplayConfigGame extends JPanel {
                 break;
 
             case SKIN:
-                button = this.SkinSelection(button);
+                button = this.createbuttonSkinSelection(button);
                 break;
 
             case RETOUR:
@@ -227,7 +230,7 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
-    private JButton SkinSelection(JButton button) {
+    private JButton createbuttonSkinSelection(JButton button) {
         button.addActionListener(e -> {
             if (!isSkinSelectorAdded) {
                 changeBackgroundAndAddButtons();
@@ -245,8 +248,7 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
-    private void changeBackgroundAndAddButtons() {
-        // Changer le fond d'écran
+    private JComboBox createComboBoxSkinSelector() {
         String[] skins = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us","Developper"};
         JComboBox<String> skinSelector = new JComboBox<>(skins);
         String[] insects = {"Ant_white", "Beetle_white", "Bee_white", "Grasshopper_white", "Spider_white"};
@@ -255,23 +257,24 @@ public class DisplayConfigGame extends JPanel {
             insectLabel.setName(insect);
             this.westPanel.add(insectLabel);
         }
-
-        // Ajouter le JComboBox et le JLabel au JPanel
-        this.westPanel.add(skinSelector);
         skinSelector.addActionListener(e -> {
             String selectedSkin = (String) skinSelector.getSelectedItem();
             switch (selectedSkin) {
                 case "Skin par défaut":
                     this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Default/");
+                    updateExampleSkin();
                     break;
                 case "Skin noir et blanc":
                     this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Black_and_white/");
+                    updateExampleSkin();
                     break;
                 case "Skin Among Us":
                     this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Sus_skin/");
+                    updateExampleSkin();
                     break;
                 case "Developper":
                     this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Skin_very_hard/");
+                    updateExampleSkin();
                     break;
                 default:
                     Log.addMessage("Skin inconnu");
@@ -284,9 +287,69 @@ public class DisplayConfigGame extends JPanel {
                 }
             }
         });
-        JButton jeux = createButton(RETOUR);
-        this.westPanel.add(jeux,BorderLayout.SOUTH);
+
+        return skinSelector;
     }
+
+    private void changeBackgroundAndAddButtons() {
+        this.westGbc = new GridBagConstraints();
+        // Changer le fond d'écran
+        JComboBox<String> skinSelector = createComboBoxSkinSelector();
+        // Ajouter le JComboBox et le JLabel au JPanel
+
+        westGbc.insets = new Insets(10, 10, 10, 10); // Add padding around the container
+        westGbc.gridx = 0;
+        westGbc.gridy = 0;
+        westGbc.anchor = GridBagConstraints.CENTER;
+        this.westPanel.add(skinSelector, westGbc);
+        this.exampleSkinPanelWhite = createExampleSkinPanel("Blanc");
+        this.exampleSkinPanelBlack = createExampleSkinPanel("Noir");
+        westGbc.gridx = 1;
+        this.westPanel.add(exampleSkinPanelWhite, westGbc);
+        westGbc.gridy = 1;
+        this.westPanel.add(exampleSkinPanelBlack, westGbc);
+        westGbc.gridwidth = 1;
+        westGbc.gridy = 2;
+        JButton jeux = createButton(RETOUR);
+        this.westPanel.add(jeux,westGbc);
+    }
+    private JPanel createExampleSkinPanel(String couleur) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setOpaque(false);
+
+        Player player = new Player(Configuration.PLAYER_1);
+        if (couleur.equals("Noir")) {player.setColor(1);}
+        panel.add(createExampleSkin(Spider.class, player));
+        panel.add(createExampleSkin(Ant.class, player));
+        panel.add(createExampleSkin(Bee.class, player));
+        panel.add(createExampleSkin(Grasshopper.class, player));
+        panel.add(createExampleSkin(Beetle.class, player));
+        return panel;
+    }
+
+    private JLabel createExampleSkin(Class<? extends Insect> insectClass, Player player) {
+
+        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
+        JLabel imgExampleSkin = new JLabel(imageIcon);
+        return imgExampleSkin;
+    }
+
+    private void updateExampleSkin() {
+        this.westPanel.remove(exampleSkinPanelWhite);
+        this.exampleSkinPanelWhite = createExampleSkinPanel("Blanc");
+        this.westPanel.remove(exampleSkinPanelBlack);
+        this.exampleSkinPanelBlack = createExampleSkinPanel("Noir");
+        this.westGbc.gridx = 1;
+        this.westGbc.gridy = 0;
+        this.westPanel.add(exampleSkinPanelWhite, westGbc);
+        this.westGbc.gridy = 1;
+        this.westPanel.add(exampleSkinPanelBlack, westGbc);
+        this.revalidate();
+        this.repaint();
+    }
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
