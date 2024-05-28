@@ -8,7 +8,6 @@ import Structure.HexMetrics;
 import Structure.Log;
 import Structure.ViewMetrics;
 
-import java.util.ArrayList;
 
 /**
  * Controleur pour la sauvegarde et le chargement de partie
@@ -30,7 +29,7 @@ public class SaveLoadController {
     public void saveGame() {
         try {
             String fileName = SaveLoad.saveGame(this.gameActionHandler.getHistoryController().getHistory(), this.gameActionHandler.getPlayerController().getPlayer1(), this.gameActionHandler.getPlayerController().getPlayer2(), this.gameActionHandler.getPlayerController().getCurrentPlayer());
-            Log.addMessage("Partie sauvegardée dans le fichier : " + fileName);
+            Log.addMessage(this.gameActionHandler.getMessages().getString("game.saved") + " : " + fileName);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

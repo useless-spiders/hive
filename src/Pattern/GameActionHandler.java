@@ -5,10 +5,15 @@ import Listener.GameActionListener;
 import Model.HexGrid;
 import View.DisplayGame;
 
+import java.util.ResourceBundle;
+
 /**
  * Interface pour les actions du jeu
  */
 public interface GameActionHandler {
+
+    ResourceBundle getMessages();
+
     HexGrid getGrid();
 
     void setGrid(HexGrid hexGrid);

@@ -4,8 +4,8 @@ package Structure;
  * Classe pour les logs
  */
 public class Tree {
-    Node root;
-    public Node current;
+    private Node root;
+    private Node current;
 
     /**
      * Constructeur

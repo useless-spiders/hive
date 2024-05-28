@@ -195,18 +195,23 @@ public class DisplayConfigGame extends JPanel {
         button.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             // Définir le répertoire de départ
-            fileChooser.setCurrentDirectory(new File(Configuration.SAVE_PATH));
+            File directory = new File(Configuration.SAVE_PATH);
+            if (directory.exists()) {
+                fileChooser.setCurrentDirectory(directory);
 
-            // Créer un filtre pour les fichiers .save
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("HIVE SAVE FILES", Configuration.SAVE_EXTENSION);
-            fileChooser.setFileFilter(filter);
+                // Créer un filtre pour les fichiers .save
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("HIVE SAVE FILES", Configuration.SAVE_EXTENSION);
+                fileChooser.setFileFilter(filter);
 
-            int returnValue = fileChooser.showOpenDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
-                    this.gameActionHandler.getPageController().menuToGame();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
+                        this.gameActionHandler.getPageController().menuToGame();
+                    }
                 }
+            } else {
+                Log.addMessage("Aucune sauvegarde trouvée");
             }
         });
         return button;

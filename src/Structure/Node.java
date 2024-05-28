@@ -8,12 +8,10 @@ import java.util.ArrayList;
  * Classe pour les noeuds de l'arbre
  */
 public class Node {
-    Node parent;
-    ArrayList<Node> childs;
-
-    Move move;
-
-    double value;
+    private Node parent;
+    private ArrayList<Node> childs;
+    private Move move;
+    private double value;
 
     /**
      * Constructeur

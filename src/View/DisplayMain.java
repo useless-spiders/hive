@@ -26,7 +26,7 @@ public class DisplayMain {
 
     public static Image loadImageHexagons(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_HEXAGONS + nom)));
+            return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_HEXAGONS + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -42,7 +42,7 @@ public class DisplayMain {
 
     public static Image loadImageInsects(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom)));
+            return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'image " + nom);
             System.exit(1);
@@ -52,7 +52,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIcon(String nom) {
         try {
-            return new ImageIcon(Configuration.IMAGE_PATH_ICONS + nom);
+            return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(Configuration.IMAGE_PATH_ICONS + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -62,7 +62,7 @@ public class DisplayMain {
 
     public static ImageIcon loadIconInsects(String nom) {
         try {
-            return new ImageIcon(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom);
+            return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger l'icon " + nom);
             System.exit(1);
@@ -72,7 +72,7 @@ public class DisplayMain {
 
     public static Image loadBackground(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_BACKGROUNDS + nom)));
+            return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_BACKGROUNDS + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger le fond " + nom);
             System.exit(1);
@@ -82,7 +82,7 @@ public class DisplayMain {
 
     public static Image loadRules(String nom) {
         try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_RULES + nom)));
+            return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_RULES + nom));
         } catch (Exception e) {
             Log.addMessage("Impossible de charger la règle " + nom);
             System.exit(1);
