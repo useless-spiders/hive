@@ -17,7 +17,7 @@ public class AiController {
 
     /**
      * Constructeur
-     * @param gameActionHandler
+     * @param gameActionHandler GameActionHandler
      */
     public AiController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
