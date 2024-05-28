@@ -119,6 +119,7 @@ public class DisplayBankInsects {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
+        button.setRolloverEnabled(false);
 
         return button;
     }
@@ -202,8 +203,6 @@ public class DisplayBankInsects {
         this.panelGame.add(panelButtonBankJ1, gbc);
 
         gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
         this.panelGame.add(this.panelButtonBankJ2, gbc);
     }

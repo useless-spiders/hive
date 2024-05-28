@@ -47,8 +47,10 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler);
 
         this.displayStack = new DisplayStack(this.gameActionHandler);
+        this.displayBankInsects.updateButtons();
     }
 
+    public JFrame getFrameGame() {return this.frameGame;}
     public DisplayHexGrid getDisplayHexGrid() {
         return this.displayHexGrid;
     }

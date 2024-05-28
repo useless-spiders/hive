@@ -39,9 +39,7 @@ public class DisplayConfigGame extends JPanel {
 
         this.background = DisplayMain.loadBackground("Opening_param.png");
 
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
+        setLayout(new GridLayout(1, 2));
 
         //Les deux menus déroulants
         this.player1NameField = createTextField();
@@ -50,20 +48,24 @@ public class DisplayConfigGame extends JPanel {
         this.column1 = createDropDownMenu(this.player1NameField);
         this.column2 = createDropDownMenu(this.player2NameField);
 
+        JPanel eastPanel = new JPanel(new GridBagLayout());
+        eastPanel.setOpaque(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.gridx = 0;
         gbc.gridy = 0; // Start at the top
         gbc.insets = new Insets(10, 10, 10, 10);
-        add(this.column1, gbc);
+        eastPanel.add(this.column1, gbc);
 
         gbc.gridx = 1;
-        add(this.column2, gbc);
+        eastPanel.add(this.column2, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1; // Move down one row
-        add(this.player1NameField, gbc);
+        eastPanel.add(this.player1NameField, gbc);
 
         gbc.gridx = 1;
-        add(this.player2NameField, gbc);
+        eastPanel.add(this.player2NameField, gbc);
 
         //Bouton "Jouer"
         JButton playButton = createButton(JOUER);
@@ -71,23 +73,27 @@ public class DisplayConfigGame extends JPanel {
         gbc.gridy = 2; // Move down another row
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_END;
-        add(playButton, gbc);
+        eastPanel.add(playButton, gbc);
 
         //Bouton "Charger partie"
         JButton loadButton = createButton(LOAD);
         gbc.gridx = 0;
         gbc.gridy = 3; // Move down another row
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-        add(loadButton, gbc);
+
+        eastPanel.add(loadButton, gbc);
 
         //Bouton "Choix du skin"
         JButton skinButton = createButton(SKIN);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-        add(skinButton, gbc);
+        eastPanel.add(skinButton, gbc);
+
+
+        JPanel westPanel = new JPanel();
+        westPanel.setVisible(false);
+
+        add(westPanel);
+        add(eastPanel);
 
         frame.setContentPane(this);
         frame.pack();

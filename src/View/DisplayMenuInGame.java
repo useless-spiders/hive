@@ -21,7 +21,7 @@ public class DisplayMenuInGame extends JFrame{
     private JButton cancelButton;
     private JButton redoButton;
     private JButton changeStateAI;
-    private static JLabel messageLabel;
+
 
     private boolean optionVisible;
 
@@ -62,31 +62,12 @@ public class DisplayMenuInGame extends JFrame{
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.CENTER;
         panelGame.add(this.optionsPanel, gbc);
 
-        this.messageLabel = new JLabel();
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        messageLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
-        messageLabel.setOpaque(true); // Enable opacity to set background color
-        messageLabel.setBackground(Color.BLACK); // Set background color to blue
-        gbc.gridx = 1; // Placer le JLabel au centre horizontalement
-        gbc.gridy = 1; // Placer le JLabel sous le JPanel des options
+
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1.0;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        panelGame.add(messageLabel, gbc);
-
-        //TODO : mettre les boutons bien au centre
-
-        // Add the message label to the JFrame
-
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.weightx = 1.0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
-        panelGame.add(messageLabel, gbc);
 
         // Ajout du JPanel contenant le menu et les boutons à panelGame avec les contraintes pour le positionner dans le coin nord-est
         gbc.gridy = 3; // Row (starts from 0)
@@ -99,22 +80,6 @@ public class DisplayMenuInGame extends JFrame{
         gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
         panelGame.add(optionButton, gbc);
 
-    }
-
-    private void showTemporaryMessage(String message) {
-        this.messageLabel.setText(message);
-        this.messageLabel.setVisible(true);
-
-        // Cacher le message après 3 secondes
-        Timer timer = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DisplayMenuInGame.messageLabel.setText("");
-                DisplayMenuInGame.messageLabel.setVisible(false);
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
     }
 
     private JPanel createOptionPanel(){
@@ -148,7 +113,7 @@ public class DisplayMenuInGame extends JFrame{
             switch (name) {
                 case SAVE:
                     this.gameActionHandler.getSaveLoadController().saveGame();
-                    showTemporaryMessage("Sauvegarde en cours");
+                    DisplayText.addTextPopUp("Sauvegarde en cours", this.gameActionHandler.getDisplayGame().getFrameGame());
                     break;
                 case RULES:
                     this.gameActionHandler.getPageController().gameAndRules();
@@ -181,10 +146,12 @@ public class DisplayMenuInGame extends JFrame{
             if(this.optionVisible){
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
+                this.gameActionHandler.getAiController().startAi();
             }
             else {
                 this.optionsPanel.setVisible(true);
                 this.optionVisible = true;
+                this.gameActionHandler.getAiController().stopAi();
             }
         });
         return button;
@@ -212,11 +179,12 @@ public class DisplayMenuInGame extends JFrame{
         JButton button = new JButton("Stopper les IA");
         button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.getAiController().changeStateAi();
             if (this.gameActionHandler.getAiController().isAiRunning()) {
-                button.setText("Stopper les IA");
-            } else {
+                this.gameActionHandler.getAiController().stopAi();
                 button.setText("Relancer les IA");
+            } else {
+                this.gameActionHandler.getAiController().startAi();
+                button.setText("Stopper les IA");
             }
         });
         return button;

@@ -63,10 +63,10 @@ public class SaveLoadController {
                 this.gameActionHandler.getPlayerController().getPlayer1().getAi().setGameActionHandler(this.gameActionHandler);
             }
             if (this.gameActionHandler.getPlayerController().getPlayer2().isAi()) {
-                this.gameActionHandler.getPlayerController().getPlayer1().getAi().setGameActionHandler(this.gameActionHandler);
+                this.gameActionHandler.getPlayerController().getPlayer2().getAi().setGameActionHandler(this.gameActionHandler);
             }
             if (this.gameActionHandler.getPlayerController().getPlayer1().isAi() || this.gameActionHandler.getPlayerController().getPlayer2().isAi()) {
-                this.gameActionHandler.getAiController().getDelay().start();
+                this.gameActionHandler.getAiController().startAi();
             }
 
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
