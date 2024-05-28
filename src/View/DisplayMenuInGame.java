@@ -62,7 +62,7 @@ public class DisplayMenuInGame extends JFrame{
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.CENTER;
         panelGame.add(this.optionsPanel, gbc);
 
         this.messageLabel = new JLabel();
@@ -71,19 +71,13 @@ public class DisplayMenuInGame extends JFrame{
         messageLabel.setForeground(Color.WHITE); // Set the text color to red for visibility
         messageLabel.setOpaque(true); // Enable opacity to set background color
         messageLabel.setBackground(Color.BLACK); // Set background color to blue
-        gbc.gridx = 1; // Placer le JLabel au centre horizontalement
-        gbc.gridy = 1; // Placer le JLabel sous le JPanel des options
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.weightx = 1.0;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        panelGame.add(messageLabel, gbc);
 
         //TODO : mettre les boutons bien au centre
 
         // Add the message label to the JFrame
 
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1.0;
         gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
         panelGame.add(messageLabel, gbc);
