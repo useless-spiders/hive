@@ -17,7 +17,7 @@ public class Ai5 extends Ai { //Alpha Beta
 
     public Ai5(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
-        this.aiPlayer = p;
+        this.aiPlayer =p;
         if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
