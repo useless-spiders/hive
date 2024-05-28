@@ -229,7 +229,7 @@ public class DisplayConfigGame extends JPanel {
                     }
                 }
             } else {
-                Log.addMessage("Aucune sauvegarde trouvée");
+                Log.addMessage(this.gameActionHandler.getMessages().getString("save.not.found"));
             }
         });
         return button;

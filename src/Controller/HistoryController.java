@@ -59,7 +59,7 @@ public class HistoryController {
                 this.cancelMove();
             }
         } else {
-            Log.addMessage("no move to cancel");
+            Log.addMessage(this.gameActionHandler.getMessages().getString("history.cancel.error"));
         }
     }
 
@@ -80,7 +80,7 @@ public class HistoryController {
                 this.redoMove();
             }
         } else {
-            Log.addMessage("no move to redo");
+            Log.addMessage(this.gameActionHandler.getMessages().getString("history.redo.error"));
         }
     }
 

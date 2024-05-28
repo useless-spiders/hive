@@ -118,13 +118,14 @@ public class GameActionListener {
             if (insect.getPlayer().equals(this.gameController.getPlayerController().getCurrentPlayer())) {
                 this.playableCoordinates = insect.getPossibleMovesCoordinates(this.hexClicked, this.gameController.getGrid());
                 if (this.playableCoordinates.isEmpty() && !this.gameController.getPlayerController().getCurrentPlayer().isBeePlaced()) {
-                    Log.addMessage("Aucun déplacement autorisé car l'abeille n'est pas sur le plateau");
+                    Log.addMessage(this.gameController.getMessages().getString("listener.game.no.move.bee"));
                 }
                 // rendre transparente la case
                 this.gameController.getDisplayGame().getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
 
             } else {
-                Log.addMessage("Ce pion ne vous appartient pas");
+                Log.addMessage(this.gameController.getMessages().getString("insect.game.wrong.player"));
+
                 if (this.gameController.getGrid().getGrid().get(this.hexClicked).getInsects().size() < 2) { //Si c'est une pile ennemie
                     this.isInsectCellClicked = false; //On déselectionne la pile ennemie affichée
                 }
@@ -162,7 +163,7 @@ public class GameActionListener {
             this.gameController.getPlayerController().switchPlayer();
             this.gameController.getHistoryController().addMove(move);
         } else {
-            Log.addMessage("Déplacement impossible");
+            Log.addMessage(this.gameController.getMessages().getString("listener.game.no.move"));
         }
         //On retire la transparence du pion/pile et l'affichage de la pile
         this.isInsectCellClicked = false;
@@ -190,7 +191,8 @@ public class GameActionListener {
             this.gameController.getPlayerController().switchPlayer();
             this.gameController.getHistoryController().addMove(move);
         } else {
-            Log.addMessage("placement impossible !");
+
+            Log.addMessage(this.gameController.getMessages().getString("listener.game.no.insertion"));
         }
         this.isInsectButtonClicked = false;
         this.gameController.getDisplayGame().getDisplayBankInsects().updateButtonClickState(isInsectButtonClicked);
@@ -222,7 +224,7 @@ public class GameActionListener {
                     this.isInsectButtonClicked = false;
                 }
             } else {
-                Log.addMessage("Pas le bon joueur !");
+                Log.addMessage(this.gameController.getMessages().getString("listener.game.wrong.player"));
             }
         }
         this.gameController.getDisplayGame().getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);

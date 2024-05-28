@@ -8,6 +8,8 @@ import Structure.HexMetrics;
 import Structure.Log;
 import Structure.ViewMetrics;
 
+import java.text.MessageFormat;
+
 
 /**
  * Controleur pour la sauvegarde et le chargement de partie
@@ -29,7 +31,7 @@ public class SaveLoadController {
     public void saveGame() {
         try {
             String fileName = SaveLoad.saveGame(this.gameActionHandler.getHistoryController().getHistory(), this.gameActionHandler.getPlayerController().getPlayer1(), this.gameActionHandler.getPlayerController().getPlayer2(), this.gameActionHandler.getPlayerController().getCurrentPlayer());
-            Log.addMessage(this.gameActionHandler.getMessages().getString("game.saved") + " : " + fileName);
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("save.success"), fileName));
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -75,10 +77,10 @@ public class SaveLoadController {
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getDisplayGame().repaint();
 
-            Log.addMessage("Partie chargée depuis le fichier : " + fileName);
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("load.success"), fileName));
             return true;
         } catch (Exception ex) {
-            Log.addMessage("Erreur lors du chargement de la partie : " + ex.getMessage());
+            Log.addMessage(this.gameActionHandler.getMessages().getString("load.error") + ex);
             return false;
         }
     }

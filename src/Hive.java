@@ -1,9 +1,8 @@
 import javax.swing.*;
 
 import Controller.GameController;
+import Global.Configuration;
 
-import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Hive implements Runnable {
@@ -14,11 +13,10 @@ public class Hive implements Runnable {
 
     @Override
     public void run() {
-        // Obtenez la langue de l'utilisateur
-        Locale userLocale = Locale.getDefault();
+        ResourceBundle messages;
 
-        // Chargez le ResourceBundle approprié
-        ResourceBundle messages = ResourceBundle.getBundle("Languages.messages", userLocale);
+        messages = ResourceBundle.getBundle(Configuration.LANGUAGE_PATH + Configuration.LANGUAGE_FILENAME, Configuration.DEFAULT_LANGUAGE);
+
         new GameController(messages);
     }
 }

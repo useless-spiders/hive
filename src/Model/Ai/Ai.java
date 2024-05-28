@@ -15,6 +15,7 @@ import Structure.HexCoordinate;
 import Structure.Log;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public abstract class Ai implements Serializable {
@@ -147,7 +148,7 @@ public abstract class Ai implements Serializable {
                 resultat = new Ai5(gameActionHandler, p);
                 break;
             default:
-                Log.addMessage("IA de type " + ia + " non supportée");
+                Log.addMessage(MessageFormat.format(gameActionHandler.getMessages().getString("ia.not.found"), ia));
         }
         return resultat;
     }

@@ -47,12 +47,12 @@ public class AiController implements ActionListener {
                             });
                         } else {
                             SwingUtilities.invokeLater(() -> {
-                                Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
+                                Log.addMessage(this.gameActionHandler.getMessages().getString("ia.play.error"));
                             });
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread " + ex);
+                            Log.addMessage(this.gameActionHandler.getMessages().getString("ia.error") + ex);
                         });
                     }
                 }).start();
