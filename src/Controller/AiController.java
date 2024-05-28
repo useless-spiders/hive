@@ -34,26 +34,26 @@ public class AiController implements ActionListener {
             if (ai != null) {
                 this.delay.stop();
                 new Thread(() -> {
-                        try {
-                            Move iaMove = ai.chooseMove(); // On récupère le mouvement choisi par l'IA
-                            if (iaMove != null) {
-                                SwingUtilities.invokeLater(() -> {
-                                    this.gameActionHandler.getGrid().applyMove(iaMove, this.gameActionHandler.getPlayerController().getCurrentPlayer());
-                                    this.gameActionHandler.getHistoryController().addMove(iaMove);
-                                    this.gameActionHandler.getPlayerController().switchPlayer();
-                                    this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
-                                    this.gameActionHandler.getDisplayGame().repaint();
-                                });
-                            } else {
-                                SwingUtilities.invokeLater(() -> {
-                                    Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
-                                });
-                            }
-                        } catch (Exception ex) {
+                    try {
+                        Move iaMove = ai.chooseMove(); // On récupère le mouvement choisi par l'IA
+                        if (iaMove != null) {
                             SwingUtilities.invokeLater(() -> {
-                                Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread " + ex);
+                                this.gameActionHandler.getGrid().applyMove(iaMove, this.gameActionHandler.getPlayerController().getCurrentPlayer());
+                                this.gameActionHandler.getHistoryController().addMove(iaMove);
+                                this.gameActionHandler.getPlayerController().switchPlayer();
+                                this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
+                                this.gameActionHandler.getDisplayGame().repaint();
+                            });
+                        } else {
+                            SwingUtilities.invokeLater(() -> {
+                                Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
                             });
                         }
+                    } catch (Exception ex) {
+                        SwingUtilities.invokeLater(() -> {
+                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread " + ex);
+                        });
+                    }
                 }).start();
             }
         }
@@ -71,17 +71,6 @@ public class AiController implements ActionListener {
      */
     public void stopAi() {
         this.delay.stop();
-    }
-
-    /**
-     * Change l'état de l'IA
-     */
-    public void changeStateAi() {
-        if (this.delay.isRunning()) {
-            this.delay.stop();
-        } else {
-            this.delay.start();
-        }
     }
 
     /**

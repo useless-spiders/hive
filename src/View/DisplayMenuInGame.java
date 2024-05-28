@@ -146,10 +146,12 @@ public class DisplayMenuInGame extends JFrame{
             if(this.optionVisible){
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
+                this.gameActionHandler.getAiController().startAi();
             }
             else {
                 this.optionsPanel.setVisible(true);
                 this.optionVisible = true;
+                this.gameActionHandler.getAiController().stopAi();
             }
         });
         return button;
@@ -177,11 +179,12 @@ public class DisplayMenuInGame extends JFrame{
         JButton button = new JButton("Stopper les IA");
         button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
         button.addActionListener(e -> {
-            this.gameActionHandler.getAiController().changeStateAi();
             if (this.gameActionHandler.getAiController().isAiRunning()) {
-                button.setText("Stopper les IA");
-            } else {
+                this.gameActionHandler.getAiController().stopAi();
                 button.setText("Relancer les IA");
+            } else {
+                this.gameActionHandler.getAiController().startAi();
+                button.setText("Stopper les IA");
             }
         });
         return button;
