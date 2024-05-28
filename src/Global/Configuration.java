@@ -33,4 +33,10 @@ public class Configuration {
     public static final String IMAGE_PATH_RULES = "res/Images/Rules/";
 
     public static String DEFAULT_SKINS = "Default/";
+
+    public static final int AI_MAX_NODE = 1000;
+    public static final int AI_MAX_LEVEL = 10;
+    public static final int AI_WAITING_TIME = 1000;
+
+
 }
