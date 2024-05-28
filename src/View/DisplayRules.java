@@ -90,6 +90,6 @@ public class DisplayRules extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         this.updateButtons();
-        g.drawImage(this.background, 25, 25, this.frameRules.getWidth() - 130, this.frameRules.getHeight() - 130, this);
+        g.drawImage(this.background, 25, 25, this.frameRules.getWidth() - 130, this.frameRules.getHeight() - 160, this);
     }
 }

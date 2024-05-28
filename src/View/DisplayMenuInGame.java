@@ -5,8 +5,6 @@ import Structure.Log;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DisplayMenuInGame extends JFrame{
     private static final String SAVE = "Sauvegarder";
@@ -113,7 +111,7 @@ public class DisplayMenuInGame extends JFrame{
             switch (name) {
                 case SAVE:
                     this.gameActionHandler.getSaveLoadController().saveGame();
-                    DisplayText.addTextPopUp("Sauvegarde en cours", this.gameActionHandler.getDisplayGame().getFrameGame());
+                    DisplayText.addTextPopUp("Partie sauvegardée", this.gameActionHandler.getDisplayGame().getFrameGame());
                     break;
                 case RULES:
                     this.gameActionHandler.getPageController().gameAndRules();
