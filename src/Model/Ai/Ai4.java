@@ -1,5 +1,6 @@
 package Model.Ai;
 
+import Global.Configuration;
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
@@ -12,8 +13,6 @@ public class Ai4 extends Ai { //Alpha Beta
 
     Player other;
     int node;
-    private final int MAX_NODE = 1000;
-    private final int MAX_LEVEL = 10;
 
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
@@ -49,7 +48,7 @@ public class Ai4 extends Ai { //Alpha Beta
             return Double.MAX_VALUE;
         }
         int depth = treeDepth;
-        if (this.node >= MAX_NODE || depth >= MAX_LEVEL) {
+        if (this.node >= Configuration.AI_MAX_NODE || depth >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -93,7 +92,7 @@ public class Ai4 extends Ai { //Alpha Beta
             return Double.MAX_VALUE;
         }
         int depth = treeDepth;
-        if (this.node >= MAX_NODE || depth >= MAX_LEVEL) {
+        if (this.node >= Configuration.AI_MAX_NODE || depth >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;

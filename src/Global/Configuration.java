@@ -16,7 +16,7 @@ public class Configuration {
     public static final int MAX_SPIDER = 2;
     public static final int MAX_BEE = 1;
 
-    public static final String SAVE_PATH = "res/Saves/";
+    public static final String SAVE_PATH = "./Hive_Saved_Games/";
     public static final String SAVE_EXTENSION = "save";
     public static final String SAVE_FORMAT = "dd-MM-yyyy_HH-mm-ss";
 
@@ -26,11 +26,17 @@ public class Configuration {
 
     public static final int FRAME_WIDTH = 1280;
     public static final int FRAME_HEIGHT = 720;
-    public static final String IMAGE_PATH_INSECTS = "res/Images/Skins/";
-    public static final String IMAGE_PATH_ICONS = "res/Images/Icons/";
-    public static final String IMAGE_PATH_BACKGROUNDS = "res/Images/Backgrounds/";
-    public static final String IMAGE_PATH_HEXAGONS = "res/Images/Hexagons/";
-    public static final String IMAGE_PATH_RULES = "res/Images/Rules/";
+    public static final String IMAGE_PATH_INSECTS = "Images/Skins/";
+    public static final String IMAGE_PATH_ICONS = "Images/Icons/";
+    public static final String IMAGE_PATH_BACKGROUNDS = "Images/Backgrounds/";
+    public static final String IMAGE_PATH_HEXAGONS = "Images/Hexagons/";
+    public static final String IMAGE_PATH_RULES = "Images/Rules/";
 
     public static String DEFAULT_SKINS = "Default/";
+
+    public static final int AI_MAX_NODE = 1000;
+    public static final int AI_MAX_LEVEL = 10;
+    public static final int AI_WAITING_TIME = 1000;
+
+
 }

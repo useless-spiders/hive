@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Global.Configuration;
 import Model.Ai.Ai;
 import Model.Move;
 import Pattern.GameActionHandler;
@@ -24,7 +25,7 @@ public class AiController implements ActionListener {
      */
     public AiController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
-        this.delay = new Timer(1000, this);
+        this.delay = new Timer(Configuration.AI_WAITING_TIME, this);
     }
 
     @Override
