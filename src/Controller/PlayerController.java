@@ -61,6 +61,8 @@ public class PlayerController {
             } else {
                 this.currentPlayer = this.player1;
             }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
             if (this.currentPlayer.isAi()) {
                 this.gameActionHandler.getAiController().getDelay().start();
             }
@@ -68,8 +70,6 @@ public class PlayerController {
                 Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
                 this.switchPlayer();
             }
-            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
-            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
         }
     }
 
