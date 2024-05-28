@@ -54,7 +54,16 @@ public abstract class Ai implements Serializable {
             spider = 4;
             beetle = 4;
             grasshopper = 2;
-            bee = 5;
+            //evite les match nul
+            if(turn == 1)
+            {
+                bee = -1;
+            }
+            else
+            {
+                bee = 5;
+            }
+
         }
         else{
             ant = 3;
@@ -100,8 +109,17 @@ public abstract class Ai implements Serializable {
             Insect insect = cell.getTopInsect();
 
             if (insect.getPlayer().equals(p)) {
+                // le deplacement des fourmis et des araignees est de 1
+                int ratio = 1;
+                if (insect instanceof Bee) {
+                    ratio = 10;
+                }
+                if (insect instanceof Beetle || insect instanceof Grasshopper) {
+                    ratio = 2;
+                }
+
                 ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, g, p);
-                moveCount += possibleCoordinates.size();
+                moveCount += (possibleCoordinates.size() * ratio);
             }
         }
         return moveCount;
@@ -124,6 +142,9 @@ public abstract class Ai implements Serializable {
                 break;
             case "Ai4":
                 resultat = new Ai4(gameActionHandler, p);
+                break;
+            case "Ai5":
+                resultat = new Ai5(gameActionHandler, p);
                 break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
