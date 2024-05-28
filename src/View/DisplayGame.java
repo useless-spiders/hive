@@ -50,6 +50,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayBankInsects.updateButtons();
     }
 
+    public JFrame getFrameGame() {return this.frameGame;}
     public DisplayHexGrid getDisplayHexGrid() {
         return this.displayHexGrid;
     }
