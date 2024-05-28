@@ -62,7 +62,7 @@ public class PlayerController {
                 this.currentPlayer = this.player1;
             }
             if (this.currentPlayer.isAi()) {
-                this.gameActionHandler.getAiController().getDelay().start();
+                this.gameActionHandler.getAiController().startAi();
             }
             if(this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()){
                 Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
