@@ -163,6 +163,11 @@ public class DisplayMenuInGame extends JFrame {
                 this.optionVisible = true;
                 this.gameActionHandler.getAiController().stopAi();
             }
+            if (this.gameActionHandler.getAiController().isAiRunning()) {
+                this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
+            } else {
+                this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
+            }
         });
         return button;
     }
@@ -202,9 +207,9 @@ public class DisplayMenuInGame extends JFrame {
 
     public void updateButtons() {
         if (this.gameActionHandler.getAiController().isAiRunning()) {
-            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
-        } else {
             this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
+        } else {
+            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
         }
 
         this.saveButton.setText(this.gameActionHandler.getLang().getString("display.menu.save"));
