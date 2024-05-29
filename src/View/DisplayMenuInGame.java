@@ -2,6 +2,7 @@ package View;
 
 import Pattern.GameActionHandler;
 import Structure.Log;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ public class DisplayMenuInGame extends JFrame{
     private static final String RETURN = "Retour au jeu";
 
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
     private JPanel panelGame;
     private JPanel optionsPanel;
     private JButton cancelButton;
@@ -26,6 +28,7 @@ public class DisplayMenuInGame extends JFrame{
     public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.panelGame = panelGame;
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
 
         this.optionVisible = false;
         // Création du JPanel pour contenir le menu et les boutons
@@ -139,7 +142,7 @@ public class DisplayMenuInGame extends JFrame{
     }
 
     private JButton createButtonOption(){
-        JButton button = new JButton(DisplayMain.loadIcon("Menu.png"));
+        JButton button = new JButton(this.ressourceLoader.loadIcon("Menu.png"));
         button.addActionListener(e -> {
             if(this.optionVisible){
                 this.optionsPanel.setVisible(false);
@@ -156,7 +159,7 @@ public class DisplayMenuInGame extends JFrame{
     }
 
     private JButton createButtonCancel() {
-        JButton button = new JButton(DisplayMain.loadIcon("Undo.png"));
+        JButton button = new JButton(this.ressourceLoader.loadIcon("Undo.png"));
         button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().cancelMove();
@@ -165,7 +168,7 @@ public class DisplayMenuInGame extends JFrame{
     }
 
     private JButton createButtonRedo() {
-        JButton button = new JButton(DisplayMain.loadIcon("Redo.png"));
+        JButton button = new JButton(this.ressourceLoader.loadIcon("Redo.png"));
         button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().redoMove();

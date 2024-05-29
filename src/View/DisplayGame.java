@@ -4,6 +4,7 @@ import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.RessourceLoader;
 import Structure.ViewMetrics;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private Image background  = DisplayMain.loadBackground("Game_background.png");
+    private Image background;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -21,10 +22,13 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
     private JFrame frameGame;
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
+        this.background = this.ressourceLoader.loadBackground("Game_background.png");
 
         //Pour construire le jeu
         buildGame();

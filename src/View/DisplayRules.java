@@ -1,20 +1,29 @@
 package View;
 
+import Pattern.GameActionHandler;
+import Structure.RessourceLoader;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayRules extends JPanel {
     private JFrame frameRules;
     int numRules = 1;
-    Image background = DisplayMain.loadRules("Rule_1.png");
+    Image background;
     private static int MIN = 1;
     private static int MAX = 11;
 
     private JButton previous;
     private JButton next;
 
-    public DisplayRules(JFrame frameRules) {
+    private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
+
+    public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
         this.frameRules = frameRules;
+        this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
+        this.background = this.ressourceLoader.loadRules("Rule_1.png");
 
         this.previous = createButtonPrevious();
         this.next = createButtonNext();
@@ -62,7 +71,7 @@ public class DisplayRules extends JPanel {
     }
 
     private void updateImage() {
-        this.background = DisplayMain.loadRules("Rule_" + this.numRules + ".png");
+        this.background = this.ressourceLoader.loadRules("Rule_" + this.numRules + ".png");
         repaint();
     }
 

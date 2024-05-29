@@ -5,6 +5,7 @@ import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.Log;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -43,11 +44,13 @@ public class DisplayConfigGame extends JPanel {
     private JTextField player2NameField;
 
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
 
-        this.background = DisplayMain.loadBackground("Opening_param.png");
+        this.background = this.ressourceLoader.loadBackground("Opening_param.png");
 
         setLayout(new GridLayout(1, 2));
 
@@ -171,7 +174,7 @@ public class DisplayConfigGame extends JPanel {
 
             case RETOUR:
                 button.addActionListener(e -> {
-                    this.background = DisplayMain.loadBackground("Opening_param.png");
+                    this.background = this.ressourceLoader.loadBackground("Opening_param.png");
                     eastPanel.setVisible(true);
                     westPanel.setVisible(false);
                 });
@@ -241,7 +244,7 @@ public class DisplayConfigGame extends JPanel {
                 changeBackgroundAndAddButtons();
                 isSkinSelectorAdded = true;
             }
-            this.background = DisplayMain.loadBackground("Opening_skin.png");
+            this.background = this.ressourceLoader.loadBackground("Opening_skin.png");
             repaint();
             this.eastPanel.setVisible(false);
             this.westPanel.setVisible(true);
@@ -335,7 +338,7 @@ public class DisplayConfigGame extends JPanel {
 
     private JLabel createExampleSkin(Class<? extends Insect> insectClass, Player player) {
 
-        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
+        ImageIcon imageIcon = this.ressourceLoader.loadIconInsects(this.ressourceLoader.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
         JLabel imgExampleSkin = new JLabel(imageIcon);
         return imgExampleSkin;
     }

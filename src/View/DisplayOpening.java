@@ -1,18 +1,22 @@
 package View;
 
 import Pattern.GameActionHandler;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayOpening extends JPanel {
     JFrame frameOpening;
-    private Image background  = DisplayMain.loadBackground("Opening.png");
+    private Image background;
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayOpening(JFrame frameOpening, GameActionHandler gameActionHandler) {
         this.frameOpening = frameOpening;
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
+        this.background = this.ressourceLoader.loadBackground("Opening.png");
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
