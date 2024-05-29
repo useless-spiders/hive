@@ -74,6 +74,7 @@ public class SaveLoadController {
 
             HexMetrics.resetHexMetricsWidth();
             ViewMetrics.resetViewPosition();
+            this.gameActionHandler.setIsFirstStart(false);
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
