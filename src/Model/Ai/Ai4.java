@@ -14,6 +14,9 @@ public class Ai4 extends Ai { //Alpha Beta
     Player other;
     int node;
 
+    /**
+     * Constructeur
+     */
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
@@ -24,6 +27,11 @@ public class Ai4 extends Ai { //Alpha Beta
         }
     }
 
+    /**
+     * calcule l'heuristique pour une grille donnée
+     * @param g grille de jeu
+     * @return double
+     */
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
@@ -33,6 +41,40 @@ public class Ai4 extends Ai { //Alpha Beta
         return result;
     }
 
+    /**
+     * calcule l'heuristique pour une grille donnée
+     * @param g grille de jeu
+     * @param usC joueur cloné
+     * @param themC joueur adverse cloné
+     * @return double
+     */
+    double heuristic(HexGrid g, Player usC, Player themC) {
+        double result = 0;
+        result -= beeNeighbors(usC, g)*0.7;
+        result += beeNeighbors(themC, g)*0.7;
+        result += insectsCount(usC, g)*0.1;
+        result -= insectsCount(themC, g)*0.1;
+        if(usC.isBeePlaced())
+        {
+            result += insectFree(usC, g)*0.2;
+        }
+        if (themC.isBeePlaced())
+        {
+            result -= insectFree(usC, g)*0.2;
+        }
+        return result;
+    }
+
+
+    /**
+     * calcule le meilleur coup possible
+     * @param n noeud actuel
+     * @param gridC grille de jeu
+     * @param usC joueur cloné
+     * @param themC joueur adverse cloné
+     * @param treeDepth profondeur du noeud
+     * @return double
+     */
     double maxTree(Node n, HexGrid gridC, Player usC, Player themC, double alpha, double beta, int treeDepth) {
         //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egaitee est comptee comme une defaite
         if(gridC.checkLoser(usC))
@@ -77,6 +119,16 @@ public class Ai4 extends Ai { //Alpha Beta
         }
     }
 
+
+    /**
+     * calcule le pire coup possible
+     * @param n noeud actuel
+     * @param gridC grille de jeu
+     * @param usC joueur cloné
+     * @param themC joueur adverse cloné
+     * @param treeDepth profondeur du noeud
+     * @return double
+     */
     double minTree(Node n, HexGrid gridC, Player usC, Player themC, double alpha, double beta, int treeDepth) {
         //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egaitee est comptee comme une defaite
         if(gridC.checkLoser(usC))
@@ -121,6 +173,10 @@ public class Ai4 extends Ai { //Alpha Beta
         }
     }
 
+    /**
+     * choisis le coup à jouer pour par l'Ia
+     * @return coup à jouer
+     */
     public Move chooseMove() {
         Tree tree = new Tree();
         this.node = 0;

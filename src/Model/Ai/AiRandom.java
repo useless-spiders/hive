@@ -13,6 +13,9 @@ public class AiRandom extends Ai { //Random
 
     Player other;
 
+    /**
+     * constructeur
+     */
     public AiRandom(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
@@ -28,6 +31,10 @@ public class AiRandom extends Ai { //Random
         return 0;
     }
 
+    /**
+     * choisis le coup à jouer pour par l'Ia
+     * @return coup à jouer
+     */
     @Override
     public Move chooseMove() {
         ArrayList<Move> moves = this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.aiPlayer);

@@ -6,11 +6,15 @@ import Model.HexGrid;
 import Model.Move;
 import Model.Player;
 import Pattern.GameActionHandler;
+import Structure.Log;
 
 public class Ai1 extends Ai { //1 Coup
 
     Player other;
-
+    
+    /**
+     * Constructeur
+     */
     public Ai1(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
@@ -21,7 +25,12 @@ public class Ai1 extends Ai { //1 Coup
         }
     }
 
-    /* @Override
+    /**
+     * calcule l'heuristique pour une grille donnée
+     * @param g grille de jeu
+     * @return double
+     */
+    @Override
     double heuristic(HexGrid g) {
         double result = 0;
         result -= beeNeighbors(this.aiPlayer, g)*0.9;
@@ -29,17 +38,14 @@ public class Ai1 extends Ai { //1 Coup
         result += insectsCount(this.aiPlayer, g)*0.1;
         result -= insectsCount(this.other, g)*0.1;
         return result;
-    } */
-
-    @Override
-    double heuristic(HexGrid g) {
-        double result = 0;
-        result += (beeNeighbors(this.other, g) - beeNeighbors(this.aiPlayer, g))*10;
-        result += insectsCount(this.aiPlayer, g) - insectsCount(this.other, g);
-        result += (insectFree(this.aiPlayer, g) - insectFree(this.other, g))*2;
-        return result;
     }
 
+
+
+    /**
+     * choisis le coup à jouer pour par l'Ia
+     * @return coup à jouer
+     */
     public Move chooseMove() {
         HexGrid g = this.gameActionHandler.getGrid().clone();
         ArrayList<Move> toPlay = new ArrayList<>();
@@ -53,6 +59,7 @@ public class Ai1 extends Ai { //1 Coup
             {
                 if(g.checkLoser(other))
                 {
+                    Log.addMessage("on a gagné");
                     score = 99999;
                 }
                 else
@@ -68,8 +75,12 @@ public class Ai1 extends Ai { //1 Coup
                 if (score == score_max) {
                     toPlay.add(m);
                 }
-                g.unapplyMove(m, us_c);
             }
+            else
+            {
+                Log.addMessage("on a perdu");
+            }
+            g.unapplyMove(m, us_c);
         }
         if (toPlay.isEmpty()) {
             return null;
