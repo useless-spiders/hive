@@ -215,11 +215,11 @@ public class GameController implements GameActionHandler {
         } else {
             this.getPlayerController().setCurrentPlayer(this.getPlayerController().getPlayer2());
         }
-        this.displayGame.getDisplayBankInsects().updateBorderBank();
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
         this.aiController.startAi();
         this.displayGame.getDisplayBankInsects().updateAllLabels();
+        this.displayGame.getDisplayBankInsects().updateBorderBank();
         this.displayGame.repaint();
     }
 
