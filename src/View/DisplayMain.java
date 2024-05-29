@@ -4,18 +4,10 @@ import Global.Configuration;
 import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
-import Model.Insect.Bee;
-import Model.Insect.Insect;
-import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.FrameMetrics;
-import Structure.Log;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class DisplayMain {
 
@@ -24,88 +16,9 @@ public class DisplayMain {
     private DisplayRestart displayRestart;
     private DisplayGame displayGame;
 
-    public static Image loadImageHexagons(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_HEXAGONS + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'image " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public void setHexagonSkin(String selectedSkin) {
-        Configuration.DEFAULT_SKINS = selectedSkin;
-        this.displayGame.getDisplayBankInsects().updateButtons();
-        this.displayGame.getDisplayBankInsects().updateBorderBank();
-    }
-
-    public static Image loadImageInsects(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'image " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static ImageIcon loadIcon(String nom) {
-        try {
-            return new ImageIcon(Configuration.IMAGE_PATH_ICONS + nom);
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'icon " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static ImageIcon loadIconInsects(String nom) {
-        try {
-            return new ImageIcon(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom);
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger l'icon " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static Image loadBackground(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_BACKGROUNDS + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger le fond " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static Image loadRules(String nom) {
-        try {
-            return ImageIO.read(Files.newInputStream(Paths.get(Configuration.IMAGE_PATH_RULES + nom)));
-        } catch (Exception e) {
-            Log.addMessage("Impossible de charger la règle " + nom);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static String getImageInsectName(Class<? extends Insect> insectClass, Player player, Player currentPlayer) {
-        String color;
-        if (player.getColor() == Configuration.PLAYER_WHITE) {
-            color = "white";
-        } else {
-            color = "black";
-        }
-        if(insectClass.equals(Bee.class) && player.equals(currentPlayer) && player.getTurn() == 4 && !player.isBeePlaced()) {
-            return insectClass.getSimpleName() + "_" + color + "_last_tour" + ".png";
-        }
-        return insectClass.getSimpleName() + "_" + color + ".png";
-    }
 
     public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,
                        JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
-
         FrameMetrics.setCurrentFrame(frameOpening);
 
         //Affichage de l'opening
@@ -113,6 +26,7 @@ public class DisplayMain {
         FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
         FrameMetrics.setFrameSize(frameOpening, new Dimension(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT)); //Mettre une taille par défaut
         FrameMetrics.setFullScreen(frameOpening);
+        //frameOpening.setResizable(false);
 
         //Affichage du menu
         new DisplayConfigGame(frameMenu, gameActionHandler);
@@ -138,7 +52,7 @@ public class DisplayMain {
         this.displayRestart = new DisplayRestart(gameActionHandler);
 
         //Affichage des regles
-        DisplayRules displayRules = new DisplayRules(frameRules);
+        DisplayRules displayRules = new DisplayRules(frameRules, gameActionHandler);
         FrameMetrics.setupFrame(frameRules, false, JFrame.DISPOSE_ON_CLOSE);
         FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }

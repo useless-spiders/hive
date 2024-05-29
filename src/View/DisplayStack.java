@@ -4,6 +4,7 @@ import Model.Insect.Insect;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.RessourceLoader;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ public class DisplayStack {
     private HexCoordinate hexClicked = null;
     private static final int OFFSET = 5; // Marge entre chaque insecte
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayStack(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
     }
 
     public void updateStackClickState(boolean isInsectCellClicked, HexCoordinate hexClicked) {
@@ -46,7 +49,7 @@ public class DisplayStack {
             // Dessiner les insectes dépilés à l'intérieur du rectangle blanc
             for (int i = depiledInsects.size() - 1; i >= 0; i--) {
                 Insect insect = depiledInsects.get(i);
-                Image insectImage = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(insect.getClass(), insect.getPlayer(), this.gameActionHandler.getPlayerController().getCurrentPlayer()));
+                Image insectImage = this.ressourceLoader.loadImageInsects(this.ressourceLoader.getImageInsectName(insect.getClass(), insect.getPlayer(), this.gameActionHandler.getPlayerController().getCurrentPlayer()));
                 int offsetY = startY + OFFSET + (HexMetrics.HEX_HEIGHT + OFFSET) * (depiledInsects.size() - i - 1); // Calculer la position Y en inversant l'ordre
 
                 g2d.drawImage(insectImage, startX + 10, offsetY, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);

@@ -3,6 +3,7 @@ package View;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,9 +27,11 @@ public class DisplayBankInsects {
     private static Boolean isInsectButtonClicked = false;
     private static ImageIcon currentIcon;
     private JPanel panelGame;
+    private RessourceLoader ressourceLoader;
 
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
         this.panelGame = panelGame;
         this.gbc = gbc;
         this.player1Labels = new HashMap<>();
@@ -103,7 +106,7 @@ public class DisplayBankInsects {
     }
 
     private JButton createButton(Class<? extends Insect> insectClass, Player player) {
-        ImageIcon imageIcon = DisplayMain.loadIconInsects(DisplayMain.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
+        ImageIcon imageIcon = this.ressourceLoader.loadIconInsects(this.ressourceLoader.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
         JButton button = new JButton(imageIcon);
         button.addActionListener(new ActionListener() {
 
@@ -119,6 +122,7 @@ public class DisplayBankInsects {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
+        button.setRolloverEnabled(false);
 
         return button;
     }
@@ -202,8 +206,6 @@ public class DisplayBankInsects {
         this.panelGame.add(panelButtonBankJ1, gbc);
 
         gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
         this.panelGame.add(this.panelButtonBankJ2, gbc);
     }

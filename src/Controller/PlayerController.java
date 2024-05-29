@@ -6,6 +6,7 @@ import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -61,15 +62,15 @@ public class PlayerController {
             } else {
                 this.currentPlayer = this.player1;
             }
-            if (this.currentPlayer.isAi()) {
-                this.gameActionHandler.getAiController().getDelay().start();
-            }
-            if(this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()){
-                Log.addMessage("Le joueur ne peut rien faire, on change donc de joueur !");
-                this.switchPlayer();
-            }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
+            if (this.currentPlayer.isAi()) {
+                this.gameActionHandler.getAiController().startAi();
+            }
+            if(this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()){
+                Log.addMessage(this.gameActionHandler.getLang().getString("player.cant.play"));
+                this.switchPlayer();
+            }
         }
     }
 
@@ -81,14 +82,14 @@ public class PlayerController {
         boolean lPlayer1 = this.gameActionHandler.getGrid().checkLoser(player1);
         boolean lPlayer2 = this.gameActionHandler.getGrid().checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
-            Log.addMessage("Egalité !");
+            Log.addMessage(this.gameActionHandler.getLang().getString("player.draw"));
             return 0;
         } else {
             if (lPlayer1) {
-                Log.addMessage("Le joueur " + player2.getColor() + " a gagné !");
+                Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("player.win"), player2.getName()));
                 return 2; // return winner
             } else if (lPlayer2) {
-                Log.addMessage("Le joueur " + player1.getColor() + " a gagné !");
+                Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("player.win"), player1.getName()));
                 return 1; // return winner
             }
         }
@@ -102,8 +103,10 @@ public class PlayerController {
      */
     public void setAiPlayer(int player, String name) {
         if (player == 1) {
+            this.player1.setName(name);
             this.player1.setAi(Ai.nouvelle(this.gameActionHandler, name, this.player1));
         } else {
+            this.player2.setName(name);
             this.player2.setAi(Ai.nouvelle(this.gameActionHandler, name, this.player2));
         }
     }

@@ -5,10 +5,16 @@ import Listener.GameActionListener;
 import Model.HexGrid;
 import View.DisplayGame;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * Interface pour les actions du jeu
  */
 public interface GameActionHandler {
+
+    ResourceBundle getLang();
+
     HexGrid getGrid();
 
     void setGrid(HexGrid hexGrid);
@@ -38,5 +44,9 @@ public interface GameActionHandler {
     PageController getPageController();
 
     boolean getIsFirstStart();
+
+    void setLang(Locale language);
+
+    Locale getCurrentLocale();
 
 }

@@ -3,20 +3,23 @@ package View;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayPlayableHex extends JComponent {
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
     private Image locationImage;
     private Image otherLocationImage;
     private HexCoordinate hoverCoord;
 
     public DisplayPlayableHex(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
-        this.locationImage = DisplayMain.loadImageHexagons("Full.png");
-        this.otherLocationImage = DisplayMain.loadImageHexagons("Border.png");
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
+        this.locationImage = this.ressourceLoader.loadImageHexagons("Full.png");
+        this.otherLocationImage = this.ressourceLoader.loadImageHexagons("Border.png");
     }
 
     public void updateHoverCell(HexCoordinate hoverCoord) {

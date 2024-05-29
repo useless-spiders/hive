@@ -33,8 +33,8 @@ public class MoveController {
      * @return ArrayList<Move>
      */
     public ArrayList<Move> getMoves(HexGrid grid, Player p) {
-        Log.addMessage("Grille : " + grid);
-        Log.addMessage("Joueur : " + p);
+        //Log.addMessage("Grille : " + grid);
+        //Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
 
         // On récupère les insertions possibles
@@ -46,9 +46,9 @@ public class MoveController {
             }
         }
 
-        if (!moves.isEmpty()) {
-            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
-        }
+        //if (!moves.isEmpty()) {
+        //    Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
+        //}
 
         // On récupère les déplacements possibles
         for (HexCoordinate hex : grid.getGrid().keySet()) {
@@ -62,10 +62,10 @@ public class MoveController {
                 }
             }
         }
-        if (!moves.isEmpty()) {
-            Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
-        }
-        Log.addMessage("Taille de la grille : " + grid.getGrid().size());
+        //if (!moves.isEmpty()) {
+        //    Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
+        //}
+        //Log.addMessage("Taille de la grille : " + grid.getGrid().size());
         return moves;
     }
 
@@ -91,13 +91,13 @@ public class MoveController {
                         playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinates(this.gameActionHandler.getGrid());
                     }
                 } else {
-                    Log.addMessage("Vous devez placer l'abeille avant de placer un autre insecte");
+                    Log.addMessage(this.gameActionHandler.getLang().getString("move.bee.insertion"));
                 }
             } else {
-                Log.addMessage("Vous avez atteint le nombre maximum de pions de ce type");
+                Log.addMessage(this.gameActionHandler.getLang().getString("move.insect.max.error"));
             }
         } else {
-            Log.addMessage("Vous n'avez plus de pions de ce type");
+            Log.addMessage(this.gameActionHandler.getLang().getString("move.insect.error"));
         }
         return playableCoordinates;
     }

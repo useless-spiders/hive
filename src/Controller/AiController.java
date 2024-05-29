@@ -1,37 +1,40 @@
 package Controller;
 
 
+import Global.Configuration;
 import Model.Ai.Ai;
 import Model.Move;
 import Pattern.GameActionHandler;
 import Structure.Log;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Controleur pour l'IA
  */
-public class AiController {
+public class AiController implements ActionListener {
     private GameActionHandler gameActionHandler;
     private Timer delay;
 
     /**
      * Constructeur
-     * @param gameActionHandler
+     *
+     * @param gameActionHandler GameActionHandler
      */
     public AiController(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.delay = new Timer(Configuration.AI_WAITING_TIME, this);
     }
 
-    /**
-     * Démarre l'IA dans un thread
-     */
-    public void startAi() {
-        if (this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn() <= 1 && (this.gameActionHandler.getPlayerController().getPlayer1().isAi() || this.gameActionHandler.getPlayerController().getPlayer2().isAi())) {
-            this.delay = new Timer(1000, e -> new Thread(() -> {
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi()) {
+            Ai ai = this.gameActionHandler.getPlayerController().getCurrentPlayer().getAi();
+            if (ai != null) {
                 this.delay.stop();
-                Ai ai = this.gameActionHandler.getPlayerController().getCurrentPlayer().getAi();
-                if (ai != null) {
+                new Thread(() -> {
                     try {
                         Move iaMove = ai.chooseMove(); // On récupère le mouvement choisi par l'IA
                         if (iaMove != null) {
@@ -44,55 +47,39 @@ public class AiController {
                             });
                         } else {
                             SwingUtilities.invokeLater(() -> {
-                                Log.addMessage("L'IA n'a pas pu jouer, on arrete l'IA");
+                                Log.addMessage(this.gameActionHandler.getLang().getString("ia.play.error"));
                             });
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage("Erreur lors de l'exécution de l'IA dans le thread " + ex);
+                            Log.addMessage(this.gameActionHandler.getLang().getString("ia.error") + ex);
                         });
                     }
-                }
-            }).start());
-            this.delay.start(); // Lance le timer
+                }).start();
+            }
         }
+    }
+
+    /**
+     * Démarre l'IA dans un thread
+     */
+    public void startAi() {
+        this.delay.start(); // Lance le timer
     }
 
     /**
      * Arrête l'IA
      */
     public void stopAi() {
-        if (this.delay != null) {
-            this.delay.stop();
-        }
-    }
-
-    /**
-     * Change l'état de l'IA
-     */
-    public void changeStateAi() {
-        if (this.delay != null) {
-            if (this.delay.isRunning()) {
-                this.delay.stop();
-            } else {
-                this.delay.start();
-            }
-        }
+        this.delay.stop();
     }
 
     /**
      * Vérifie si l'IA est en cours
+     *
      * @return boolean
      */
     public boolean isAiRunning() {
         return this.delay.isRunning();
-    }
-
-    /**
-     * Retourne le timer
-     * @return Timer
-     */
-    public Timer getDelay() {
-        return this.delay;
     }
 }

@@ -15,6 +15,7 @@ import Structure.HexCoordinate;
 import Structure.Log;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public abstract class Ai implements Serializable {
@@ -29,6 +30,14 @@ public abstract class Ai implements Serializable {
 
     abstract double heuristic(HexGrid g);
 
+    /////////////// methodes calcul heuristique /////////////////////
+
+    /**
+     * Renvoie le nombre d'insectes autour de la reine d'un joueur
+     * @param p joueur
+     * @param g grille de jeu
+     * @return double
+     */
     public double beeNeighbors(Player p, HexGrid g){
         int result = 0;
         for (HexCoordinate h : g.getGrid().keySet()) {
@@ -36,8 +45,13 @@ public abstract class Ai implements Serializable {
             ArrayList<Insect> insects = cell.getInsects();
             for(Insect i :insects){
                 if (i instanceof Bee) {
-                    if (i.getPlayer() == p) {
-                        result = (g.getNeighborsCoordinates(h).size());
+                    if (i.getPlayer().equals(p)) {
+                        // on ne considere pas les cas ou l abeille est entouree de 2 pieces ou moins
+                        result = (g.getNeighborsCoordinates(h).size()) - 1;
+                        if(result > 0)
+                        {
+                            result --;
+                        }
                     }
                 }
             }
@@ -45,6 +59,12 @@ public abstract class Ai implements Serializable {
         return result;
     }
 
+    /**
+     * Renvoie le nombre d'insectes en jeu d'un joueur
+     * @param p joueur
+     * @param g grille de jeu
+     * @return double
+     */
     public double insectsCount(Player p, HexGrid g){
         double result = 0;
         int ant, bee, beetle, spider, grasshopper;
@@ -54,7 +74,16 @@ public abstract class Ai implements Serializable {
             spider = 4;
             beetle = 4;
             grasshopper = 2;
-            bee = 5;
+            //evite les match nul
+            if(turn == 1)
+            {
+                bee = -1;
+            }
+            else
+            {
+                bee = 5;
+            }
+
         }
         else{
             ant = 3;
@@ -67,7 +96,7 @@ public abstract class Ai implements Serializable {
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
-            if(insect.getPlayer() == p){
+            if(insect.getPlayer().equals(p)){
                 if (insect instanceof Bee) {
                     result += bee;
                 }
@@ -88,6 +117,12 @@ public abstract class Ai implements Serializable {
         return result;
     }
 
+    /**
+     * Renvoie le nombre de déplacement possible des pieces d'un joueur ainsi que le nombre de cases sur lesquelles il peut placer des insectes
+     * @param p joueur
+     * @param g grille de jeu
+     * @return double
+     */
     public double insectFree(Player p, HexGrid g){
         double moveCount = 0;
 
@@ -100,13 +135,30 @@ public abstract class Ai implements Serializable {
             Insect insect = cell.getTopInsect();
 
             if (insect.getPlayer().equals(p)) {
+                // le deplacement des fourmis et des araignees est de 1
+                int ratio = 1;
+                if (insect instanceof Bee) {
+                    ratio = 5;
+                }
+                if (insect instanceof Beetle || insect instanceof Grasshopper) {
+                    ratio = 2;
+                }
+
                 ArrayList<HexCoordinate> possibleCoordinates = insect.getPossibleMovesCoordinates(hex, g, p);
-                moveCount += possibleCoordinates.size();
+                moveCount += (possibleCoordinates.size() * ratio);
             }
         }
         return moveCount;
     }
+    //////////////////////////////////////////////////////////////////////////
 
+    /**
+     * appelle le constructeur du type d'Ia donné en argument
+     * @param gameActionHandler GameActionHandler
+     * @param ia nom de l'ia
+     * @param p joueur
+     * @return double
+     */
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
         Ai resultat = null;
         switch (ia) {
@@ -122,11 +174,8 @@ public abstract class Ai implements Serializable {
             case "Ai3":
                 resultat = new Ai3(gameActionHandler, p);
                 break;
-            case "Ai4":
-                resultat = new Ai4(gameActionHandler, p);
-                break;
             default:
-                Log.addMessage("IA de type " + ia + " non supportée");
+                Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
         }
         return resultat;
     }

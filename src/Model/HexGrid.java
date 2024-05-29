@@ -250,7 +250,7 @@ public class HexGrid implements Cloneable {
         for (HexCoordinate h : this.getGrid().keySet()) {
             ArrayList<Insect> insects = this.getCell(h).getInsects();
             for (Insect i : insects) {
-                if (i instanceof Bee && i.getPlayer() == player) {
+                if (i instanceof Bee && i.getPlayer().equals(player)) {
                     return this.getNeighborsCoordinates(h).size() == 6;
                 }
             }
