@@ -63,7 +63,7 @@ public class Ai2 extends Ai { //MinMax
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
         }
-        if (depth >= 2) {
+        if (depth >= 3) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
@@ -108,7 +108,7 @@ public class Ai2 extends Ai { //MinMax
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
         }
-        if (level >= 2) {
+        if (level >= 3) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;

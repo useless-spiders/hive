@@ -73,10 +73,10 @@ public abstract class Ai implements Serializable {
             spider = 4;
             beetle = 4;
             grasshopper = 2;
-            //evite les match nul
+            //on l'empeche de jouer sa reine abeille tour 1 pour limiter les parties match nul
             if(turn == 1)
             {
-                bee = -1;
+                bee = -9999;
             }
             else
             {
@@ -137,7 +137,7 @@ public abstract class Ai implements Serializable {
                 // le deplacement des fourmis et des araignees est de 1
                 int ratio = 1;
                 if (insect instanceof Bee) {
-                    ratio = 5;
+                    ratio = 10;
                 }
                 if (insect instanceof Beetle || insect instanceof Grasshopper) {
                     ratio = 2;
@@ -172,12 +172,6 @@ public abstract class Ai implements Serializable {
                 break;
             case "Ai3":
                 resultat = new Ai3(gameActionHandler, p);
-                break;
-            case "Ai4":
-                resultat = new Ai4(gameActionHandler, p);
-                break;
-            case "Ai5":
-                resultat = new Ai5(gameActionHandler, p);
                 break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
