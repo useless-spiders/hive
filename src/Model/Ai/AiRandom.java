@@ -38,12 +38,6 @@ public class AiRandom extends Ai { //Random
     @Override
     public Move chooseMove() {
         ArrayList<Move> moves = this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.aiPlayer);
-        Log.addMessage("Taille de Moves pour J1 : " + moves.size());
-
-        ArrayList<Move> moves2 = this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid().clone(), this.aiPlayer);
-        Log.addMessage("Taille de Moves pour J1 : " + moves2.size());
-
-        Log.addMessage("FINNNNNNNNNNN");
 
         if (moves.isEmpty()) {
             return null;

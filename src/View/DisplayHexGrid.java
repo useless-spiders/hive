@@ -5,6 +5,7 @@ import Model.Insect.Insect;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,12 @@ import java.awt.*;
 public class DisplayHexGrid extends JComponent {
     private boolean isInsectHexClicked = false;
     private HexCoordinate hexClicked = null;
-    GameActionHandler gameActionHandler;
+    private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayHexGrid(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
     }
 
     public void updateInsectClickState(boolean isInsectHexClicked, HexCoordinate hexClicked) {
@@ -45,7 +48,7 @@ public class DisplayHexGrid extends JComponent {
                 int insectIndex = i;
                 if (insectIndex < cell.getInsects().size()) {
                     Insect insect = cell.getInsects().get(insectIndex);
-                    Image insectImage = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(insect.getClass(), insect.getPlayer(), this.gameActionHandler.getPlayerController().getCurrentPlayer()));
+                    Image insectImage = this.ressourceLoader.loadImageInsects(this.ressourceLoader.getImageInsectName(insect.getClass(), insect.getPlayer(), this.gameActionHandler.getPlayerController().getCurrentPlayer()));
                     Point center = HexMetrics.hexToPixel(coord);
                     int pileHeight = i * 8; // Hauteur de la pile d'insectes
 

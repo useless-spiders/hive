@@ -4,6 +4,7 @@ import Model.HexGrid;
 import Pattern.GameActionHandler;
 import Structure.HexCoordinate;
 import Structure.HexMetrics;
+import Structure.RessourceLoader;
 import Structure.ViewMetrics;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private Image background  = DisplayMain.loadBackground("Game_background.png");
+    private Image background;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -21,10 +22,13 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
     private JFrame frameGame;
     private GameActionHandler gameActionHandler;
+    private RessourceLoader ressourceLoader;
 
     public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler){
         this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
+        this.ressourceLoader = new RessourceLoader(gameActionHandler);
+        this.background = this.ressourceLoader.loadBackground("Game_background.png");
 
         //Pour construire le jeu
         buildGame();
@@ -42,7 +46,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
-        this.displayInfoInGame = new DisplayInfoInGame(this, gbc);
+        this.displayInfoInGame = new DisplayInfoInGame(this, gbc, this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, this.gameActionHandler);
         this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler);
 
@@ -98,7 +102,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         g.drawImage(this.background, 0, 0, this.frameGame.getWidth(), this.frameGame.getHeight(), this);
 
-        displayInfoInGame.updatePrintInfo(this.gameActionHandler.getPlayerController().getCurrentPlayer().getName(), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn());
+        displayInfoInGame.updatePrintInfo();
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();

@@ -1,5 +1,7 @@
 package Global;
 
+import java.util.Locale;
+
 /**
  * Classe de configuration pour l'ensemble du jeu
  */
@@ -33,6 +35,10 @@ public class Configuration {
     public static final String IMAGE_PATH_RULES = "Images/Rules/";
 
     public static String DEFAULT_SKINS = "Default/";
+
+    public static String LANGUAGE_PATH = "Languages/";
+    public static String LANGUAGE_FILENAME = "messages";
+    public static Locale DEFAULT_LANGUAGE = Locale.FRENCH;
 
     public static final int AI_MAX_NODE = 1000;
     public static final int AI_MAX_LEVEL = 10;
