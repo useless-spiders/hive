@@ -27,7 +27,7 @@ public class DisplayConfigGame extends JPanel {
     private String SKIN;
     private String NAME_TEXT;
     private boolean isSkinSelectorAdded = false;
-    private Image background ;
+    private Image background;
     private JPanel eastPanel;
     private JPanel westPanel;
     private JPanel exampleSkinPanelWhite;
@@ -128,7 +128,7 @@ public class DisplayConfigGame extends JPanel {
         frame.setContentPane(this);
         frame.pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screenSize.width - frame.getWidth(),100);
+        frame.setLocation(screenSize.width - frame.getWidth(), 100);
     }
 
     private JComboBox<String> createDropDownMenu(JTextField textField) {
@@ -232,7 +232,7 @@ public class DisplayConfigGame extends JPanel {
 
     private JButton createPlayersSelectionButton(JButton button) {
         button.addActionListener(e -> {
-            if(this.gameActionHandler.getIsFirstStart()){
+            if (this.gameActionHandler.getIsFirstStart()) {
                 this.gameActionHandler.setIsFirstStart(false);
             } else {
                 this.gameActionHandler.resetGame();
@@ -240,14 +240,14 @@ public class DisplayConfigGame extends JPanel {
             if (this.column1.getSelectedItem() != HUMAN) {
                 this.gameActionHandler.getPlayerController().setAiPlayer(1, (String) this.column1.getSelectedItem());
             } else {
-                if(!this.player1NameField.getText().equals(NAME_TEXT)){
+                if (!this.player1NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
                 this.gameActionHandler.getPlayerController().setAiPlayer(2, (String) this.column2.getSelectedItem());
             } else {
-                if(!this.player2NameField.getText().equals(NAME_TEXT)){
+                if (!this.player2NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
                 }
             }
@@ -274,7 +274,7 @@ public class DisplayConfigGame extends JPanel {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
-                    if(this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())){
+                    if (this.gameActionHandler.getSaveLoadController().loadGame(selectedFile.getAbsolutePath())) {
                         this.gameActionHandler.getPageController().menuToGame();
                     }
                 }
@@ -304,7 +304,7 @@ public class DisplayConfigGame extends JPanel {
     }
 
     private JComboBox createComboBoxSkinSelector() {
-        String[] skins = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us","Developper"};
+        String[] skins = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us", "Developper"};
         JComboBox<String> skinSelector = new JComboBox<>(skins);
         String[] insects = {"Ant_white", "Beetle_white", "Bee_white", "Grasshopper_white", "Spider_white"};
         for (String insect : insects) {
@@ -357,8 +357,8 @@ public class DisplayConfigGame extends JPanel {
         westGbc.gridy = 0;
         westGbc.anchor = GridBagConstraints.CENTER;
         this.westPanel.add(skinSelector, westGbc);
-        this.exampleSkinPanelWhite = createExampleSkinPanel("Blanc");
-        this.exampleSkinPanelBlack = createExampleSkinPanel("Noir");
+        this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
+        this.exampleSkinPanelBlack = createExampleSkinPanel(Configuration.PLAYER_BLACK);
         westGbc.gridx = 1;
         this.westPanel.add(exampleSkinPanelWhite, westGbc);
         westGbc.gridy = 1;
@@ -366,15 +366,19 @@ public class DisplayConfigGame extends JPanel {
         westGbc.gridwidth = 1;
         westGbc.gridy = 2;
         JButton jeux = createButton(RETOUR);
-        this.westPanel.add(jeux,westGbc);
+        this.westPanel.add(jeux, westGbc);
     }
-    private JPanel createExampleSkinPanel(String couleur) {
+
+    private JPanel createExampleSkinPanel(int color) {
+        Player player;
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setOpaque(false);
-
-        Player player = new Player(Configuration.PLAYER_1);
-        if (couleur.equals("Noir")) {player.setColor(1);}
+        if (this.gameActionHandler.getPlayerController().getPlayer1().getColor() == color) {
+            player = this.gameActionHandler.getPlayerController().getPlayer1();
+        } else {
+            player = this.gameActionHandler.getPlayerController().getPlayer2();
+        }
         panel.add(createExampleSkin(Spider.class, player));
         panel.add(createExampleSkin(Ant.class, player));
         panel.add(createExampleSkin(Bee.class, player));
@@ -392,9 +396,9 @@ public class DisplayConfigGame extends JPanel {
 
     private void updateExampleSkin() {
         this.westPanel.remove(exampleSkinPanelWhite);
-        this.exampleSkinPanelWhite = createExampleSkinPanel("Blanc");
+        this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
         this.westPanel.remove(exampleSkinPanelBlack);
-        this.exampleSkinPanelBlack = createExampleSkinPanel("Noir");
+        this.exampleSkinPanelBlack = createExampleSkinPanel(Configuration.PLAYER_BLACK);
         this.westGbc.gridx = 1;
         this.westGbc.gridy = 0;
         this.westPanel.add(exampleSkinPanelWhite, westGbc);
@@ -404,7 +408,7 @@ public class DisplayConfigGame extends JPanel {
         this.repaint();
     }
 
-    public void updateButtons(){
+    public void updateButtons() {
         this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
         this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
         this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
