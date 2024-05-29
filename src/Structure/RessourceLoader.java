@@ -22,7 +22,7 @@ public class RessourceLoader {
         try {
             return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_HEXAGONS + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }
@@ -32,7 +32,7 @@ public class RessourceLoader {
         try {
             return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }
@@ -42,7 +42,7 @@ public class RessourceLoader {
         try {
             return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(Configuration.IMAGE_PATH_ICONS + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }
@@ -52,7 +52,7 @@ public class RessourceLoader {
         try {
             return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(Configuration.IMAGE_PATH_INSECTS + Configuration.DEFAULT_SKINS + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }
@@ -62,7 +62,7 @@ public class RessourceLoader {
         try {
             return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_BACKGROUNDS + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }
@@ -72,7 +72,7 @@ public class RessourceLoader {
         try {
             return ImageIO.read(ClassLoader.getSystemClassLoader().getResourceAsStream(Configuration.IMAGE_PATH_RULES + nom));
         } catch (Exception e) {
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("structure.ressource.load.error"), nom));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("structure.ressource.load.error"), nom));
             System.exit(1);
             return null;
         }

@@ -5,6 +5,7 @@ import Listener.GameActionListener;
 import Model.HexGrid;
 import View.DisplayGame;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ResourceBundle;
  */
 public interface GameActionHandler {
 
-    ResourceBundle getMessages();
+    ResourceBundle getLang();
 
     HexGrid getGrid();
 
@@ -43,5 +44,9 @@ public interface GameActionHandler {
     PageController getPageController();
 
     boolean getIsFirstStart();
+
+    void setLang(Locale language);
+
+    Locale getCurrentLocale();
 
 }

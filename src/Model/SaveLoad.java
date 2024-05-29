@@ -42,7 +42,7 @@ public class SaveLoad {
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
             if (!parentDir.mkdirs()) {
-                Log.addMessage(this.gameActionHandler.getMessages().getString("save.folder.error"));
+                Log.addMessage(this.gameActionHandler.getLang().getString("save.folder.error"));
             }
         }
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {

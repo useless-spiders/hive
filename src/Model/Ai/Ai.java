@@ -148,7 +148,7 @@ public abstract class Ai implements Serializable {
                 resultat = new Ai5(gameActionHandler, p);
                 break;
             default:
-                Log.addMessage(MessageFormat.format(gameActionHandler.getMessages().getString("ia.not.found"), ia));
+                Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
         }
         return resultat;
     }

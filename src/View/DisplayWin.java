@@ -34,13 +34,13 @@ public class DisplayWin extends JPanel {
         int choice;
 
         if (this.winner == null) { // Si égalité
-            choice = JOptionPane.showOptionDialog(null, this.gameActionHandler.getMessages().getString("display.win.message.draw"), this.gameActionHandler.getMessages().getString("display.win.title.draw"),
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{this.gameActionHandler.getMessages().getString("display.win.option.replay"), this.gameActionHandler.getMessages().getString("display.win.option.menu")}, null);
+            choice = JOptionPane.showOptionDialog(null, this.gameActionHandler.getLang().getString("display.win.message.draw"), this.gameActionHandler.getLang().getString("display.win.title.draw"),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{this.gameActionHandler.getLang().getString("display.win.option.replay"), this.gameActionHandler.getLang().getString("display.win.option.menu")}, null);
         } else {
             Image insectImage = this.ressourceLoader.loadImageInsects(this.ressourceLoader.getImageInsectName(Bee.class, this.winner, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
             ImageIcon icon = new ImageIcon(insectImage);
-            choice = JOptionPane.showOptionDialog(null, MessageFormat.format(this.gameActionHandler.getMessages().getString("display.win.message.win"), this.winner.getName()), this.gameActionHandler.getMessages().getString("display.win.title.win"),
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, new String[]{this.gameActionHandler.getMessages().getString("display.win.option.replay"), this.gameActionHandler.getMessages().getString("display.win.option.menu")}, null);
+            choice = JOptionPane.showOptionDialog(null, MessageFormat.format(this.gameActionHandler.getLang().getString("display.win.message.win"), this.winner.getName()), this.gameActionHandler.getLang().getString("display.win.title.win"),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, new String[]{this.gameActionHandler.getLang().getString("display.win.option.replay"), this.gameActionHandler.getLang().getString("display.win.option.menu")}, null);
         }
 
         if (choice == JOptionPane.YES_OPTION) {

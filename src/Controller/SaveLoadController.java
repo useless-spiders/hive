@@ -34,7 +34,7 @@ public class SaveLoadController {
         try {
 
             String fileName = this.saveLoad.saveGame(this.gameActionHandler.getHistoryController().getHistory(), this.gameActionHandler.getPlayerController().getPlayer1(), this.gameActionHandler.getPlayerController().getPlayer2(), this.gameActionHandler.getPlayerController().getCurrentPlayer());
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("save.success"), fileName));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("save.success"), fileName));
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -79,10 +79,10 @@ public class SaveLoadController {
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getDisplayGame().repaint();
 
-            Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("load.success"), fileName));
+            Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("load.success"), fileName));
             return true;
         } catch (Exception ex) {
-            Log.addMessage(this.gameActionHandler.getMessages().getString("load.error") + ex);
+            Log.addMessage(this.gameActionHandler.getLang().getString("load.error") + ex);
             return false;
         }
     }

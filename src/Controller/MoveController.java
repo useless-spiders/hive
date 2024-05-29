@@ -91,13 +91,13 @@ public class MoveController {
                         playableCoordinates = player.getInsect(insect.getClass()).getPossibleInsertionCoordinates(this.gameActionHandler.getGrid());
                     }
                 } else {
-                    Log.addMessage(this.gameActionHandler.getMessages().getString("move.bee.insertion"));
+                    Log.addMessage(this.gameActionHandler.getLang().getString("move.bee.insertion"));
                 }
             } else {
-                Log.addMessage(this.gameActionHandler.getMessages().getString("move.insect.max.error"));
+                Log.addMessage(this.gameActionHandler.getLang().getString("move.insect.max.error"));
             }
         } else {
-            Log.addMessage(this.gameActionHandler.getMessages().getString("move.insect.error"));
+            Log.addMessage(this.gameActionHandler.getLang().getString("move.insect.error"));
         }
         return playableCoordinates;
     }

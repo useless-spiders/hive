@@ -20,7 +20,12 @@ public class DisplayMenuInGame extends JFrame {
     private JPanel optionsPanel;
     private JButton cancelButton;
     private JButton redoButton;
-    private JButton changeStateAI;
+    private JButton changeStateAIButton;
+    private JButton saveButton;
+    private JButton rulesButton;
+    private JButton restartButton;
+    private JButton abortButton;
+    private JButton returnButton;
 
 
     private boolean optionVisible;
@@ -30,11 +35,11 @@ public class DisplayMenuInGame extends JFrame {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
 
-        SAVE = this.gameActionHandler.getMessages().getString("display.menu.save");
-        RULES = this.gameActionHandler.getMessages().getString("display.menu.rules");
-        RESTART = this.gameActionHandler.getMessages().getString("display.menu.restart");
-        ABORT = this.gameActionHandler.getMessages().getString("display.menu.abort");
-        RETURN = this.gameActionHandler.getMessages().getString("display.menu.return");
+        SAVE = this.gameActionHandler.getLang().getString("display.menu.save");
+        RULES = this.gameActionHandler.getLang().getString("display.menu.rules");
+        RESTART = this.gameActionHandler.getLang().getString("display.menu.restart");
+        ABORT = this.gameActionHandler.getLang().getString("display.menu.abort");
+        RETURN = this.gameActionHandler.getLang().getString("display.menu.return");
 
         this.optionVisible = false;
         // Création du JPanel pour contenir le menu et les boutons
@@ -46,7 +51,7 @@ public class DisplayMenuInGame extends JFrame {
         this.cancelButton = createButtonCancel();
         this.redoButton = createButtonRedo();
 
-        this.changeStateAI = createButtonChangeStateAI();
+        this.changeStateAIButton = createButtonChangeStateAI();
         JButton optionButton = createButtonOption();
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
@@ -55,7 +60,7 @@ public class DisplayMenuInGame extends JFrame {
         gbcButtonInGame.gridy = 0;
         gbcButtonInGame.anchor = GridBagConstraints.NORTHEAST;
         gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
-        buttonPanel.add(this.changeStateAI, gbcButtonInGame);
+        buttonPanel.add(this.changeStateAIButton, gbcButtonInGame);
 
         gbcButtonInGame.gridx = 1;
         gbcButtonInGame.insets = new Insets(10, 10, 10, 10);
@@ -98,15 +103,20 @@ public class DisplayMenuInGame extends JFrame {
         optionGbc.gridy = 0;
         optionGbc.insets = new Insets(10, 10, 10, 10);
         optionGbc.anchor = GridBagConstraints.CENTER;
-        optionPanel.add(createButton(SAVE), optionGbc);
+        this.saveButton = createButton(SAVE);
+        optionPanel.add(this.saveButton, optionGbc);
         optionGbc.gridy = 1;
-        optionPanel.add(createButton(RULES), optionGbc);
+        this.rulesButton = createButton(RULES);
+        optionPanel.add(this.rulesButton, optionGbc);
         optionGbc.gridy = 2;
-        optionPanel.add(createButton(RESTART), optionGbc);
+        this.restartButton = createButton(RESTART);
+        optionPanel.add(this.restartButton, optionGbc);
         optionGbc.gridy = 3;
-        optionPanel.add(createButton(ABORT), optionGbc);
+        this.abortButton = createButton(ABORT);
+        optionPanel.add(this.abortButton, optionGbc);
         optionGbc.gridy = 4;
-        optionPanel.add(createButton(RETURN), optionGbc);
+        this.returnButton = createButton(RETURN);
+        optionPanel.add(this.returnButton, optionGbc);
 
         // Définir une taille plus grande pour optionsPanel
         optionPanel.setPreferredSize(new Dimension(300, 300));
@@ -119,7 +129,7 @@ public class DisplayMenuInGame extends JFrame {
         button.addActionListener(e -> {
             if (name.equals(SAVE)) {
                 this.gameActionHandler.getSaveLoadController().saveGame();
-                DisplayText.addTextPopUp(this.gameActionHandler.getMessages().getString("display.menu.save.game"), this.gameActionHandler.getDisplayGame().getFrameGame());
+                DisplayText.addTextPopUp(this.gameActionHandler.getLang().getString("display.menu.save.game"), this.gameActionHandler.getDisplayGame().getFrameGame());
             } else if (name.equals(RULES)) {
                 this.gameActionHandler.getPageController().gameAndRules();
             } else if (name.equals(RESTART)) {
@@ -135,7 +145,7 @@ public class DisplayMenuInGame extends JFrame {
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
             } else {
-                Log.addMessage(this.gameActionHandler.getMessages().getString("display.menu.error"));
+                Log.addMessage(this.gameActionHandler.getLang().getString("display.menu.error"));
             }
         });
         return button;
@@ -176,24 +186,36 @@ public class DisplayMenuInGame extends JFrame {
     }
 
     private JButton createButtonChangeStateAI() {
-        JButton button = new JButton(this.gameActionHandler.getMessages().getString("display.menu.ai.stop"));
+        JButton button = new JButton(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
         button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
         button.addActionListener(e -> {
             if (this.gameActionHandler.getAiController().isAiRunning()) {
                 this.gameActionHandler.getAiController().stopAi();
-                button.setText(this.gameActionHandler.getMessages().getString("display.menu.ai.restart"));
+                button.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
             } else {
                 this.gameActionHandler.getAiController().startAi();
-                button.setText(this.gameActionHandler.getMessages().getString("display.menu.ai.stop"));
+                button.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
             }
         });
         return button;
     }
 
     public void updateButtons() {
+        if (this.gameActionHandler.getAiController().isAiRunning()) {
+            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
+        } else {
+            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
+        }
+
+        this.saveButton.setText(this.gameActionHandler.getLang().getString("display.menu.save"));
+        this.rulesButton.setText(this.gameActionHandler.getLang().getString("display.menu.rules"));
+        this.restartButton.setText(this.gameActionHandler.getLang().getString("display.menu.restart"));
+        this.abortButton.setText(this.gameActionHandler.getLang().getString("display.menu.abort"));
+        this.returnButton.setText(this.gameActionHandler.getLang().getString("display.menu.return"));
+
         this.cancelButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         this.redoButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
-        this.changeStateAI.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
+        this.changeStateAIButton.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
     }
 
 }

@@ -9,6 +9,7 @@ import Structure.ViewMetrics;
 import View.DisplayGame;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -25,13 +26,16 @@ public class GameController implements GameActionHandler {
     private SaveLoadController saveLoadController;
     private DisplayGame displayGame;
     private PageController pageController;
-    private ResourceBundle messages;
+    private ResourceBundle lang;
+    private Locale currentLocale;
 
     /**
      * Constructeur
      */
-    public GameController(ResourceBundle messages) {
-        this.messages = messages;
+    public GameController() {
+        this.lang = ResourceBundle.getBundle(Configuration.LANGUAGE_PATH + Configuration.LANGUAGE_FILENAME, Configuration.DEFAULT_LANGUAGE);
+        this.currentLocale = Configuration.DEFAULT_LANGUAGE;
+
         this.hexGrid = new HexGrid();
         this.playerController = new PlayerController(this);
         this.playerController.initPlayers();
@@ -56,8 +60,25 @@ public class GameController implements GameActionHandler {
      * Renvoie le bundle pour gérer les messages dans plusieurs langues
      * @return ResourceBundle
      */
-    public ResourceBundle getMessages() {
-        return this.messages;
+    public ResourceBundle getLang() {
+        return this.lang;
+    }
+
+    /**
+     * Change la langue
+     * @param language String
+     */
+    public void setLang(Locale language) {
+        this.currentLocale = language;
+        this.lang = ResourceBundle.getBundle(Configuration.LANGUAGE_PATH + Configuration.LANGUAGE_FILENAME, language);
+    }
+
+    /**
+     * Renvoie la langue actuelle
+     * @return Locale
+     */
+    public Locale getCurrentLocale() {
+        return this.currentLocale;
     }
 
     /**

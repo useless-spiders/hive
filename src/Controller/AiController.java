@@ -47,12 +47,12 @@ public class AiController implements ActionListener {
                             });
                         } else {
                             SwingUtilities.invokeLater(() -> {
-                                Log.addMessage(this.gameActionHandler.getMessages().getString("ia.play.error"));
+                                Log.addMessage(this.gameActionHandler.getLang().getString("ia.play.error"));
                             });
                         }
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() -> {
-                            Log.addMessage(this.gameActionHandler.getMessages().getString("ia.error") + ex);
+                            Log.addMessage(this.gameActionHandler.getLang().getString("ia.error") + ex);
                         });
                     }
                 }).start();

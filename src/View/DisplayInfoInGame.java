@@ -16,9 +16,9 @@ public class DisplayInfoInGame extends JPanel {
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
 
-        JLabel infoLabel = new JLabel(this.gameActionHandler.getMessages().getString("display.info.title"));
-        this.namePlayeurLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getMessages().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
-        this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getMessages().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
+        JLabel infoLabel = new JLabel(this.gameActionHandler.getLang().getString("display.info.title"));
+        this.namePlayeurLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
+        this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
 
         JPanel boxContainer  = new JPanel();
         boxContainer.setLayout(new BoxLayout(boxContainer, BoxLayout.Y_AXIS));
@@ -38,7 +38,7 @@ public class DisplayInfoInGame extends JPanel {
     }
 
     public void updatePrintInfo() {
-        this.namePlayeurLabel.setText(MessageFormat.format(this.gameActionHandler.getMessages().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
-        this.turnLabel.setText(MessageFormat.format(this.gameActionHandler.getMessages().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
+        this.namePlayeurLabel.setText(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
+        this.turnLabel.setText(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
     }
 }

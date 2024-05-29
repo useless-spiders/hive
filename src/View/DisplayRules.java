@@ -76,7 +76,7 @@ public class DisplayRules extends JPanel {
     }
 
     private JButton createButtonPrevious() {
-        JButton button = new JButton(this.gameActionHandler.getMessages().getString("display.rules.previous"));
+        JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.previous"));
         button.setEnabled(this.numRules > MIN);
         button.addActionListener(e -> actionPrevious());
         return button;
@@ -84,7 +84,7 @@ public class DisplayRules extends JPanel {
 
 
     private JButton createButtonNext() {
-        JButton button = new JButton(this.gameActionHandler.getMessages().getString("display.rules.next"));
+        JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.next"));
         button.setEnabled(this.numRules < MAX);
         button.addActionListener(e -> actionNext());
         return button;

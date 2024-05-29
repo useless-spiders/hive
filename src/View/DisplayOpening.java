@@ -22,7 +22,7 @@ public class DisplayOpening extends JPanel {
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(610, 0, 0, 0); // Espacement entre le bouton et le haut de la fenêtre
-        add(createButton(this.gameActionHandler.getMessages().getString("display.opening.play")), gbc);
+        add(createButton(this.gameActionHandler.getLang().getString("display.opening.play")), gbc);
 
         frameOpening.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
         frameOpening.pack(); // Redimensionne la JFrame pour adapter le JPanel

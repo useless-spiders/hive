@@ -68,7 +68,7 @@ public class PlayerController {
                 this.gameActionHandler.getAiController().startAi();
             }
             if(this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()){
-                Log.addMessage(this.gameActionHandler.getMessages().getString("player.cant.play"));
+                Log.addMessage(this.gameActionHandler.getLang().getString("player.cant.play"));
                 this.switchPlayer();
             }
         }
@@ -82,14 +82,14 @@ public class PlayerController {
         boolean lPlayer1 = this.gameActionHandler.getGrid().checkLoser(player1);
         boolean lPlayer2 = this.gameActionHandler.getGrid().checkLoser(player2);
         if (lPlayer1 && lPlayer2) {
-            Log.addMessage(this.gameActionHandler.getMessages().getString("player.draw"));
+            Log.addMessage(this.gameActionHandler.getLang().getString("player.draw"));
             return 0;
         } else {
             if (lPlayer1) {
-                Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("player.win"), player2.getName()));
+                Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("player.win"), player2.getName()));
                 return 2; // return winner
             } else if (lPlayer2) {
-                Log.addMessage(MessageFormat.format(this.gameActionHandler.getMessages().getString("player.win"), player1.getName()));
+                Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("player.win"), player1.getName()));
                 return 1; // return winner
             }
         }

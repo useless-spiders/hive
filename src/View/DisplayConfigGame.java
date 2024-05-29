@@ -12,6 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Locale;
 
 public class DisplayConfigGame extends JPanel {
     private static final String HUMAN = "Humain";
@@ -101,6 +102,12 @@ public class DisplayConfigGame extends JPanel {
         gbc.gridy = 4;
         this.eastPanel.add(skinButton, gbc);
 
+        //Bouton "Choix de la langue"
+        JComboBox<String> languageSelector = createLanguageSelector();
+        gbc.gridx = 0;
+        gbc.gridy = 5; // Move down another row
+        this.eastPanel.add(languageSelector, gbc);
+
 
         this.westPanel = new JPanel(new GridBagLayout());
         this.westPanel.setVisible(false);
@@ -154,6 +161,43 @@ public class DisplayConfigGame extends JPanel {
         });
 
         return textField;
+    }
+
+    private JComboBox<String> createLanguageSelector() {
+        String[] languages = {"English", "Français"};
+        JComboBox<String> languageSelector = new JComboBox<>(languages);
+        Locale currentLocale = this.gameActionHandler.getCurrentLocale();
+        String currentLanguage;
+        switch (currentLocale.getLanguage()) {
+            case "en":
+                currentLanguage = "English";
+                break;
+            case "fr":
+                currentLanguage = "Français";
+                break;
+            default:
+                currentLanguage = "English"; // Default to English if the current locale is not supported
+        }
+        languageSelector.setSelectedItem(currentLanguage);
+
+        languageSelector.addActionListener(e -> {
+            String selectedLanguage = (String) languageSelector.getSelectedItem();
+            Locale locale;
+            switch (selectedLanguage) {
+                case "English":
+                    locale = Locale.ENGLISH;
+                    break;
+                case "Français":
+                    locale = Locale.FRENCH;
+                    break;
+                default:
+                    locale = Locale.getDefault();
+            }
+            this.gameActionHandler.setLang(locale);
+            this.gameActionHandler.getDisplayGame().getDisplayMenuInGame().updateButtons();
+        });
+
+        return languageSelector;
     }
 
     private JButton createButton(String text) {
@@ -232,7 +276,7 @@ public class DisplayConfigGame extends JPanel {
                     }
                 }
             } else {
-                Log.addMessage(this.gameActionHandler.getMessages().getString("save.not.found"));
+                Log.addMessage(this.gameActionHandler.getLang().getString("save.not.found"));
             }
         });
         return button;
