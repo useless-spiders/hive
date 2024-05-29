@@ -2,6 +2,7 @@ package Test;
 
 import Model.Insect.Spider;
 import Model.Player;
+import Structure.RessourceLoader;
 import View.DisplayMain;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,9 +14,10 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Classe de test pour l'affichage
  */
-public class DisplayTest {
+public class RessourceLoaderTest {
     // Déclaration d'un joueur pour les tests
     private Player player = new Player("Inspecteur blanco");
+    private RessourceLoader ressourceLoader = new RessourceLoader(null);
 
     @Before
     public void setUp() {
@@ -27,10 +29,10 @@ public class DisplayTest {
      */
     @Test
     public void testLoadImage() {
-        Image image = DisplayMain.loadImageInsects(DisplayMain.getImageInsectName(Spider.class, this.player, this.player));
+        Image image = this.ressourceLoader.loadImageInsects(this.ressourceLoader.getImageInsectName(Spider.class, this.player, this.player));
         assertNotNull(image);
 
-        image = DisplayMain.loadImageHexagons("Full.png");
+        image = this.ressourceLoader.loadImageHexagons("Full.png");
         assertNotNull(image);
     }
 }
