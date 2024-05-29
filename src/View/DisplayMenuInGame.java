@@ -148,6 +148,7 @@ public class DisplayMenuInGame extends JFrame {
                 Log.addMessage(this.gameActionHandler.getLang().getString("display.menu.error"));
             }
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -163,7 +164,13 @@ public class DisplayMenuInGame extends JFrame {
                 this.optionVisible = true;
                 this.gameActionHandler.getAiController().stopAi();
             }
+            if (this.gameActionHandler.getAiController().isAiRunning()) {
+                this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
+            } else {
+                this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
+            }
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -173,6 +180,7 @@ public class DisplayMenuInGame extends JFrame {
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().cancelMove();
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -182,6 +190,7 @@ public class DisplayMenuInGame extends JFrame {
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().redoMove();
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -197,14 +206,15 @@ public class DisplayMenuInGame extends JFrame {
                 button.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
             }
         });
+        button.setFocusable(false);
         return button;
     }
 
     public void updateButtons() {
         if (this.gameActionHandler.getAiController().isAiRunning()) {
-            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
-        } else {
             this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
+        } else {
+            this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
         }
 
         this.saveButton.setText(this.gameActionHandler.getLang().getString("display.menu.save"));

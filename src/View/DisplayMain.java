@@ -4,19 +4,10 @@ import Global.Configuration;
 import Listener.ComponentActionListener;
 import Listener.KeyActionListener;
 import Listener.MouseActionListener;
-import Model.Insect.Bee;
-import Model.Insect.Insect;
-import Model.Player;
 import Pattern.GameActionHandler;
 import Structure.FrameMetrics;
-import Structure.Log;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.MessageFormat;
 
 public class DisplayMain {
 

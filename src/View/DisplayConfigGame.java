@@ -34,10 +34,6 @@ public class DisplayConfigGame extends JPanel {
     private GridBagConstraints westGbc;
     private JComboBox<String> skinSelector;
 
-    public JPanel getWestPanel() {
-        return westPanel;
-    }
-
     private JComboBox<String> column1;
     private JComboBox<String> column2;
 
@@ -323,6 +319,7 @@ public class DisplayConfigGame extends JPanel {
             } else {
                 Log.addMessage("Skin inconnu");
             }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             updateExampleSkin();
         });
         return skinSelector;
