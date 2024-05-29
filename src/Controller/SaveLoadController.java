@@ -72,11 +72,11 @@ public class SaveLoadController {
                 this.gameActionHandler.getAiController().startAi();
             }
 
-            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
             HexMetrics.resetHexMetricsWidth();
             ViewMetrics.resetViewPosition();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
             this.gameActionHandler.getDisplayGame().repaint();
 
             Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("load.success"), fileName));
