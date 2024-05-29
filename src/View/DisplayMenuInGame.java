@@ -148,6 +148,7 @@ public class DisplayMenuInGame extends JFrame {
                 Log.addMessage(this.gameActionHandler.getLang().getString("display.menu.error"));
             }
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -169,6 +170,7 @@ public class DisplayMenuInGame extends JFrame {
                 this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.restart"));
             }
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -178,6 +180,7 @@ public class DisplayMenuInGame extends JFrame {
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().cancelMove();
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -187,6 +190,7 @@ public class DisplayMenuInGame extends JFrame {
         button.addActionListener(e -> {
             this.gameActionHandler.getHistoryController().redoMove();
         });
+        button.setFocusable(false);
         return button;
     }
 
@@ -202,6 +206,7 @@ public class DisplayMenuInGame extends JFrame {
                 button.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
             }
         });
+        button.setFocusable(false);
         return button;
     }
 
