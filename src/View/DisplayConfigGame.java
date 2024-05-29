@@ -60,7 +60,24 @@ public class DisplayConfigGame extends JPanel {
         this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
 
         setLayout(new GridLayout(1, 2));
+        this.westPanel = new JPanel(new GridBagLayout());
+        this.westPanel.setVisible(false);
 
+        initEastPanel();
+
+        add(this.westPanel);
+        add(this.eastPanel);
+
+        frame.setContentPane(this);
+        frame.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(screenSize.width - frame.getWidth(), 100);
+    }
+
+    /**
+     * initialisation du panel contenant les elements permettant la configuration d'une partie
+     */
+    private void initEastPanel(){
         //Les deux menus déroulants
         this.player1NameField = createTextField();
         this.player2NameField = createTextField();
@@ -99,7 +116,6 @@ public class DisplayConfigGame extends JPanel {
         this.loadButton = createButton(this.LOAD);
         gbc.gridx = 0;
         gbc.gridy = 3; // Move down another row
-
         this.eastPanel.add(this.loadButton, gbc);
 
         //Bouton "Choix du skin"
@@ -113,20 +129,13 @@ public class DisplayConfigGame extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 5; // Move down another row
         this.eastPanel.add(languageSelector, gbc);
-
-
-        this.westPanel = new JPanel(new GridBagLayout());
-        this.westPanel.setVisible(false);
-
-        add(this.westPanel);
-        add(this.eastPanel);
-
-        frame.setContentPane(this);
-        frame.pack();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(screenSize.width - frame.getWidth(), 100);
     }
 
+    /**
+     * renvoie une JComboBox<String> contenant les joueurs possibles (humain ou ia)
+     * @param textField JTextField
+     * @return comboBox
+     */
     private JComboBox<String> createDropDownMenu(JTextField textField) {
         JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem(HUMAN);
@@ -144,6 +153,10 @@ public class DisplayConfigGame extends JPanel {
         return comboBox;
     }
 
+    /**
+     * Renvoie le JTextField de récuperation du nom du joueurs
+     * @return textField
+     */
     private JTextField createTextField() {
         JTextField textField = new JTextField();
         textField.setText(NAME_TEXT);
@@ -167,7 +180,10 @@ public class DisplayConfigGame extends JPanel {
 
         return textField;
     }
-
+    /**
+     * renvoie une JComboBox<String> contenant les langues possibles ("English" ou "français")
+     * @return languageSelector
+     */
     private JComboBox<String> createLanguageSelector() {
         String[] languages = {"English", "Français"};
         JComboBox<String> languageSelector = new JComboBox<>(languages);
@@ -206,13 +222,18 @@ public class DisplayConfigGame extends JPanel {
         return languageSelector;
     }
 
+    /**
+     * renvoie un bouton (PLAY, LOAD, SKIN, RETURN)
+     * @param text String
+     * @return button
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (text.equals(this.PLAY)) {
             button = this.createPlayersSelectionButton(button);
         } else if (text.equals(this.LOAD)) {
-            button = this.createFileSelectionButton();
+            button = this.createFileSelectionButton(button);
         } else if (text.equals(this.SKIN)) {
             button = this.createbuttonSkinSelection(button);
         } else if (text.equals(this.RETURN)) {
@@ -225,6 +246,11 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
+    /**
+    * Renvoie un le bouton PLAY avec son ActionListener
+     * @param button JButton
+     * @return button
+     */
     private JButton createPlayersSelectionButton(JButton button) {
         button.addActionListener(e -> {
             if (this.gameActionHandler.getIsFirstStart()) {
@@ -253,8 +279,12 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
-    private JButton createFileSelectionButton() {
-        JButton button = new JButton(LOAD);
+    /**
+     * Renvoie un le bouton LOAD avec son ActionListener
+     * @param button JButton
+     * @return button
+     */
+    private JButton createFileSelectionButton(JButton button) {
         button.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             // Définir le répertoire de départ
@@ -279,7 +309,11 @@ public class DisplayConfigGame extends JPanel {
         });
         return button;
     }
-
+    /**
+     * Renvoie un le bouton SKIN avec son ActionListener
+     * @param button JButton
+     * @return button
+     */
     private JButton createbuttonSkinSelection(JButton button) {
         button.addActionListener(e -> {
             if (!isSkinSelectorAdded) {
@@ -298,6 +332,10 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
+    /**
+     * renvoie une JcomboBox<String> contenant les differents skin possible avec les action associé à la selection d'un skin
+     * @return skinSelector
+     */
     private JComboBox<String> createComboBoxSkinSelector() {
         String[] skins = {
                 this.gameActionHandler.getLang().getString("display.config.skin.default"),
@@ -325,6 +363,9 @@ public class DisplayConfigGame extends JPanel {
         return skinSelector;
     }
 
+    /**
+     * Transition de la configuration de la partie au choix du skin
+     */
     private void changeBackgroundAndAddButtons() {
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
@@ -348,6 +389,11 @@ public class DisplayConfigGame extends JPanel {
         this.westPanel.add(returnButton, westGbc);
     }
 
+    /**
+     * Renvoie un Jpanel contenant un exemple d'icon pour chaque insecte dans la couleur "color"
+     * @param color int
+     * @return panel
+     */
     private JPanel createExampleSkinPanel(int color) {
         Player player;
         JPanel panel = new JPanel();
@@ -364,13 +410,21 @@ public class DisplayConfigGame extends JPanel {
         return panel;
     }
 
+    /**
+     * renvoie un JLabel contenant l'icon de l'insecte en parametre avec la couleur du player
+     * @param insectClass Class<? extends Insect>
+     * @param player Player
+     * @return imgExampleSkin
+     */
     private JLabel createExampleSkin(Class<? extends Insect> insectClass, Player player) {
-
         ImageIcon imageIcon = this.ressourceLoader.loadIconInsects(this.ressourceLoader.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
         JLabel imgExampleSkin = new JLabel(imageIcon);
         return imgExampleSkin;
     }
 
+    /**
+     * actualise le skin des insectes dans les exampleSkinPanel
+     */
     private void updateExampleSkin() {
         this.westPanel.remove(exampleSkinPanelWhite);
         this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
@@ -385,6 +439,9 @@ public class DisplayConfigGame extends JPanel {
         this.repaint();
     }
 
+    /**
+     * actualise le texte des boutons en fonction de la langue
+     */
     public void updateButtons() {
         this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
         this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
@@ -394,6 +451,10 @@ public class DisplayConfigGame extends JPanel {
     }
 
 
+    /**
+     * affichage du background
+     * @param g Graphics
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
