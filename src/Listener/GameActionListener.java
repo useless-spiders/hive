@@ -124,7 +124,7 @@ public class GameActionListener {
                 this.gameController.getDisplayGame().getDisplayHexGrid().updateInsectClickState(this.isInsectCellClicked, this.hexClicked);
 
             } else {
-                Log.addMessage(this.gameController.getLang().getString("insect.game.wrong.player"));
+                Log.addMessage(this.gameController.getLang().getString("listener.game.wrong.player"));
 
                 if (this.gameController.getGrid().getGrid().get(this.hexClicked).getInsects().size() < 2) { //Si c'est une pile ennemie
                     this.isInsectCellClicked = false; //On déselectionne la pile ennemie affichée

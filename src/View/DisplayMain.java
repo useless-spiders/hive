@@ -26,12 +26,6 @@ public class DisplayMain {
     private DisplayGame displayGame;
 
 
-    public void setHexagonSkin(String selectedSkin) {
-        Configuration.DEFAULT_SKINS = selectedSkin;
-        this.displayGame.getDisplayBankInsects().updateButtons();
-        this.displayGame.getDisplayBankInsects().updateBorderBank();
-    }
-
     public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,
                        JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
         FrameMetrics.setCurrentFrame(frameOpening);
