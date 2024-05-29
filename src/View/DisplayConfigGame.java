@@ -20,9 +20,8 @@ public class DisplayConfigGame extends JPanel {
     private String IA_HARD = "Ai1";
     private String IA_HARD2 = "Ai2";
     private String IA_HARD3 = "Ai3";
-    private String IA_HARD4 = "Ai4";
-    private String JOUER;
-    private String RETOUR;
+    private String PLAY;
+    private String RETURN;
     private String LOAD;
     private String SKIN;
     private String NAME_TEXT;
@@ -33,6 +32,7 @@ public class DisplayConfigGame extends JPanel {
     private JPanel exampleSkinPanelWhite;
     private JPanel exampleSkinPanelBlack;
     private GridBagConstraints westGbc;
+    private JComboBox<String> skinSelector;
 
     public JPanel getWestPanel() {
         return westPanel;
@@ -57,8 +57,8 @@ public class DisplayConfigGame extends JPanel {
 
         this.background = this.ressourceLoader.loadBackground("Opening_param.png");
 
-        this.JOUER = this.gameActionHandler.getLang().getString("display.config.play");
-        this.RETOUR = this.gameActionHandler.getLang().getString("display.config.back");
+        this.PLAY = this.gameActionHandler.getLang().getString("display.config.play");
+        this.RETURN = this.gameActionHandler.getLang().getString("display.config.back");
         this.LOAD = this.gameActionHandler.getLang().getString("display.config.load");
         this.SKIN = this.gameActionHandler.getLang().getString("display.config.skin");
         this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
@@ -92,7 +92,7 @@ public class DisplayConfigGame extends JPanel {
         this.eastPanel.add(this.player2NameField, gbc);
 
         //Bouton "Jouer"
-        this.playButton = createButton(this.JOUER);
+        this.playButton = createButton(this.PLAY);
         gbc.gridx = 0;
         gbc.gridy = 2; // Move down another row
         gbc.gridwidth = 2;
@@ -138,7 +138,6 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(IA_HARD);
         comboBox.addItem(IA_HARD2);
         comboBox.addItem(IA_HARD3);
-        comboBox.addItem(IA_HARD4);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -214,13 +213,13 @@ public class DisplayConfigGame extends JPanel {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        if (text.equals(this.JOUER)) {
+        if (text.equals(this.PLAY)) {
             button = this.createPlayersSelectionButton(button);
         } else if (text.equals(this.LOAD)) {
             button = this.createFileSelectionButton();
         } else if (text.equals(this.SKIN)) {
             button = this.createbuttonSkinSelection(button);
-        } else if (text.equals(this.RETOUR)) {
+        } else if (text.equals(this.RETURN)) {
             button.addActionListener(e -> {
                 this.background = this.ressourceLoader.loadBackground("Opening_param.png");
                 eastPanel.setVisible(true);
@@ -303,60 +302,43 @@ public class DisplayConfigGame extends JPanel {
         return button;
     }
 
-    private JComboBox createComboBoxSkinSelector() {
-        String[] skins = {"Skin par défaut", "Skin noir et blanc", "Skin Among Us", "Developper"};
+    private JComboBox<String> createComboBoxSkinSelector() {
+        String[] skins = {
+                this.gameActionHandler.getLang().getString("display.config.skin.default"),
+                this.gameActionHandler.getLang().getString("display.config.skin.black_white"),
+                this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
+                this.gameActionHandler.getLang().getString("display.config.skin.hard")
+        };
         JComboBox<String> skinSelector = new JComboBox<>(skins);
-        String[] insects = {"Ant_white", "Beetle_white", "Bee_white", "Grasshopper_white", "Spider_white"};
-        for (String insect : insects) {
-            JLabel insectLabel = new JLabel();
-            insectLabel.setName(insect);
-            this.westPanel.add(insectLabel);
-        }
         skinSelector.addActionListener(e -> {
             String selectedSkin = (String) skinSelector.getSelectedItem();
-            switch (selectedSkin) {
-                case "Skin par défaut":
-                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Default/");
-                    updateExampleSkin();
-                    break;
-                case "Skin noir et blanc":
-                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Black_and_white/");
-                    updateExampleSkin();
-                    break;
-                case "Skin Among Us":
-                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Sus_skin/");
-                    updateExampleSkin();
-                    break;
-                case "Developper":
-                    this.gameActionHandler.getPageController().getDisplayMain().setHexagonSkin("Skin_very_hard/");
-                    updateExampleSkin();
-                    break;
-                default:
-                    Log.addMessage("Skin inconnu");
+            if (selectedSkin.equals(skins[0])) {
+                Configuration.DEFAULT_SKINS = "Default/";
+            } else if (selectedSkin.equals(skins[1])) {
+                Configuration.DEFAULT_SKINS = "Black_and_white/";
+            } else if (selectedSkin.equals(skins[2])) {
+                Configuration.DEFAULT_SKINS = "Sus_skin/";
+            } else if (selectedSkin.equals(skins[3])) {
+                Configuration.DEFAULT_SKINS = "Skin_very_hard/";
+            } else {
+                Log.addMessage("Skin inconnu");
             }
-            for (Component component : this.westPanel.getComponents()) {
-                if (component instanceof JLabel) {
-                    JLabel insectLabel = (JLabel) component;
-                    ImageIcon insectImage = new ImageIcon("res/Images/Skins/" + selectedSkin + "/" + insectLabel.getName() + ".png");
-                    insectLabel.setIcon(insectImage);
-                }
-            }
+            updateExampleSkin();
         });
-
         return skinSelector;
     }
 
     private void changeBackgroundAndAddButtons() {
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
-        JComboBox<String> skinSelector = createComboBoxSkinSelector();
+        this.skinSelector = createComboBoxSkinSelector();
         // Ajouter le JComboBox et le JLabel au JPanel
 
         westGbc.insets = new Insets(10, 10, 10, 10); // Add padding around the container
         westGbc.gridx = 0;
         westGbc.gridy = 0;
         westGbc.anchor = GridBagConstraints.CENTER;
-        this.westPanel.add(skinSelector, westGbc);
+        this.westPanel.add(this.skinSelector, westGbc);
         this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
         this.exampleSkinPanelBlack = createExampleSkinPanel(Configuration.PLAYER_BLACK);
         westGbc.gridx = 1;
@@ -365,8 +347,8 @@ public class DisplayConfigGame extends JPanel {
         this.westPanel.add(exampleSkinPanelBlack, westGbc);
         westGbc.gridwidth = 1;
         westGbc.gridy = 2;
-        JButton jeux = createButton(RETOUR);
-        this.westPanel.add(jeux, westGbc);
+        JButton returnButton = createButton(RETURN);
+        this.westPanel.add(returnButton, westGbc);
     }
 
     private JPanel createExampleSkinPanel(int color) {
@@ -379,11 +361,9 @@ public class DisplayConfigGame extends JPanel {
         } else {
             player = this.gameActionHandler.getPlayerController().getPlayer2();
         }
-        panel.add(createExampleSkin(Spider.class, player));
-        panel.add(createExampleSkin(Ant.class, player));
-        panel.add(createExampleSkin(Bee.class, player));
-        panel.add(createExampleSkin(Grasshopper.class, player));
-        panel.add(createExampleSkin(Beetle.class, player));
+        for (Class<? extends Insect> insect : player.getTypes()) {
+            panel.add(createExampleSkin(insect, player));
+        }
         return panel;
     }
 

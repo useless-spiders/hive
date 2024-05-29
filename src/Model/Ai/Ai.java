@@ -174,12 +174,6 @@ public abstract class Ai implements Serializable {
             case "Ai3":
                 resultat = new Ai3(gameActionHandler, p);
                 break;
-            case "Ai4":
-                resultat = new Ai4(gameActionHandler, p);
-                break;
-            case "Ai5":
-                resultat = new Ai5(gameActionHandler, p);
-                break;
             default:
                 Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
         }
