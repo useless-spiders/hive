@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 public class DisplayInfoInGame extends JPanel {
     private JLabel turnLabel;
     private JLabel namePlayeurLabel;
+    private JLabel tipCenter;
     private GameActionHandler gameActionHandler;
 
     public DisplayInfoInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
@@ -19,6 +20,7 @@ public class DisplayInfoInGame extends JPanel {
         JLabel infoLabel = new JLabel(this.gameActionHandler.getLang().getString("display.info.title"));
         this.namePlayeurLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
         this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
+        this.tipCenter = new JLabel(this.gameActionHandler.getLang().getString("display.info.tip_center"));
 
         JPanel boxContainer  = new JPanel();
         boxContainer.setLayout(new BoxLayout(boxContainer, BoxLayout.Y_AXIS));
@@ -26,6 +28,7 @@ public class DisplayInfoInGame extends JPanel {
         boxContainer.add(infoLabel);
         boxContainer.add(this.namePlayeurLabel);
         boxContainer.add(this.turnLabel);
+        boxContainer.add(this.tipCenter);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -40,5 +43,6 @@ public class DisplayInfoInGame extends JPanel {
     public void updatePrintInfo() {
         this.namePlayeurLabel.setText(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
         this.turnLabel.setText(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
+        this.tipCenter.setText(this.gameActionHandler.getLang().getString("display.info.tip_center"));
     }
 }
