@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 
 public class DisplayMain {
 
@@ -105,7 +106,6 @@ public class DisplayMain {
 
     public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,
                        JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
-
         FrameMetrics.setCurrentFrame(frameOpening);
 
         //Affichage de l'opening

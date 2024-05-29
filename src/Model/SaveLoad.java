@@ -1,6 +1,8 @@
 package Model;
 
 import Global.Configuration;
+import Pattern.GameActionHandler;
+import Structure.Log;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -11,10 +13,18 @@ import java.util.Date;
  */
 public class SaveLoad {
 
+    private GameActionHandler gameActionHandler;
     private History history;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
+
+    /**
+     * Constructeur
+     */
+    public SaveLoad(GameActionHandler gameActionHandler) {
+        this.gameActionHandler = gameActionHandler;
+    }
 
     /**
      * Sauvegarde la partie
@@ -26,13 +36,13 @@ public class SaveLoad {
      * @return String
      * @throws Exception Exception
      */
-    public static String saveGame(History history, Player player1, Player player2, Player currentPlayer) throws Exception {
+    public String saveGame(History history, Player player1, Player player2, Player currentPlayer) throws Exception {
         String fileName = formatFileName();
         File file = new File(fileName);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
             if (!parentDir.mkdirs()) {
-                throw new IOException("Failed to create directory " + parentDir);
+                Log.addMessage(this.gameActionHandler.getMessages().getString("save.folder.error"));
             }
         }
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
@@ -51,15 +61,14 @@ public class SaveLoad {
      * @return SaveLoad
      * @throws Exception Exception
      */
-    public static SaveLoad loadGame(String fileName) throws Exception {
-        SaveLoad saveLoad = new SaveLoad();
+    public SaveLoad loadGame(String fileName) throws Exception {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            saveLoad.history = (History) in.readObject();
-            saveLoad.player1 = (Player) in.readObject();
-            saveLoad.player2 = (Player) in.readObject();
-            saveLoad.currentPlayer = (Player) in.readObject();
+            this.history = (History) in.readObject();
+            this.player1 = (Player) in.readObject();
+            this.player2 = (Player) in.readObject();
+            this.currentPlayer = (Player) in.readObject();
         }
-        return saveLoad;
+        return this;
     }
 
     /**

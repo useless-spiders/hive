@@ -42,7 +42,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
 
         this.displayHexGrid = new DisplayHexGrid(this.gameActionHandler);
         this.displayPlayableHex = new DisplayPlayableHex(this.gameActionHandler);
-        this.displayInfoInGame = new DisplayInfoInGame(this, gbc);
+        this.displayInfoInGame = new DisplayInfoInGame(this, gbc, this.gameActionHandler);
         this.displayBankInsects = new DisplayBankInsects(this, gbc, this.gameActionHandler);
         this.displayMenuInGame = new DisplayMenuInGame(this, gbc, this.gameActionHandler);
 
@@ -98,7 +98,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         g.drawImage(this.background, 0, 0, this.frameGame.getWidth(), this.frameGame.getHeight(), this);
 
-        displayInfoInGame.updatePrintInfo(this.gameActionHandler.getPlayerController().getCurrentPlayer().getName(), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn());
+        displayInfoInGame.updatePrintInfo();
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
