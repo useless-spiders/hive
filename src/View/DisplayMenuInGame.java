@@ -8,11 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMenuInGame extends JFrame {
-    private static String SAVE;
-    private static String RULES;
-    private static String RESTART;
-    private static String ABORT;
-    private static String RETURN;
+    private String SAVE;
+    private String RULES;
+    private String RESTART;
+    private String ABORT;
+    private String RETURN;
 
     private GameActionHandler gameActionHandler;
     private RessourceLoader ressourceLoader;
@@ -35,11 +35,11 @@ public class DisplayMenuInGame extends JFrame {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
 
-        SAVE = this.gameActionHandler.getLang().getString("display.menu.save");
-        RULES = this.gameActionHandler.getLang().getString("display.menu.rules");
-        RESTART = this.gameActionHandler.getLang().getString("display.menu.restart");
-        ABORT = this.gameActionHandler.getLang().getString("display.menu.abort");
-        RETURN = this.gameActionHandler.getLang().getString("display.menu.return");
+        this.SAVE = this.gameActionHandler.getLang().getString("display.menu.save");
+        this.RULES = this.gameActionHandler.getLang().getString("display.menu.rules");
+        this.RESTART = this.gameActionHandler.getLang().getString("display.menu.restart");
+        this.ABORT = this.gameActionHandler.getLang().getString("display.menu.abort");
+        this.RETURN = this.gameActionHandler.getLang().getString("display.menu.return");
 
         this.optionVisible = false;
         // Création du JPanel pour contenir le menu et les boutons
@@ -127,21 +127,21 @@ public class DisplayMenuInGame extends JFrame {
     private JButton createButton(String name) {
         JButton button = new JButton(name);
         button.addActionListener(e -> {
-            if (name.equals(SAVE)) {
+            if (name.equals(this.SAVE)) {
                 this.gameActionHandler.getSaveLoadController().saveGame();
                 DisplayText.addTextPopUp(this.gameActionHandler.getLang().getString("display.menu.save.game"), this.gameActionHandler.getDisplayGame().getFrameGame());
-            } else if (name.equals(RULES)) {
+            } else if (name.equals(this.RULES)) {
                 this.gameActionHandler.getPageController().gameAndRules();
-            } else if (name.equals(RESTART)) {
+            } else if (name.equals(this.RESTART)) {
                 this.gameActionHandler.getPageController().gameAndRestart();
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
-            } else if (name.equals(ABORT)) {
+            } else if (name.equals(this.ABORT)) {
                 this.gameActionHandler.getAiController().stopAi();
                 this.gameActionHandler.getPageController().gameAndAbort();
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
-            } else if (name.equals(RETURN)) {
+            } else if (name.equals(this.RETURN)) {
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
             } else {

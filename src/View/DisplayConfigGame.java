@@ -15,17 +15,17 @@ import java.io.File;
 import java.util.Locale;
 
 public class DisplayConfigGame extends JPanel {
-    private static final String HUMAN = "Humain";
-    private static final String IA_EASY = "AiRandom";
-    private static final String IA_HARD = "Ai1";
-    private static final String IA_HARD2 = "Ai2";
-    private static final String IA_HARD3 = "Ai3";
-    private static final String IA_HARD4 = "Ai4";
-    private static final String JOUER = "Jouer";
-    private static final String RETOUR = "Retour";
-    private static final String LOAD = "Charger partie";
-    private static final String SKIN = "Choix du skin";
-    private static final String NAME_TEXT = "Nom du joueur";
+    private String HUMAN = "Humain";
+    private String IA_EASY = "AiRandom";
+    private String IA_HARD = "Ai1";
+    private String IA_HARD2 = "Ai2";
+    private String IA_HARD3 = "Ai3";
+    private String IA_HARD4 = "Ai4";
+    private String JOUER;
+    private String RETOUR;
+    private String LOAD;
+    private String SKIN;
+    private String NAME_TEXT;
     private boolean isSkinSelectorAdded = false;
     private Image background ;
     private JPanel eastPanel;
@@ -47,11 +47,21 @@ public class DisplayConfigGame extends JPanel {
     private GameActionHandler gameActionHandler;
     private RessourceLoader ressourceLoader;
 
+    private JButton playButton;
+    private JButton loadButton;
+    private JButton skinButton;
+
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
 
         this.background = this.ressourceLoader.loadBackground("Opening_param.png");
+
+        this.JOUER = this.gameActionHandler.getLang().getString("display.config.play");
+        this.RETOUR = this.gameActionHandler.getLang().getString("display.config.back");
+        this.LOAD = this.gameActionHandler.getLang().getString("display.config.load");
+        this.SKIN = this.gameActionHandler.getLang().getString("display.config.skin");
+        this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
 
         setLayout(new GridLayout(1, 2));
 
@@ -82,25 +92,25 @@ public class DisplayConfigGame extends JPanel {
         this.eastPanel.add(this.player2NameField, gbc);
 
         //Bouton "Jouer"
-        JButton playButton = createButton(JOUER);
+        this.playButton = createButton(this.JOUER);
         gbc.gridx = 0;
         gbc.gridy = 2; // Move down another row
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_END;
-        this.eastPanel.add(playButton, gbc);
+        this.eastPanel.add(this.playButton, gbc);
 
         //Bouton "Charger partie"
-        JButton loadButton = createButton(LOAD);
+        this.loadButton = createButton(this.LOAD);
         gbc.gridx = 0;
         gbc.gridy = 3; // Move down another row
 
-        this.eastPanel.add(loadButton, gbc);
+        this.eastPanel.add(this.loadButton, gbc);
 
         //Bouton "Choix du skin"
-        JButton skinButton = createButton(SKIN);
+        this.skinButton = createButton(this.SKIN);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        this.eastPanel.add(skinButton, gbc);
+        this.eastPanel.add(this.skinButton, gbc);
 
         //Bouton "Choix de la langue"
         JComboBox<String> languageSelector = createLanguageSelector();
@@ -195,6 +205,7 @@ public class DisplayConfigGame extends JPanel {
             }
             this.gameActionHandler.setLang(locale);
             this.gameActionHandler.getDisplayGame().getDisplayMenuInGame().updateButtons();
+            this.updateButtons();
         });
 
         return languageSelector;
@@ -203,26 +214,18 @@ public class DisplayConfigGame extends JPanel {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        switch (text) {
-            case JOUER:
-                button = this.createPlayersSelectionButton(button);
-                break;
-
-            case LOAD:
-                button = this.createFileSelectionButton();
-                break;
-
-            case SKIN:
-                button = this.createbuttonSkinSelection(button);
-                break;
-
-            case RETOUR:
-                button.addActionListener(e -> {
-                    this.background = this.ressourceLoader.loadBackground("Opening_param.png");
-                    eastPanel.setVisible(true);
-                    westPanel.setVisible(false);
-                });
-                break;
+        if (text.equals(this.JOUER)) {
+            button = this.createPlayersSelectionButton(button);
+        } else if (text.equals(this.LOAD)) {
+            button = this.createFileSelectionButton();
+        } else if (text.equals(this.SKIN)) {
+            button = this.createbuttonSkinSelection(button);
+        } else if (text.equals(this.RETOUR)) {
+            button.addActionListener(e -> {
+                this.background = this.ressourceLoader.loadBackground("Opening_param.png");
+                eastPanel.setVisible(true);
+                westPanel.setVisible(false);
+            });
         }
         return button;
     }
@@ -401,6 +404,13 @@ public class DisplayConfigGame extends JPanel {
         this.repaint();
     }
 
+    public void updateButtons(){
+        this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
+        this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
+        this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
+        this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
+        this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
+    }
 
 
     @Override
