@@ -18,7 +18,7 @@ public class Ai3 extends Ai { //Alpha Beta
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(aiPlayer)) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayerController().getPlayer1();

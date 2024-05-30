@@ -45,14 +45,14 @@ public class Ai1 extends Ai { //1 Coup
         HexGrid g = this.gameActionHandler.getGrid().clone();
         ArrayList<Move> toPlay = new ArrayList<>();
         double score;
-        double score_max = 0;
+        double score_max = -9999;
         Random randomNumbers = new Random();
         Player us_c = this.aiPlayer.clone();
         for (Move m : this.gameActionHandler.getMoveController().getMoves(g, this.aiPlayer)) {
             g.applyMove(m, us_c);
             if (!g.checkLoser(us_c)) {
                 if (g.checkLoser(other)) {
-                    score = 99999;
+                    score = 9999;
                 } else {
                     score = heuristic(g);
                 }

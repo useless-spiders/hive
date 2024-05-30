@@ -31,7 +31,7 @@ public abstract class Ai implements Serializable {
             ArrayList<Insect> insects = cell.getInsects();
             for (Insect i : insects) {
                 if (i instanceof Bee) {
-                    if (i.getPlayer() == p) {
+                    if (i.getPlayer().equals(p)) {
                         result = (g.getNeighborsCoordinates(h).size());
                     }
                 }
@@ -67,7 +67,7 @@ public abstract class Ai implements Serializable {
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
-            if (insect.getPlayer() == p) {
+            if (insect.getPlayer().equals(p)) {
                 if (insect instanceof Bee) {
                     result += bee;
                 }
@@ -133,9 +133,6 @@ public abstract class Ai implements Serializable {
                 break;
             case "Ai4":
                 resultat = new Ai3(gameActionHandler, p);
-                break;
-            case "Ai5":
-                resultat = new Ai5(gameActionHandler, p);
                 break;
             default:
                 Log.addMessage("IA de type " + ia + " non supportée");
