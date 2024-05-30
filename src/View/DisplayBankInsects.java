@@ -1,5 +1,6 @@
 package View;
 
+import Global.Configuration;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -81,7 +82,7 @@ public class DisplayBankInsects {
         panel.setLayout(new GridBagLayout());
 
         JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
+        label.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, Configuration.DEFAULT_FONT_SIZE)); // Augmenter la taille de la police ici
         // Créer un nouveau JLabel pour chaque bouton
 
         if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {

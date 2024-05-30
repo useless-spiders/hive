@@ -1,5 +1,6 @@
 package Model.Ai;
 
+import Global.Configuration;
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
@@ -8,15 +9,15 @@ import Structure.Log;
 import Structure.Node;
 import Structure.Tree;
 
-public class Ai3 extends Ai { // Elagage maison
+public class Ai3 extends Ai { //Alpha Beta
 
     Player other;
-    int visited;
+    int node;
+    int level;
 
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        this.visited = 0;
         if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
@@ -34,84 +35,83 @@ public class Ai3 extends Ai { // Elagage maison
         return result;
     }
 
-    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
-        if (level == 0) {
-            a = heuristic(gridC);
-        }
-        if (level >= 3) {
-            double heuristique = heuristic(gridC);
-            n.setValue(heuristique);
-            return heuristique;
+    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
+        if (this.node >= Configuration.AI_MAX_NODE || level >= Configuration.AI_MAX_LEVEL) {
+            double heuristic = heuristic(gridC);
+            n.setValue(heuristic);
+            return heuristic;
         } else {
-            double max = -1;
+            double max = Double.NEGATIVE_INFINITY;
             level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double h = heuristic(gridC);
-                if (!(h <= h * 0.8) || level == 0) {
-                    double currentH = minTree(nextMove, gridC, usC, otherC, level, h);
-                    if (currentH > max) {
-                        max = currentH;
-                    }
+                if (gridC.checkLoser(otherC)) {
+                    Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
+                    Log.addMessage("Move : " + m.getInsect().getPlayer().getName() + " " + m.getInsect() + " " + m.getPreviousCoor() + " " + m.getNewCoor());
                 }
-                gridC.unapplyMove(m, otherC);
-                visited += 1;
+                double currentH = minTree(nextMove, gridC, usC, otherC, alpha, beta);
+                gridC.unapplyMove(m, usC);
+                if (currentH > max) {
+                    max = currentH;
+                }
+                if (max >= beta) {
+                    break; // Beta cutoff
+                }
+                if (max > alpha) {
+                    alpha = max;
+                }
+                node++;
             }
             n.setValue(max);
             return max;
         }
-
     }
 
-    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
-        if (level >= 3) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
+        if (this.node >= Configuration.AI_MAX_NODE || level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
         } else {
-            double max = -1;
-            double min = 1;
+            double min = Double.POSITIVE_INFINITY;
             level++;
-
-            for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
-                gridC.applyMove(m, otherC);
-                gridC.unapplyMove(m, otherC);
-                double heuristic = heuristic(gridC);
-                if (heuristic > max) {
-                    max = heuristic;
-                }
-            }
-            if (max >= a * 1.2 || level == 0) {
-                return -1;
-            }
-
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
-                double currentH = maxTree(nextMove, gridC, usC, otherC, level, heuristic(gridC));
+                if (gridC.checkLoser(otherC)) {
+                    Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
+                    Log.addMessage("Move : " + m.getInsect().getPlayer().getName() + " " + m.getInsect() + " " + m.getPreviousCoor() + " " + m.getNewCoor());
+                }
+                double currentH = maxTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;
                 }
-                visited += 1;
+                if (min <= alpha) {
+                    break; // Alpha cutoff
+                }
+                if (min < beta) {
+                    beta = min;
+                }
+                node++;
             }
             n.setValue(min);
             return min;
         }
     }
 
-
     public Move chooseMove() {
         Tree tree = new Tree();
-        this.visited = 0;
+        this.node = 0;
+        this.level = 0;
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(tree.getRoot(), gridC, usC, themC, 0, 0);
-        double max = -1;
+        maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
         for (Node child : tree.getRoot().getChilds()) {
             if (child.getValue() > max) {
@@ -119,8 +119,8 @@ public class Ai3 extends Ai { // Elagage maison
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(visited + " noeuds visités");
+        Log.addMessage(node + " noeuds visités");
+        Log.addMessage(level + " profondeur max");
         return returnMove;
     }
-
 }
