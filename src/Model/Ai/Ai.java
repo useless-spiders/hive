@@ -114,7 +114,7 @@ public abstract class Ai implements Serializable {
             spider = 1;
             beetle = 2;
             grasshopper = 2;
-            bee = 5;
+            bee = 8;
         }
 
         for (HexCoordinate h : g.getGrid().keySet()) {
@@ -140,8 +140,40 @@ public abstract class Ai implements Serializable {
         }
         return result;
     }
-    //////////////////////////////////////////////////////////////////////////
 
+    public double insectsBlock(Player p, HexGrid g) {
+        double result = 0;
+        int ant, bee, beetle, spider, grasshopper;
+
+        ant = 3;
+        spider = 1;
+        beetle = 2;
+        grasshopper = 2;
+        bee = 5;
+
+        for (HexCoordinate h : g.getGrid().keySet()) {
+            HexCell cell = g.getCell(h);
+            Insect insect = cell.getTopInsect();
+            if (!insect.getPlayer().equals(p) && insect.getPossibleMovesCoordinates(h, g).size() == 0) {
+                if (insect instanceof Bee) {
+                    result += bee;
+                }
+                if (insect instanceof Ant) {
+                    result += ant;
+                }
+                if (insect instanceof Beetle) {
+                    result += beetle;
+                }
+                if (insect instanceof Grasshopper) {
+                    result += grasshopper;
+                }
+                if (insect instanceof Spider) {
+                    result += spider;
+                }
+            }
+        }
+        return result;
+    }
     /**
      * Renvoie le nombre de déplacement possible des pieces d'un joueur ainsi que le nombre de cases sur lesquelles il peut placer des insectes
      *

@@ -34,6 +34,7 @@ public class Ai4 extends Ai {
         result += beeNeighbors(this.other, g) * 0.9;
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
+        result += insectsBlock(aiPlayer, g) * 0.2;
         return result;
     }
 
