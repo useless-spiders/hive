@@ -22,6 +22,7 @@ public class DisplayConfigGame extends JPanel {
     private final String IA_HARD = "Ai1";
     private final String IA_HARD2 = "Ai2";
     private final String IA_HARD3 = "Ai3";
+    private final String IA_HARD4 = "Ai4";
     private final String PLAY;
     private final String RETURN;
     private final String LOAD;
@@ -146,6 +147,7 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(IA_HARD);
         comboBox.addItem(IA_HARD2);
         comboBox.addItem(IA_HARD3);
+        comboBox.addItem(IA_HARD4);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {

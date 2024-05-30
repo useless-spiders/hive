@@ -47,5 +47,7 @@ public class Configuration {
     public static final String DEFAULT_FONT = "Times New Roman";
     public static final int DEFAULT_FONT_SIZE = 30;
 
+    public static final int AI_TIME_LIMIT_MS = 3000;
+
 
 }
