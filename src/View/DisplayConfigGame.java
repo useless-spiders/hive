@@ -368,7 +368,7 @@ public class DisplayConfigGame extends JPanel {
             } else if (selectedSkin.equals(skins[3])) {
                 Configuration.DEFAULT_SKINS = "Skin_very_hard/";
             } else {
-                Log.addMessage("Skin inconnu");
+                Configuration.DEFAULT_SKINS = "Default/";
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             updateExampleSkin();
