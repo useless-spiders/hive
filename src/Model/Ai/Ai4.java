@@ -4,6 +4,7 @@ import Global.Configuration;
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
+import Model.Insect.Bee;
 import Pattern.GameActionHandler;
 import Structure.Log;
 import Structure.Node;
@@ -46,11 +47,7 @@ public class Ai4 extends Ai {
     Node select(Node root) {
         Node node = root;
         while (!node.getChilds().isEmpty()) {
-            node = node.getChilds().stream()
-                    .max((a, b) -> Double.compare(
-                            ucb1(a, root.getVisitCount()) + heuristic(a.getState()),
-                            ucb1(b, root.getVisitCount()) + heuristic(b.getState())
-                    )).get();
+            node = node.getChilds().stream().max((a, b) -> Double.compare(ucb1(a, root.getVisitCount()) + heuristic(a.getState())*10,ucb1(b, root.getVisitCount()) + heuristic(b.getState())*10)).get();
         }
         return node;
     }
@@ -59,9 +56,11 @@ public class Ai4 extends Ai {
         List<Move> moves = this.gameActionHandler.getMoveController().getMoves(grid, currentPlayer);
         for (Move move : moves) {
             HexGrid newState = grid.clone();
-            newState.applyMove(move, currentPlayer);
-            Node childNode = new Node(move, newState);
-            node.newChild(childNode);
+            if(!(move.getInsect() instanceof Bee && currentPlayer.getTurn() == 1)){
+                newState.applyMove(move, currentPlayer.clone());
+                Node childNode = new Node(move, newState);
+                node.newChild(childNode);
+            }
         }
     }
 
@@ -69,17 +68,18 @@ public class Ai4 extends Ai {
         HexGrid gridCopy = grid.clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
+        Player currentPlayerC = currentPlayer.clone();
         Random random = new Random();
 
         while (!gridCopy.checkLoser(usC) && !gridCopy.checkLoser(themC)) {
-            List<Move> moves = this.gameActionHandler.getMoveController().getMoves(gridCopy, usC);
+            List<Move> moves = this.gameActionHandler.getMoveController().getMoves(gridCopy, currentPlayerC);
             if (moves.isEmpty()) {
-                Log.addMessage("pas de move possible");
                 break;
             }
             Move move = moves.get(random.nextInt(moves.size()));
-            gridCopy.applyMove(move, usC);
-            currentPlayer = (currentPlayer.equals(usC)) ? themC : usC;
+            gridCopy.applyMove(move, currentPlayerC);
+            currentPlayerC = (currentPlayerC.equals(usC)) ? themC : usC;
+            currentPlayer = currentPlayerC.clone();
         }
 
         if (gridCopy.checkLoser(usC)) {
@@ -104,16 +104,15 @@ public class Ai4 extends Ai {
         Node root = new Node(null, this.gameActionHandler.getGrid().clone());
         tree.setRoot(root);
         this.simulations = 0;
-        Player usC = this.aiPlayer.clone();
 
         long endTime = System.currentTimeMillis() + Configuration.AI_TIME_LIMIT_MS;
 
         while (System.currentTimeMillis() < endTime) {
             Node selectedNode = select(root);
-            expand(selectedNode, selectedNode.getState(), usC);
+            expand(selectedNode, selectedNode.getState(), this.aiPlayer);
             for (Node child : selectedNode.getChilds()) {
                 HexGrid gridSim = child.getState().clone();
-                double result = simulate(gridSim, usC);
+                double result = simulate(gridSim, this.aiPlayer);
                 backpropagate(child, result);
                 this.simulations++;
             }

@@ -12,8 +12,9 @@ import Structure.Tree;
 public class Ai3 extends Ai { //Alpha Beta
 
     Player other;
-    int node;
     int level;
+    long startTime;
+    long timeLimit;
 
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
@@ -36,7 +37,7 @@ public class Ai3 extends Ai { //Alpha Beta
     }
 
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (this.node >= Configuration.AI_MAX_NODE || level >= Configuration.AI_MAX_LEVEL) {
+        if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -62,7 +63,6 @@ public class Ai3 extends Ai { //Alpha Beta
                 if (max > alpha) {
                     alpha = max;
                 }
-                node++;
             }
             n.setValue(max);
             return max;
@@ -70,7 +70,7 @@ public class Ai3 extends Ai { //Alpha Beta
     }
 
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (this.node >= Configuration.AI_MAX_NODE || level >= Configuration.AI_MAX_LEVEL) {
+        if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -96,7 +96,6 @@ public class Ai3 extends Ai { //Alpha Beta
                 if (min < beta) {
                     beta = min;
                 }
-                node++;
             }
             n.setValue(min);
             return min;
@@ -105,8 +104,9 @@ public class Ai3 extends Ai { //Alpha Beta
 
     public Move chooseMove() {
         Tree tree = new Tree();
-        this.node = 0;
         this.level = 0;
+        this.startTime = System.currentTimeMillis();
+        this.timeLimit = Configuration.AI_TIME_LIMIT_MS; // Time limit in milliseconds
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
@@ -119,7 +119,7 @@ public class Ai3 extends Ai { //Alpha Beta
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(node + " noeuds visités");
+        Log.addMessage("Temps écoulé : " + (System.currentTimeMillis() - startTime) + " ms");
         Log.addMessage(level + " profondeur max");
         return returnMove;
     }
