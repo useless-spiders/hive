@@ -48,6 +48,7 @@ public class DisplayConfigGame extends JPanel {
     private JButton playButton;
     private JButton loadButton;
     private JButton skinButton;
+    private JButton returnButton;
 
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
@@ -397,8 +398,8 @@ public class DisplayConfigGame extends JPanel {
         this.westPanel.add(exampleSkinPanelBlack, westGbc);
         westGbc.gridwidth = 1;
         westGbc.gridy = 2;
-        JButton returnButton = createButton(RETURN);
-        this.westPanel.add(returnButton, westGbc);
+        this.returnButton = createButton(RETURN);
+        this.westPanel.add(this.returnButton, westGbc);
     }
 
     /**
@@ -462,6 +463,9 @@ public class DisplayConfigGame extends JPanel {
         this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
         this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
+        if(this.returnButton != null){
+            this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.back"));
+        }
     }
 
 
