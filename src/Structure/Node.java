@@ -9,12 +9,13 @@ import java.util.ArrayList;
  */
 public class Node {
     private Node parent;
-    private ArrayList<Node> childs;
+    private final ArrayList<Node> childs;
     private Move move;
     private double value;
 
     /**
      * Constructeur
+     *
      * @param m Mouvement
      */
     public Node(Move m) {
@@ -32,6 +33,7 @@ public class Node {
 
     /**
      * Renvoie le mouvement
+     *
      * @return Move
      */
     public Move getMove() {
@@ -40,6 +42,7 @@ public class Node {
 
     /**
      * Définit le mouvement
+     *
      * @param m Mouvement
      */
     public void setMove(Move m) {
@@ -48,6 +51,7 @@ public class Node {
 
     /**
      * Renvoie la valeur
+     *
      * @return double
      */
     public double getValue() {
@@ -56,6 +60,7 @@ public class Node {
 
     /**
      * Définit la valeur
+     *
      * @param value Valeur
      */
     public void setValue(double value) {
@@ -64,6 +69,7 @@ public class Node {
 
     /**
      * Ajoute un enfant
+     *
      * @param n Noeud
      */
     public void newChild(Node n) {
@@ -73,6 +79,7 @@ public class Node {
 
     /**
      * Renvoie le parent
+     *
      * @return Node
      */
     public Node getParent() {
@@ -81,6 +88,7 @@ public class Node {
 
     /**
      * Renvoie les enfants
+     *
      * @return ArrayList
      */
     public ArrayList<Node> getChilds() {
@@ -89,6 +97,7 @@ public class Node {
 
     /**
      * Renvoie si le noeud est une feuille
+     *
      * @return boolean
      */
     public boolean isLeaf() {

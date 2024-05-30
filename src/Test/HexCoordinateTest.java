@@ -1,9 +1,10 @@
 package Test;
 
-import org.junit.Test;
 import Structure.HexCoordinate;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Classe de test pour les coordonnées hexagonales
@@ -49,9 +50,9 @@ public class HexCoordinateTest {
     }
 
     @Test
-    public void testClone(){
+    public void testClone() {
         HexCoordinate coord = new HexCoordinate(5, 10);
-        HexCoordinate coord2 = (HexCoordinate) coord.clone();
+        HexCoordinate coord2 = coord.clone();
         assertEquals(coord, coord2);
     }
 }

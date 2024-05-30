@@ -11,6 +11,7 @@ public class FrameMetrics {
 
     /**
      * Renvoie la taille de la fenêtre
+     *
      * @param frame Fenêtre
      * @return Dimension
      */
@@ -20,8 +21,9 @@ public class FrameMetrics {
 
     /**
      * Définit la taille de la fenêtre
+     *
      * @param frame Fenêtre
-     * @param size Taille
+     * @param size  Taille
      */
     public static void setFrameSize(JFrame frame, Dimension size) {
         frame.setSize(size.width, size.height);
@@ -38,6 +40,7 @@ public class FrameMetrics {
 
     /**
      * Définit la fenêtre actuelle
+     *
      * @param frame Frame
      */
     public static void setCurrentFrame(JFrame frame) {
@@ -53,6 +56,7 @@ public class FrameMetrics {
 
     /**
      * Vérifie si la fenêtre est en plein écran
+     *
      * @param frame Fenêtre
      * @return boolean
      */
@@ -62,9 +66,10 @@ public class FrameMetrics {
 
     /**
      * Changer de fenêtre
+     *
      * @param nextFrame Fenêtre suivante
      */
-    public static void switchFrame(JFrame nextFrame){
+    public static void switchFrame(JFrame nextFrame) {
         Dimension currentFrameSize = getFrameSize(currentFrame);
         boolean isFullScreen = isFullScreen(currentFrame);
 

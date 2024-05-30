@@ -1,13 +1,12 @@
 package Model.Ai;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import Model.Player;
 import Model.HexGrid;
 import Model.Move;
+import Model.Player;
 import Pattern.GameActionHandler;
-import Structure.Log;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class AiRandom extends Ai { //Random
 
@@ -27,12 +26,13 @@ public class AiRandom extends Ai { //Random
     }
 
     @Override
-    double heuristic(HexGrid g){
+    double heuristic(HexGrid g) {
         return 0;
     }
 
     /**
      * choisis le coup à jouer pour par l'Ia
+     *
      * @return coup à jouer
      */
     @Override

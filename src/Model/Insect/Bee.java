@@ -1,12 +1,11 @@
 package Model.Insect;
 
+import Model.HexGrid;
 import Model.Player;
 import Structure.HexCoordinate;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import Model.HexGrid;
 
 /**
  * Classe pour les abeilles
@@ -15,6 +14,7 @@ public class Bee extends Insect {
 
     /**
      * Constructeur
+     *
      * @param player Joueur
      */
     public Bee(Player player) {
@@ -23,9 +23,10 @@ public class Bee extends Insect {
 
     /**
      * Renvoie les coordonnées possibles pour le déplacement
+     *
      * @param current Coordonnées actuelles
-     * @param g Grille
-     * @param p Joueur
+     * @param g       Grille
+     * @param p       Joueur
      * @return ArrayList
      */
     @Override

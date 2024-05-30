@@ -14,13 +14,14 @@ import java.util.Random;
  * Controleur pour les joueurs
  */
 public class PlayerController {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
      */
     public PlayerController(GameActionHandler gameActionHandler) {
@@ -67,7 +68,7 @@ public class PlayerController {
             if (this.currentPlayer.isAi()) {
                 this.gameActionHandler.getAiController().startAi();
             }
-            if(this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()){
+            if (this.gameActionHandler.getMoveController().getMoves(this.gameActionHandler.getGrid(), this.currentPlayer).isEmpty()) {
                 Log.addMessage(this.gameActionHandler.getLang().getString("player.cant.play"));
                 this.switchPlayer();
             }
@@ -76,6 +77,7 @@ public class PlayerController {
 
     /**
      * Test si un joueur a perdu et renvoie le gagnant
+     *
      * @return int
      */
     public int getWinner() {
@@ -98,8 +100,9 @@ public class PlayerController {
 
     /**
      * Change un joueur en IA
+     *
      * @param player int
-     * @param name String
+     * @param name   String
      */
     public void setAiPlayer(int player, String name) {
         if (player == 1) {
@@ -113,6 +116,7 @@ public class PlayerController {
 
     /**
      * Renvoie le joueur 1
+     *
      * @return Player
      */
     public Player getPlayer1() {
@@ -121,6 +125,7 @@ public class PlayerController {
 
     /**
      * Définit le joueur 1
+     *
      * @param player1 Player
      */
     public void setPlayer1(Player player1) {
@@ -129,6 +134,7 @@ public class PlayerController {
 
     /**
      * Renvoie le joueur 2
+     *
      * @return Player
      */
     public Player getPlayer2() {
@@ -137,6 +143,7 @@ public class PlayerController {
 
     /**
      * Définit le joueur 2
+     *
      * @param player2 Player
      */
     public void setPlayer2(Player player2) {
@@ -145,6 +152,7 @@ public class PlayerController {
 
     /**
      * Renvoie le joueur courant
+     *
      * @return Player
      */
     public Player getCurrentPlayer() {
@@ -153,6 +161,7 @@ public class PlayerController {
 
     /**
      * Définit le joueur courant
+     *
      * @param currentPlayer Player
      */
     public void setCurrentPlayer(Player currentPlayer) {
@@ -162,7 +171,7 @@ public class PlayerController {
     /**
      * Réinitialise les joueurs
      */
-    public void resetPlayers(){
+    public void resetPlayers() {
         this.player1.reset();
         this.player2.reset();
     }

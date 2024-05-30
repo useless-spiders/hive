@@ -1,11 +1,12 @@
 package Model.Ai;
+
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
-import Structure.Tree;
-import Structure.Node;
 import Pattern.GameActionHandler;
 import Structure.Log;
+import Structure.Node;
+import Structure.Tree;
 
 public class Ai3 extends Ai { // Elagage maison
 
@@ -26,14 +27,15 @@ public class Ai3 extends Ai { // Elagage maison
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g)*0.9;
-        result += beeNeighbors(this.other, g)*0.9;
-        result += insectsCount(this.aiPlayer, g)*0.1;
-        result -= insectsCount(this.other, g)*0.1;
+        result -= beeNeighbors(this.aiPlayer, g) * 0.9;
+        result += beeNeighbors(this.other, g) * 0.9;
+        result += insectsCount(this.aiPlayer, g) * 0.1;
+        result -= insectsCount(this.other, g) * 0.1;
         return result;
     }
+
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level, double a) {
-        if(level == 0){
+        if (level == 0) {
             a = heuristic(gridC);
         }
         if (level >= 3) {
@@ -48,7 +50,7 @@ public class Ai3 extends Ai { // Elagage maison
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
                 double h = heuristic(gridC);
-                if(!(h <= h*0.8) || level == 0){
+                if (!(h <= h * 0.8) || level == 0) {
                     double currentH = minTree(nextMove, gridC, usC, otherC, level, h);
                     if (currentH > max) {
                         max = currentH;
@@ -81,7 +83,7 @@ public class Ai3 extends Ai { // Elagage maison
                     max = heuristic;
                 }
             }
-            if(max >= a*1.2 || level == 0){
+            if (max >= a * 1.2 || level == 0) {
                 return -1;
             }
 
@@ -117,7 +119,7 @@ public class Ai3 extends Ai { // Elagage maison
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(visited+" noeuds visités");
+        Log.addMessage(visited + " noeuds visités");
         return returnMove;
     }
 

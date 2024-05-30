@@ -9,6 +9,7 @@ public class ViewMetrics {
 
     /**
      * Met à jour la position de la vue
+     *
      * @param dx Déplacement en x
      * @param dy Déplacement en y
      */
@@ -19,6 +20,7 @@ public class ViewMetrics {
 
     /**
      * Renvoie le décalage en x
+     *
      * @return int
      */
     public static int getViewOffsetX() {
@@ -27,6 +29,7 @@ public class ViewMetrics {
 
     /**
      * Renvoie le décalage en y
+     *
      * @return int
      */
     public static int getViewOffsetY() {

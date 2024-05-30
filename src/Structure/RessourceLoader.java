@@ -12,9 +12,9 @@ import java.awt.*;
 import java.text.MessageFormat;
 
 public class RessourceLoader {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
 
-    public RessourceLoader(GameActionHandler gameActionHandler){
+    public RessourceLoader(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
     }
 
@@ -85,7 +85,7 @@ public class RessourceLoader {
         } else {
             color = "black";
         }
-        if(insectClass.equals(Bee.class) && player.equals(currentPlayer) && player.getTurn() == 4 && !player.isBeePlaced()) {
+        if (insectClass.equals(Bee.class) && player.equals(currentPlayer) && player.getTurn() == 4 && !player.isBeePlaced()) {
             return insectClass.getSimpleName() + "_" + color + "_last_tour" + ".png";
         }
         return insectClass.getSimpleName() + "_" + color + ".png";
