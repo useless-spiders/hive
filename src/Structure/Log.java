@@ -7,6 +7,7 @@ public class Log {
 
     /**
      * Ajoute un message
+     *
      * @param message Message
      */
     public static void addMessage(String message) {

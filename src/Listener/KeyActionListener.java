@@ -3,18 +3,22 @@ package Listener;
 import Pattern.GameActionHandler;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Listener pour les actions sur les touches
  */
 public class KeyActionListener extends KeyAdapter {
-    private GameActionHandler gameActionHandler;
-    private JFrame frameGame;
+    private final GameActionHandler gameActionHandler;
+    private final JFrame frameGame;
 
     /**
      * Constructeur
-     * @param frameGame Fenêtre du jeu
+     *
+     * @param frameGame         Fenêtre du jeu
      * @param gameActionHandler GameActionHandler
      */
     public KeyActionListener(JFrame frameGame, GameActionHandler gameActionHandler) {
@@ -35,6 +39,7 @@ public class KeyActionListener extends KeyAdapter {
 
     /**
      * Recentrage du jeu quand on appuie sur la touche C
+     *
      * @param e KeyEvent
      */
     @Override

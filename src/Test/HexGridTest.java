@@ -3,7 +3,6 @@ package Test;
 
 import Model.HexCell;
 import Model.HexGrid;
-
 import Model.Insect.*;
 import Model.Player;
 import Structure.HexCoordinate;
@@ -17,8 +16,8 @@ import static org.junit.Assert.*;
  */
 public class HexGridTest {
     private HexGrid grid = new HexGrid();
-    private Player player = new Player("Inspecteur blanco");
-    private Player player2 = new Player("Barbe noire");
+    private final Player player = new Player("Inspecteur blanco");
+    private final Player player2 = new Player("Barbe noire");
 
     private Insect ant;
     private Insect spider;
@@ -131,7 +130,7 @@ public class HexGridTest {
      * Teste la vérification de la victoire
      */
     @Test
-    public void testLoser(){
+    public void testLoser() {
         assertFalse(grid.checkLoser(player));
         grid.addCell(new HexCoordinate(0, -1), ant); // NO
         grid.addCell(new HexCoordinate(1, -1), ant); // NE
@@ -144,7 +143,7 @@ public class HexGridTest {
     }
 
     @Test
-    public void testClone(){
+    public void testClone() {
         grid.addCell(new HexCoordinate(0, -1), ant); // NO
         grid.addCell(new HexCoordinate(1, -1), ant); // NE
         grid.addCell(new HexCoordinate(0, 0), bee); // Center
@@ -161,10 +160,10 @@ public class HexGridTest {
         HexGrid clone = grid.clone();
 
         Player player_c = player.clone();
-        
+
         assertEquals(player_c, ant.getPlayer());
-        
-        assertEquals(grid.getCell(new HexCoordinate(0, 0)).getTopInsect().getPlayer(),player_c);
+
+        assertEquals(grid.getCell(new HexCoordinate(0, 0)).getTopInsect().getPlayer(), player_c);
 
         assertEquals(grid.getGrid().size(), clone.getGrid().size());
 

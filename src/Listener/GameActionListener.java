@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Listener pour les actions du jeu
  */
 public class GameActionListener {
-    private GameController gameController;
+    private final GameController gameController;
     private Insect insect;
     private boolean isInsectButtonClicked;
     private boolean isInsectCellClicked;
@@ -24,6 +24,7 @@ public class GameActionListener {
 
     /**
      * Constructeur
+     *
      * @param gameController GameController
      */
     public GameActionListener(GameController gameController) {
@@ -35,6 +36,7 @@ public class GameActionListener {
 
     /**
      * Renvoie l'hexagon cliqué
+     *
      * @return HexCoordinate
      */
     public HexCoordinate getHexClicked() {
@@ -43,6 +45,7 @@ public class GameActionListener {
 
     /**
      * Définit l'hexagon cliqué
+     *
      * @param hexClicked HexCoordinate
      */
     public void setHexClicked(HexCoordinate hexClicked) {
@@ -51,6 +54,7 @@ public class GameActionListener {
 
     /**
      * Renvoie si un insecte est cliqué
+     *
      * @return boolean
      */
     public boolean getIsInsectCellClicked() {
@@ -59,6 +63,7 @@ public class GameActionListener {
 
     /**
      * Définit si un insecte est cliqué
+     *
      * @param isInsectCellClicked boolean
      */
     public void setIsInsectCellClicked(boolean isInsectCellClicked) {
@@ -67,6 +72,7 @@ public class GameActionListener {
 
     /**
      * Renvoie si un bouton insecte est cliqué
+     *
      * @return boolean
      */
     public boolean getIsInsectButtonClicked() {
@@ -75,6 +81,7 @@ public class GameActionListener {
 
     /**
      * Définit si un bouton insecte est cliqué
+     *
      * @param isInsectButtonClicked boolean
      */
     public void setIsInsectButtonClicked(boolean isInsectButtonClicked) {
@@ -83,6 +90,7 @@ public class GameActionListener {
 
     /**
      * Renvoie les coordonnées jouables
+     *
      * @return ArrayList<HexCoordinate>
      */
     public ArrayList<HexCoordinate> getPlayableCoordinates() {
@@ -91,6 +99,7 @@ public class GameActionListener {
 
     /**
      * Définit les coordonnées jouables
+     *
      * @param playableCoordinates ArrayList<HexCoordinate>
      */
     public void setPlayableCoordinates(ArrayList<HexCoordinate> playableCoordinates) {

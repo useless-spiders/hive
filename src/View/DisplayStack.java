@@ -13,8 +13,8 @@ public class DisplayStack {
     private boolean isInsectCellClicked = false;
     private HexCoordinate hexClicked = null;
     private static final int OFFSET = 5; // Marge entre chaque insecte
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayStack(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;

@@ -15,11 +15,12 @@ import java.text.MessageFormat;
  * Controleur pour la sauvegarde et le chargement de partie
  */
 public class SaveLoadController {
-    private GameActionHandler gameActionHandler;
-    private SaveLoad saveLoad;
+    private final GameActionHandler gameActionHandler;
+    private final SaveLoad saveLoad;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
      */
     public SaveLoadController(GameActionHandler gameActionHandler) {
@@ -42,6 +43,7 @@ public class SaveLoadController {
 
     /**
      * Charge une partie
+     *
      * @param fileName String
      * @return boolean
      */

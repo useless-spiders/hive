@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayPlayableHex extends JComponent {
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
-    private Image locationImage;
-    private Image otherLocationImage;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
+    private final Image locationImage;
+    private final Image otherLocationImage;
     private HexCoordinate hoverCoord;
 
     public DisplayPlayableHex(GameActionHandler gameActionHandler) {

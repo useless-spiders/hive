@@ -1,14 +1,13 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DisplayText {
 
-    public static void addTextPopUp(String message, JFrame frame){
+    public static void addTextPopUp(String message, JFrame frame) {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
 
@@ -23,7 +22,7 @@ public class DisplayText {
 
         panel.add(messageLabel);
 
-        panel.setBounds(frame.getWidth()/2 - 300, frame.getHeight() - 250, 600, 50);
+        panel.setBounds(frame.getWidth() / 2 - 300, frame.getHeight() - 250, 600, 50);
 
         frame.getLayeredPane().add(panel, JLayeredPane.POPUP_LAYER);
         frame.repaint(); // Repaint the frame to show the panel

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayRestart extends JPanel {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
 
     public DisplayRestart(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;

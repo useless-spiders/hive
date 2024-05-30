@@ -1,9 +1,9 @@
 package Test;
 
-import Model.Move;
 import Model.History;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
+import Model.Move;
 import Model.Player;
 import Structure.HexCoordinate;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  * Classe de test pour l'historique des moves
  */
 public class HistoryTest {
-    private Player player = new Player("Inspecteur blanco");
+    private final Player player = new Player("Inspecteur blanco");
     private Move move1;
     private Move move2;
 

@@ -2,8 +2,8 @@ package Model.Insect;
 
 import Model.HexCell;
 import Model.HexGrid;
-import Structure.HexCoordinate;
 import Model.Player;
+import Structure.HexCoordinate;
 
 import java.io.Serializable;
 import java.util.*;
@@ -12,10 +12,11 @@ import java.util.*;
  * Classe abstraite pour les insectes
  */
 public abstract class Insect implements Cloneable, Serializable {
-    private Player player;
+    private final Player player;
 
     /**
      * Constructeur
+     *
      * @param player Joueur
      */
     public Insect(Player player) {
@@ -24,8 +25,9 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Renvoie les coordonnées possibles pour le déplacement
+     *
      * @param current Coordonnées actuelles
-     * @param g Grille
+     * @param g       Grille
      * @return ArrayList
      */
     public ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g) {
@@ -34,15 +36,17 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Renvoie les coordonnées possibles pour le déplacement
+     *
      * @param current Coordonnées actuelles
-     * @param g Grille
-     * @param p Joueur
+     * @param g       Grille
+     * @param p       Joueur
      * @return ArrayList
      */
     public abstract ArrayList<HexCoordinate> getPossibleMovesCoordinates(HexCoordinate current, HexGrid g, Player p);
 
     /**
      * Renvoie les coordonnées possibles pour l'insertion
+     *
      * @param g Grille
      * @return ArrayList
      */
@@ -73,6 +77,7 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Renvoie les coordonnées possibles pour l'insertion
+     *
      * @param g Grille
      * @return ArrayList
      */
@@ -83,6 +88,7 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Renvoie le joueur
+     *
      * @return Player
      */
     public Player getPlayer() {
@@ -91,7 +97,8 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Vérifie si l'insecte peut se déplacer
-     * @param g Grille
+     *
+     * @param g      Grille
      * @param player Joueur
      * @return boolean
      */
@@ -109,6 +116,7 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Test si deux insectes sont égaux
+     *
      * @param obj Object
      * @return boolean
      */
@@ -128,6 +136,7 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Renvoie le hashcode de l'insecte
+     *
      * @return int
      */
     @Override
@@ -137,6 +146,7 @@ public abstract class Insect implements Cloneable, Serializable {
 
     /**
      * Clone l'insecte
+     *
      * @return Insect
      */
     @Override

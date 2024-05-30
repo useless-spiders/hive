@@ -10,17 +10,18 @@ import javax.swing.*;
  * Controleur pour les pages
  */
 public class PageController {
-    private JFrame frameOpening = new JFrame();
-    private JFrame frameGame = new JFrame("Hive game");
-    private JFrame frameMenu = new JFrame();
-    private JFrame frameRules = new JFrame();
-    private DisplayMain displayMain;
+    private final JFrame frameOpening = new JFrame();
+    private final JFrame frameGame = new JFrame("Hive game");
+    private final JFrame frameMenu = new JFrame();
+    private final JFrame frameRules = new JFrame();
+    private final DisplayMain displayMain;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
      */
-    public PageController(GameActionHandler gameActionHandler){
+    public PageController(GameActionHandler gameActionHandler) {
         displayMain = new DisplayMain(gameActionHandler, this.frameOpening, this.frameMenu, this.frameGame, this.frameRules);
         gameActionHandler.setDisplayGame(this.displayMain.getDisplayGame());
     }
@@ -70,6 +71,7 @@ public class PageController {
 
     /**
      * Renvoie le displayMain
+     *
      * @return DisplayMain
      */
     public DisplayMain getDisplayMain() {

@@ -40,7 +40,7 @@ public class PlayerTest {
      * Teste le nom du joueur
      */
     @Test
-    public void testName(){
+    public void testName() {
         // Teste le nom du joueur
         assertEquals("Inspecteur blanco", this.player.getName());
     }
@@ -49,7 +49,7 @@ public class PlayerTest {
      * Teste le tour du joueur
      */
     @Test
-    public void testTurn(){
+    public void testTurn() {
         // Teste l'incrementation du tour
         assertEquals(1, this.player.getTurn());
         this.player.incrementTurn();
@@ -64,7 +64,7 @@ public class PlayerTest {
      * Teste si l'abeille a été placé
      */
     @Test
-    public void testBeePlaced(){
+    public void testBeePlaced() {
         // Teste si l'abeille a été placé
         assertFalse(this.player.isBeePlaced());
         this.player.setBeePlaced(true);
@@ -72,7 +72,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testClone(){
+    public void testClone() {
         this.player.playInsect(Ant.class);
         Player player2 = this.player.clone();
         assertEquals(this.player, player2);
@@ -80,7 +80,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testEquals(){
+    public void testEquals() {
         Player player2 = new Player("Inspecteur blanco");
         player2.setColor(this.player.getColor());
         assertEquals(this.player, player2);

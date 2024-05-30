@@ -2,12 +2,7 @@ package Model;
 
 import Global.Configuration;
 import Model.Ai.Ai;
-import Model.Insect.Ant;
-import Model.Insect.Bee;
-import Model.Insect.Beetle;
-import Model.Insect.Grasshopper;
-import Model.Insect.Insect;
-import Model.Insect.Spider;
+import Model.Insect.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,6 +20,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Constructeur
+     *
      * @param name Nom du joueur
      */
     public Player(String name) {
@@ -37,6 +33,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Initialise la banque d'insectes
+     *
      * @return ArrayList
      */
     private ArrayList<Insect> initBank() {
@@ -72,6 +69,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Définit si le joueur est une IA
+     *
      * @param ai IA
      */
     public void setAi(Ai ai) {
@@ -81,6 +79,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie si le joueur est une IA
+     *
      * @return boolean
      */
     public boolean isAi() {
@@ -89,6 +88,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie l'IA
+     *
      * @return Ai
      */
     public Ai getAi() {
@@ -97,6 +97,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie le nom du joueur
+     *
      * @return String
      */
     public String getName() {
@@ -105,6 +106,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Définit le nom du joueur
+     *
      * @param name Nom du joueur
      */
     public void setName(String name) {
@@ -113,6 +115,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie le tour du joueur
+     *
      * @return int
      */
     public int getTurn() {
@@ -121,6 +124,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie la banque d'insectes
+     *
      * @return ArrayList
      */
     public ArrayList<Insect> getStock() {
@@ -129,6 +133,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie les types d'insectes restants
+     *
      * @return ArrayList
      */
     public ArrayList<Class<? extends Insect>> getTypes() {
@@ -157,6 +162,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie si l'abeille est placée
+     *
      * @return boolean
      */
     public boolean isBeePlaced() {
@@ -165,6 +171,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Définit si l'abeille est placée
+     *
      * @param beePlaced boolean
      */
     public void setBeePlaced(boolean beePlaced) {
@@ -173,6 +180,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie la couleur du joueur
+     *
      * @return int
      */
     public int getColor() {
@@ -181,6 +189,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Définit la couleur du joueur
+     *
      * @param color Couleur
      */
     public void setColor(int color) {
@@ -189,6 +198,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie le nombre d'insectes restants
+     *
      * @return int
      */
     public int getInsectCount(Class<? extends Insect> insectClass) {
@@ -204,6 +214,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie si l'insecte peut être ajouté
+     *
      * @param insectClass Classe de l'insecte
      * @return boolean
      */
@@ -219,6 +230,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie l'insecte si toujours présent dans la banque
+     *
      * @param insectClass Classe de l'insecte
      * @return Insect
      */
@@ -234,6 +246,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Joue un insecte et supprime de la banque
+     *
      * @param insectClass Classe de l'insecte
      */
     public void playInsect(Class<? extends Insect> insectClass) {
@@ -247,7 +260,7 @@ public class Player implements Cloneable, Serializable {
     }
 
     /**
-     *  Ajoute un insecte à la banque
+     * Ajoute un insecte à la banque
      */
     public void unplayInsect(Insect insect) {
         stock.add(insect);
@@ -255,6 +268,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie si l'insecte peut être déplacé
+     *
      * @param insect Insecte
      * @return boolean
      */
@@ -264,6 +278,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Vérifie si deux joueurs sont égaux
+     *
      * @param obj Object
      * @return boolean
      */
@@ -281,6 +296,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie le hashcode du joueur
+     *
      * @return int
      */
     @Override
@@ -290,6 +306,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Clone le joueur
+     *
      * @return Player
      */
     @Override
@@ -305,6 +322,7 @@ public class Player implements Cloneable, Serializable {
 
     /**
      * Renvoie le nom du joueur
+     *
      * @return String
      */
     @Override

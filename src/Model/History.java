@@ -10,8 +10,8 @@ import java.util.Stack;
  */
 public class History implements Serializable {
 
-    private Stack<Move> history;
-    private Stack<Move> redo;
+    private final Stack<Move> history;
+    private final Stack<Move> redo;
 
     /**
      * Constructeur
@@ -31,6 +31,7 @@ public class History implements Serializable {
 
     /**
      * Annule le dernier mouvement
+     *
      * @return Move
      */
     public Move cancelMove() {
@@ -44,6 +45,7 @@ public class History implements Serializable {
 
     /**
      * Renvoie l'historique
+     *
      * @return Stack<Move>
      */
     public Stack<Move> getHistory() {
@@ -52,6 +54,7 @@ public class History implements Serializable {
 
     /**
      * Vérifie si un mouvement peut être annulé
+     *
      * @return boolean
      */
     public boolean canCancel() {
@@ -60,6 +63,7 @@ public class History implements Serializable {
 
     /**
      * Vérifie si un mouvement peut être refait
+     *
      * @return boolean
      */
     public boolean canRedo() {
@@ -68,6 +72,7 @@ public class History implements Serializable {
 
     /**
      * Refait le dernier mouvement annulé
+     *
      * @return Move
      */
     public Move redoMove() {
@@ -81,6 +86,7 @@ public class History implements Serializable {
 
     /**
      * Test si deux historiques sont égaux
+     *
      * @return boolean
      */
     @Override
@@ -97,6 +103,7 @@ public class History implements Serializable {
 
     /**
      * Renvoie le hashcode de l'historique
+     *
      * @return int
      */
     @Override

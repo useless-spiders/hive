@@ -3,7 +3,6 @@ package Test;
 import Model.Insect.Spider;
 import Model.Player;
 import Structure.RessourceLoader;
-import View.DisplayMain;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,8 +15,8 @@ import static org.junit.Assert.assertNotNull;
  */
 public class RessourceLoaderTest {
     // Déclaration d'un joueur pour les tests
-    private Player player = new Player("Inspecteur blanco");
-    private RessourceLoader ressourceLoader = new RessourceLoader(null);
+    private final Player player = new Player("Inspecteur blanco");
+    private final RessourceLoader ressourceLoader = new RessourceLoader(null);
 
     @Before
     public void setUp() {

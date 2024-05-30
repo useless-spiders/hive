@@ -1,20 +1,18 @@
 package Model.Ai;
+
 import Model.HexGrid;
 import Model.Move;
 import Model.Player;
-import Structure.Tree;
-import Structure.Node;
 import Pattern.GameActionHandler;
 import Structure.Log;
+import Structure.Node;
+import Structure.Tree;
 
 public class Ai2 extends Ai { //MinMax
 
     Player other;
     int visited;
 
-    /**
-     * constructeur
-     */
     public Ai2(GameActionHandler gameActionHandler, Player p) {
         this.visited = 0;
         this.gameActionHandler = gameActionHandler;
@@ -26,56 +24,33 @@ public class Ai2 extends Ai { //MinMax
         }
     }
 
-    /**
-     * calcule l'heuristique pour une grille donnée
-     * @param g grille de jeu
-     * @return double
-     */
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
-        result -= beeNeighbors(this.aiPlayer, g)*0.9;
-        result += beeNeighbors(this.other, g)*0.9;
-        result += insectsCount(this.aiPlayer, g)*0.1;
-        result -= insectsCount(this.other, g)*0.1;
+        result -= beeNeighbors(this.aiPlayer, g) * 0.9;
+        result += beeNeighbors(this.other, g) * 0.9;
+        result += insectsCount(this.aiPlayer, g) * 0.1;
+        result -= insectsCount(this.other, g) * 0.1;
         return result;
     }
 
-    /**
-     * calcule le meilleur coup possible
-     * @param n noeud actuel
-     * @param gridC grille de jeu
-     * @param usC joueur cloné
-     * @param themC joueur adverse cloné
-     * @param depth profondeur du noeud
-     * @return double
-     */
-    double maxTree(Node n, HexGrid gridC, Player usC, Player themC, int depth) {
-        //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egaitee est comptee comme une defaite
-        if(gridC.checkLoser(usC))
-        {
-            Log.addMessage("on a perdu");
-            n.setValue(Double.MIN_VALUE);
-            return Double.MIN_VALUE;
-        }
-        if(gridC.checkLoser(themC))
-        {
-            n.setValue(Double.MAX_VALUE);
-            return Double.MAX_VALUE;
-        }
-        if (depth >= 3) {
+    double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+        if (level >= 2) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
             double max = -9999;
-            depth++;
+            level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double currentH = minTree(nextMove, gridC, usC, themC, depth);
-                gridC.unapplyMove(m, themC);
+                if (gridC.checkLoser(otherC)) {
+                    Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
+                }
+                double currentH = minTree(nextMove, gridC, usC, otherC, level);
+                gridC.unapplyMove(m, otherC);
                 if (currentH > max) {
                     max = currentH;
                 }
@@ -87,28 +62,8 @@ public class Ai2 extends Ai { //MinMax
 
     }
 
-    /**
-     * calcule le pire coup possible
-     * @param n noeud actuel
-     * @param gridC grille de jeu
-     * @param usC joueur cloné
-     * @param themC joueur adverse cloné
-     * @param depth profondeur du noeud
-     * @return double
-     */
-    double minTree(Node n, HexGrid gridC, Player usC, Player themC, int level) {
-        //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egalitee est comptee comme une defaite
-        if(gridC.checkLoser(usC))
-        {
-            n.setValue(Double.MIN_VALUE);
-            return Double.MIN_VALUE;
-        }
-        if(gridC.checkLoser(themC))
-        {
-            n.setValue(Double.MAX_VALUE);
-            return Double.MAX_VALUE;
-        }
-        if (level >= 3) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player otherC, int level) {
+        if (level >= 2) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
@@ -118,13 +73,16 @@ public class Ai2 extends Ai { //MinMax
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
-                gridC.applyMove(m, themC);
-                double currentH = maxTree(nextMove, gridC, usC, themC, level);
-                gridC.unapplyMove(m, themC);
+                gridC.applyMove(m, otherC);
+                if (gridC.checkLoser(otherC)) {
+                    Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
+                }
+                double currentH = maxTree(nextMove, gridC, usC, otherC, level);
+                gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;
                 }
-                visited +=1;
+                visited += 1;
             }
             n.setValue(min);
             return min;
@@ -132,10 +90,6 @@ public class Ai2 extends Ai { //MinMax
     }
 
 
-    /**
-     * choisis le coup à jouer pour par l'Ia
-     * @return coup à jouer
-     */
     public Move chooseMove() {
         Tree tree = new Tree();
         this.visited = 0;
@@ -151,7 +105,7 @@ public class Ai2 extends Ai { //MinMax
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(visited+" noeuds visités");
+        Log.addMessage(visited + " noeuds visités");
         return returnMove;
     }
 

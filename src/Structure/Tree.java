@@ -4,8 +4,8 @@ package Structure;
  * Classe pour les logs
  */
 public class Tree {
-    private Node root;
-    private Node current;
+    private final Node root;
+    private final Node current;
 
     /**
      * Constructeur
@@ -17,6 +17,7 @@ public class Tree {
 
     /**
      * Retourne la racine
+     *
      * @return Node
      */
     public Node getRoot() {
@@ -25,6 +26,7 @@ public class Tree {
 
     /**
      * Retourne le noeud courant
+     *
      * @return Node
      */
     public Node getCurrent() {
