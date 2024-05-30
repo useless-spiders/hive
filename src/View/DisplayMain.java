@@ -6,15 +6,16 @@ import Listener.KeyActionListener;
 import Listener.MouseActionListener;
 import Pattern.GameActionHandler;
 import Structure.FrameMetrics;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMain {
 
-    private DisplayWin displayWin;
-    private DisplayAbort displayAbort;
-    private DisplayRestart displayRestart;
-    private DisplayGame displayGame;
+    private final DisplayWin displayWin;
+    private final DisplayAbort displayAbort;
+    private final DisplayRestart displayRestart;
+    private final DisplayGame displayGame;
 
 
     public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,

@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class SaveLoad {
 
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
     private History history;
     private Player player1;
     private Player player2;

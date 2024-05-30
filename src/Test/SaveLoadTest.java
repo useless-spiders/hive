@@ -6,16 +6,17 @@ import Model.SaveLoad;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class SaveLoadTest {
-    private History history = new History();
-    private Player player1 = new Player("Player 1");
-    private Player player2 = new Player("Player 2");
+    private final History history = new History();
+    private final Player player1 = new Player("Player 1");
+    private final Player player2 = new Player("Player 2");
     private Player currentPlayer;
-    private SaveLoad saveLoad = new SaveLoad(null);
+    private final SaveLoad saveLoad = new SaveLoad(null);
 
     @Before
     public void setUp() {

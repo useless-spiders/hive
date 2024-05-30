@@ -1,5 +1,6 @@
 package View;
 
+import Global.Configuration;
 import Model.Insect.*;
 import Model.Player;
 import Pattern.GameActionHandler;
@@ -14,20 +15,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DisplayBankInsects {
-    private GameActionHandler gameActionHandler;
-    private Map<Class<? extends Insect>, JLabel> player1Labels;
-    private Map<Class<? extends Insect>, JLabel> player2Labels;
+    private final GameActionHandler gameActionHandler;
+    private final Map<Class<? extends Insect>, JLabel> player1Labels;
+    private final Map<Class<? extends Insect>, JLabel> player2Labels;
     private JPanel panelButtonBankJ1;
     private JPanel panelButtonBankJ2;
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
     private static JButton currentButton;
-    private GridBagConstraints gbc;
+    private final GridBagConstraints gbc;
 
     private static Boolean isInsectButtonClicked = false;
     private static ImageIcon currentIcon;
-    private JPanel panelGame;
-    private RessourceLoader ressourceLoader;
+    private final JPanel panelGame;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
@@ -81,7 +82,7 @@ public class DisplayBankInsects {
         panel.setLayout(new GridBagLayout());
 
         JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Times New Roman", Font.BOLD, 30)); // Augmenter la taille de la police ici
+        label.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, Configuration.DEFAULT_FONT_SIZE)); // Augmenter la taille de la police ici
         // Créer un nouveau JLabel pour chaque bouton
 
         if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
@@ -189,7 +190,7 @@ public class DisplayBankInsects {
         this.createPanels();
     }
 
-    private void createPanels(){
+    private void createPanels() {
         this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer1().getName()));
         this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer2().getName()));
 

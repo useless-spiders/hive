@@ -1,10 +1,10 @@
 package Model;
 
-import java.util.*;
-
 import Model.Insect.Bee;
 import Model.Insect.Insect;
 import Structure.HexCoordinate;
+
+import java.util.*;
 
 /**
  * Classe pour la grille hexagonale
@@ -34,6 +34,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie la grille
+     *
      * @return Map<HexCoordinate, HexCell>
      */
     public Map<HexCoordinate, HexCell> getGrid() {
@@ -42,6 +43,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie la cellule à partir des coordonnées
+     *
      * @param coord Coordonnées
      * @return HexCell
      */
@@ -51,7 +53,8 @@ public class HexGrid implements Cloneable {
 
     /**
      * Ajoute une cellule
-     * @param coord Coordonnées
+     *
+     * @param coord  Coordonnées
      * @param insect Insecte
      */
     public void addCell(HexCoordinate coord, Insect insect) {
@@ -62,6 +65,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Supprime une cellule
+     *
      * @param coord Coordonnées
      */
     public void removeCell(HexCoordinate coord) {
@@ -70,8 +74,9 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie les coordonnées voisines
+     *
      * @param coord Coordonnées
-     * @param dir Direction
+     * @param dir   Direction
      * @return HexCoordinate
      */
     public HexCoordinate getNeighborCoordinates(HexCoordinate coord, String dir) {
@@ -89,6 +94,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie les coordonnées voisines
+     *
      * @param coord Coordonnées
      * @return HashMap<HexCoordinate, String>
      */
@@ -98,7 +104,8 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie les coordonnées voisines
-     * @param coord Coordonnées
+     *
+     * @param coord      Coordonnées
      * @param verifyNull Vérifie si la cellule est nulle
      * @return HashMap<HexCoordinate, String>
      */
@@ -117,7 +124,8 @@ public class HexGrid implements Cloneable {
 
     /**
      * Applique un mouvement
-     * @param move Move
+     *
+     * @param move   Move
      * @param player Player
      */
     public void applyMove(Move move, Player player) { //Appelé uniquement si le move est valide
@@ -146,7 +154,8 @@ public class HexGrid implements Cloneable {
 
     /**
      * Annule un mouvement
-     * @param move Move
+     *
+     * @param move   Move
      * @param player Player
      */
     public void unapplyMove(Move move, Player player) {
@@ -179,8 +188,9 @@ public class HexGrid implements Cloneable {
 
     /**
      * Vérifie si la ruche est toujours connectée après un mouvement
+     *
      * @param from Ancienne coordonnée
-     * @param to Nouvelle coordonnée
+     * @param to   Nouvelle coordonnée
      * @return boolean
      */
     public boolean isHiveConnectedAfterMove(HexCoordinate from, HexCoordinate to) {
@@ -211,6 +221,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Vérifie si la ruche est connectée
+     *
      * @return boolean
      */
     public boolean isHiveConnected() {
@@ -228,6 +239,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Parcours en profondeur
+     *
      * @param current Coordonnée actuelle
      * @param visited Coordonnées visitées
      */
@@ -243,6 +255,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Vérifie si un joueur a perdu
+     *
      * @param player Joueur
      * @return boolean
      */
@@ -260,6 +273,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie la direction dans le sens horaire
+     *
      * @param direction Direction
      * @return String
      */
@@ -271,6 +285,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie la direction dans le sens anti-horaire
+     *
      * @param direction Direction
      * @return String
      */
@@ -282,6 +297,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Teste si deux grilles sont égales
+     *
      * @param obj
      * @return
      */
@@ -300,6 +316,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Renvoie le hashcode de la grille
+     *
      * @return int
      */
     @Override
@@ -309,6 +326,7 @@ public class HexGrid implements Cloneable {
 
     /**
      * Clone la grille
+     *
      * @return HexGrid
      */
     @Override

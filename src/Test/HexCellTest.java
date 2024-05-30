@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  */
 public class HexCellTest {
     // Déclaration d'un joueur pour les tests
-    private Player player = new Player("Inspecteur blanco");
+    private final Player player = new Player("Inspecteur blanco");
 
     @Before
     public void setUp() {
@@ -79,7 +79,7 @@ public class HexCellTest {
     }
 
     @Test
-    public void testClone(){
+    public void testClone() {
         HexCell cell = new HexCell();
         Insect ant = new Ant(player);
         cell.addInsect(ant);

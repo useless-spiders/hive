@@ -14,8 +14,8 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class InsectTest {
 
-    private Player player = new Player("Inspecteur blanco");
-    private Player player2 = new Player("Barbe noire");
+    private final Player player = new Player("Inspecteur blanco");
+    private final Player player2 = new Player("Barbe noire");
 
     private Ant ant;
     private Bee bee;
@@ -66,13 +66,13 @@ public class InsectTest {
     }
 
     @Test
-    public void testClone(){
+    public void testClone() {
         Ant ant2 = (Ant) ant.clone();
         assertEquals(ant, ant2);
     }
 
     @Test
-    public void testEquals(){
+    public void testEquals() {
         Ant ant1b = new Ant(this.player);
         assertEquals(this.ant, ant1b);
 

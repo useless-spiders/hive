@@ -15,8 +15,8 @@ import java.awt.event.ActionListener;
  * Controleur pour l'IA
  */
 public class AiController implements ActionListener {
-    private GameActionHandler gameActionHandler;
-    private Timer delay;
+    private final GameActionHandler gameActionHandler;
+    private final Timer delay;
 
     /**
      * Constructeur

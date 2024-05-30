@@ -14,21 +14,22 @@ import java.awt.event.*;
  * Listener pour les actions de la souris
  */
 public class MouseActionListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
-    private GameActionHandler gameActionHandler;
-    private DisplayGame displayGame;
+    private final GameActionHandler gameActionHandler;
+    private final DisplayGame displayGame;
     private int lastX;
     private int lastY;
     private HexCoordinate hoverCell;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
-     * @param displayGame DisplayGame
+     * @param displayGame       DisplayGame
      */
     public MouseActionListener(GameActionHandler gameActionHandler, DisplayGame displayGame) {
         this.gameActionHandler = gameActionHandler;
         this.displayGame = displayGame;
-        
+
         this.displayGame.addMouseListener(this);
         this.displayGame.addMouseMotionListener(this);
         this.displayGame.addMouseWheelListener(this);
@@ -36,6 +37,7 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     /**
      * Met en surbrillance l'hexagon survolé
+     *
      * @return HexCoordinate
      */
     @Override
@@ -53,6 +55,7 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     /**
      * Gère les clics de souris
+     *
      * @param e MouseEvent
      */
     @Override
@@ -76,12 +79,13 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     /**
      * Gère le dragging de la souris
+     *
      * @param e MouseEvent
      */
     @Override
     public void mouseDragged(MouseEvent e) {
         // Bloque le dragging si la grille est vide
-        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+        if (this.gameActionHandler.getGrid().getGrid().isEmpty()) {
             return;
         }
         int x = e.getX();
@@ -94,12 +98,13 @@ public class MouseActionListener extends MouseAdapter implements MouseMotionList
 
     /**
      * Gère le zoom de la souris
+     *
      * @param e MouseWheelEvent
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         // Bloque le zoom si la grille est vide
-        if(this.gameActionHandler.getGrid().getGrid().isEmpty()){
+        if (this.gameActionHandler.getGrid().getGrid().isEmpty()) {
             return;
         }
         int notches = e.getWheelRotation();

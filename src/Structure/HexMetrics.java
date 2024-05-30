@@ -13,6 +13,7 @@ public class HexMetrics {
 
     /**
      * Renvoie les coordonnées du centre de l'hexagone
+     *
      * @param hex Coordonnées hexagonales
      * @return Point
      */
@@ -24,6 +25,7 @@ public class HexMetrics {
 
     /**
      * Renvoie les coordonnées du centre de l'hexagone
+     *
      * @param mouseX Coordonnée x
      * @param mouseY Coordonnée y
      * @return Point
@@ -38,12 +40,13 @@ public class HexMetrics {
 
     /**
      * Renvoie les coordonnées du centre de la fenêtre
+     *
      * @param frameSizeX Taille de la fenêtre en x
      * @param frameSizeY Taille de la fenêtre en y
      * @return HexCoordinate
      */
     public static HexCoordinate hexCenterCoordinate(int frameSizeX, int frameSizeY) {
-        return pixelToHex(frameSizeX/2, frameSizeY/2);
+        return pixelToHex(frameSizeX / 2, frameSizeY / 2);
     }
 
     /**

@@ -7,11 +7,12 @@ import java.util.Objects;
  * Classe pour les coordonnées hexagonales
  */
 public class HexCoordinate implements Cloneable, Serializable {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     /**
      * Constructeur
+     *
      * @param x Coordonnée x
      * @param y Coordonnée y
      */
@@ -22,6 +23,7 @@ public class HexCoordinate implements Cloneable, Serializable {
 
     /**
      * Renvoie la coordonnée x
+     *
      * @return int
      */
     public int getX() {
@@ -30,6 +32,7 @@ public class HexCoordinate implements Cloneable, Serializable {
 
     /**
      * Renvoie la coordonnée y
+     *
      * @return int
      */
     public int getY() {
@@ -38,6 +41,7 @@ public class HexCoordinate implements Cloneable, Serializable {
 
     /**
      * Test si les coordonnées sont égales
+     *
      * @return boolean
      */
     @Override
@@ -54,6 +58,7 @@ public class HexCoordinate implements Cloneable, Serializable {
 
     /**
      * Renvoie le hashcode
+     *
      * @return int
      */
     @Override
@@ -63,6 +68,7 @@ public class HexCoordinate implements Cloneable, Serializable {
 
     /**
      * Clone l'objet
+     *
      * @return HexCoordinate
      */
     @Override

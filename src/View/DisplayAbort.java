@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayAbort extends JPanel {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
 
     public DisplayAbort(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;

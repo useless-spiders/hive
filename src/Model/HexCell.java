@@ -20,6 +20,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Ajoute un insecte
+     *
      * @param insect Insecte
      */
     public void addInsect(Insect insect) {
@@ -35,6 +36,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Renvoie la liste des insectes
+     *
      * @return ArrayList<Insect>
      */
     public ArrayList<Insect> getInsects() {
@@ -43,6 +45,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Renvoie l'insecte du haut
+     *
      * @return Insect
      */
     public Insect getTopInsect() {
@@ -51,6 +54,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Test si deux cellules sont égales
+     *
      * @param obj Object
      * @return boolean
      */
@@ -76,6 +80,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Renvoie le hashcode de la cellule
+     *
      * @return int
      */
     @Override
@@ -85,6 +90,7 @@ public class HexCell implements Cloneable {
 
     /**
      * Clone la cellule
+     *
      * @return HexCell
      */
     @Override

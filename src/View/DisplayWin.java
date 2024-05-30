@@ -11,9 +11,9 @@ import java.text.MessageFormat;
 
 
 public class DisplayWin extends JPanel {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
     private Player winner;
-    private RessourceLoader ressourceLoader;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayWin(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;

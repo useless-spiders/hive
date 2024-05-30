@@ -1,12 +1,11 @@
 package Model.Insect;
 
+import Model.HexGrid;
 import Model.Player;
 import Structure.HexCoordinate;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import Model.HexGrid;
 
 /**
  * Classe pour les sauterelles
@@ -15,6 +14,7 @@ public class Grasshopper extends Insect {
 
     /**
      * Constructeur
+     *
      * @param player Joueur
      */
     public Grasshopper(Player player) {
@@ -23,9 +23,10 @@ public class Grasshopper extends Insect {
 
     /**
      * Renvoie les coordonnées possibles pour le déplacement
+     *
      * @param current Coordonnées actuelles
-     * @param g Grille
-     * @param p Joueur
+     * @param g       Grille
+     * @param p       Joueur
      * @return ArrayList
      */
     @Override
@@ -40,7 +41,7 @@ public class Grasshopper extends Insect {
                 while (g.getCell(next) != null) {
                     next = g.getNeighborCoordinates(next, direction);
                 }
-                if(next != neighbor && g.isHiveConnectedAfterMove(current, next)){
+                if (next != neighbor && g.isHiveConnectedAfterMove(current, next)) {
                     coordinates.add(next);
                 }
             }

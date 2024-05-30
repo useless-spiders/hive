@@ -16,6 +16,7 @@ public class ComponentActionListener extends ComponentAdapter {
 
     /**
      * Constructeur
+     *
      * @param frameGame   Fenêtre du jeu
      * @param displayGame Affichage du jeu
      */
@@ -28,6 +29,7 @@ public class ComponentActionListener extends ComponentAdapter {
 
     /**
      * Recentre le jeu quand on change la taille de la fenêtre
+     *
      * @param componentEvent ComponentEvent
      */
     @Override

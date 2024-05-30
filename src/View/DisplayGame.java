@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
-    private Image background;
+    private final Image background;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -20,11 +20,11 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayStack displayStack;
     private DisplayInfoInGame displayInfoInGame;
 
-    private JFrame frameGame;
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
+    private final JFrame frameGame;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
 
-    public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler){
+    public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler) {
         this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
@@ -40,7 +40,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         frameGame.pack(); // Pack le JFrame
     }
 
-    public void buildGame(){
+    public void buildGame() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -54,21 +54,33 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.displayBankInsects.updateButtons();
     }
 
-    public JFrame getFrameGame() {return this.frameGame;}
+    public JFrame getFrameGame() {
+        return this.frameGame;
+    }
+
     public DisplayHexGrid getDisplayHexGrid() {
         return this.displayHexGrid;
     }
+
     public DisplayPlayableHex getDisplayPlayableHex() {
         return this.displayPlayableHex;
     }
+
     public DisplayBankInsects getDisplayBankInsects() {
         return this.displayBankInsects;
     }
+
     public DisplayStack getDisplayStack() {
         return this.displayStack;
     }
-    public DisplayInfoInGame getDisplayInfoInGame(){return this.displayInfoInGame;}
-    public DisplayMenuInGame getDisplayMenuInGame(){return this.displayMenuInGame;}
+
+    public DisplayInfoInGame getDisplayInfoInGame() {
+        return this.displayInfoInGame;
+    }
+
+    public DisplayMenuInGame getDisplayMenuInGame() {
+        return this.displayMenuInGame;
+    }
 
     public void centerGame() {
         HexGrid hexGrid = gameActionHandler.getGrid();

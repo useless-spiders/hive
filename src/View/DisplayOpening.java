@@ -8,9 +8,9 @@ import java.awt.*;
 
 public class DisplayOpening extends JPanel {
     JFrame frameOpening;
-    private Image background;
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
+    private final Image background;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayOpening(JFrame frameOpening, GameActionHandler gameActionHandler) {
         this.frameOpening = frameOpening;

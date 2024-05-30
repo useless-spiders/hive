@@ -13,8 +13,8 @@ import java.awt.*;
 public class DisplayHexGrid extends JComponent {
     private boolean isInsectHexClicked = false;
     private HexCoordinate hexClicked = null;
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayHexGrid(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;

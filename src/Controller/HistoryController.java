@@ -11,11 +11,12 @@ import java.util.ArrayList;
  * Controleur pour l'historique des mouvements
  */
 public class HistoryController {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
     private History history;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
      */
     public HistoryController(GameActionHandler gameActionHandler) {
@@ -25,6 +26,7 @@ public class HistoryController {
 
     /**
      * Renvoie l'historique
+     *
      * @return History
      */
     public History getHistory() {
@@ -33,6 +35,7 @@ public class HistoryController {
 
     /**
      * Définit l'historique
+     *
      * @param history History
      */
     public void setHistory(History history) {
@@ -86,6 +89,7 @@ public class HistoryController {
 
     /**
      * Ajoute un mouvement à l'historique
+     *
      * @param move Move
      */
     public void addMove(Move move) {

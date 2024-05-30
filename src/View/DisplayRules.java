@@ -7,17 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayRules extends JPanel {
-    private JFrame frameRules;
+    private final JFrame frameRules;
     int numRules = 1;
     Image background;
-    private static int MIN = 1;
-    private static int MAX = 11;
+    private static final int MIN = 1;
+    private static final int MAX = 11;
 
-    private JButton previous;
-    private JButton next;
+    private final JButton previous;
+    private final JButton next;
 
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
 
     public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
         this.frameRules = frameRules;
@@ -57,14 +57,14 @@ public class DisplayRules extends JPanel {
     }
 
     private void actionPrevious() {
-        if(this.numRules > MIN){
+        if (this.numRules > MIN) {
             this.numRules--;
             this.updateImage();
         }
     }
 
     private void actionNext() {
-        if(this.numRules < MAX){
+        if (this.numRules < MAX) {
             this.numRules++;
             this.updateImage();
         }

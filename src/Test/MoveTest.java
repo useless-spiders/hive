@@ -1,8 +1,8 @@
 package Test;
 
-import Model.Move;
 import Model.Insect.Ant;
 import Model.Insect.Bee;
+import Model.Move;
 import Model.Player;
 import Structure.HexCoordinate;
 import org.junit.Test;

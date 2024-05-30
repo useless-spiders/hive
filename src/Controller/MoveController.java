@@ -16,10 +16,11 @@ import java.util.ArrayList;
  * Controleur pour les mouvements
  */
 public class MoveController {
-    private GameActionHandler gameActionHandler;
+    private final GameActionHandler gameActionHandler;
 
     /**
      * Constructeur
+     *
      * @param gameActionHandler GameActionHandler
      */
     public MoveController(GameActionHandler gameActionHandler) {
@@ -28,8 +29,9 @@ public class MoveController {
 
     /**
      * Renvoie les mouvements possibles
+     *
      * @param grid HexGrid
-     * @param p Player
+     * @param p    Player
      * @return ArrayList<Move>
      */
     public ArrayList<Move> getMoves(HexGrid grid, Player p) {
@@ -71,8 +73,9 @@ public class MoveController {
 
     /**
      * Renvoie les coordonnées d'insertion possibles
+     *
      * @param insectClass Class<? extends Insect>
-     * @param player Player
+     * @param player      Player
      * @return ArrayList<HexCoordinate>
      */
     public ArrayList<HexCoordinate> generatePlayableInsertionCoordinates(Class<? extends Insect> insectClass, Player player) {

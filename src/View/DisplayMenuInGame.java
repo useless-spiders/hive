@@ -8,19 +8,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayMenuInGame extends JFrame {
-    private String SAVE;
-    private String RULES;
-    private String RESTART;
-    private String ABORT;
-    private String RETURN;
+    private final String SAVE;
+    private final String RULES;
+    private final String RESTART;
+    private final String ABORT;
+    private final String RETURN;
 
-    private GameActionHandler gameActionHandler;
-    private RessourceLoader ressourceLoader;
-    private JPanel panelGame;
-    private JPanel optionsPanel;
-    private JButton cancelButton;
-    private JButton redoButton;
-    private JButton changeStateAIButton;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
+    private final JPanel panelGame;
+    private final JPanel optionsPanel;
+    private final JButton cancelButton;
+    private final JButton redoButton;
+    private final JButton changeStateAIButton;
     private JButton saveButton;
     private JButton rulesButton;
     private JButton restartButton;

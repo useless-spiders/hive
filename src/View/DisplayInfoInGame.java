@@ -7,10 +7,10 @@ import java.awt.*;
 import java.text.MessageFormat;
 
 public class DisplayInfoInGame extends JPanel {
-    private JLabel turnLabel;
-    private JLabel namePlayeurLabel;
-    private JLabel tipCenter;
-    private GameActionHandler gameActionHandler;
+    private final JLabel turnLabel;
+    private final JLabel namePlayeurLabel;
+    private final JLabel tipCenter;
+    private final GameActionHandler gameActionHandler;
 
     public DisplayInfoInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
@@ -22,7 +22,7 @@ public class DisplayInfoInGame extends JPanel {
         this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
         this.tipCenter = new JLabel(this.gameActionHandler.getLang().getString("display.info.tip_center"));
 
-        JPanel boxContainer  = new JPanel();
+        JPanel boxContainer = new JPanel();
         boxContainer.setLayout(new BoxLayout(boxContainer, BoxLayout.Y_AXIS));
         boxContainer.setOpaque(false);
         boxContainer.add(infoLabel);

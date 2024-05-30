@@ -2,7 +2,8 @@ package Controller;
 
 import Global.Configuration;
 import Listener.GameActionListener;
-import Model.*;
+import Model.HexGrid;
+import Model.History;
 import Pattern.GameActionHandler;
 import Structure.HexMetrics;
 import Structure.ViewMetrics;
@@ -18,14 +19,14 @@ import java.util.ResourceBundle;
 public class GameController implements GameActionHandler {
     private HexGrid hexGrid;
     private boolean isFirstStart = true;
-    private PlayerController playerController;
-    private AiController aiController;
-    private MoveController moveController;
-    private HistoryController historyController;
-    private GameActionListener gameActionListener;
-    private SaveLoadController saveLoadController;
+    private final PlayerController playerController;
+    private final AiController aiController;
+    private final MoveController moveController;
+    private final HistoryController historyController;
+    private final GameActionListener gameActionListener;
+    private final SaveLoadController saveLoadController;
     private DisplayGame displayGame;
-    private PageController pageController;
+    private final PageController pageController;
     private ResourceBundle lang;
     private Locale currentLocale;
 
@@ -58,6 +59,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le bundle pour gérer les messages dans plusieurs langues
+     *
      * @return ResourceBundle
      */
     public ResourceBundle getLang() {
@@ -66,6 +68,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Change la langue
+     *
      * @param language String
      */
     public void setLang(Locale language) {
@@ -75,6 +78,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie la langue actuelle
+     *
      * @return Locale
      */
     public Locale getCurrentLocale() {
@@ -83,6 +87,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur de page
+     *
      * @return PageController
      */
     @Override
@@ -92,6 +97,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur de joueur
+     *
      * @return PlayerController
      */
     @Override
@@ -101,6 +107,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur de l'IA
+     *
      * @return AiController
      */
     @Override
@@ -110,6 +117,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur de mouvement
+     *
      * @return MoveController
      */
     @Override
@@ -119,6 +127,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur d'historique
+     *
      * @return HistoryController
      */
     @Override
@@ -128,6 +137,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur d'action de jeu
+     *
      * @return GameActionListener
      */
     @Override
@@ -137,6 +147,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le controleur de sauvegarde
+     *
      * @return SaveLoadController
      */
     @Override
@@ -146,6 +157,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie si c'est le premier démarrage
+     *
      * @return boolean
      */
     @Override
@@ -155,6 +167,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Change l'état du premier démarrage
+     *
      * @param isFirstStart boolean
      */
     @Override
@@ -164,6 +177,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie la grille
+     *
      * @return HexGrid
      */
     @Override
@@ -173,6 +187,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Change la grille
+     *
      * @param hexGrid HexGrid
      */
     @Override
@@ -182,6 +197,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Renvoie le display du jeu
+     *
      * @return DisplayGame
      */
     @Override
@@ -191,6 +207,7 @@ public class GameController implements GameActionHandler {
 
     /**
      * Change le display du jeu
+     *
      * @param displayGame DisplayGame
      */
     @Override

@@ -1,12 +1,11 @@
 package Model.Insect;
 
+import Model.HexGrid;
 import Model.Player;
 import Structure.HexCoordinate;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import Model.HexGrid;
 
 /**
  * Classe pour les scarabées
@@ -15,6 +14,7 @@ public class Beetle extends Insect {
 
     /**
      * Constructeur
+     *
      * @param player Joueur
      */
     public Beetle(Player player) {
@@ -23,9 +23,10 @@ public class Beetle extends Insect {
 
     /**
      * Renvoie les coordonnées possibles pour le déplacement
+     *
      * @param current Coordonnées actuelles
-     * @param g Grille
-     * @param p Joueur
+     * @param g       Grille
+     * @param p       Joueur
      * @return ArrayList
      */
     @Override
@@ -42,7 +43,7 @@ public class Beetle extends Insect {
                     if (g.getCell(leftNeighbor) != null || g.getCell(rightNeighbor) != null) {
                         coordinates.add(neighbor);
                     }
-                    if (g.getCell(neighbor) != null || g.getCell(current).getInsects().size()>2) {
+                    if (g.getCell(neighbor) != null || g.getCell(current).getInsects().size() > 2) {
                         coordinates.add(neighbor);
                     }
                 }
