@@ -465,7 +465,7 @@ public class DisplayConfigGame extends JPanel {
     public void updateButtons() {
         this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
         this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
-        this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
+        this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
         this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.updateDropDownMenuPlayers(this.column1);
