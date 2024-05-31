@@ -17,20 +17,20 @@ import java.io.File;
 import java.util.Locale;
 
 public class DisplayConfigGame extends JPanel {
-    private final String HUMAN = "Humain";
-    private final String IA_EASY = "AiRandom";
-    private final String IA_HARD = "Ai1";
-    private final String IA_HARD2 = "Ai2";
-    private final String IA_HARD3 = "Ai3";
-    private final String PLAY;
-    private final String RETURN;
-    private final String LOAD;
-    private final String SKIN;
-    private final String NAME_TEXT;
+    private String HUMAN;
+    private String IA_EASY;
+    private String IA_HARD;
+    private String IA_HARD2;
+    private String IA_HARD3;
+    private String PLAY;
+    private String RETURN;
+    private String LOAD;
+    private String SKIN;
+    private String NAME_TEXT;
     private boolean isSkinSelectorAdded = false;
     private Image background;
     private JPanel eastPanel;
-    private final JPanel westPanel;
+    private JPanel westPanel;
     private JPanel exampleSkinPanelWhite;
     private JPanel exampleSkinPanelBlack;
     private GridBagConstraints westGbc;
@@ -48,6 +48,7 @@ public class DisplayConfigGame extends JPanel {
     private JButton playButton;
     private JButton loadButton;
     private JButton skinButton;
+    private JButton returnButton;
 
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
@@ -56,10 +57,15 @@ public class DisplayConfigGame extends JPanel {
         this.background = this.ressourceLoader.loadBackground("Opening_param.png");
 
         this.PLAY = this.gameActionHandler.getLang().getString("display.config.play");
-        this.RETURN = this.gameActionHandler.getLang().getString("display.config.back");
+        this.RETURN = this.gameActionHandler.getLang().getString("display.config.skin.back");
         this.LOAD = this.gameActionHandler.getLang().getString("display.config.load");
         this.SKIN = this.gameActionHandler.getLang().getString("display.config.skin");
         this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
+        this.HUMAN = this.gameActionHandler.getLang().getString("display.config.menu.human");
+        this.IA_EASY = this.gameActionHandler.getLang().getString("display.config.menu.random");
+        this.IA_HARD = this.gameActionHandler.getLang().getString("display.config.menu.level1");
+        this.IA_HARD2 = this.gameActionHandler.getLang().getString("display.config.menu.level2");
+        this.IA_HARD3 = this.gameActionHandler.getLang().getString("display.config.menu.level3");
 
         setLayout(new GridLayout(1, 2));
         this.westPanel = new JPanel(new GridBagLayout());
@@ -367,7 +373,7 @@ public class DisplayConfigGame extends JPanel {
             } else if (selectedSkin.equals(skins[3])) {
                 Configuration.DEFAULT_SKINS = "Skin_very_hard/";
             } else {
-                Log.addMessage("Skin inconnu");
+                Configuration.DEFAULT_SKINS = "Default/";
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             updateExampleSkin();
@@ -397,8 +403,8 @@ public class DisplayConfigGame extends JPanel {
         this.westPanel.add(exampleSkinPanelBlack, westGbc);
         westGbc.gridwidth = 1;
         westGbc.gridy = 2;
-        JButton returnButton = createButton(RETURN);
-        this.westPanel.add(returnButton, westGbc);
+        this.returnButton = createButton(RETURN);
+        this.westPanel.add(this.returnButton, westGbc);
     }
 
     /**
@@ -462,6 +468,29 @@ public class DisplayConfigGame extends JPanel {
         this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
         this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
+        this.updateDropDownMenuPlayers(this.column1);
+        this.updateDropDownMenuPlayers(this.column2);
+
+        if(this.returnButton != null){
+            this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
+        }
+    }
+
+    /**
+     * actualise les items du menu deroulant
+     *
+     * @param comboBox JComboBox<String>
+     */
+    private void updateDropDownMenuPlayers(JComboBox<String> comboBox) {
+        // Remove all items
+        comboBox.removeAllItems();
+
+        // Add updated items
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.human"));
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.random"));
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
     }
 
 
