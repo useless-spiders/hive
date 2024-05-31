@@ -5,9 +5,12 @@ import Structure.RessourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DisplayRules extends JPanel {
     private final JFrame frameRules;
+    private final JFrame frameGame;
     int numRules = 1;
     Image background;
     private static final int MIN = 1;
@@ -20,8 +23,9 @@ public class DisplayRules extends JPanel {
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
 
-    public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
+    public DisplayRules(JFrame frameGame, JFrame frameRules, GameActionHandler gameActionHandler) {
         this.frameRules = frameRules;
+        this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
         this.background = this.ressourceLoader.loadRules("Rule_1.png");
@@ -61,6 +65,16 @@ public class DisplayRules extends JPanel {
         add(navigatorButtonContainer, gbc);
 
         frameRules.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
+
+        frameRules.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Modifier le comportement de frameGame lorsque frameRules est fermée
+                frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            }
+        });
+
+        frameRules.setResizable(false); // Désactiver le redimensionnement
         frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
@@ -80,6 +94,7 @@ public class DisplayRules extends JPanel {
 
     private void actionClose() {
         this.frameRules.setVisible(false);
+        this.frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Permettre de fermer la frame de jeu
     }
 
     private void updateImage() {

@@ -27,7 +27,6 @@ public class DisplayMain {
         FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
         FrameMetrics.setFrameSize(frameOpening, new Dimension(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT)); //Mettre une taille par défaut
         FrameMetrics.setFullScreen(frameOpening);
-        //frameOpening.setResizable(false);
 
         //Affichage du menu
         new DisplayConfigGame(frameMenu, gameActionHandler);
@@ -53,7 +52,7 @@ public class DisplayMain {
         this.displayRestart = new DisplayRestart(gameActionHandler);
 
         //Affichage des regles
-        DisplayRules displayRules = new DisplayRules(frameRules, gameActionHandler);
+        DisplayRules displayRules = new DisplayRules(frameGame, frameRules, gameActionHandler);
         FrameMetrics.setupFrame(frameRules, false, JFrame.DISPOSE_ON_CLOSE);
         FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }

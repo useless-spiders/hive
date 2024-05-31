@@ -52,6 +52,7 @@ public class PageController {
     }
 
     public void gameAndRules() {
+        this.frameGame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Quand les règles sont ouvertes, on ne peut pas fermer le jeu
         this.frameGame.setVisible(true);
         this.frameRules.setVisible(true);
     }
