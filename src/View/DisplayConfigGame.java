@@ -18,10 +18,10 @@ import java.util.Locale;
 
 public class DisplayConfigGame extends JPanel {
     private final String HUMAN = "Humain";
-    private final String IA_EASY = "AiRandom";
-    private final String IA_HARD = "Ai1";
-    private final String IA_HARD2 = "Ai2";
-    private final String IA_HARD3 = "Ai3";
+    private final String IA_EASY = "Niveau Aléatoire";
+    private final String IA_HARD = "Niveau 1";
+    private final String IA_HARD2 = "Niveau 2";
+    private final String IA_HARD3 = "Niveau 3";
     private final String PLAY;
     private final String RETURN;
     private final String LOAD;

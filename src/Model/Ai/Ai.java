@@ -30,16 +30,16 @@ public abstract class Ai implements Serializable {
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
         Ai resultat = null;
         switch (ia) {
-            case "AiRandom":
+            case "Niveau Aléatoire":
                 resultat = new AiRandom(gameActionHandler, p);
                 break;
-            case "Ai1":
+            case "Niveau 1":
                 resultat = new Ai1(gameActionHandler, p);
                 break;
-            case "Ai2":
+            case "Niveau 2":
                 resultat = new Ai2(gameActionHandler, p);
                 break;
-            case "Ai3":
+            case "Niveau 3":
                 resultat = new Ai3(gameActionHandler, p);
                 break;
             default:
