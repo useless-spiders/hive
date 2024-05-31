@@ -18,6 +18,7 @@ public class DisplayInfoInGame extends JPanel {
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
 
         JLabel infoLabel = new JLabel(this.gameActionHandler.getLang().getString("display.info.title"));
+        infoLabel.setFont(new Font("Serif", Font.BOLD, 18));
         this.namePlayeurLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
         this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
         this.tipCenter = new JLabel(this.gameActionHandler.getLang().getString("display.info.tip_center"));
@@ -28,6 +29,7 @@ public class DisplayInfoInGame extends JPanel {
         boxContainer.add(infoLabel);
         boxContainer.add(this.namePlayeurLabel);
         boxContainer.add(this.turnLabel);
+        boxContainer.add(Box.createVerticalStrut(10));
         boxContainer.add(this.tipCenter);
 
         gbc.gridx = 0;

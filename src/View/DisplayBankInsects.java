@@ -67,12 +67,14 @@ public class DisplayBankInsects {
         this.player2NameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Ajouter le bouton et le label pour chaque insecte
+        panel.add(Box.createVerticalStrut(10));
         panel.add(playerName);
         panel.add(createButtonWithLabel(Spider.class, player, String.valueOf(player.getInsectCount(Spider.class)), side));
         panel.add(createButtonWithLabel(Ant.class, player, String.valueOf(player.getInsectCount(Ant.class)), side));
         panel.add(createButtonWithLabel(Bee.class, player, String.valueOf(player.getInsectCount(Bee.class)), side));
         panel.add(createButtonWithLabel(Grasshopper.class, player, String.valueOf(player.getInsectCount(Grasshopper.class)), side));
         panel.add(createButtonWithLabel(Beetle.class, player, String.valueOf(player.getInsectCount(Beetle.class)), side));
+        panel.add(Box.createVerticalStrut(10));
         return panel;
     }
 
@@ -97,8 +99,10 @@ public class DisplayBankInsects {
         if (side == 1) {
             panel.add(createButton(insectClass, player), duoGbc);
             duoGbc.gridx = 1;
+            duoGbc.insets = new Insets(0, 0, 0, 10);
             panel.add(label, duoGbc);
         } else {
+            duoGbc.insets = new Insets(0, 10, 0, 0);
             panel.add(label, duoGbc);
             duoGbc.gridx = 1;
             panel.add(createButton(insectClass, player), duoGbc);
@@ -193,6 +197,8 @@ public class DisplayBankInsects {
     private void createPanels() {
         this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer1().getName()));
         this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer2().getName()));
+        this.player1NameLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        this.player2NameLabel.setFont(new Font("Serif", Font.BOLD, 20));
 
         this.panelButtonBankJ1 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1NameLabel, 1);
         this.panelButtonBankJ2 = createButtonPanel(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2NameLabel, 2);

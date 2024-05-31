@@ -34,6 +34,7 @@ public class DisplayConfigGame extends JPanel {
     private JPanel exampleSkinPanelWhite;
     private JPanel exampleSkinPanelBlack;
     private GridBagConstraints westGbc;
+
     private JComboBox<String> skinSelector;
 
     private JComboBox<String> column1;
@@ -277,6 +278,8 @@ public class DisplayConfigGame extends JPanel {
             } else {
                 if (!this.player1NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
+                } else {
+                    this.gameActionHandler.getPlayerController().getPlayer1().setName(this.gameActionHandler.getLang().getString("display.config.player1.name"));
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
@@ -284,8 +287,11 @@ public class DisplayConfigGame extends JPanel {
             } else {
                 if (!this.player2NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
+                } else {
+                    this.gameActionHandler.getPlayerController().getPlayer2().setName(this.gameActionHandler.getLang().getString("display.config.player2.name"));
                 }
             }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getAiController().startAi();
             this.gameActionHandler.getPageController().menuToGame();
@@ -361,30 +367,39 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
                 this.gameActionHandler.getLang().getString("display.config.skin.hard")
         };
-        JComboBox<String> skinSelector = new JComboBox<>(skins);
-        skinSelector.addActionListener(e -> {
-            String selectedSkin = (String) skinSelector.getSelectedItem();
-            if (selectedSkin.equals(skins[0])) {
+        JComboBox<String> box = new JComboBox<>();
+        for (String skin : skins) {
+            box.addItem(skin);
+        }
+        box.addActionListener(e -> {
+            String selectedSkin = (String) box.getSelectedItem();
+            if (selectedSkin == null) {
                 Configuration.DEFAULT_SKINS = "Default/";
-            } else if (selectedSkin.equals(skins[1])) {
-                Configuration.DEFAULT_SKINS = "Black_and_white/";
-            } else if (selectedSkin.equals(skins[2])) {
-                Configuration.DEFAULT_SKINS = "Sus_skin/";
-            } else if (selectedSkin.equals(skins[3])) {
-                Configuration.DEFAULT_SKINS = "Skin_very_hard/";
             } else {
-                Configuration.DEFAULT_SKINS = "Default/";
+                if (selectedSkin.equals(skins[0])) {
+                    Configuration.DEFAULT_SKINS = "Default/";
+                } else if (selectedSkin.equals(skins[1])) {
+                    Configuration.DEFAULT_SKINS = "Black_and_white/";
+                } else if (selectedSkin.equals(skins[2])) {
+                    Configuration.DEFAULT_SKINS = "Sus_skin/";
+                } else if (selectedSkin.equals(skins[3])) {
+                    Configuration.DEFAULT_SKINS = "Skin_very_hard/";
+                } else {
+                    Configuration.DEFAULT_SKINS = "Default/";
+                }
             }
+
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             updateExampleSkin();
         });
-        return skinSelector;
+        return box;
     }
 
     /**
      * Transition de la configuration de la partie au choix du skin
      */
     private void changeBackgroundAndAddButtons() {
+        this.RETURN = this.gameActionHandler.getLang().getString("display.config.skin.back");
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
         this.skinSelector = createComboBoxSkinSelector();
@@ -463,17 +478,31 @@ public class DisplayConfigGame extends JPanel {
      * actualise le texte des boutons en fonction de la langue
      */
     public void updateButtons() {
+        this.HUMAN = this.gameActionHandler.getLang().getString("display.config.menu.human");
+        this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
+
         this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
         this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
         this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
         this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
-        this.updateDropDownMenuPlayers(this.column1);
-        this.updateDropDownMenuPlayers(this.column2);
+        this.updateDropDownMenuPlayers(this.column1, this.player1NameField);
+        this.updateDropDownMenuPlayers(this.column2, this.player2NameField);
 
-        if(this.returnButton != null){
+        if (this.skinSelector != null && this.returnButton != null){
             this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
+
+            // Remove all items
+            this.skinSelector.removeAllItems();
+
+            // Add updated items
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.human"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.random"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
         }
+
     }
 
     /**
@@ -481,7 +510,7 @@ public class DisplayConfigGame extends JPanel {
      *
      * @param comboBox JComboBox<String>
      */
-    private void updateDropDownMenuPlayers(JComboBox<String> comboBox) {
+    private void updateDropDownMenuPlayers(JComboBox<String> comboBox, JTextField textField) {
         // Remove all items
         comboBox.removeAllItems();
 
@@ -491,6 +520,23 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
+
+        textField.setEnabled(true);
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(NAME_TEXT)) {
+                    textField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(NAME_TEXT);
+                }
+            }
+        });
     }
 
 
