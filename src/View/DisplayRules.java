@@ -11,7 +11,6 @@ import java.awt.event.WindowListener;
 
 public class DisplayRules extends JPanel implements WindowListener {
     private final JFrame frameRules;
-    private final JFrame frameGame;
     int numRules = 1;
     Image background;
     private static final int MIN = 1;
@@ -24,9 +23,8 @@ public class DisplayRules extends JPanel implements WindowListener {
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
 
-    public DisplayRules(JFrame frameGame, JFrame frameRules, GameActionHandler gameActionHandler) {
+    public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
         this.frameRules = frameRules;
-        this.frameGame = frameGame;
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
         this.background = this.ressourceLoader.loadRules("Rule_1.png");
@@ -90,7 +88,6 @@ public class DisplayRules extends JPanel implements WindowListener {
     private void actionClose() {
         this.resetToFirstSlide();
         this.frameRules.setVisible(false);
-        this.frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Permettre de fermer la frame de jeu
     }
 
     private void updateImage() {
@@ -142,7 +139,6 @@ public class DisplayRules extends JPanel implements WindowListener {
     @Override
     public void windowClosing(WindowEvent var1){
         this.resetToFirstSlide();
-        this.frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override

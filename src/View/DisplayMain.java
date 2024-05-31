@@ -52,7 +52,7 @@ public class DisplayMain {
         this.displayRestart = new DisplayRestart(gameActionHandler);
 
         //Affichage des regles
-        DisplayRules displayRules = new DisplayRules(frameGame, frameRules, gameActionHandler);
+        DisplayRules displayRules = new DisplayRules(frameRules, gameActionHandler);
         FrameMetrics.setupFrame(frameRules, false, JFrame.DISPOSE_ON_CLOSE);
         FrameMetrics.setFrameSize(frameRules, new Dimension(700, 800));
     }
