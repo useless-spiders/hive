@@ -39,12 +39,16 @@ public class DisplayRules extends JPanel {
         GridBagConstraints navigatorGbc = new GridBagConstraints();
         navigatorGbc.anchor = GridBagConstraints.CENTER; // Center alignment within the container
         navigatorGbc.gridheight = 1;
+
         navigatorGbc.gridx = 0;
         navigatorGbc.gridy = 0;
         navigatorButtonContainer.add(this.previous, navigatorGbc);
+
         navigatorGbc.gridx = 1;
         navigatorButtonContainer.add(this.next, navigatorGbc);
-        navigatorGbc.gridx = 2;
+
+        navigatorGbc.gridx = 2; // Changer la position X du bouton "Close" vers la droite
+        navigatorGbc.insets = new Insets(10, 30, 10, 10);
         navigatorButtonContainer.add(this.close, navigatorGbc);
 
         gbc.gridx = 0;
