@@ -22,6 +22,7 @@ public class DisplayConfigGame extends JPanel {
     private String IA_HARD;
     private String IA_HARD2;
     private String IA_HARD3;
+    private String IA_HARD4;
     private String PLAY;
     private String RETURN;
     private String LOAD;
@@ -67,6 +68,7 @@ public class DisplayConfigGame extends JPanel {
         this.IA_HARD = this.gameActionHandler.getLang().getString("display.config.menu.level1");
         this.IA_HARD2 = this.gameActionHandler.getLang().getString("display.config.menu.level2");
         this.IA_HARD3 = this.gameActionHandler.getLang().getString("display.config.menu.level3");
+        this.IA_HARD4 = this.gameActionHandler.getLang().getString("display.config.menu.level4");
 
         setLayout(new GridLayout(1, 2));
         this.westPanel = new JPanel(new GridBagLayout());
@@ -153,6 +155,7 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(IA_HARD);
         comboBox.addItem(IA_HARD2);
         comboBox.addItem(IA_HARD3);
+        comboBox.addItem(IA_HARD4);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -520,6 +523,7 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
+        comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level4"));
 
         textField.setEnabled(true);
         textField.addFocusListener(new FocusAdapter() {

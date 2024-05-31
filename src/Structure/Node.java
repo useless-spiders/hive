@@ -1,5 +1,6 @@
 package Structure;
 
+import Model.HexGrid;
 import Model.Move;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class Node {
     private final ArrayList<Node> childs;
     private Move move;
     private double value;
+    private int visitCount;
+    private HexGrid state;
 
     /**
      * Constructeur
@@ -21,6 +24,14 @@ public class Node {
     public Node(Move m) {
         this.move = m;
         this.childs = new ArrayList<>();
+        this.visitCount = 0;
+    }
+
+    public Node(Move m, HexGrid g) {
+        this.move = m;
+        this.childs = new ArrayList<>();
+        this.visitCount = 0;
+        this.state = g.clone();
     }
 
     /**
@@ -58,6 +69,14 @@ public class Node {
         return this.value;
     }
 
+    public HexGrid getState() {
+        return this.state;
+    }
+
+    public void setState(HexGrid g) {
+        this.state = g.clone();
+    }
+
     /**
      * Définit la valeur
      *
@@ -65,6 +84,16 @@ public class Node {
      */
     public void setValue(double value) {
         this.value = value;
+    }
+
+
+    /**
+     * Ajoute a la valeur
+     *
+     * @param value Valeur
+     */
+    public void addValue(double value) {
+        this.value += value;
     }
 
     /**
@@ -102,5 +131,23 @@ public class Node {
      */
     public boolean isLeaf() {
         return this.childs.isEmpty();
+    }
+
+    /**
+     * Incremente visitCount
+     *
+     * 
+     */
+    public void incrementVisitCount() {
+        this.visitCount ++;
+    }
+
+    /**
+     * Renvoie le visitCount
+     *
+     * @return int
+     */
+    public int getVisitCount() {
+        return this.visitCount;
     }
 }
