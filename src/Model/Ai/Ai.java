@@ -29,24 +29,18 @@ public abstract class Ai implements Serializable {
      */
     public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
         Ai resultat = null;
-        switch (ia) {
-            case "AiRandom":
-                resultat = new AiRandom(gameActionHandler, p);
-                break;
-            case "Ai1":
-                resultat = new Ai1(gameActionHandler, p);
-                break;
-            case "Ai2":
-                resultat = new Ai2(gameActionHandler, p);
-                break;
-            case "Ai3":
-                resultat = new Ai3(gameActionHandler, p);
-                break;
-            case "Ai4":
-                resultat = new Ai4(gameActionHandler, p);
-                break;
-            default:
-                Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
+        if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level1"))) {
+            resultat = new Ai1(gameActionHandler, p);
+        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level2"))) {
+            resultat = new Ai2(gameActionHandler, p);
+        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level3"))) {
+            resultat = new Ai3(gameActionHandler, p);
+        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level4"))) {
+            resultat = new Ai4(gameActionHandler, p);
+        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.random"))) {
+            resultat = new AiRandom(gameActionHandler, p);
+        } else {
+            Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
         }
         return resultat;
     }
