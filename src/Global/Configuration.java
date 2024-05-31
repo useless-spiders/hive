@@ -40,8 +40,8 @@ public class Configuration {
     public static String LANGUAGE_FILENAME = "messages";
     public static Locale DEFAULT_LANGUAGE = Locale.FRENCH;
 
-    public static final int AI_MAX_LEVEL = 20;
-    public static final int AI_WAITING_TIME = 1000;
+    public static final int AI_MAX_LEVEL = 10;
+    public static final int AI_WAITING_TIME = 2000;
 
     public static final String DEFAULT_FONT = "Times New Roman";
     public static final int DEFAULT_FONT_SIZE = 30;

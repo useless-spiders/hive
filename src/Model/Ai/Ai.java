@@ -205,7 +205,6 @@ public abstract class Ai implements Serializable {
 
     public double isWin(Player p, HexGrid g) {
         if(g.checkLoser(p)){
-            Log.addMessage("you lose ahah");
             return -9999;
         }
         else{

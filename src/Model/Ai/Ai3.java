@@ -33,6 +33,10 @@ public class Ai3 extends Ai { //Alpha Beta
         result += beeNeighbors(this.other, g) * 0.9;
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
+        result += insectsBlock(aiPlayer, g) * 0.2;
+        result += insectFree(aiPlayer, g)*0.01;
+        result += isWin(this.aiPlayer, g);
+        result -= isWin(this.other, g);
         return result;
     }
 
@@ -41,7 +45,16 @@ public class Ai3 extends Ai { //Alpha Beta
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
-        } else {
+        }
+        if (gridC.checkLoser(usC)) {
+            n.setValue(Double.MIN_VALUE);
+            return Double.MIN_VALUE;
+        }
+        if (gridC.checkLoser(otherC)) {
+            n.setValue(Double.MAX_VALUE);
+            return Double.MAX_VALUE;
+        }
+        else {
             double max = Double.NEGATIVE_INFINITY;
             level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
@@ -74,7 +87,16 @@ public class Ai3 extends Ai { //Alpha Beta
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
-        } else {
+        }
+        if (gridC.checkLoser(usC)) {
+            n.setValue(Double.MIN_VALUE);
+            return Double.MIN_VALUE;
+        }
+        if (gridC.checkLoser(otherC)) {
+            n.setValue(Double.MAX_VALUE);
+            return Double.MAX_VALUE;
+        }
+        else {
             double min = Double.POSITIVE_INFINITY;
             level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
