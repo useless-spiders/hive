@@ -35,6 +35,9 @@ public class Ai4 extends Ai {
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
         result += insectsBlock(aiPlayer, g) * 0.2;
+        result += insectFree(aiPlayer, g)*0.01;
+        result += isWin(this.aiPlayer, g);
+        result -= isWin(this.other, g);
         return result;
     }
 

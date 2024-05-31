@@ -203,6 +203,16 @@ public abstract class Ai implements Serializable {
         return moveCount;
     }
 
+    public double isWin(Player p, HexGrid g) {
+        if(g.checkLoser(p)){
+            Log.addMessage("you lose ahah");
+            return -9999;
+        }
+        else{
+            return 0;
+        }
+    }
+
     public abstract Move chooseMove();
 
 }
