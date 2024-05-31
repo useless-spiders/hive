@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.util.Locale;
 
@@ -279,6 +278,8 @@ public class DisplayConfigGame extends JPanel {
             } else {
                 if (!this.player1NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer1().setName(this.player1NameField.getText());
+                } else {
+                    this.gameActionHandler.getPlayerController().getPlayer1().setName(this.gameActionHandler.getLang().getString("display.config.player1.name"));
                 }
             }
             if (this.column2.getSelectedItem() != HUMAN) {
@@ -286,6 +287,8 @@ public class DisplayConfigGame extends JPanel {
             } else {
                 if (!this.player2NameField.getText().equals(NAME_TEXT)) {
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
+                } else {
+                    this.gameActionHandler.getPlayerController().getPlayer2().setName(this.gameActionHandler.getLang().getString("display.config.player2.name"));
                 }
             }
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
