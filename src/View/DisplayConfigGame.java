@@ -394,6 +394,7 @@ public class DisplayConfigGame extends JPanel {
      * Transition de la configuration de la partie au choix du skin
      */
     private void changeBackgroundAndAddButtons() {
+        this.RETURN = this.gameActionHandler.getLang().getString("display.config.skin.back");
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
         this.skinSelector = createComboBoxSkinSelector();
