@@ -7,8 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class DisplayRules extends JPanel {
+public class DisplayRules extends JPanel implements WindowListener {
     private final JFrame frameRules;
     private final JFrame frameGame;
     int numRules = 1;
@@ -29,6 +30,7 @@ public class DisplayRules extends JPanel {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
         this.background = this.ressourceLoader.loadRules("Rule_1.png");
+        this.frameRules.addWindowListener(this);
 
         this.previous = createButtonPrevious();
         this.next = createButtonNext();
@@ -65,18 +67,11 @@ public class DisplayRules extends JPanel {
         add(navigatorButtonContainer, gbc);
 
         frameRules.setContentPane(this); // Définir le JPanel comme contenu de la JFrame
-
-        frameRules.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                // Modifier le comportement de frameGame lorsque frameRules est fermée
-                frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            }
-        });
-
         frameRules.setResizable(false); // Désactiver le redimensionnement
         frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
+
+
 
     private void actionPrevious() {
         if (this.numRules > MIN) {
@@ -93,6 +88,7 @@ public class DisplayRules extends JPanel {
     }
 
     private void actionClose() {
+        this.resetToFirstSlide();
         this.frameRules.setVisible(false);
         this.frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Permettre de fermer la frame de jeu
     }
@@ -128,10 +124,39 @@ public class DisplayRules extends JPanel {
         this.next.setEnabled(this.numRules < MAX);
     }
 
+    private void resetToFirstSlide() {
+        this.numRules = 1;
+        this.updateImage();
+    }
+
 
     @Override
     public void paintComponent(Graphics g) {
         this.updateButtons();
         g.drawImage(this.background, 25, 25, this.frameRules.getWidth() - 130, this.frameRules.getHeight() - 160, this);
     }
+
+    @Override
+    public void windowOpened(WindowEvent var1) {}
+
+    @Override
+    public void windowClosing(WindowEvent var1){
+        this.resetToFirstSlide();
+        this.frameGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent var1){}
+
+    @Override
+    public void windowIconified(WindowEvent var1){}
+
+    @Override
+    public void windowDeiconified(WindowEvent var1){}
+
+    @Override
+    public void windowActivated(WindowEvent var1){}
+
+    @Override
+    public void windowDeactivated(WindowEvent var1){}
 }
