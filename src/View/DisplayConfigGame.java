@@ -287,6 +287,7 @@ public class DisplayConfigGame extends JPanel {
                     this.gameActionHandler.getPlayerController().getPlayer2().setName(this.player2NameField.getText());
                 }
             }
+            this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateBorderBank();
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateAllLabels();
             this.gameActionHandler.getAiController().startAi();
             this.gameActionHandler.getPageController().menuToGame();
