@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.util.Locale;
 
@@ -395,6 +396,7 @@ public class DisplayConfigGame extends JPanel {
      * Transition de la configuration de la partie au choix du skin
      */
     private void changeBackgroundAndAddButtons() {
+        this.RETURN = this.gameActionHandler.getLang().getString("display.config.skin.back");
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
         this.skinSelector = createComboBoxSkinSelector();
@@ -473,13 +475,16 @@ public class DisplayConfigGame extends JPanel {
      * actualise le texte des boutons en fonction de la langue
      */
     public void updateButtons() {
+        this.HUMAN = this.gameActionHandler.getLang().getString("display.config.menu.human");
+        this.NAME_TEXT = this.gameActionHandler.getLang().getString("display.config.name");
+
         this.playButton.setText(this.gameActionHandler.getLang().getString("display.config.play"));
         this.loadButton.setText(this.gameActionHandler.getLang().getString("display.config.load"));
         this.skinButton.setText(this.gameActionHandler.getLang().getString("display.config.skin"));
         this.player1NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
         this.player2NameField.setText(this.gameActionHandler.getLang().getString("display.config.name"));
-        this.updateDropDownMenuPlayers(this.column1);
-        this.updateDropDownMenuPlayers(this.column2);
+        this.updateDropDownMenuPlayers(this.column1, this.player1NameField);
+        this.updateDropDownMenuPlayers(this.column2, this.player2NameField);
 
         if (this.skinSelector != null && this.returnButton != null){
             this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
@@ -502,7 +507,7 @@ public class DisplayConfigGame extends JPanel {
      *
      * @param comboBox JComboBox<String>
      */
-    private void updateDropDownMenuPlayers(JComboBox<String> comboBox) {
+    private void updateDropDownMenuPlayers(JComboBox<String> comboBox, JTextField textField) {
         // Remove all items
         comboBox.removeAllItems();
 
@@ -512,6 +517,23 @@ public class DisplayConfigGame extends JPanel {
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
         comboBox.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
+
+        textField.setEnabled(true);
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(NAME_TEXT)) {
+                    textField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(NAME_TEXT);
+                }
+            }
+        });
     }
 
 

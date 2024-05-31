@@ -27,7 +27,6 @@ public class DisplayMain {
         FrameMetrics.setupFrame(frameOpening, true, JFrame.EXIT_ON_CLOSE);
         FrameMetrics.setFrameSize(frameOpening, new Dimension(Configuration.FRAME_WIDTH, Configuration.FRAME_HEIGHT)); //Mettre une taille par défaut
         FrameMetrics.setFullScreen(frameOpening);
-        //frameOpening.setResizable(false);
 
         //Affichage du menu
         new DisplayConfigGame(frameMenu, gameActionHandler);
