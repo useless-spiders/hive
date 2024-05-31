@@ -15,6 +15,7 @@ public class DisplayRules extends JPanel {
 
     private final JButton previous;
     private final JButton next;
+    private final JButton close;
 
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
@@ -27,6 +28,7 @@ public class DisplayRules extends JPanel {
 
         this.previous = createButtonPrevious();
         this.next = createButtonNext();
+        this.close = createButtonClose();
 
         setOpaque(false); // Rend le JPanel transparent pour afficher l'image en arrière-plan
         setLayout(new GridBagLayout()); // Définir le layout du JPanel
@@ -42,6 +44,8 @@ public class DisplayRules extends JPanel {
         navigatorButtonContainer.add(this.previous, navigatorGbc);
         navigatorGbc.gridx = 1;
         navigatorButtonContainer.add(this.next, navigatorGbc);
+        navigatorGbc.gridx = 2;
+        navigatorButtonContainer.add(this.close, navigatorGbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -70,6 +74,10 @@ public class DisplayRules extends JPanel {
         }
     }
 
+    private void actionClose() {
+        this.frameRules.setVisible(false);
+    }
+
     private void updateImage() {
         this.background = this.ressourceLoader.loadRules("Rule_" + this.numRules + ".png");
         repaint();
@@ -87,6 +95,12 @@ public class DisplayRules extends JPanel {
         JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.next"));
         button.setEnabled(this.numRules < MAX);
         button.addActionListener(e -> actionNext());
+        return button;
+    }
+
+    private JButton createButtonClose() {
+        JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.close"));
+        button.addActionListener(e -> actionClose());
         return button;
     }
 
