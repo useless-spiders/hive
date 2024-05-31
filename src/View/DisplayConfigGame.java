@@ -492,18 +492,21 @@ public class DisplayConfigGame extends JPanel {
         this.updateDropDownMenuPlayers(this.column1, this.player1NameField);
         this.updateDropDownMenuPlayers(this.column2, this.player2NameField);
 
-        if (this.skinSelector != null && this.returnButton != null){
+        if (this.skinSelector != null && this.returnButton != null) {
             this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
 
             // Remove all items
             this.skinSelector.removeAllItems();
 
-            // Add updated items
-            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.human"));
-            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.random"));
-            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
-            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
-            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
+            String[] skins = {
+                    this.gameActionHandler.getLang().getString("display.config.skin.default"),
+                    this.gameActionHandler.getLang().getString("display.config.skin.black_white"),
+                    this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
+                    this.gameActionHandler.getLang().getString("display.config.skin.hard")
+            };
+            for (String skin : skins) {
+                this.skinSelector.addItem(skin);
+            }
         }
 
     }
