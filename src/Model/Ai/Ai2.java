@@ -98,7 +98,7 @@ public class Ai2 extends Ai { //MinMax
      * @param depth profondeur du noeud
      * @return double
      */
-    double minTree(Node n, HexGrid gridC, Player usC, Player themC, int level) {
+    double minTree(Node n, HexGrid gridC, Player usC, Player themC, int depth) {
         //si la configuration est gagnante pour un des joueurs, pas besoin de calculer l Heuristique, l egalitee est comptee comme une defaite
         if (gridC.checkLoser(usC)) {
             n.setValue(Double.MIN_VALUE);
@@ -108,18 +108,18 @@ public class Ai2 extends Ai { //MinMax
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
         }
-        if (level >= 3) {
+        if (depth >= 3) {
             double heuristique = heuristic(gridC);
             n.setValue(heuristique);
             return heuristique;
         } else {
             double min = 9999;
-            level++;
+            depth++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, themC);
-                double currentH = maxTree(nextMove, gridC, usC, themC, level);
+                double currentH = maxTree(nextMove, gridC, usC, themC, depth);
                 gridC.unapplyMove(m, themC);
                 if (currentH < min) {
                     min = currentH;
