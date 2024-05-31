@@ -34,6 +34,7 @@ public class DisplayConfigGame extends JPanel {
     private JPanel exampleSkinPanelWhite;
     private JPanel exampleSkinPanelBlack;
     private GridBagConstraints westGbc;
+
     private JComboBox<String> skinSelector;
 
     private JComboBox<String> column1;
@@ -361,24 +362,32 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
                 this.gameActionHandler.getLang().getString("display.config.skin.hard")
         };
-        JComboBox<String> skinSelector = new JComboBox<>(skins);
-        skinSelector.addActionListener(e -> {
-            String selectedSkin = (String) skinSelector.getSelectedItem();
-            if (selectedSkin.equals(skins[0])) {
+        JComboBox<String> box = new JComboBox<>();
+        for (String skin : skins) {
+            box.addItem(skin);
+        }
+        box.addActionListener(e -> {
+            String selectedSkin = (String) box.getSelectedItem();
+            if (selectedSkin == null) {
                 Configuration.DEFAULT_SKINS = "Default/";
-            } else if (selectedSkin.equals(skins[1])) {
-                Configuration.DEFAULT_SKINS = "Black_and_white/";
-            } else if (selectedSkin.equals(skins[2])) {
-                Configuration.DEFAULT_SKINS = "Sus_skin/";
-            } else if (selectedSkin.equals(skins[3])) {
-                Configuration.DEFAULT_SKINS = "Skin_very_hard/";
             } else {
-                Configuration.DEFAULT_SKINS = "Default/";
+                if (selectedSkin.equals(skins[0])) {
+                    Configuration.DEFAULT_SKINS = "Default/";
+                } else if (selectedSkin.equals(skins[1])) {
+                    Configuration.DEFAULT_SKINS = "Black_and_white/";
+                } else if (selectedSkin.equals(skins[2])) {
+                    Configuration.DEFAULT_SKINS = "Sus_skin/";
+                } else if (selectedSkin.equals(skins[3])) {
+                    Configuration.DEFAULT_SKINS = "Skin_very_hard/";
+                } else {
+                    Configuration.DEFAULT_SKINS = "Default/";
+                }
             }
+
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
             updateExampleSkin();
         });
-        return skinSelector;
+        return box;
     }
 
     /**
@@ -471,9 +480,20 @@ public class DisplayConfigGame extends JPanel {
         this.updateDropDownMenuPlayers(this.column1);
         this.updateDropDownMenuPlayers(this.column2);
 
-        if(this.returnButton != null){
+        if (this.skinSelector != null && this.returnButton != null){
             this.returnButton.setText(this.gameActionHandler.getLang().getString("display.config.skin.back"));
+
+            // Remove all items
+            this.skinSelector.removeAllItems();
+
+            // Add updated items
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.human"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.random"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level1"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level2"));
+            this.skinSelector.addItem(this.gameActionHandler.getLang().getString("display.config.menu.level3"));
         }
+
     }
 
     /**
