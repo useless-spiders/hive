@@ -110,7 +110,13 @@ public class Player implements Cloneable, Serializable {
      * @param name Nom du joueur
      */
     public void setName(String name) {
-        this.name = name;
+        if(name != null && !name.isEmpty()){
+            if(name.length() > Configuration.PLAYER_MAX_NAME_LENGTH){
+                this.name = name.substring(0, Configuration.PLAYER_MAX_NAME_LENGTH);
+            } else {
+                this.name = name;
+            }
+        }
     }
 
     /**

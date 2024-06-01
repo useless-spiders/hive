@@ -192,6 +192,14 @@ public class DisplayConfigGame extends JPanel {
             }
         });
 
+        textField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                if (textField.getText().length() > Configuration.PLAYER_MAX_NAME_LENGTH) {
+                    evt.consume();
+                }
+            }
+        });
+
         return textField;
     }
 
