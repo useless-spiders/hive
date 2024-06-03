@@ -4,7 +4,6 @@ package Structure;
  * Classe pour les logs
  */
 public class Tree {
-    private final Node current;
     private Node root;
 
     /**
@@ -12,7 +11,6 @@ public class Tree {
      */
     public Tree() {
         this.root = new Node();
-        this.current = root;
     }
 
     /**

@@ -61,7 +61,7 @@ public abstract class Insect implements Cloneable, Serializable {
                     boolean sameColor = true;
                     HashMap<HexCoordinate, String> neighborOfNeighbor = g.getNeighborsCoordinates(neighbor);
                     for (HexCoordinate k : neighborOfNeighbor.keySet()) {
-                        if (g.getCell(k) != null && !Objects.equals(g.getCell(k).getTopInsect().getPlayer().getColor(), this.getPlayer().getColor())) {
+                        if (g.getCell(k) != null && !g.getCell(k).getTopInsect().getPlayer().equals(this.player)) {
                             sameColor = false;
                             break;
                         }
@@ -105,7 +105,7 @@ public abstract class Insect implements Cloneable, Serializable {
     protected boolean canMoveInsect(HexGrid g, Player player) {
         for (HexCell cell : g.getGrid().values()) {
             for (Insect insect : cell.getInsects()) {
-                if (insect.getPlayer() == player && insect.getClass() == Bee.class) {
+                if (insect.getClass() == Bee.class && insect.getPlayer() == player) {
                     // on peut déplacer des insectes que si la reine est posée
                     return true;
                 }
@@ -131,7 +131,7 @@ public abstract class Insect implements Cloneable, Serializable {
         Insect insect = (Insect) obj;
         // Compare the class names and the players for equality
         return Objects.equals(this.getClass().getSimpleName(), insect.getClass().getSimpleName()) &&
-                Objects.equals(player, insect.player);
+                Objects.equals(this.player, insect.player);
     }
 
     /**
@@ -141,7 +141,7 @@ public abstract class Insect implements Cloneable, Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getClass().getSimpleName(), player);
+        return Objects.hash(this.getClass().getSimpleName(), this.player);
     }
 
     /**

@@ -10,6 +10,7 @@ import Structure.Log;
 import Structure.Node;
 import Structure.Tree;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -93,7 +94,6 @@ public class Ai4 extends Ai {
             Move move = moves.get(random.nextInt(moves.size()));
             gridCopy.applyMove(move, currentPlayerC);
             currentPlayerC = (currentPlayerC.equals(usC)) ? otherC : usC;
-            currentPlayer = currentPlayerC.clone();
         }
 
         if (gridCopy.checkLoser(usC)) {
@@ -138,7 +138,7 @@ public class Ai4 extends Ai {
             }
         }
 
-        Node bestNode = root.getChilds().stream().max((a, b) -> Double.compare(a.getValue(), b.getValue())).orElse(null);
+        Node bestNode = root.getChilds().stream().max(Comparator.comparingDouble(Node::getValue)).orElse(null);
 
         Log.addMessage(simulations + " simulations performed");
 
