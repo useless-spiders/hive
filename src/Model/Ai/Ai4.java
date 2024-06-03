@@ -52,6 +52,13 @@ public class Ai4 extends Ai {
         return result;
     }
 
+    /**
+     * Assigne une Valeur a une configuration associé a un noeud en fonction du nombre de fois qu'ils ont été visités 
+     *
+     * @param node noeud
+     * @param totalSimulation  nb de simulations effectué
+     * @return double
+     */
     double ucb1(Node node, int totalSimulations) {
         if (node.getVisitCount() == 0) {
             return Double.POSITIVE_INFINITY;
@@ -59,6 +66,12 @@ public class Ai4 extends Ai {
         return node.getValue() / node.getVisitCount() + Math.sqrt(2 * Math.log(totalSimulations) / node.getVisitCount());
     }
 
+    /**
+     * Choisi le noeud(move) le mieux noté des coups jouables
+     *
+     * @param node noeud
+     * @return node
+     */
     Node select(Node root) {
         Node node = root;
         while (!node.getChilds().isEmpty()) {
@@ -67,6 +80,13 @@ public class Ai4 extends Ai {
         return node;
     }
 
+    /**
+     * Crée un nouvel etage dans l'arbre des coups jouables (config fils)
+     *
+     * @param node noeud
+     * @param grid Grille de jeu
+     * @param player Joueur courant
+     */
     void expand(Node node, HexGrid grid, Player currentPlayer) {
         List<Move> moves = this.gameActionHandler.getMoveController().getMoves(grid, currentPlayer);
         for (Move move : moves) {
@@ -79,6 +99,13 @@ public class Ai4 extends Ai {
         }
     }
 
+    /**
+     * Simule des parties aleatoires et renvoie le resultat
+     *
+     * @param grid Grille de jeu
+     * @param player Joueur courant
+     * @return double
+     */
     double simulate(HexGrid grid, Player currentPlayer) {
         HexGrid gridCopy = grid.clone();
         Player usC = this.aiPlayer.clone();
@@ -105,6 +132,12 @@ public class Ai4 extends Ai {
         }
     }
 
+    /**
+     * Remonte les valeurs d'une feuille a tout ses parents
+     *
+     * @param node noeud (feuille)
+     * @param result resultat de la partie simulé
+     */
     void backpropagate(Node node, double result) {
         while (node != null) {
             node.incrementVisitCount();
