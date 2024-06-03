@@ -15,19 +15,19 @@ public interface GameActionHandler {
 
     ResourceBundle getLang();
 
+    void setLang(Locale language);
+
     HexGrid getGrid();
 
     void setGrid(HexGrid hexGrid);
 
-    void setDisplayGame(DisplayGame displayGame);
-
     DisplayGame getDisplayGame();
+
+    void setDisplayGame(DisplayGame displayGame);
 
     void restartGameWithSamePlayers();
 
     void resetGame();
-
-    void setIsFirstStart(boolean isFirstStart);
 
     PlayerController getPlayerController();
 
@@ -45,7 +45,7 @@ public interface GameActionHandler {
 
     boolean getIsFirstStart();
 
-    void setLang(Locale language);
+    void setIsFirstStart(boolean isFirstStart);
 
     Locale getCurrentLocale();
 

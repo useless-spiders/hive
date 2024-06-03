@@ -15,10 +15,9 @@ import static org.junit.Assert.*;
  * Classe de test pour la grille hexagonale
  */
 public class HexGridTest {
-    private HexGrid grid = new HexGrid();
     private final Player player = new Player("Inspecteur blanco");
     private final Player player2 = new Player("Barbe noire");
-
+    private HexGrid grid = new HexGrid();
     private Insect ant;
     private Insect spider;
     private Insect bee;

@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * Classe pour les noeuds de l'arbre
  */
 public class Node {
-    private Node parent;
     private final ArrayList<Node> childs;
+    private Node parent;
     private Move move;
     private double value;
     private int visitCount;
@@ -69,14 +69,6 @@ public class Node {
         return this.value;
     }
 
-    public HexGrid getState() {
-        return this.state;
-    }
-
-    public void setState(HexGrid g) {
-        this.state = g.clone();
-    }
-
     /**
      * Définit la valeur
      *
@@ -86,6 +78,13 @@ public class Node {
         this.value = value;
     }
 
+    public HexGrid getState() {
+        return this.state;
+    }
+
+    public void setState(HexGrid g) {
+        this.state = g.clone();
+    }
 
     /**
      * Ajoute a la valeur
@@ -135,11 +134,9 @@ public class Node {
 
     /**
      * Incremente visitCount
-     *
-     * 
      */
     public void incrementVisitCount() {
-        this.visitCount ++;
+        this.visitCount++;
     }
 
     /**

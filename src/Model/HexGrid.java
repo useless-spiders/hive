@@ -10,12 +10,9 @@ import java.util.*;
  * Classe pour la grille hexagonale
  */
 public class HexGrid implements Cloneable {
-    private Map<HexCoordinate, HexCell> grid;
-
     public static final String[] DIRECTIONS = {"NO", "NE", "E", "SE", "SO", "O"};
     public static final int[] DX = {0, 1, 1, 0, -1, -1};
     public static final int[] DY = {-1, -1, 0, 1, 1, 0};
-
     // utilisation d'une hashmap pour être en temps constant entre la direction et l'index
     private static final Map<String, Integer> DIRECTIONS_MAP = new HashMap<>();
 
@@ -24,6 +21,8 @@ public class HexGrid implements Cloneable {
             DIRECTIONS_MAP.put(DIRECTIONS[i], i);
         }
     }
+
+    private Map<HexCoordinate, HexCell> grid;
 
     /**
      * Constructeur

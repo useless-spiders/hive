@@ -27,6 +27,16 @@ public class SaveLoad {
     }
 
     /**
+     * Formate le nom du fichier
+     *
+     * @return String
+     */
+    private static String formatFileName() {
+        String timeStamp = new SimpleDateFormat(Configuration.SAVE_FORMAT).format(new Date());
+        return Configuration.SAVE_PATH + timeStamp + "." + Configuration.SAVE_EXTENSION;
+    }
+
+    /**
      * Sauvegarde la partie
      *
      * @param history       Historique
@@ -105,15 +115,5 @@ public class SaveLoad {
      */
     public Player getCurrentPlayer() {
         return this.currentPlayer;
-    }
-
-    /**
-     * Formate le nom du fichier
-     *
-     * @return String
-     */
-    private static String formatFileName() {
-        String timeStamp = new SimpleDateFormat(Configuration.SAVE_FORMAT).format(new Date());
-        return Configuration.SAVE_PATH + timeStamp + "." + Configuration.SAVE_EXTENSION;
     }
 }

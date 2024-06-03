@@ -70,11 +70,11 @@ public class Spider extends Insect {
                     HexCell adj2 = g.getCell(adjCoord2);
 
 
-                    if (original.getX() == adjCoord.getX() & original.getY() == adjCoord.getY()) {
+                    if (original.equals(adjCoord)) {
                         adj = null;
                     }
 
-                    if (original.getX() == adjCoord2.getX() & original.getY() == adjCoord2.getY()) {
+                    if (original.equals(adjCoord2)) {
                         adj2 = null;
                     }
 
