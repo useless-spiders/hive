@@ -35,8 +35,6 @@ public class MoveController {
      * @return ArrayList<Move>
      */
     public ArrayList<Move> getMoves(HexGrid grid, Player p) {
-        //Log.addMessage("Grille : " + grid);
-        //Log.addMessage("Joueur : " + p);
         ArrayList<Move> moves = new ArrayList<>();
 
         // On récupère les insertions possibles
@@ -47,10 +45,6 @@ public class MoveController {
                 moves.add(new Move(insect, null, h));
             }
         }
-
-        //if (!moves.isEmpty()) {
-        //    Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles d'insertions");
-        //}
 
         // On récupère les déplacements possibles
         for (HexCoordinate hex : grid.getGrid().keySet()) {
@@ -64,10 +58,6 @@ public class MoveController {
                 }
             }
         }
-        //if (!moves.isEmpty()) {
-        //    Log.addMessage("IA " + p.getName() + " a " + moves.size() + " coups possibles");
-        //}
-        //Log.addMessage("Taille de la grille : " + grid.getGrid().size());
         return moves;
     }
 

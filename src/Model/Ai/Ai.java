@@ -23,24 +23,24 @@ public abstract class Ai implements Serializable {
      * Appelle le constructeur du type d'Ia donné en argument
      *
      * @param gameActionHandler GameActionHandler
-     * @param ia                nom de l'ia
+     * @param aiName                nom de l'IA
      * @param p                 joueur
      * @return double
      */
-    public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
+    public static Ai nouvelle(GameActionHandler gameActionHandler, String aiName, Player p) {
         Ai resultat = null;
-        if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level1"))) {
+        if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level1"))) {
             resultat = new Ai1(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level2"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level2"))) {
             resultat = new Ai2(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level3"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level3"))) {
             resultat = new Ai3(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level4"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level4"))) {
             resultat = new Ai4(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.random"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.random"))) {
             resultat = new AiRandom(gameActionHandler, p);
         } else {
-            Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
+            Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), aiName));
         }
         return resultat;
     }
@@ -68,7 +68,7 @@ public abstract class Ai implements Serializable {
             for (Insect i : insects) {
                 if (i instanceof Bee) {
                     if (i.getPlayer().equals(p)) {
-                        // on ne considere pas les cas ou l abeille est entouree de 2 pieces ou moins
+                        // on ne considère pas les cas où l'abeille est entourée de 2 pieces ou moins
                         result = (g.getNeighborsCoordinates(h).size()) - 1;
                         if (result > 0) {
                             result--;
@@ -96,7 +96,7 @@ public abstract class Ai implements Serializable {
             spider = 4;
             beetle = 4;
             grasshopper = 2;
-            //on l'empeche de jouer sa reine abeille tour 1 pour limiter les parties match nul
+            //on l'empêche de jouer sa reine abeille tour 1 pour limiter les parties match nul
             if (turn == 1) {
                 bee = -9999;
             } else {
