@@ -33,7 +33,6 @@ public class SaveLoadController {
      */
     public void saveGame() {
         try {
-
             String fileName = this.saveLoad.saveGame(this.gameActionHandler.getHistoryController().getHistory(), this.gameActionHandler.getPlayerController().getPlayer1(), this.gameActionHandler.getPlayerController().getPlayer2(), this.gameActionHandler.getPlayerController().getCurrentPlayer());
             Log.addMessage(MessageFormat.format(this.gameActionHandler.getLang().getString("save.success"), fileName));
         } catch (Exception ex) {
