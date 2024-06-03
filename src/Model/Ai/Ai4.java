@@ -53,9 +53,9 @@ public class Ai4 extends Ai {
     }
 
     /**
-     * Assigne une Valeur a une configuration associé a un noeud en fonction du nombre de fois qu'ils ont été visités 
+     * Assigne une Valeur a une configuration associé a un noeud en fonction du nombre de fois qu'ils ont été visités
      *
-     * @param node noeud
+     * @param node             noeud
      * @param totalSimulations int : nb de simulations effectuées
      * @return double
      */
@@ -83,8 +83,8 @@ public class Ai4 extends Ai {
     /**
      * Crée un nouvel étage dans l'arbre des coups jouables (config fils)
      *
-     * @param node Node
-     * @param grid HexGrid
+     * @param node          Node
+     * @param grid          HexGrid
      * @param currentPlayer Player
      */
     void expand(Node node, HexGrid grid, Player currentPlayer) {
@@ -102,7 +102,7 @@ public class Ai4 extends Ai {
     /**
      * Simule des parties aléatoires et renvoie le résultat
      *
-     * @param grid Grille de jeu
+     * @param grid          Grille de jeu
      * @param currentPlayer Player
      * @return double
      */
@@ -135,7 +135,7 @@ public class Ai4 extends Ai {
     /**
      * Remonte les valeurs d'une feuille à tous ses parents
      *
-     * @param node Node (feuille)
+     * @param node   Node (feuille)
      * @param result double : résultat de la partie simulé
      */
     void backpropagate(Node node, double result) {
