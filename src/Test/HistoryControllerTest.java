@@ -15,7 +15,7 @@ public class HistoryControllerTest {
 
     @Before
     public void setup() {
-        historyController = new HistoryController(null);
+        this.historyController = new HistoryController(null);
     }
 
     /**
@@ -23,7 +23,7 @@ public class HistoryControllerTest {
      */
     @Test
     public void testGetHistory() {
-        History history = historyController.getHistory();
+        History history = this.historyController.getHistory();
         assertNotNull(history);
     }
 
@@ -33,8 +33,8 @@ public class HistoryControllerTest {
     @Test
     public void testSetHistory() {
         History newHistory = new History();
-        historyController.setHistory(newHistory);
-        assertEquals(newHistory, historyController.getHistory());
+        this.historyController.setHistory(newHistory);
+        assertEquals(newHistory, this.historyController.getHistory());
     }
 
 }

@@ -15,7 +15,7 @@ public class AiControllerTest {
 
     @Before
     public void setup() {
-        aiController = new AiController(null);
+        this.aiController = new AiController(null);
     }
 
     /**
@@ -23,8 +23,8 @@ public class AiControllerTest {
      */
     @Test
     public void testStartAi() {
-        aiController.startAi();
-        assertTrue(aiController.isAiRunning());
+        this.aiController.startAi();
+        assertTrue(this.aiController.isAiRunning());
     }
 
     /**
@@ -32,9 +32,9 @@ public class AiControllerTest {
      */
     @Test
     public void testStopAi() {
-        aiController.startAi();
-        aiController.stopAi();
-        assertFalse(aiController.isAiRunning());
+        this.aiController.startAi();
+        this.aiController.stopAi();
+        assertFalse(this.aiController.isAiRunning());
     }
 
 }
