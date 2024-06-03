@@ -59,7 +59,7 @@ public class Ai1 extends Ai { //1 Coup
         for (Move m : this.gameActionHandler.getMoveController().getMoves(g, this.aiPlayer)) {
             g.applyMove(m, us_c);
             if (!g.checkLoser(us_c)) {
-                if (g.checkLoser(other)) {
+                if (g.checkLoser(this.other)) {
                     Log.addMessage("on a gagné");
                     score = 9999;
                 } else {

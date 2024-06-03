@@ -14,7 +14,7 @@ public class Ai3 extends Ai { //Alpha Beta
     Player other;
     int level;
     long startTime;
-    long timeLimit;
+    long timeLimit = Configuration.AI_TIME_LIMIT_MS;
 
     /**
      * Constructeur
@@ -22,7 +22,7 @@ public class Ai3 extends Ai { //Alpha Beta
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(aiPlayer)) {
+        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(this.aiPlayer)) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayerController().getPlayer1();
@@ -42,8 +42,8 @@ public class Ai3 extends Ai { //Alpha Beta
         result += beeNeighbors(this.other, g) * 0.9;
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
-        result += insectsBlock(aiPlayer, g) * 0.2;
-        result += insectFree(aiPlayer, g) * 0.01;
+        result += insectsBlock(this.aiPlayer, g) * 0.2;
+        result += insectFree(this.aiPlayer, g) * 0.01;
         result += isWin(this.aiPlayer, g);
         result -= isWin(this.other, g);
         return result;
@@ -60,7 +60,7 @@ public class Ai3 extends Ai { //Alpha Beta
      * @return double
      */
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
+        if (System.currentTimeMillis() - this.startTime >= this.timeLimit || this.level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -74,7 +74,7 @@ public class Ai3 extends Ai { //Alpha Beta
             return Double.MAX_VALUE;
         } else {
             double max = Double.NEGATIVE_INFINITY;
-            level++;
+            this.level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
@@ -111,7 +111,7 @@ public class Ai3 extends Ai { //Alpha Beta
      * @return double
      */
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
-        if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
+        if (System.currentTimeMillis() - this.startTime >= this.timeLimit || this.level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
@@ -125,7 +125,7 @@ public class Ai3 extends Ai { //Alpha Beta
             return Double.MAX_VALUE;
         } else {
             double min = Double.POSITIVE_INFINITY;
-            level++;
+            this.level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
@@ -161,7 +161,6 @@ public class Ai3 extends Ai { //Alpha Beta
         Tree tree = new Tree();
         this.level = 0;
         this.startTime = System.currentTimeMillis();
-        this.timeLimit = Configuration.AI_TIME_LIMIT_MS; // Time limit in milliseconds
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
@@ -175,7 +174,7 @@ public class Ai3 extends Ai { //Alpha Beta
             }
         }
         Log.addMessage("Temps écoulé : " + (System.currentTimeMillis() - startTime) + " ms");
-        Log.addMessage(level + " profondeur max");
+        Log.addMessage(this.level + " profondeur max");
         return returnMove;
     }
 }

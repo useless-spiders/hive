@@ -25,7 +25,7 @@ public class Ai4 extends Ai {
     public Ai4(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(aiPlayer)) {
+        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(this.aiPlayer)) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayerController().getPlayer1();
@@ -45,8 +45,8 @@ public class Ai4 extends Ai {
         result += beeNeighbors(this.other, g) * 0.9;
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
-        result += insectsBlock(aiPlayer, g) * 0.2;
-        result += insectFree(aiPlayer, g) * 0.01;
+        result += insectsBlock(this.aiPlayer, g) * 0.2;
+        result += insectFree(this.aiPlayer, g) * 0.01;
         result += isWin(this.aiPlayer, g);
         result -= isWin(this.other, g);
         return result;

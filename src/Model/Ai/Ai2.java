@@ -14,8 +14,7 @@ public class Ai2 extends Ai { // MinMax
     Player other;
     int visited;
     private long startTime;
-    private int timeLimit;
-    private int level;
+    private int timeLimit = Configuration.AI_TIME_LIMIT_MS;
 
     /**
      * Constructeur
@@ -44,8 +43,8 @@ public class Ai2 extends Ai { // MinMax
         result += beeNeighbors(this.other, g) * 0.9;
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
-        result += insectsBlock(aiPlayer, g) * 0.2;
-        result += insectFree(aiPlayer, g) * 0.01;
+        result += insectsBlock(this.aiPlayer, g) * 0.2;
+        result += insectFree(this.aiPlayer, g) * 0.01;
         result += isWin(this.aiPlayer, g);
         result -= isWin(this.other, g);
         return result;
@@ -71,7 +70,7 @@ public class Ai2 extends Ai { // MinMax
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
         }
-        if (System.currentTimeMillis() - startTime >= timeLimit || depth >= 5) {
+        if (System.currentTimeMillis() - this.startTime >= this.timeLimit || depth >= 5) {
             double heuristicValue = heuristic(gridC);
             n.setValue(heuristicValue);
             return heuristicValue;
@@ -86,7 +85,7 @@ public class Ai2 extends Ai { // MinMax
                 if (currentH > max) {
                     max = currentH;
                 }
-                visited += 1;
+                this.visited += 1;
             }
             n.setValue(max);
             return max;
@@ -113,7 +112,7 @@ public class Ai2 extends Ai { // MinMax
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
         }
-        if (System.currentTimeMillis() - startTime >= timeLimit || depth >= 5) {
+        if (System.currentTimeMillis() - this.startTime >= this.timeLimit || depth >= 5) {
             double heuristicValue = heuristic(gridC);
             n.setValue(heuristicValue);
             return heuristicValue;
@@ -128,7 +127,7 @@ public class Ai2 extends Ai { // MinMax
                 if (currentH < min) {
                     min = currentH;
                 }
-                visited += 1;
+                this.visited += 1;
             }
             n.setValue(min);
             return min;
@@ -148,7 +147,6 @@ public class Ai2 extends Ai { // MinMax
         Player usC = this.aiPlayer.clone();
         Player otherC = this.other.clone();
         this.startTime = System.currentTimeMillis();
-        this.timeLimit = Configuration.AI_TIME_LIMIT_MS; // Time limit in milliseconds
         maxTree(tree.getRoot(), gridC, usC, otherC, 0);
         double max = -9999;
         Move returnMove = null;
@@ -158,7 +156,7 @@ public class Ai2 extends Ai { // MinMax
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage(visited + " nodes visited");
+        Log.addMessage(this.visited + " nodes visited");
         return returnMove;
     }
 
