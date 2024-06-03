@@ -68,7 +68,7 @@ public abstract class Ai implements Serializable {
             for (Insect i : insects) {
                 if (i instanceof Bee) {
                     if (i.getPlayer().equals(p)) {
-                        // on ne considere pas les cas ou l abeille est entouree de 2 pieces ou moins
+                        // on ne considère pas les cas où l'abeille est entourée de 2 pieces ou moins
                         result = (g.getNeighborsCoordinates(h).size()) - 1;
                         if (result > 0) {
                             result--;
@@ -96,7 +96,7 @@ public abstract class Ai implements Serializable {
             spider = 4;
             beetle = 4;
             grasshopper = 2;
-            //on l'empeche de jouer sa reine abeille tour 1 pour limiter les parties match nul
+            //on l'empêche de jouer sa reine abeille tour 1 pour limiter les parties match nul
             if (turn == 1) {
                 bee = -9999;
             } else {
