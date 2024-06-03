@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Test class for PlayerController
+ * Classe de test pour le controleur de joueurs
  */
 public class PlayerControllerTest {
     private PlayerController playerController;
@@ -18,6 +18,9 @@ public class PlayerControllerTest {
         playerController = new PlayerController(null);
     }
 
+    /**
+     * Teste l'initialisation des joueurs
+     */
     @Test
     public void testInitPlayers() {
         this.playerController.initPlayers();
