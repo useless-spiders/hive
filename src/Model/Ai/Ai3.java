@@ -61,7 +61,7 @@ public class Ai3 extends Ai { //Alpha Beta
      */
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
         if (System.currentTimeMillis() - this.startTime >= this.timeLimit || this.level >= Configuration.AI_MAX_LEVEL) {
-            double heuristic = heuristic(gridC);
+            double heuristic = this.heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
         }
@@ -83,7 +83,7 @@ public class Ai3 extends Ai { //Alpha Beta
                     Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
                     Log.addMessage("Move : " + m.getInsect().getPlayer().getName() + " " + m.getInsect() + " " + m.getPreviousCoor() + " " + m.getNewCoor());
                 }
-                double currentH = minTree(nextMove, gridC, usC, otherC, alpha, beta);
+                double currentH = this.minTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, usC);
                 if (currentH > max) {
                     max = currentH;
@@ -112,7 +112,7 @@ public class Ai3 extends Ai { //Alpha Beta
      */
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
         if (System.currentTimeMillis() - this.startTime >= this.timeLimit || this.level >= Configuration.AI_MAX_LEVEL) {
-            double heuristic = heuristic(gridC);
+            double heuristic = this.heuristic(gridC);
             n.setValue(heuristic);
             return heuristic;
         }
@@ -134,7 +134,7 @@ public class Ai3 extends Ai { //Alpha Beta
                     Log.addMessage("Le joueur " + usC.getName() + " a gagné !");
                     Log.addMessage("Move : " + m.getInsect().getPlayer().getName() + " " + m.getInsect() + " " + m.getPreviousCoor() + " " + m.getNewCoor());
                 }
-                double currentH = maxTree(nextMove, gridC, usC, otherC, alpha, beta);
+                double currentH = this.maxTree(nextMove, gridC, usC, otherC, alpha, beta);
                 gridC.unapplyMove(m, otherC);
                 if (currentH < min) {
                     min = currentH;
@@ -164,7 +164,7 @@ public class Ai3 extends Ai { //Alpha Beta
         HexGrid gridC = this.gameActionHandler.getGrid().clone();
         Player usC = this.aiPlayer.clone();
         Player themC = this.other.clone();
-        maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this.maxTree(tree.getRoot(), gridC, usC, themC, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         double max = Double.NEGATIVE_INFINITY;
         Move returnMove = null;
         for (Node child : tree.getRoot().getChilds()) {

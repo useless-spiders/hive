@@ -71,7 +71,7 @@ public class Ai2 extends Ai { // MinMax
             return Double.MAX_VALUE;
         }
         if (System.currentTimeMillis() - this.startTime >= this.timeLimit || depth >= 5) {
-            double heuristicValue = heuristic(gridC);
+            double heuristicValue = this.heuristic(gridC);
             n.setValue(heuristicValue);
             return heuristicValue;
         } else {
@@ -80,7 +80,7 @@ public class Ai2 extends Ai { // MinMax
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, usC);
-                double currentH = minTree(nextMove, gridC, usC, otherC, depth + 1);
+                double currentH = this.minTree(nextMove, gridC, usC, otherC, depth + 1);
                 gridC.unapplyMove(m, usC); // Unapply move for usC, the player who applied the move
                 if (currentH > max) {
                     max = currentH;
@@ -113,7 +113,7 @@ public class Ai2 extends Ai { // MinMax
             return Double.MAX_VALUE;
         }
         if (System.currentTimeMillis() - this.startTime >= this.timeLimit || depth >= 5) {
-            double heuristicValue = heuristic(gridC);
+            double heuristicValue = this.heuristic(gridC);
             n.setValue(heuristicValue);
             return heuristicValue;
         } else {
@@ -122,7 +122,7 @@ public class Ai2 extends Ai { // MinMax
                 Node nextMove = new Node(m);
                 n.newChild(nextMove);
                 gridC.applyMove(m, otherC);
-                double currentH = maxTree(nextMove, gridC, usC, otherC, depth + 1);
+                double currentH = this.maxTree(nextMove, gridC, usC, otherC, depth + 1);
                 gridC.unapplyMove(m, otherC); // Unapply move for themC, the player who applied the move
                 if (currentH < min) {
                     min = currentH;
@@ -147,7 +147,7 @@ public class Ai2 extends Ai { // MinMax
         Player usC = this.aiPlayer.clone();
         Player otherC = this.other.clone();
         this.startTime = System.currentTimeMillis();
-        maxTree(tree.getRoot(), gridC, usC, otherC, 0);
+        this.maxTree(tree.getRoot(), gridC, usC, otherC, 0);
         double max = -9999;
         Move returnMove = null;
         for (Node child : tree.getRoot().getChilds()) {

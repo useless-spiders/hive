@@ -63,7 +63,7 @@ public class Ai1 extends Ai { //1 Coup
                     Log.addMessage("on a gagné");
                     score = 9999;
                 } else {
-                    score = heuristic(g);
+                    score = this.heuristic(g);
                 }
 
                 if (score > score_max) {

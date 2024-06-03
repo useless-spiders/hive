@@ -75,7 +75,7 @@ public class Ai4 extends Ai {
     Node select(Node root) {
         Node node = root;
         while (!node.getChilds().isEmpty()) {
-            node = node.getChilds().stream().max((a, b) -> Double.compare(ucb1(a, root.getVisitCount()) + heuristic(a.getState()) * 10, ucb1(b, root.getVisitCount()) + heuristic(b.getState()) * 10)).get();
+            node = node.getChilds().stream().max((a, b) -> Double.compare(this.ucb1(a, root.getVisitCount()) + this.heuristic(a.getState()) * 10, this.ucb1(b, root.getVisitCount()) + this.heuristic(b.getState()) * 10)).get();
         }
         return node;
     }
@@ -128,7 +128,7 @@ public class Ai4 extends Ai {
         } else if (gridCopy.checkLoser(otherC)) {
             return 1;
         } else {
-            return heuristic(gridCopy);
+            return this.heuristic(gridCopy);
         }
     }
 
@@ -161,12 +161,12 @@ public class Ai4 extends Ai {
         long endTime = System.currentTimeMillis() + Configuration.AI_TIME_LIMIT_MS;
 
         while (System.currentTimeMillis() < endTime) {
-            Node selectedNode = select(root);
+            Node selectedNode = this.select(root);
             expand(selectedNode, selectedNode.getState(), this.aiPlayer);
             for (Node child : selectedNode.getChilds()) {
                 HexGrid gridSim = child.getState().clone();
-                double result = simulate(gridSim, this.aiPlayer);
-                backpropagate(child, result);
+                double result = this.simulate(gridSim, this.aiPlayer);
+                this.backpropagate(child, result);
                 this.simulations++;
             }
         }
