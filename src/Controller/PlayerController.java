@@ -58,7 +58,7 @@ public class PlayerController {
             this.gameActionHandler.getPageController().gameAndWin();
         } else {
             this.currentPlayer.incrementTurn();
-            if (this.currentPlayer == this.player1) {
+            if (this.currentPlayer.equals(this.player1)) {
                 this.currentPlayer = this.player2;
             } else {
                 this.currentPlayer = this.player1;

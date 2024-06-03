@@ -17,16 +17,16 @@ import java.util.ResourceBundle;
  * Controleur principal pour le jeu
  */
 public class GameController implements GameActionHandler {
-    private HexGrid hexGrid;
-    private boolean isFirstStart = true;
     private final PlayerController playerController;
     private final AiController aiController;
     private final MoveController moveController;
     private final HistoryController historyController;
     private final GameActionListener gameActionListener;
     private final SaveLoadController saveLoadController;
-    private DisplayGame displayGame;
     private final PageController pageController;
+    private HexGrid hexGrid;
+    private boolean isFirstStart = true;
+    private DisplayGame displayGame;
     private ResourceBundle lang;
     private Locale currentLocale;
 

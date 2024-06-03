@@ -19,7 +19,7 @@ public class Ai1 extends Ai { //1 Coup
     public Ai1(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(this.aiPlayer)) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayerController().getPlayer1();
@@ -27,7 +27,7 @@ public class Ai1 extends Ai { //1 Coup
     }
 
     /**
-     * calcule l'heuristique pour une grille donnée
+     * Calcule l'heuristique pour une grille donnée
      *
      * @param g grille de jeu
      * @return double
@@ -44,10 +44,11 @@ public class Ai1 extends Ai { //1 Coup
 
 
     /**
-     * choisis le coup à jouer pour par l'Ia
+     * Choisis le coup à jouer pour par l'Ia
      *
      * @return coup à jouer
      */
+    @Override
     public Move chooseMove() {
         HexGrid g = this.gameActionHandler.getGrid().clone();
         ArrayList<Move> toPlay = new ArrayList<>();

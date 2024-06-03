@@ -68,16 +68,6 @@ public class Player implements Cloneable, Serializable {
     }
 
     /**
-     * Définit si le joueur est une IA
-     *
-     * @param ai IA
-     */
-    public void setAi(Ai ai) {
-        this.isAi = true;
-        this.ai = ai;
-    }
-
-    /**
      * Renvoie si le joueur est une IA
      *
      * @return boolean
@@ -96,6 +86,16 @@ public class Player implements Cloneable, Serializable {
     }
 
     /**
+     * Définit si le joueur est une IA
+     *
+     * @param ai IA
+     */
+    public void setAi(Ai ai) {
+        this.isAi = true;
+        this.ai = ai;
+    }
+
+    /**
      * Renvoie le nom du joueur
      *
      * @return String
@@ -110,8 +110,8 @@ public class Player implements Cloneable, Serializable {
      * @param name Nom du joueur
      */
     public void setName(String name) {
-        if(name != null && !name.isEmpty()){
-            if(name.length() > Configuration.PLAYER_MAX_NAME_LENGTH){
+        if (name != null && !name.isEmpty()) {
+            if (name.length() > Configuration.PLAYER_MAX_NAME_LENGTH) {
                 this.name = name.substring(0, Configuration.PLAYER_MAX_NAME_LENGTH);
             } else {
                 this.name = name;

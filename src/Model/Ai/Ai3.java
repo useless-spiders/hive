@@ -16,6 +16,9 @@ public class Ai3 extends Ai { //Alpha Beta
     long startTime;
     long timeLimit;
 
+    /**
+     * Constructeur
+     */
     public Ai3(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
@@ -26,6 +29,12 @@ public class Ai3 extends Ai { //Alpha Beta
         }
     }
 
+    /**
+     * Calcule l'heuristique pour une grille donnée
+     *
+     * @param g grille de jeu
+     * @return double
+     */
     @Override
     double heuristic(HexGrid g) {
         double result = 0;
@@ -34,12 +43,22 @@ public class Ai3 extends Ai { //Alpha Beta
         result += insectsCount(this.aiPlayer, g) * 0.1;
         result -= insectsCount(this.other, g) * 0.1;
         result += insectsBlock(aiPlayer, g) * 0.2;
-        result += insectFree(aiPlayer, g)*0.01;
+        result += insectFree(aiPlayer, g) * 0.01;
         result += isWin(this.aiPlayer, g);
         result -= isWin(this.other, g);
         return result;
     }
 
+    /**
+     * Calcule le meilleur coup possible
+     *
+     * @param n      Node
+     * @param gridC  clone HexGrid
+     * @param usC    clone Player
+     * @param otherC clone Player
+     * @param alpha  double
+     * @return double
+     */
     double maxTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
         if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
@@ -53,8 +72,7 @@ public class Ai3 extends Ai { //Alpha Beta
         if (gridC.checkLoser(otherC)) {
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
-        }
-        else {
+        } else {
             double max = Double.NEGATIVE_INFINITY;
             level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.aiPlayer)) {
@@ -82,6 +100,16 @@ public class Ai3 extends Ai { //Alpha Beta
         }
     }
 
+    /**
+     * Calcule le pire coup possible
+     *
+     * @param n      Node
+     * @param gridC  clone HexGrid
+     * @param usC    clone Player
+     * @param otherC clone Player
+     * @param alpha  double
+     * @return double
+     */
     double minTree(Node n, HexGrid gridC, Player usC, Player otherC, double alpha, double beta) {
         if (System.currentTimeMillis() - startTime >= timeLimit || level >= Configuration.AI_MAX_LEVEL) {
             double heuristic = heuristic(gridC);
@@ -95,8 +123,7 @@ public class Ai3 extends Ai { //Alpha Beta
         if (gridC.checkLoser(otherC)) {
             n.setValue(Double.MAX_VALUE);
             return Double.MAX_VALUE;
-        }
-        else {
+        } else {
             double min = Double.POSITIVE_INFINITY;
             level++;
             for (Move m : this.gameActionHandler.getMoveController().getMoves(gridC, this.other)) {
@@ -124,6 +151,12 @@ public class Ai3 extends Ai { //Alpha Beta
         }
     }
 
+    /**
+     * Choisis le coup à jouer pour par l'Ia
+     *
+     * @return Move
+     */
+    @Override
     public Move chooseMove() {
         Tree tree = new Tree();
         this.level = 0;

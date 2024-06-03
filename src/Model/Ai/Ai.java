@@ -20,7 +20,7 @@ public abstract class Ai implements Serializable {
     transient GameActionHandler gameActionHandler;
 
     /**
-     * appelle le constructeur du type d'Ia donné en argument
+     * Appelle le constructeur du type d'Ia donné en argument
      *
      * @param gameActionHandler GameActionHandler
      * @param ia                nom de l'ia
@@ -81,7 +81,7 @@ public abstract class Ai implements Serializable {
     }
 
     /**
-     * Renvoie le nombre d'insectes en jeu d'un joueur
+     * Renvoie un nombre en fonction du nombre d'insectes d'un joueur
      *
      * @param p joueur
      * @param g grille de jeu
@@ -135,6 +135,13 @@ public abstract class Ai implements Serializable {
         return result;
     }
 
+    /**
+     * Renvoie un nombre en fonction des cases bloquées par les insectes d'un joueur
+     *
+     * @param p joueur
+     * @param g grille de jeu
+     * @return double
+     */
     public double insectsBlock(Player p, HexGrid g) {
         double result = 0;
         int ant, bee, beetle, spider, grasshopper;
@@ -148,7 +155,7 @@ public abstract class Ai implements Serializable {
         for (HexCoordinate h : g.getGrid().keySet()) {
             HexCell cell = g.getCell(h);
             Insect insect = cell.getTopInsect();
-            if (!insect.getPlayer().equals(p) && insect.getPossibleMovesCoordinates(h, g).size() == 0) {
+            if (!insect.getPlayer().equals(p) && insect.getPossibleMovesCoordinates(h, g).isEmpty()) {
                 if (insect instanceof Bee) {
                     result += bee;
                 }
@@ -168,8 +175,9 @@ public abstract class Ai implements Serializable {
         }
         return result;
     }
+
     /**
-     * Renvoie le nombre de déplacement possible des pieces d'un joueur ainsi que le nombre de cases sur lesquelles il peut placer des insectes
+     * Renvoie le nombre de déplacements possible des pieces d'un joueur ainsi que le nombre de cases sur lesquelles il peut placer des insectes
      *
      * @param p joueur
      * @param g grille de jeu
@@ -203,15 +211,26 @@ public abstract class Ai implements Serializable {
         return moveCount;
     }
 
+    /**
+     * Renvoie si le joueur a perdu
+     *
+     * @param p joueur
+     * @param g grille de jeu
+     * @return double
+     */
     public double isWin(Player p, HexGrid g) {
-        if(g.checkLoser(p)){
+        if (g.checkLoser(p)) {
             return -9999;
-        }
-        else{
+        } else {
             return 0;
         }
     }
 
+    /**
+     * Choisis le coup à jouer pour par l'Ia
+     *
+     * @return Move
+     */
     public abstract Move chooseMove();
 
 }

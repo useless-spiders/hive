@@ -4,8 +4,8 @@ package Structure;
  * Classe pour les logs
  */
 public class Tree {
-    private Node root;
     private final Node current;
+    private Node root;
 
     /**
      * Constructeur
@@ -26,15 +26,6 @@ public class Tree {
 
     public void setRoot(Node root) {
         this.root = root;
-    }
-
-    /**
-     * Retourne le noeud courant
-     *
-     * @return Node
-     */
-    public Node getCurrent() {
-        return this.current;
     }
 
 }

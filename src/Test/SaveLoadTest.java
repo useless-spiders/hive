@@ -15,8 +15,8 @@ public class SaveLoadTest {
     private final History history = new History();
     private final Player player1 = new Player("Player 1");
     private final Player player2 = new Player("Player 2");
-    private Player currentPlayer;
     private final SaveLoad saveLoad = new SaveLoad(null);
+    private Player currentPlayer;
 
     @Before
     public void setUp() {

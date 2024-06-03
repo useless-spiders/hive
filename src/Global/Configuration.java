@@ -34,20 +34,15 @@ public class Configuration {
     public static final String IMAGE_PATH_BACKGROUNDS = "Images/Backgrounds/";
     public static final String IMAGE_PATH_HEXAGONS = "Images/Hexagons/";
     public static final String IMAGE_PATH_RULES = "Images/Rules/";
-
+    public static final int AI_MAX_LEVEL = 10;
+    public static final int AI_WAITING_TIME = 2000;
+    public static final String DEFAULT_FONT = "Times New Roman";
+    public static final int DEFAULT_FONT_SIZE = 30;
+    public static final int AI_TIME_LIMIT_MS = 1000;
     public static String DEFAULT_SKINS = "Default/";
-
     public static String LANGUAGE_PATH = "Languages/";
     public static String LANGUAGE_FILENAME = "messages";
     public static Locale DEFAULT_LANGUAGE = Locale.FRENCH;
-
-    public static final int AI_MAX_LEVEL = 10;
-    public static final int AI_WAITING_TIME = 2000;
-
-    public static final String DEFAULT_FONT = "Times New Roman";
-    public static final int DEFAULT_FONT_SIZE = 30;
-
-    public static final int AI_TIME_LIMIT_MS = 1000;
 
 
 }

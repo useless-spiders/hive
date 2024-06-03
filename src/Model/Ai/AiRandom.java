@@ -13,12 +13,12 @@ public class AiRandom extends Ai { //Random
     Player other;
 
     /**
-     * constructeur
+     * Constructeur
      */
     public AiRandom(GameActionHandler gameActionHandler, Player p) {
         this.gameActionHandler = gameActionHandler;
         this.aiPlayer = p;
-        if (this.gameActionHandler.getPlayerController().getPlayer1() == aiPlayer) {
+        if (this.gameActionHandler.getPlayerController().getPlayer1().equals(this.aiPlayer)) {
             this.other = this.gameActionHandler.getPlayerController().getPlayer2();
         } else {
             this.other = this.gameActionHandler.getPlayerController().getPlayer1();
@@ -31,7 +31,7 @@ public class AiRandom extends Ai { //Random
     }
 
     /**
-     * choisis le coup à jouer pour par l'Ia
+     * Choisis le coup à jouer pour par l'Ia
      *
      * @return coup à jouer
      */
