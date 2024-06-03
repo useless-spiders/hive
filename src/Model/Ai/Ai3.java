@@ -173,7 +173,7 @@ public class Ai3 extends Ai { //Alpha Beta
                 returnMove = child.getMove();
             }
         }
-        Log.addMessage("Temps écoulé : " + (System.currentTimeMillis() - startTime) + " ms");
+        Log.addMessage("Temps écoulé : " + (System.currentTimeMillis() - this.startTime) + " ms");
         Log.addMessage(this.level + " profondeur max");
         return returnMove;
     }

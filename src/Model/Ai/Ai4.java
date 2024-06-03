@@ -56,7 +56,7 @@ public class Ai4 extends Ai {
      * Assigne une Valeur a une configuration associé a un noeud en fonction du nombre de fois qu'ils ont été visités 
      *
      * @param node noeud
-     * @param totalSimulation  nb de simulations effectué
+     * @param totalSimulations int : nb de simulations effectuées
      * @return double
      */
     double ucb1(Node node, int totalSimulations) {
@@ -67,10 +67,10 @@ public class Ai4 extends Ai {
     }
 
     /**
-     * Choisi le noeud(move) le mieux noté des coups jouables
+     * Choisi le nœud(move) le mieux noté des coups jouables
      *
-     * @param node noeud
-     * @return node
+     * @param root Node
+     * @return Node
      */
     Node select(Node root) {
         Node node = root;
@@ -81,11 +81,11 @@ public class Ai4 extends Ai {
     }
 
     /**
-     * Crée un nouvel etage dans l'arbre des coups jouables (config fils)
+     * Crée un nouvel étage dans l'arbre des coups jouables (config fils)
      *
-     * @param node noeud
-     * @param grid Grille de jeu
-     * @param player Joueur courant
+     * @param node Node
+     * @param grid HexGrid
+     * @param currentPlayer Player
      */
     void expand(Node node, HexGrid grid, Player currentPlayer) {
         List<Move> moves = this.gameActionHandler.getMoveController().getMoves(grid, currentPlayer);
@@ -100,10 +100,10 @@ public class Ai4 extends Ai {
     }
 
     /**
-     * Simule des parties aleatoires et renvoie le resultat
+     * Simule des parties aléatoires et renvoie le résultat
      *
      * @param grid Grille de jeu
-     * @param player Joueur courant
+     * @param currentPlayer Player
      * @return double
      */
     double simulate(HexGrid grid, Player currentPlayer) {
@@ -133,10 +133,10 @@ public class Ai4 extends Ai {
     }
 
     /**
-     * Remonte les valeurs d'une feuille a tout ses parents
+     * Remonte les valeurs d'une feuille à tous ses parents
      *
-     * @param node noeud (feuille)
-     * @param result resultat de la partie simulé
+     * @param node Node (feuille)
+     * @param result double : résultat de la partie simulé
      */
     void backpropagate(Node node, double result) {
         while (node != null) {
@@ -173,7 +173,7 @@ public class Ai4 extends Ai {
 
         Node bestNode = root.getChilds().stream().max(Comparator.comparingDouble(Node::getValue)).orElse(null);
 
-        Log.addMessage(simulations + " simulations performed");
+        Log.addMessage(this.simulations + " simulations performed");
 
         return (bestNode != null) ? bestNode.getMove() : null;
     }
