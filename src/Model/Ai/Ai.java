@@ -23,24 +23,24 @@ public abstract class Ai implements Serializable {
      * Appelle le constructeur du type d'Ia donné en argument
      *
      * @param gameActionHandler GameActionHandler
-     * @param ia                nom de l'ia
+     * @param aiName                nom de l'IA
      * @param p                 joueur
      * @return double
      */
-    public static Ai nouvelle(GameActionHandler gameActionHandler, String ia, Player p) {
+    public static Ai nouvelle(GameActionHandler gameActionHandler, String aiName, Player p) {
         Ai resultat = null;
-        if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level1"))) {
+        if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level1"))) {
             resultat = new Ai1(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level2"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level2"))) {
             resultat = new Ai2(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level3"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level3"))) {
             resultat = new Ai3(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.level4"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.level4"))) {
             resultat = new Ai4(gameActionHandler, p);
-        } else if (ia.equals(gameActionHandler.getLang().getString("display.config.menu.random"))) {
+        } else if (aiName.equals(gameActionHandler.getLang().getString("display.config.menu.random"))) {
             resultat = new AiRandom(gameActionHandler, p);
         } else {
-            Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), ia));
+            Log.addMessage(MessageFormat.format(gameActionHandler.getLang().getString("ia.not.found"), aiName));
         }
         return resultat;
     }
