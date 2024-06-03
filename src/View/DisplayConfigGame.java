@@ -52,6 +52,8 @@ public class DisplayConfigGame extends JPanel {
     private JButton skinButton;
     private JButton returnButton;
 
+    private String[] SKINS;
+
     public DisplayConfigGame(JFrame frame, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
@@ -69,6 +71,13 @@ public class DisplayConfigGame extends JPanel {
         this.IA_HARD2 = this.gameActionHandler.getLang().getString("display.config.menu.level2");
         this.IA_HARD3 = this.gameActionHandler.getLang().getString("display.config.menu.level3");
         this.IA_HARD4 = this.gameActionHandler.getLang().getString("display.config.menu.level4");
+
+        this.SKINS = new String[]{
+                this.gameActionHandler.getLang().getString("display.config.skin.default"),
+                this.gameActionHandler.getLang().getString("display.config.skin.black_white"),
+                this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
+                this.gameActionHandler.getLang().getString("display.config.skin.hard")
+        };
 
         setLayout(new GridLayout(1, 2));
         this.westPanel = new JPanel(new GridBagLayout());
@@ -372,14 +381,14 @@ public class DisplayConfigGame extends JPanel {
      * @return skinSelector
      */
     private JComboBox<String> createComboBoxSkinSelector() {
-        String[] skins = {
+        this.SKINS = new String[]{
                 this.gameActionHandler.getLang().getString("display.config.skin.default"),
                 this.gameActionHandler.getLang().getString("display.config.skin.black_white"),
                 this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
                 this.gameActionHandler.getLang().getString("display.config.skin.hard")
         };
         JComboBox<String> box = new JComboBox<>();
-        for (String skin : skins) {
+        for (String skin : this.SKINS) {
             box.addItem(skin);
         }
         box.addActionListener(e -> {
@@ -387,13 +396,13 @@ public class DisplayConfigGame extends JPanel {
             if (selectedSkin == null) {
                 Configuration.DEFAULT_SKINS = "Default/";
             } else {
-                if (selectedSkin.equals(skins[0])) {
+                if (selectedSkin.equals(this.SKINS[0])) {
                     Configuration.DEFAULT_SKINS = "Default/";
-                } else if (selectedSkin.equals(skins[1])) {
+                } else if (selectedSkin.equals(this.SKINS[1])) {
                     Configuration.DEFAULT_SKINS = "Black_and_white/";
-                } else if (selectedSkin.equals(skins[2])) {
+                } else if (selectedSkin.equals(this.SKINS[2])) {
                     Configuration.DEFAULT_SKINS = "Sus_skin/";
-                } else if (selectedSkin.equals(skins[3])) {
+                } else if (selectedSkin.equals(this.SKINS[3])) {
                     Configuration.DEFAULT_SKINS = "Skin_very_hard/";
                 } else {
                     Configuration.DEFAULT_SKINS = "Default/";
@@ -401,7 +410,7 @@ public class DisplayConfigGame extends JPanel {
             }
 
             this.gameActionHandler.getDisplayGame().getDisplayBankInsects().updateButtons();
-            updateExampleSkin();
+            this.updateExampleSkin();
         });
         return box;
     }
@@ -506,13 +515,13 @@ public class DisplayConfigGame extends JPanel {
             // Remove all items
             this.skinSelector.removeAllItems();
 
-            String[] skins = {
+            this.SKINS = new String[]{
                     this.gameActionHandler.getLang().getString("display.config.skin.default"),
                     this.gameActionHandler.getLang().getString("display.config.skin.black_white"),
                     this.gameActionHandler.getLang().getString("display.config.skin.among_us"),
                     this.gameActionHandler.getLang().getString("display.config.skin.hard")
             };
-            for (String skin : skins) {
+            for (String skin : this.SKINS) {
                 this.skinSelector.addItem(skin);
             }
         }
