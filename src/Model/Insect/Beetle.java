@@ -37,14 +37,21 @@ public class Beetle extends Insect {
             for (Map.Entry<HexCoordinate, String> entry : neighbors.entrySet()) {
                 HexCoordinate neighbor = entry.getKey();
                 String direction = entry.getValue();
-                if (g.isHiveConnectedAfterMove(current, neighbor)) {
-                    HexCoordinate rightNeighbor = g.getNeighborCoordinates(current, g.getClockwiseDirection(direction));
-                    HexCoordinate leftNeighbor = g.getNeighborCoordinates(current, g.getCounterClockwiseDirection(direction));
-                    if (g.getCell(leftNeighbor) != null || g.getCell(rightNeighbor) != null) {
-                        coordinates.add(neighbor);
-                    }
-                    if (g.getCell(neighbor) != null || g.getCell(current).getInsects().size() > 2) {
-                        coordinates.add(neighbor);
+                if(g.getCell(current).getInsects().size() > 1)
+                {
+                    coordinates.add(neighbor);
+                }
+                else
+                {
+                    if (g.isHiveConnectedAfterMove(current, neighbor)) {
+                        HexCoordinate rightNeighbor = g.getNeighborCoordinates(current, g.getClockwiseDirection(direction));
+                        HexCoordinate leftNeighbor = g.getNeighborCoordinates(current, g.getCounterClockwiseDirection(direction));
+                        if (g.getCell(leftNeighbor) != null || g.getCell(rightNeighbor) != null) {
+                            coordinates.add(neighbor);
+                        }
+                        if (g.getCell(neighbor) != null) {
+                            coordinates.add(neighbor);
+                        }
                     }
                 }
             }
