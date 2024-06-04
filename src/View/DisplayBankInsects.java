@@ -30,6 +30,13 @@ public class DisplayBankInsects {
     private final JPanel panelGame;
     private final RessourceLoader ressourceLoader;
 
+    /**
+     * Constructeur
+     *
+     * @param panelGame JPanel
+     * @param gbc GridBagConstraints
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
@@ -41,6 +48,12 @@ public class DisplayBankInsects {
         this.createPanels();
     }
 
+    /**
+     * Change le joueur en surbrillance
+     *
+     * @param panel1 JPanel
+     * @param panel2 JPanel
+     */
     private void switchBorder(JPanel panel1, JPanel panel2) {
         panel1.setBorder(null);
         panel1.setOpaque(false);
@@ -48,15 +61,28 @@ public class DisplayBankInsects {
         panel2.setOpaque(true);
     }
 
+    /**
+     * Enleve la surbrillance du joueur 1 et met le joueur 2 en surbrillance
+     */
     public void switchBorderJ1ToJ2() {
         this.switchBorder(this.panelButtonBankJ1, this.panelButtonBankJ2);
     }
 
+    /**
+     * Enleve la surbrillance du joueur 2 et met le joueur 1 en surbrillance
+     */
     public void switchBorderJ2ToJ1() {
         this.switchBorder(this.panelButtonBankJ2, this.panelButtonBankJ1);
     }
 
-
+    /**
+     * Renvoie un panel contenant la banque d'un joueur
+     *
+     * @param player Player
+     * @param playerName JLabel
+     * @param side int
+     * @return JPanel
+     */
     private JPanel createButtonPanel(Player player, JLabel playerName, int side) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -77,6 +103,15 @@ public class DisplayBankInsects {
         return panel;
     }
 
+    /**
+     * Renvoie un panel contenant un bouton insecte accompagne d'un label indiquant le nombre d'insecte restant
+     *
+     * @param insectClass Class<? extends Insect>
+     * @param player Player
+     * @param labelText String
+     * @param side int
+     * @return JPanel
+     */
     private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText, int side) {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
@@ -84,7 +119,6 @@ public class DisplayBankInsects {
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, Configuration.DEFAULT_FONT_SIZE)); // Augmenter la taille de la police ici
-        // Créer un nouveau JLabel pour chaque bouton
 
         if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1Labels.put(insectClass, label);
@@ -109,6 +143,13 @@ public class DisplayBankInsects {
         return panel;
     }
 
+    /**
+     * Crée un bouton pour un insecte
+     *
+     * @param insectClass Class<? extends Insect>
+     * @param player Player
+     * @return JButton
+     */
     private JButton createButton(Class<? extends Insect> insectClass, Player player) {
         ImageIcon imageIcon = this.ressourceLoader.loadIconInsects(this.ressourceLoader.getImageInsectName(insectClass, player, this.gameActionHandler.getPlayerController().getCurrentPlayer()));
         JButton button = new JButton(imageIcon);
@@ -131,6 +172,11 @@ public class DisplayBankInsects {
         return button;
     }
 
+    /**
+     * Met à jour l'état de clic du bouton d'insecte
+     *
+     * @param isInsectButtonClicked boolean
+     */
     public void updateButtonClickState(boolean isInsectButtonClicked) {
         this.isInsectButtonClicked = isInsectButtonClicked;
 
@@ -149,6 +195,9 @@ public class DisplayBankInsects {
         }
     }
 
+    /**
+     * Met à jour tous les labels
+     */
     public void updateAllLabels() {
         this.updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer1(), this.player1Labels);
         this.updateLabelsForPlayer(this.gameActionHandler.getPlayerController().getPlayer2(), this.player2Labels);
@@ -156,6 +205,12 @@ public class DisplayBankInsects {
         this.updatePlayerName(this.gameActionHandler.getPlayerController().getPlayer2());
     }
 
+    /**
+     * Met à jour l'affichage du nombre d'insectes pour chaque insectes d'un joueur
+     *
+     * @param player Player
+     * @param labels Map<Class<? extends Insect>, JLabel>
+     */
     private void updateLabelsForPlayer(Player player, Map<Class<? extends Insect>, JLabel> labels) {
         for (Class<? extends Insect> insectClass : labels.keySet()) {
             JLabel label = labels.get(insectClass);
@@ -163,6 +218,11 @@ public class DisplayBankInsects {
         }
     }
 
+    /**
+     * Met à jour l'affichage nom du joueur
+     *
+     * @param player Player
+     */
     private void updatePlayerName(Player player) {
         if (player.equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.player1NameLabel.setText(player.getName());
@@ -171,6 +231,12 @@ public class DisplayBankInsects {
         }
     }
 
+    /**
+     * Définit l'opacité d'une icône
+     *
+     * @param icon ImageIcon
+     * @param opacity float
+     */
     public void setOpacity(ImageIcon icon, float opacity) {
 
         // Obtenez l'image de l'ImageIcon
@@ -187,12 +253,18 @@ public class DisplayBankInsects {
         icon.setImage(bufferedImage);
     }
 
+    /**
+     * Met a jour l'affichage des panels de bank d'insectes
+     */
     public void updateButtons() {
         this.panelButtonBankJ1.removeAll();
         this.panelButtonBankJ2.removeAll();
         this.createPanels();
     }
 
+    /**
+     * Initialisation des banques d'insectes des deux joueurs
+     */
     private void createPanels() {
         this.player1NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer1().getName()));
         this.player2NameLabel = new JLabel(String.valueOf(this.gameActionHandler.getPlayerController().getPlayer2().getName()));
@@ -216,6 +288,9 @@ public class DisplayBankInsects {
         this.panelGame.add(this.panelButtonBankJ2, this.gbc);
     }
 
+    /**
+     * Met à jour le joueur en surbrillance
+      */
     public void updateBorderBank() {
         if (this.gameActionHandler.getPlayerController().getCurrentPlayer().equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.switchBorderJ2ToJ1();

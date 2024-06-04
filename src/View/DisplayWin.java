@@ -9,17 +9,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.MessageFormat;
 
-
 public class DisplayWin extends JPanel {
     private final GameActionHandler gameActionHandler;
     private Player winner;
     private final RessourceLoader ressourceLoader;
 
+    /**
+     * Constructeur pour DisplayWin.
+     *
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayWin(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
     }
 
+    /**
+     * Met à jour le gagnant.
+     *
+     * @param winner int
+     */
     public void updateWinner(int winner) {
         if (winner == 1) {
             this.winner = this.gameActionHandler.getPlayerController().getPlayer1();
@@ -30,6 +39,9 @@ public class DisplayWin extends JPanel {
         }
     }
 
+    /**
+     * Affiche le gagnant et les options de retour.
+     */
     public void printVictoryDialog() {
         int choice;
 

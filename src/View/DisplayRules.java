@@ -22,6 +22,12 @@ public class DisplayRules extends JPanel implements WindowListener {
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
 
+    /**
+     * Constructeur pour DisplayRestart.
+     *
+     * @param frameRules Jframe
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
         this.frameRules = frameRules;
         this.gameActionHandler = gameActionHandler;
@@ -68,6 +74,10 @@ public class DisplayRules extends JPanel implements WindowListener {
         frameRules.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
+
+    /**
+     * Passage a la regle precedente
+     */
     private void actionPrevious() {
         if (this.numRules > this.MIN) {
             this.numRules--;
@@ -75,6 +85,9 @@ public class DisplayRules extends JPanel implements WindowListener {
         }
     }
 
+    /**
+     * Passage a la regle suivante
+     */
     private void actionNext() {
         if (this.numRules < this.MAX) {
             this.numRules++;
@@ -82,16 +95,26 @@ public class DisplayRules extends JPanel implements WindowListener {
         }
     }
 
+    /**
+     * Ferme la frame regle
+     */
     private void actionClose() {
         this.resetToFirstSlide();
         this.frameRules.setVisible(false);
     }
 
+    /**
+     * Met à jour l'image de la regle
+     */
     private void updateImage() {
         this.background = this.ressourceLoader.loadRules("Rule_" + this.numRules + ".png");
         repaint();
     }
 
+    /**
+     * Creation du bouton pour voir la regle precedente
+     * @return button JButton
+     */
     private JButton createButtonPrevious() {
         JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.previous"));
         button.setEnabled(this.numRules > this.MIN);
@@ -99,7 +122,10 @@ public class DisplayRules extends JPanel implements WindowListener {
         return button;
     }
 
-
+    /**
+     * Creation du bouton pour voir la regle suivante
+     * @return button JButton
+     */
     private JButton createButtonNext() {
         JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.next"));
         button.setEnabled(this.numRules < this.MAX);
@@ -107,22 +133,36 @@ public class DisplayRules extends JPanel implements WindowListener {
         return button;
     }
 
+    /**
+     * Creation du bouton pour fermer la frame de regle
+     * @return button JButton
+     */
     private JButton createButtonClose() {
         JButton button = new JButton(this.gameActionHandler.getLang().getString("display.rules.close"));
         button.addActionListener(e -> actionClose());
         return button;
     }
 
+    /**
+     * Met a jour les boutons precedent et suivant
+     */
     private void updateButtons() {
         this.previous.setEnabled(this.numRules > this.MIN);
         this.next.setEnabled(this.numRules < this.MAX);
     }
 
+    /**
+     * Remet la première regle en regle courante
+     */
     private void resetToFirstSlide() {
         this.numRules = 1;
         this.updateImage();
     }
 
+    /**
+     * affichage de la regle
+     * @param g Graphics
+     */
     @Override
     public void paintComponent(Graphics g) {
         this.updateButtons();
