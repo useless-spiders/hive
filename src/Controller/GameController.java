@@ -232,6 +232,9 @@ public class GameController implements GameActionHandler {
         } else {
             this.getPlayerController().setCurrentPlayer(this.getPlayerController().getPlayer2());
         }
+        if(this.getPlayerController().getPlayer1().isAi() || this.getPlayerController().getPlayer2().isAi()){
+            this.aiController.startAi();
+        }
         HexMetrics.resetHexMetricsWidth();
         ViewMetrics.resetViewPosition();
         this.aiController.startAi();
