@@ -29,6 +29,13 @@ public class DisplayMenuInGame extends JFrame {
 
     private boolean optionVisible;
 
+    /**
+     * Constructeur de la classe DisplayMenuInGame.
+     *
+     * @param panelGame         Le JPanel du jeu.
+     * @param gbc               Les contraintes de GridBagLayout pour la disposition des composants.
+     * @param gameActionHandler Le gestionnaire des actions du jeu.
+     */
     public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
         this.panelGame = panelGame;
         this.gameActionHandler = gameActionHandler;
@@ -41,6 +48,7 @@ public class DisplayMenuInGame extends JFrame {
         this.RETURN = this.gameActionHandler.getLang().getString("display.menu.return");
 
         this.optionVisible = false;
+
         // Création du JPanel pour contenir le menu et les boutons
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false);
@@ -49,7 +57,6 @@ public class DisplayMenuInGame extends JFrame {
         // Création des boutons annuler et refaire
         this.cancelButton = this.createButtonCancel();
         this.redoButton = this.createButtonRedo();
-
         this.changeStateAIButton = this.createButtonChangeStateAI();
         JButton optionButton = this.createButtonOption();
 
@@ -76,7 +83,6 @@ public class DisplayMenuInGame extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         panelGame.add(this.optionsPanel, gbc);
 
-
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1.0;
 
@@ -90,9 +96,13 @@ public class DisplayMenuInGame extends JFrame {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(10, 10, 0, 10); // Add some padding
         panelGame.add(optionButton, gbc);
-
     }
 
+    /**
+     * Crée le panneau des options avec les boutons de sauvegarde, regles, recommencer, abandonner, et retour
+     *
+     * @return JPanel contenant les options.
+     */
     private JPanel createOptionPanel() {
         JPanel optionPanel = new JPanel(new GridBagLayout());
         GridBagConstraints optionGbc = new GridBagConstraints();
@@ -123,6 +133,12 @@ public class DisplayMenuInGame extends JFrame {
         return optionPanel;
     }
 
+    /**
+     * Crée un bouton des options à partir du nom spécifié et ajoute une action correspondante.
+     *
+     * @param name Le nom du bouton.
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButton(String name) {
         JButton button = new JButton(name);
         button.addActionListener(e -> {
@@ -151,6 +167,11 @@ public class DisplayMenuInGame extends JFrame {
         return button;
     }
 
+    /**
+     * Crée le bouton qui permet d'afficher les options et ajoute une action pour afficher ou masquer le panneau des options.
+     *
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButtonOption() {
         JButton button = new JButton(this.ressourceLoader.loadIcon("Menu.png"));
         button.addActionListener(e -> {
@@ -173,6 +194,11 @@ public class DisplayMenuInGame extends JFrame {
         return button;
     }
 
+    /**
+     * Crée le bouton d'annulation et ajoute une action pour annuler le dernier mouvement.
+     *
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButtonCancel() {
         JButton button = new JButton(this.ressourceLoader.loadIcon("Undo.png"));
         button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canCancel() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
@@ -183,6 +209,11 @@ public class DisplayMenuInGame extends JFrame {
         return button;
     }
 
+    /**
+     * Crée le bouton de réexécution et ajoute une action pour réexécuter le dernier mouvement annulé.
+     *
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButtonRedo() {
         JButton button = new JButton(this.ressourceLoader.loadIcon("Redo.png"));
         button.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
@@ -193,6 +224,11 @@ public class DisplayMenuInGame extends JFrame {
         return button;
     }
 
+    /**
+     * Crée le bouton pour changer l'état de l'IA et ajoute une action pour démarrer ou arrêter l'IA.
+     *
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButtonChangeStateAI() {
         JButton button = new JButton(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
         button.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
@@ -209,6 +245,9 @@ public class DisplayMenuInGame extends JFrame {
         return button;
     }
 
+    /**
+     * Met à jour l'état des boutons en fonction de l'état actuel du jeu.
+     */
     public void updateButtons() {
         if (this.gameActionHandler.getAiController().isAiRunning()) {
             this.changeStateAIButton.setText(this.gameActionHandler.getLang().getString("display.menu.ai.stop"));
@@ -226,5 +265,4 @@ public class DisplayMenuInGame extends JFrame {
         this.redoButton.setEnabled(this.gameActionHandler.getHistoryController().getHistory().canRedo() && !this.gameActionHandler.getPlayerController().getCurrentPlayer().isAi());
         this.changeStateAIButton.setEnabled(this.gameActionHandler.getPlayerController().getPlayer1().isAi() && this.gameActionHandler.getPlayerController().getPlayer2().isAi());
     }
-
 }

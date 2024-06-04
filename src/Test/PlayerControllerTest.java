@@ -5,7 +5,8 @@ import Model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Classe de test pour le controleur de joueurs

@@ -7,11 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayOpening extends JPanel {
-    JFrame frameOpening;
     private final Image background;
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    JFrame frameOpening;
 
+    /**
+     * Constructeur de la classe DisplayOpening.
+     *
+     * @param frameOpening      La JFrame de l'écran d'ouverture.
+     * @param gameActionHandler Le gestionnaire des actions du jeu.
+     */
     public DisplayOpening(JFrame frameOpening, GameActionHandler gameActionHandler) {
         this.frameOpening = frameOpening;
         this.gameActionHandler = gameActionHandler;
@@ -28,13 +34,15 @@ public class DisplayOpening extends JPanel {
         frameOpening.pack(); // Redimensionne la JFrame pour adapter le JPanel
     }
 
+    /**
+     * Crée un bouton avec le texte spécifié et ajoute une action pour passer à l'écran de menu.
+     *
+     * @param text Le texte à afficher sur le bouton.
+     * @return JButton configuré avec une action listener.
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 100)); // Définir une police pour le texte
-
-/*        // Définir une couleur de fond avec une opacité réduite
-        Color buttonColor = new Color(255, 165, 0);
-        button.setBackground(buttonColor);*/
 
         // Définir la bordure du bouton en noir
         button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(3.0f), Color.BLACK));
@@ -63,9 +71,14 @@ public class DisplayOpening extends JPanel {
         return button;
     }
 
+    /**
+     * Dessine le composant avec l'image de fond redimensionnée pour s'adapter à la taille du cadre.
+     *
+     * @param g Le contexte graphique.
+     */
     @Override
     public void paintComponent(Graphics g) {
-        //Affichage du background
+        // Affichage du background
         g.drawImage(this.background, 0, 0, this.frameOpening.getWidth(), this.frameOpening.getHeight(), this);
     }
 }

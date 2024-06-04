@@ -8,10 +8,18 @@ import java.awt.*;
 public class DisplayRestart extends JPanel {
     private final GameActionHandler gameActionHandler;
 
+    /**
+     * Constructeur pour DisplayRestart.
+     *
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayRestart(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
     }
 
+    /**
+     * Affiche une boîte de dialogue demandant si l'utilisateur souhaite redémarrer le jeu.
+     */
     public void printAskRestart() {
         int choice = JOptionPane.showConfirmDialog(null, this.gameActionHandler.getLang().getString("display.restart.message"), this.gameActionHandler.getLang().getString("display.restart.title"), JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {

@@ -11,24 +11,38 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayHexGrid extends JComponent {
-    private boolean isInsectHexClicked = false;
-    private HexCoordinate hexClicked = null;
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    private boolean isInsectHexClicked = false;
+    private HexCoordinate hexClicked = null;
 
+    /**
+     * Constructeur de la classe DisplayHexGrid.
+     *
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayHexGrid(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
     }
 
+    /**
+     * Met à jour l'état de clic sur un hexagone contenant un insecte.
+     *
+     * @param isInsectHexClicked boolean
+     * @param hexClicked         HexCoordinate
+     */
     public void updateInsectClickState(boolean isInsectHexClicked, HexCoordinate hexClicked) {
         this.isInsectHexClicked = isInsectHexClicked;
         this.hexClicked = hexClicked;
     }
 
+    /**
+     * Dessine la grille hexagonale remplie d'insectes
+     *
+     * @param g Graphics
+     */
     public void paintHexGrid(Graphics g) {
-        // PROBLEME REPERE : L'AFFICHAGE SE FAIT 2 FOIS, test avec l'affichage de "OK"
-
         Graphics2D g2d = (Graphics2D) g;
 
         // Trouver le nombre maximum d'insectes parmi toutes les cellules
@@ -63,7 +77,7 @@ public class DisplayHexGrid extends JComponent {
 
                     g2d.drawImage(insectImage, offsetX, center.y - HexMetrics.HEX_HEIGHT / 2, HexMetrics.HEX_WIDTH, HexMetrics.HEX_HEIGHT, null);
 
-                    //Remettre à 1 l'opacité, sinon l'affichage "dépilé" d'une pile peut être transparent
+                    // Remettre à 1 l'opacité, sinon l'affichage "dépilé" d'une pile peut être transparent
                     g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
                 }
             }

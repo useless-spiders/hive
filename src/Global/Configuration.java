@@ -11,7 +11,7 @@ public class Configuration {
     public static final String PLAYER_1 = "1";
     public static final String PLAYER_2 = "2";
     public static final int PLAYER_NUMBER = 2;
-    public static final int PLAYER_MAX_NAME_LENGTH = 15;
+    public static final int PLAYER_MAX_NAME_LENGTH = 16;
 
     public static final int MAX_ANT = 3;
     public static final int MAX_GRASSHOPPER = 3;
