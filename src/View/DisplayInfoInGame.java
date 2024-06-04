@@ -21,11 +21,11 @@ public class DisplayInfoInGame extends JPanel {
         JLabel infoLabel = new JLabel(this.gameActionHandler.getLang().getString("display.info.title"));
         infoLabel.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, Configuration.DEFAULT_FONT_SIZE));
         this.namePlayeurLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.player"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getName()));
-        this.namePlayeurLabel.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, 20));
+        this.namePlayeurLabel.setFont(new Font(Configuration.DEFAULT_FONT, Font.PLAIN, 20));
         this.turnLabel = new JLabel(MessageFormat.format(this.gameActionHandler.getLang().getString("display.info.turn"), this.gameActionHandler.getPlayerController().getCurrentPlayer().getTurn()));
-        this.turnLabel.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, 20));
+        this.turnLabel.setFont(new Font(Configuration.DEFAULT_FONT, Font.PLAIN, 20));
         this.tipCenter = new JLabel(this.gameActionHandler.getLang().getString("display.info.tip_center"));
-        this.tipCenter.setFont(new Font(Configuration.DEFAULT_FONT, Font.BOLD, 20));
+        this.tipCenter.setFont(new Font(Configuration.DEFAULT_FONT, Font.PLAIN, 20));
 
         JPanel boxContainer = new JPanel();
         boxContainer.setLayout(new BoxLayout(boxContainer, BoxLayout.Y_AXIS));
