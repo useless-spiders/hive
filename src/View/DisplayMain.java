@@ -38,9 +38,9 @@ public class DisplayMain {
 
 
         //Ajouter les écouteurs
-        new MouseActionListener(gameActionHandler, displayGame);
+        new MouseActionListener(gameActionHandler, this.displayGame);
         new KeyActionListener(frameGame, gameActionHandler);
-        new ComponentActionListener(frameGame, displayGame);
+        new ComponentActionListener(frameGame, this.displayGame);
 
         //Affichage du pop up de fin de jeu
         this.displayWin = new DisplayWin(gameActionHandler);
