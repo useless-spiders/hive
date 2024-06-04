@@ -15,6 +15,11 @@ public class DisplayPlayableHex extends JComponent {
     private final Image otherLocationImage;
     private HexCoordinate hoverCoord;
 
+    /**
+     * Constructeur pour DisplayPlayableHex.
+     *
+     * @param gameActionHandler GameActionHandler
+     */
     public DisplayPlayableHex(GameActionHandler gameActionHandler) {
         this.gameActionHandler = gameActionHandler;
         this.ressourceLoader = new RessourceLoader(gameActionHandler);
@@ -22,10 +27,20 @@ public class DisplayPlayableHex extends JComponent {
         this.otherLocationImage = this.ressourceLoader.loadImageHexagons("Border.png");
     }
 
+    /**
+     * Met à jour la cellule survolée.
+     *
+     * @param hoverCoord HexCoordinate
+     */
     public void updateHoverCell(HexCoordinate hoverCoord) {
         this.hoverCoord = hoverCoord;
     }
 
+    /**
+     * Affiche les hexagones jouables.
+     *
+     * @param g Graphics
+     */
     public void paintPlayableHex(Graphics g) {
         // Affiche les cases jouables
         for (HexCoordinate coord : this.gameActionHandler.getGameActionListener().getPlayableCoordinates()) {
