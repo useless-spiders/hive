@@ -31,7 +31,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         this.background = this.ressourceLoader.loadBackground("Game_background.png");
 
         //Pour construire le jeu
-        buildGame();
+        this.buildGame();
 
         //Pour afficher le jeu
         JPanel container = new JPanel(new BorderLayout()); // Créer un conteneur JPanel
@@ -83,7 +83,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     }
 
     public void centerGame() {
-        HexGrid hexGrid = gameActionHandler.getGrid();
+        HexGrid hexGrid = this.gameActionHandler.getGrid();
         if (!hexGrid.getGrid().isEmpty()) {
             // Récupérer le 1er hexagone de la grille et convertir en pixel
             HexCoordinate hexCoordinate = hexGrid.getGrid().keySet().iterator().next();
@@ -114,7 +114,7 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
         //Afficher le background du jeu
         g.drawImage(this.background, 0, 0, this.frameGame.getWidth(), this.frameGame.getHeight(), this);
 
-        displayInfoInGame.updatePrintInfo();
+        this.displayInfoInGame.updatePrintInfo();
 
         //Pour le "dragging"
         Graphics2D g2d = (Graphics2D) g.create();
