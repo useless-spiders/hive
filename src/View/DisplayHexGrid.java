@@ -11,10 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayHexGrid extends JComponent {
-    private boolean isInsectHexClicked = false;
-    private HexCoordinate hexClicked = null;
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    private boolean isInsectHexClicked = false;
+    private HexCoordinate hexClicked = null;
 
     /**
      * Constructeur de la classe DisplayHexGrid.
@@ -30,7 +30,7 @@ public class DisplayHexGrid extends JComponent {
      * Met à jour l'état de clic sur un hexagone contenant un insecte.
      *
      * @param isInsectHexClicked boolean
-     * @param hexClicked HexCoordinate
+     * @param hexClicked         HexCoordinate
      */
     public void updateInsectClickState(boolean isInsectHexClicked, HexCoordinate hexClicked) {
         this.isInsectHexClicked = isInsectHexClicked;

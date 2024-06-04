@@ -17,6 +17,8 @@ import java.io.File;
 import java.util.Locale;
 
 public class DisplayConfigGame extends JPanel {
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
     private String HUMAN;
     private String IA_EASY;
     private String IA_HARD;
@@ -35,18 +37,11 @@ public class DisplayConfigGame extends JPanel {
     private JPanel exampleSkinPanelWhite;
     private JPanel exampleSkinPanelBlack;
     private GridBagConstraints westGbc;
-
     private JComboBox<String> skinSelector;
-
     private JComboBox<String> column1;
     private JComboBox<String> column2;
-
     private JTextField player1NameField;
     private JTextField player2NameField;
-
-    private final GameActionHandler gameActionHandler;
-    private final RessourceLoader ressourceLoader;
-
     private JButton playButton;
     private JButton loadButton;
     private JButton skinButton;

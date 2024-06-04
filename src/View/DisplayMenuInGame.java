@@ -32,8 +32,8 @@ public class DisplayMenuInGame extends JFrame {
     /**
      * Constructeur de la classe DisplayMenuInGame.
      *
-     * @param panelGame Le JPanel du jeu.
-     * @param gbc Les contraintes de GridBagLayout pour la disposition des composants.
+     * @param panelGame         Le JPanel du jeu.
+     * @param gbc               Les contraintes de GridBagLayout pour la disposition des composants.
      * @param gameActionHandler Le gestionnaire des actions du jeu.
      */
     public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {

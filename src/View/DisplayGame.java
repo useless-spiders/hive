@@ -13,6 +13,9 @@ import java.awt.*;
 public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JComponent
 
     private final Image background;
+    private final JFrame frameGame;
+    private final GameActionHandler gameActionHandler;
+    private final RessourceLoader ressourceLoader;
     private DisplayHexGrid displayHexGrid;
     private DisplayPlayableHex displayPlayableHex;
     private DisplayBankInsects displayBankInsects;
@@ -20,14 +23,10 @@ public class DisplayGame extends JPanel { // Étendre JPanel plutôt que JCompon
     private DisplayStack displayStack;
     private DisplayInfoInGame displayInfoInGame;
 
-    private final JFrame frameGame;
-    private final GameActionHandler gameActionHandler;
-    private final RessourceLoader ressourceLoader;
-
     /**
      * Constructeur de la classe DisplayGame.
      *
-     * @param frameGame JFrame
+     * @param frameGame         JFrame
      * @param gameActionHandler GameActionHandler
      */
     public DisplayGame(JFrame frameGame, GameActionHandler gameActionHandler) {

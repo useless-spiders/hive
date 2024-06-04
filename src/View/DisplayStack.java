@@ -10,11 +10,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class DisplayStack {
-    private boolean isInsectCellClicked = false;
-    private HexCoordinate hexClicked = null;
     private static final int OFFSET = 5; // Marge entre chaque insecte
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    private boolean isInsectCellClicked = false;
+    private HexCoordinate hexClicked = null;
 
     /**
      * Constructeur de la classe DisplayStack.
@@ -30,7 +30,7 @@ public class DisplayStack {
      * Met à jour l'état de clic sur une cellule contenant des insectes.
      *
      * @param isInsectCellClicked boolean
-     * @param hexClicked HexCoordinate
+     * @param hexClicked          HexCoordinate
      */
     public void updateStackClickState(boolean isInsectCellClicked, HexCoordinate hexClicked) {
         this.isInsectCellClicked = isInsectCellClicked;

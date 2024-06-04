@@ -16,8 +16,8 @@ public class DisplayInfoInGame extends JPanel {
     /**
      * Constructeur de la classe DisplayInfoInGame.
      *
-     * @param panelGame JPanel du jeu principal.
-     * @param gbc Contraintes de disposition pour le GridBagLayout.
+     * @param panelGame         JPanel du jeu principal.
+     * @param gbc               Contraintes de disposition pour le GridBagLayout.
      * @param gameActionHandler Gestionnaire des actions du jeu.
      */
     public DisplayInfoInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {

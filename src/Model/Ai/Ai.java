@@ -23,7 +23,7 @@ public abstract class Ai implements Serializable {
      * Appelle le constructeur du type d'Ia donné en argument
      *
      * @param gameActionHandler GameActionHandler
-     * @param aiName                nom de l'IA
+     * @param aiName            nom de l'IA
      * @param p                 joueur
      * @return double
      */

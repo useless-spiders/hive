@@ -11,7 +11,7 @@ public class DisplayText {
      * Ajoute un pop-up de texte à une JFrame.
      *
      * @param message String
-     * @param frame JFrame
+     * @param frame   JFrame
      */
     public static void addTextPopUp(String message, JFrame frame) {
         JPanel panel = new JPanel();

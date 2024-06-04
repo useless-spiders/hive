@@ -10,22 +10,20 @@ import java.awt.event.WindowListener;
 
 public class DisplayRules extends JPanel implements WindowListener {
     private final JFrame frameRules;
-    int numRules = 1;
-    Image background;
     private final int MIN = 1;
     private final int MAX = 11;
-
     private final JButton previous;
     private final JButton next;
     private final JButton close;
-
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    int numRules = 1;
+    Image background;
 
     /**
      * Constructeur pour DisplayRestart.
      *
-     * @param frameRules Jframe
+     * @param frameRules        Jframe
      * @param gameActionHandler GameActionHandler
      */
     public DisplayRules(JFrame frameRules, GameActionHandler gameActionHandler) {
@@ -113,6 +111,7 @@ public class DisplayRules extends JPanel implements WindowListener {
 
     /**
      * Creation du bouton pour voir la regle precedente
+     *
      * @return button JButton
      */
     private JButton createButtonPrevious() {
@@ -124,6 +123,7 @@ public class DisplayRules extends JPanel implements WindowListener {
 
     /**
      * Creation du bouton pour voir la regle suivante
+     *
      * @return button JButton
      */
     private JButton createButtonNext() {
@@ -135,6 +135,7 @@ public class DisplayRules extends JPanel implements WindowListener {
 
     /**
      * Creation du bouton pour fermer la frame de regle
+     *
      * @return button JButton
      */
     private JButton createButtonClose() {
@@ -161,6 +162,7 @@ public class DisplayRules extends JPanel implements WindowListener {
 
     /**
      * affichage de la regle
+     *
      * @param g Graphics
      */
     @Override

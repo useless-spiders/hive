@@ -15,26 +15,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DisplayBankInsects {
+    private static ImageIcon currentIcon;
     private final GameActionHandler gameActionHandler;
     private final Map<Class<? extends Insect>, JLabel> player1Labels;
     private final Map<Class<? extends Insect>, JLabel> player2Labels;
+    private final GridBagConstraints gbc;
+    private final JPanel panelGame;
+    private final RessourceLoader ressourceLoader;
     private JPanel panelButtonBankJ1;
     private JPanel panelButtonBankJ2;
     private JLabel player1NameLabel;
     private JLabel player2NameLabel;
     private JButton currentButton;
-    private final GridBagConstraints gbc;
-
     private Boolean isInsectButtonClicked = false;
-    private static ImageIcon currentIcon;
-    private final JPanel panelGame;
-    private final RessourceLoader ressourceLoader;
 
     /**
      * Constructeur
      *
-     * @param panelGame JPanel
-     * @param gbc GridBagConstraints
+     * @param panelGame         JPanel
+     * @param gbc               GridBagConstraints
      * @param gameActionHandler GameActionHandler
      */
     public DisplayBankInsects(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
@@ -78,9 +77,9 @@ public class DisplayBankInsects {
     /**
      * Renvoie un panel contenant la banque d'un joueur
      *
-     * @param player Player
+     * @param player     Player
      * @param playerName JLabel
-     * @param side int
+     * @param side       int
      * @return JPanel
      */
     private JPanel createButtonPanel(Player player, JLabel playerName, int side) {
@@ -107,9 +106,9 @@ public class DisplayBankInsects {
      * Renvoie un panel contenant un bouton insecte accompagne d'un label indiquant le nombre d'insecte restant
      *
      * @param insectClass Class<? extends Insect>
-     * @param player Player
-     * @param labelText String
-     * @param side int
+     * @param player      Player
+     * @param labelText   String
+     * @param side        int
      * @return JPanel
      */
     private JPanel createButtonWithLabel(Class<? extends Insect> insectClass, Player player, String labelText, int side) {
@@ -147,7 +146,7 @@ public class DisplayBankInsects {
      * Crée un bouton pour un insecte
      *
      * @param insectClass Class<? extends Insect>
-     * @param player Player
+     * @param player      Player
      * @return JButton
      */
     private JButton createButton(Class<? extends Insect> insectClass, Player player) {
@@ -234,7 +233,7 @@ public class DisplayBankInsects {
     /**
      * Définit l'opacité d'une icône
      *
-     * @param icon ImageIcon
+     * @param icon    ImageIcon
      * @param opacity float
      */
     public void setOpacity(ImageIcon icon, float opacity) {
@@ -290,7 +289,7 @@ public class DisplayBankInsects {
 
     /**
      * Met à jour le joueur en surbrillance
-      */
+     */
     public void updateBorderBank() {
         if (this.gameActionHandler.getPlayerController().getCurrentPlayer().equals(this.gameActionHandler.getPlayerController().getPlayer1())) {
             this.switchBorderJ2ToJ1();

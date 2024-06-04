@@ -7,15 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DisplayOpening extends JPanel {
-    JFrame frameOpening;
     private final Image background;
     private final GameActionHandler gameActionHandler;
     private final RessourceLoader ressourceLoader;
+    JFrame frameOpening;
 
     /**
      * Constructeur de la classe DisplayOpening.
      *
-     * @param frameOpening La JFrame de l'écran d'ouverture.
+     * @param frameOpening      La JFrame de l'écran d'ouverture.
      * @param gameActionHandler Le gestionnaire des actions du jeu.
      */
     public DisplayOpening(JFrame frameOpening, GameActionHandler gameActionHandler) {

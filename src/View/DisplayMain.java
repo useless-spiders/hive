@@ -21,10 +21,10 @@ public class DisplayMain {
      * Constructeur de la classe DisplayMain.
      *
      * @param gameActionHandler Gestionnaire des actions du jeu.
-     * @param frameOpening Fenêtre d'ouverture.
-     * @param frameMenu Fenêtre du menu.
-     * @param frameGame Fenêtre du jeu.
-     * @param frameRules Fenêtre des règles.
+     * @param frameOpening      Fenêtre d'ouverture.
+     * @param frameMenu         Fenêtre du menu.
+     * @param frameGame         Fenêtre du jeu.
+     * @param frameRules        Fenêtre des règles.
      */
     public DisplayMain(GameActionHandler gameActionHandler, JFrame frameOpening,
                        JFrame frameMenu, JFrame frameGame, JFrame frameRules) {
