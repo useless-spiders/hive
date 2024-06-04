@@ -27,7 +27,6 @@ public class DisplayMenuInGame extends JFrame {
     private JButton abortButton;
     private JButton returnButton;
 
-
     private boolean optionVisible;
 
     public DisplayMenuInGame(JPanel panelGame, GridBagConstraints gbc, GameActionHandler gameActionHandler) {
@@ -45,14 +44,14 @@ public class DisplayMenuInGame extends JFrame {
         // Création du JPanel pour contenir le menu et les boutons
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false);
-        this.optionsPanel = createOptionPanel();
+        this.optionsPanel = this.createOptionPanel();
 
         // Création des boutons annuler et refaire
-        this.cancelButton = createButtonCancel();
-        this.redoButton = createButtonRedo();
+        this.cancelButton = this.createButtonCancel();
+        this.redoButton = this.createButtonRedo();
 
-        this.changeStateAIButton = createButtonChangeStateAI();
-        JButton optionButton = createButtonOption();
+        this.changeStateAIButton = this.createButtonChangeStateAI();
+        JButton optionButton = this.createButtonOption();
 
         // Ajout du menu au JPanel avec les contraintes pour le positionner dans le coin nord-est
         GridBagConstraints gbcButtonInGame = new GridBagConstraints();
@@ -103,19 +102,19 @@ public class DisplayMenuInGame extends JFrame {
         optionGbc.gridy = 0;
         optionGbc.insets = new Insets(10, 10, 10, 10);
         optionGbc.anchor = GridBagConstraints.CENTER;
-        this.saveButton = createButton(SAVE);
+        this.saveButton = this.createButton(this.SAVE);
         optionPanel.add(this.saveButton, optionGbc);
         optionGbc.gridy = 1;
-        this.rulesButton = createButton(RULES);
+        this.rulesButton = this.createButton(this.RULES);
         optionPanel.add(this.rulesButton, optionGbc);
         optionGbc.gridy = 2;
-        this.restartButton = createButton(RESTART);
+        this.restartButton = this.createButton(this.RESTART);
         optionPanel.add(this.restartButton, optionGbc);
         optionGbc.gridy = 3;
-        this.abortButton = createButton(ABORT);
+        this.abortButton = this.createButton(this.ABORT);
         optionPanel.add(this.abortButton, optionGbc);
         optionGbc.gridy = 4;
-        this.returnButton = createButton(RETURN);
+        this.returnButton = this.createButton(this.RETURN);
         optionPanel.add(this.returnButton, optionGbc);
 
         // Définir une taille plus grande pour optionsPanel
