@@ -79,11 +79,11 @@ public class DisplayConfigGame extends JPanel {
                 this.gameActionHandler.getLang().getString("display.config.skin.hard")
         };
 
-        setLayout(new GridLayout(1, 2));
+        this.setLayout(new GridLayout(1, 2));
         this.westPanel = new JPanel(new GridBagLayout());
         this.westPanel.setVisible(false);
 
-        initEastPanel();
+        this.initEastPanel();
 
         add(this.westPanel);
         add(this.eastPanel);
@@ -159,16 +159,16 @@ public class DisplayConfigGame extends JPanel {
      */
     private JComboBox<String> createDropDownMenu(JTextField textField) {
         JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.addItem(HUMAN);
-        comboBox.addItem(IA_EASY);
-        comboBox.addItem(IA_HARD);
-        comboBox.addItem(IA_HARD2);
-        comboBox.addItem(IA_HARD3);
-        comboBox.addItem(IA_HARD4);
+        comboBox.addItem(this.HUMAN);
+        comboBox.addItem(this.IA_EASY);
+        comboBox.addItem(this.IA_HARD);
+        comboBox.addItem(this.IA_HARD2);
+        comboBox.addItem(this.IA_HARD3);
+        comboBox.addItem(this.IA_HARD4);
 
         comboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                textField.setEnabled(comboBox.getSelectedItem() == HUMAN);
+                textField.setEnabled(comboBox.getSelectedItem() == this.HUMAN);
             }
         });
 
@@ -273,8 +273,8 @@ public class DisplayConfigGame extends JPanel {
         } else if (text.equals(this.RETURN)) {
             button.addActionListener(e -> {
                 this.background = this.ressourceLoader.loadBackground("Opening_param.png");
-                eastPanel.setVisible(true);
-                westPanel.setVisible(false);
+                this.eastPanel.setVisible(true);
+                this.westPanel.setVisible(false);
             });
         }
         return button;
@@ -359,17 +359,15 @@ public class DisplayConfigGame extends JPanel {
      */
     private JButton createbuttonSkinSelection(JButton button) {
         button.addActionListener(e -> {
-            if (!isSkinSelectorAdded) {
-                changeBackgroundAndAddButtons();
-                isSkinSelectorAdded = true;
+            if (!this.isSkinSelectorAdded) {
+                this.changeBackgroundAndAddButtons();
+                this.isSkinSelectorAdded = true;
             }
             this.background = this.ressourceLoader.loadBackground("Opening_skin.png");
-            repaint();
+            this.repaint();
             this.eastPanel.setVisible(false);
             this.westPanel.setVisible(true);
             this.westPanel.setBackground(new Color(0, 0, 0, 0));
-            //TODO: rendre invisible et defocus les boutons de la page de configuration
-
 
         });
         return button;
@@ -422,24 +420,24 @@ public class DisplayConfigGame extends JPanel {
         this.RETURN = this.gameActionHandler.getLang().getString("display.config.skin.back");
         this.westGbc = new GridBagConstraints();
         // Changer le fond d'écran
-        this.skinSelector = createComboBoxSkinSelector();
+        this.skinSelector = this.createComboBoxSkinSelector();
         // Ajouter le JComboBox et le JLabel au JPanel
 
-        westGbc.insets = new Insets(10, 10, 10, 10); // Add padding around the container
-        westGbc.gridx = 0;
-        westGbc.gridy = 0;
-        westGbc.anchor = GridBagConstraints.CENTER;
+        this.westGbc.insets = new Insets(10, 10, 10, 10); // Add padding around the container
+        this.westGbc.gridx = 0;
+        this.westGbc.gridy = 0;
+        this.westGbc.anchor = GridBagConstraints.CENTER;
         this.westPanel.add(this.skinSelector, westGbc);
-        this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
-        this.exampleSkinPanelBlack = createExampleSkinPanel(Configuration.PLAYER_BLACK);
-        westGbc.gridx = 1;
-        this.westPanel.add(exampleSkinPanelWhite, westGbc);
-        westGbc.gridy = 1;
-        this.westPanel.add(exampleSkinPanelBlack, westGbc);
-        westGbc.gridwidth = 1;
-        westGbc.gridy = 2;
-        this.returnButton = createButton(RETURN);
-        this.westPanel.add(this.returnButton, westGbc);
+        this.exampleSkinPanelWhite = this.createExampleSkinPanel(Configuration.PLAYER_WHITE);
+        this.exampleSkinPanelBlack = this.createExampleSkinPanel(Configuration.PLAYER_BLACK);
+        this.westGbc.gridx = 1;
+        this.westPanel.add(exampleSkinPanelWhite, this.westGbc);
+        this.westGbc.gridy = 1;
+        this.westPanel.add(exampleSkinPanelBlack, this.westGbc);
+        this.westGbc.gridwidth = 1;
+        this.westGbc.gridy = 2;
+        this.returnButton = this.createButton(this.RETURN);
+        this.westPanel.add(this.returnButton, this.westGbc);
     }
 
     /**
@@ -482,9 +480,9 @@ public class DisplayConfigGame extends JPanel {
      */
     private void updateExampleSkin() {
         this.westPanel.remove(exampleSkinPanelWhite);
-        this.exampleSkinPanelWhite = createExampleSkinPanel(Configuration.PLAYER_WHITE);
+        this.exampleSkinPanelWhite = this.createExampleSkinPanel(Configuration.PLAYER_WHITE);
         this.westPanel.remove(exampleSkinPanelBlack);
-        this.exampleSkinPanelBlack = createExampleSkinPanel(Configuration.PLAYER_BLACK);
+        this.exampleSkinPanelBlack = this.createExampleSkinPanel(Configuration.PLAYER_BLACK);
         this.westGbc.gridx = 1;
         this.westGbc.gridy = 0;
         this.westPanel.add(exampleSkinPanelWhite, westGbc);
@@ -572,7 +570,7 @@ public class DisplayConfigGame extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Image scaledBackground = background.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+        Image scaledBackground = this.background.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
         g.drawImage(scaledBackground, 0, 0, this);
     }
 
