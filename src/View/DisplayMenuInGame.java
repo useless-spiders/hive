@@ -137,13 +137,13 @@ public class DisplayMenuInGame extends JFrame {
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
             } else if (name.equals(this.ABORT)) {
-                this.gameActionHandler.getAiController().stopAi();
                 this.gameActionHandler.getPageController().gameAndAbort();
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
             } else if (name.equals(this.RETURN)) {
                 this.optionsPanel.setVisible(false);
                 this.optionVisible = false;
+                this.gameActionHandler.getAiController().startAi();
             } else {
                 Log.addMessage(this.gameActionHandler.getLang().getString("display.menu.error"));
             }

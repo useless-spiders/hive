@@ -17,6 +17,7 @@ public class DisplayRestart extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             this.gameActionHandler.restartGameWithSamePlayers();
         } else {
+            this.gameActionHandler.getAiController().startAi();
             Window window = SwingUtilities.getWindowAncestor(this);
             if (window != null) {
                 window.dispose();
