@@ -21,7 +21,8 @@ public class DisplayRestart extends JPanel {
      * Affiche une boîte de dialogue demandant si l'utilisateur souhaite redémarrer le jeu.
      */
     public void printAskRestart() {
-        int choice = JOptionPane.showConfirmDialog(null, this.gameActionHandler.getLang().getString("display.restart.message"), this.gameActionHandler.getLang().getString("display.restart.title"), JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showOptionDialog(null, this.gameActionHandler.getLang().getString("display.restart.message"), this.gameActionHandler.getLang().getString("display.restart.title"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{this.gameActionHandler.getLang().getString("display.restart.option.yes"), this.gameActionHandler.getLang().getString("display.restart.option.no")}, null);
         if (choice == JOptionPane.YES_OPTION) {
             this.gameActionHandler.restartGameWithSamePlayers();
         } else {
